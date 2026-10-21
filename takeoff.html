@@ -707,6 +707,25 @@ table.batch{width:100%;border-collapse:collapse;font-size:12px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+/* ---- 2.0 ---- */
+.wrap.wide{max-width:1520px}
+.bigdraw{display:flex;justify-content:center;background:#fafbf9;border:1px solid var(--rule2);border-radius:6px;padding:10px}
+.bigdraw svg{width:100%;height:auto;max-height:72vh;display:block}
+.plantools .seg button{display:inline-flex;align-items:center;gap:5px}
+.plantools .seg .ic{width:14px;height:14px}
+.plantools .qf{display:flex;flex-direction:column;gap:2px}
+.plantools .tbsep{height:20px}
+.hw td input.auto{color:var(--accent);font-weight:600;background:var(--accent-bg)!important}
+.dtabs{overflow-x:auto;scrollbar-width:none}
+.dtabs::-webkit-scrollbar{display:none}
+#takeoffBar{flex-wrap:wrap;row-gap:6px}
+#takeoffBar .fchips{flex-wrap:wrap;overflow:visible}
+table.d10 td{padding:3px 4px}
+table.d10 td input,table.d10 td select{height:28px;font-size:12.5px}
+.elevbar .iconbtn{width:26px;height:26px}
+.nav .nb:empty{display:none}
+
+
 /* ---- 1.5 additions ---- */
 .calcgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:14px}
 @media (max-width:760px){.calcgrid{grid-template-columns:1fr}}
@@ -856,6 +875,16 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
   <symbol id="i-blueprint" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="1.5"/><path d="M15 4v16M15 14h6M7 16V9h4v7"/></symbol>
   <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.5-4.5L4 8M4 4v4h4M4 13a8 8 0 0 0 14.5 4.5L20 16M20 20v-4h-4"/></symbol>
   <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.3a2.5 2.5 0 1 1 3.4 2.4c-.6.3-1 .8-1 1.5v.6M12 17v.01"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10.5" width="14" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3M12 14.5v2.5"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><path d="M3.5 7.5L12 3l8.5 4.5v9L12 21l-8.5-4.5z"/><path d="M3.5 7.5L12 12l8.5-4.5M12 12v9"/></symbol>
+  <symbol id="i-cart" viewBox="0 0 24 24"><path d="M3 4h2.5l2.2 11h10.6l2-8H7"/><circle cx="9.5" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></symbol>
+  <symbol id="i-delta" viewBox="0 0 24 24"><path d="M12 4L3.5 19.5h17z"/><path d="M12 10v4.5M12 17v.01"/></symbol>
+  <symbol id="i-tag" viewBox="0 0 24 24"><path d="M3.5 12.5V4.5a1 1 0 0 1 1-1h8l8 8-9 9z"/><circle cx="8.5" cy="8.5" r="1.5"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7"/></symbol>
+  <symbol id="i-ruler" viewBox="0 0 24 24"><path d="M3.5 16.5L16.5 3.5l4 4-13 13z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-6.5-6.2-6.5-11a6.5 6.5 0 0 1 13 0c0 4.8-6.5 11-6.5 11z"/><circle cx="12" cy="10" r="2.2"/></symbol>
+  <symbol id="i-zoomin" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M8.5 11h5M11 8.5v5"/></symbol>
+  <symbol id="i-zoomout" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.2-4.2M8.5 11h5"/></symbol>
 </defs></svg>
 
 <div class="app" id="app">
@@ -910,6 +939,9 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
       <button class="mi" data-cmd="bpDoor"><svg class="ic"><use href="#i-blueprint"/></svg><span>Door elevations and schedule</span><em>PDF, 11x17</em></button>
       <button class="mi" data-cmd="bpShop"><svg class="ic"><use href="#i-blueprint"/></svg><span>Shop plans, one opening per page</span><em>PDF, letter</em></button>
       <button class="mi" data-cmd="bpWeld"><svg class="ic"><use href="#i-blueprint"/></svg><span>Weld and prep guide</span><em>PDF, 11x17</em></button>
+      <button class="mi" data-cmd="keyPdf"><svg class="ic"><use href="#i-lock"/></svg><span>Keying schedule</span><em>PDF, letter</em></button>
+      <button class="mi" data-cmd="poPdf"><svg class="ic"><use href="#i-cart"/></svg><span>Purchase orders, one per vendor</span><em>PDF, letter</em></button>
+      <button class="mi" data-cmd="coPdf"><svg class="ic"><use href="#i-delta"/></svg><span>Change order</span><em>PDF, letter</em></button>
       <div class="mh">Door and frame schedule</div>
       <button class="mi" data-cmd="combPdf"><svg class="ic"><use href="#i-table"/></svg><span>Combined schedule with summary</span><em>PDF, 11x17</em></button>
       <button class="mi" data-cmd="combXlsx"><svg class="ic"><use href="#i-table"/></svg><span>Combined schedule</span><em>Excel, 3 sheets</em></button>
@@ -917,26 +949,38 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
       <button class="mi" data-cmd="takeoffCsv"><svg class="ic"><use href="#i-download"/></svg><span>Takeoff CSV</span></button>
       <button class="mi" data-cmd="scheduleCsv"><svg class="ic"><use href="#i-download"/></svg><span>Door schedule CSV</span></button>
       <button class="mi" data-cmd="catalogCsv"><svg class="ic"><use href="#i-download"/></svg><span>Catalog CSV</span></button>
+      <button class="mi" data-cmd="d10Csv"><svg class="ic"><use href="#i-download"/></svg><span>Division 10 CSV</span></button>
+      <button class="mi" data-cmd="keyCsv"><svg class="ic"><use href="#i-download"/></svg><span>Keying schedule CSV</span></button>
+      <button class="mi" data-cmd="poCsv"><svg class="ic"><use href="#i-download"/></svg><span>Purchase orders CSV</span></button>
     </div>
   </div>
 </header>
 
 <nav class="side" id="side" role="tablist" aria-label="Workflow">
-  <div class="navgrp"><div class="navh">Take off</div>
+  <div class="navgrp"><div class="navh">Set up</div>
     <button class="nav" role="tab" data-view="project" title="Job info"><svg class="ic"><use href="#i-brief"/></svg><span>Job info</span><em class="nb" id="nb-project"></em></button>
     <button class="nav" role="tab" data-view="clients" title="Clients"><svg class="ic"><use href="#i-brief"/></svg><span>Clients</span><em class="nb" id="nb-clients"></em></button>
+    <button class="nav" role="tab" data-view="pricebook" title="Price book"><svg class="ic"><use href="#i-tag"/></svg><span>Price book</span><em class="nb" id="nb-pricebook"></em></button>
+  </div>
+  <div class="navgrp"><div class="navh">Take off · Div 08</div>
+    <button class="nav" role="tab" data-view="import" title="Import from plans, count and measure on the plan"><svg class="ic"><use href="#i-pin"/></svg><span>Plans</span><em class="nb" id="nb-import"></em></button>
     <button class="nav" role="tab" data-view="takeoff" title="Openings"><svg class="ic"><use href="#i-door"/></svg><span>Openings</span><em class="nb" id="nb-takeoff"></em></button>
-    <button class="nav" role="tab" data-view="import" title="Import from plans"><svg class="ic"><use href="#i-folder"/></svg><span>Import plans</span></button>
     <button class="nav" role="tab" data-view="hw" title="Hardware sets"><svg class="ic"><use href="#i-key"/></svg><span>Hardware</span><em class="nb" id="nb-hw"></em></button>
+    <button class="nav" role="tab" data-view="keying" title="Keying schedule"><svg class="ic"><use href="#i-lock"/></svg><span>Keying</span><em class="nb" id="nb-keying"></em></button>
+  </div>
+  <div class="navgrp"><div class="navh">Take off · Div 10</div>
+    <button class="nav" role="tab" data-view="div10" title="Division 10 specialties"><svg class="ic"><use href="#i-box"/></svg><span>Specialties</span><em class="nb" id="nb-div10"></em></button>
   </div>
   <div class="navgrp"><div class="navh">Review</div>
     <button class="nav" role="tab" data-view="sheet" title="Takeoff sheet"><svg class="ic"><use href="#i-table"/></svg><span>Takeoff sheet</span><em class="nb" id="nb-sheet"></em></button>
-    <button class="nav" role="tab" data-view="shop" title="Shop production"><svg class="ic"><use href="#i-blueprint"/></svg><span>Shop</span><em class="nb" id="nb-shop"></em></button>
     <button class="nav" role="tab" data-view="summary" title="Recap"><svg class="ic"><use href="#i-chart"/></svg><span>Recap</span><em class="nb" id="nb-summary"></em></button>
+    <button class="nav" role="tab" data-view="purchasing" title="Purchase orders by vendor"><svg class="ic"><use href="#i-cart"/></svg><span>Purchasing</span><em class="nb" id="nb-purchasing"></em></button>
+    <button class="nav" role="tab" data-view="shop" title="Shop production"><svg class="ic"><use href="#i-blueprint"/></svg><span>Shop</span><em class="nb" id="nb-shop"></em></button>
   </div>
   <div class="navgrp"><div class="navh">Send</div>
     <button class="nav" role="tab" data-view="quote" title="Quotation"><svg class="ic"><use href="#i-quote"/></svg><span>Quotation</span><em class="nb" id="nb-quote"></em></button>
     <button class="nav" role="tab" data-view="submittal" title="Submittal package"><svg class="ic"><use href="#i-file"/></svg><span>Submittal</span><em class="nb" id="nb-submittal"></em></button>
+    <button class="nav" role="tab" data-view="changes" title="Change orders"><svg class="ic"><use href="#i-delta"/></svg><span>Change orders</span><em class="nb" id="nb-changes"></em></button>
     <button class="nav" role="tab" data-view="catalog" title="Project catalog"><svg class="ic"><use href="#i-listcheck"/></svg><span>Catalog</span><em class="nb" id="nb-catalog"></em></button>
   </div>
   <div class="navgrp"><div class="navh">Help</div>
@@ -1455,7 +1499,12 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <section class="view" id="view-shop"><div class="wrap" id="shopBody"></div></section>
 <section class="view" id="view-clients"><div class="wrap" id="clientsBody"></div></section>
 <section class="view" id="view-submittal"><div class="wrap" id="subBody"></div></section>
-<section class="view" id="view-import"><div class="wrap" id="importBody"></div></section>
+<section class="view" id="view-import"><div class="wrap wide" id="importBody"></div></section>
+<section class="view" id="view-div10"><div class="wrap wide" id="div10Body"></div></section>
+<section class="view" id="view-keying"><div class="wrap" id="keyBody"></div></section>
+<section class="view" id="view-pricebook"><div class="wrap" id="pbBody"></div></section>
+<section class="view" id="view-changes"><div class="wrap" id="coBody"></div></section>
+<section class="view" id="view-purchasing"><div class="wrap" id="poBody"></div></section>
 
 <section class="view" id="view-ref">
   <div class="wrap">
@@ -1548,16 +1597,15 @@ function fracStr(x) {
 /** inches -> 3'-6 1/2" */
 function ftin(inches) {
   if (!isFinite(inches)) return '—';
-  const neg = inches < 0; inches = Math.abs(inches);
-  let whole = Math.floor(inches + 1e-6), rem = inches - whole;
-  let fr = fracStr(rem);
-  if (fr === '' && rem > 0.49) { whole += 1; }
+  const neg = inches < 0; inches = Math.round(Math.abs(inches) * 16) / 16;   // to the nearest 1/16, so 35.97 reads 3'-0"
+  const whole = Math.floor(inches + 1e-6), fr = fracStr(inches - whole);
   const ft = Math.floor(whole / 12), inch = whole % 12;
   let s = ft + "'-" + inch + (fr ? ' ' + fr : '') + '"';
   return (neg ? '-' : '') + s;
 }
 /** inches under a foot read as 8-3/4" on a shop drawing, not 0'-8 3/4" */
 function inchStr(v) {
+  v = Math.round(num(v) * 16) / 16;
   const whole = Math.floor(v + 1e-6), f = fracStr(v - whole);
   return (f ? (whole ? whole + '-' : '') + f : String(whole)) + '"';
 }
@@ -2219,6 +2267,7 @@ const SECTIONS = [
   ]},
   { id:'hw', d:'The set number from the hardware schedule, plus the hardware this opening actually needs.', title:'Hardware', fields:[
     { k:'hwSet', l:'Hardware set', t:'setsel', full:true },
+    { k:'keyset', l:'Keyset', t:'keysel', help:'From the Keying page. Locked doors only.' },
     { k:'hwReq', l:'Hardware this opening needs', t:'hwreq', full:true },
     { k:'hwNotes', l:'Hardware notes from plans', t:'area', full:true, ph:'HW-3 per sheet A-651; verify keying with owner' }
   ]},
@@ -2307,10 +2356,10 @@ const DEFAULT_PROJECT = {
   customer:'', attention:'', custAddress:'', custEmail:'', custPhone:'',
   quoteNo:'', validDays:30, terms:'Net 30 days on approved credit.',
   included:'', excluded:'', custNotes:'', internalNotes:'',
-  markupFrame:22, markupDoor:22, markupHw:25, markupMisc:20, laborRate:78,
+  markupFrame:22, markupDoor:22, markupHw:25, markupMisc:20, markupDiv10:25, laborRate:78, taxLabor:false,
   ratePrep:65, rateField:85, rateDeliver:55, freight:0, taxRate:0
 };
-let S = { project:{...DEFAULT_PROJECT}, openings:[], sets:[], catalog:[], selId:null, elevView:'elev', sel:new Set() };
+let S = { project:{...DEFAULT_PROJECT}, openings:[], sets:[], catalog:[], div10:[], keying:null, baselines:[], selId:null, elevView:'elev', sel:new Set() };
 
 function blankOpening() {
   const o = { id: uid() };
@@ -2402,14 +2451,19 @@ function costs(o) {
   const d = derive(o), p = S.project;
   const q = Math.max(1, num(o.qty));
   const mk = k => (num(o.markup) ? num(o.markup) : num(p[k])) / 100;
-  const frame = num(o.costFrame), door = num(o.costDoor) * (d.leaves || 1),
-        hw = d.hwCost, glass = num(o.costGlass), misc = num(o.costMisc);
+  /* material that is not ours to furnish is not priced, whatever cost is left on the line */
+  const notOurs = s => ['NIC', 'BO', 'REM', 'EXTG-R'].indexOf(s) >= 0;
+  const frame = notOurs(o.frameScope) ? 0 : num(o.costFrame),
+        door = notOurs(o.doorScope) || !d.leaves ? 0 : num(o.costDoor) * d.leaves,
+        hw = notOurs(o.hwScope) ? 0 : d.hwCost, glass = num(o.costGlass), misc = num(o.costMisc);
   const labor = num(o.laborHrs) * num(p.laborRate) + num(o.hrsPrep) * num(p.ratePrep)
     + num(o.hrsField) * num(p.rateField) + num(o.hrsDeliver) * num(p.rateDeliver);
+  const hrs = num(o.laborHrs) + num(o.hrsPrep) + num(o.hrsField) + num(o.hrsDeliver);
   const cost = frame + door + hw + glass + misc + labor;
-  const sell = frame * (1 + mk('markupFrame')) + door * (1 + mk('markupDoor'))
-             + hw * (1 + mk('markupHw')) + (glass + misc + labor) * (1 + mk('markupMisc'));
-  return { q, frame, door, hw, glass, misc, labor, cost, sell, costT: cost * q, sellT: sell * q };
+  const parts = { frame: frame * (1 + mk('markupFrame')), door: door * (1 + mk('markupDoor')),
+    hw: hw * (1 + mk('markupHw')), glass: (glass + misc) * (1 + mk('markupMisc')), labor: labor * (1 + mk('markupMisc')) };
+  const sell = parts.frame + parts.door + parts.hw + parts.glass + parts.labor;
+  return { q, frame, door, hw, glass, misc, labor, hrs, cost, sell, parts, costT: cost * q, sellT: sell * q };
 }
 
 /* ============================================================
@@ -2426,7 +2480,10 @@ function checks(o) {
 
   if (isPair(o) && !num(o.w2)) a.push({ lvl:'e', t:'Missing leaf', m:'Pair configuration with no second leaf width.' });
   if (!o.mark) a.push({ lvl:'w', t:'No mark', m:'Give the opening its plan tag so it ties back to the drawings.' });
+  else if ((markCounts()[String(o.mark).trim().toUpperCase()] || 0) > 1)
+    a.push({ lvl:'w', t:'Duplicate mark', m:'Another opening on this job is also marked ' + o.mark + '. Every door number should be unique.' });
   if (!o.hwSet && d.leaves) a.push({ lvl:'w', t:'No hardware set', m:'Assign a set, or hardware will not price.' });
+  if (o.hwSet && !d.set) a.push({ lvl:'e', t:'Hardware set missing', m:'Set ' + o.hwSet + ' is not on the Hardware page any more, so this opening prices no hardware.' });
 
   if (o.category === 'EXT') {
     if (/^CRS|HRP/.test(o.steelDoor)) a.push({ lvl:'e', t:'Exterior steel', m:'Specify A60 galvannealed or better on exterior doors.' });
@@ -2517,7 +2574,20 @@ const store = {
   async set(k,v){ try{ if(window.storage){await window.storage.set(k,v);return;} localStorage.setItem(k,v);}catch(e){} }
 };
 let saveTimer = null;
-const jobJSON = () => JSON.stringify({ project:S.project, openings:S.openings, sets:S.sets, catalog:S.catalog });
+const jobJSON = () => JSON.stringify({ project:S.project, openings:S.openings, sets:S.sets, catalog:S.catalog,
+  div10:S.div10, keying:S.keying, baselines:S.baselines });
+/** one place that turns saved data back into a job: the browser copy, a job file, undo and redo */
+function loadJob(j) {
+  j = j || {};
+  S.project = Object.assign({}, DEFAULT_PROJECT, j.project || {});
+  S.openings = (j.openings || []).map(o => Object.assign(blankOpening(), migrateOpening(o)));
+  S.sets = (j.sets || []).map(normSet);
+  S.catalog = j.catalog || [];
+  S.div10 = (j.div10 || []).map(normDiv10);
+  S.keying = normKeying(j.keying);
+  S.baselines = Array.isArray(j.baselines) ? j.baselines : [];
+  JOB_REV++;
+}
 
 /* ---------- undo history: a snapshot of the job before each burst of edits ---------- */
 const HIST = { undo:[], redo:[], last:null, at:0 };
@@ -2536,11 +2606,7 @@ function histRecord(typing) {
 function histApply(from, to, label) {
   if (!from.length) return toast('Nothing to ' + label);
   to.push(jobJSON());
-  const j = JSON.parse(from.pop());
-  S.project = Object.assign({}, DEFAULT_PROJECT, j.project || {});
-  S.openings = (j.openings || []).map(o => Object.assign(blankOpening(), migrateOpening(o)));
-  S.sets = (j.sets || []).map(normSet);
-  S.catalog = j.catalog || [];
+  loadJob(JSON.parse(from.pop()));
   if (!S.openings.some(o => o.id === S.selId)) S.selId = (S.openings[0] || {}).id || null;
   [...S.sel].forEach(id => { if (!S.openings.some(o => o.id === id)) S.sel.delete(id); });
   HIST.last = jobJSON(); HIST.at = 0;
@@ -2561,7 +2627,26 @@ function saveState(busy) {
   el.querySelector('span').textContent = busy ? 'Saving…' : 'Saved in this browser';
 }
 function saveNow() { clearTimeout(saveTimer); store.set('takeoff:v1', jobJSON()); saveState(false); }
+/* bumped on every change, so the job-wide lookups below are worked out once per change, not once per row */
+let JOB_REV = 0;
+const MEMO = {};
+function memo(name, fn) {
+  const m = MEMO[name];
+  if (m && m.rev === JOB_REV && m.n === S.openings.length) return m.v;
+  const v = fn(); MEMO[name] = { rev: JOB_REV, n: S.openings.length, v }; return v;
+}
+const markCounts = () => memo('marks', () => {
+  const c = {}; S.openings.forEach(o => { const k = String(o.mark || '').trim().toUpperCase(); if (k) c[k] = (c[k] || 0) + 1; }); return c;
+});
+/** the next free mark after prev, skipping any already on the job */
+function uniqueMark(prev) {
+  const used = new Set(S.openings.map(o => String(o.mark || '').trim().toUpperCase()));
+  let m = nextMark(prev), guard = 0;
+  while (m && used.has(m.toUpperCase()) && guard++ < 500) m = nextMark(m);
+  return m;
+}
 function persist(typing) {
+  JOB_REV++;
   histRecord(typing); saveState(true); updateChrome();
   clearTimeout(saveTimer);
   saveTimer = setTimeout(() => { store.set('takeoff:v1', jobJSON()); saveState(false); }, 500);
@@ -2700,9 +2785,16 @@ function svgElevation(o, mode) {
         g += `<rect x="${hx - (L.hingeLeft ? 0 : IN(0.55))}" y="${headY + cl}" width="${IN(0.55)}"
           height="${yF - headY - cl - uc}" fill="var(--ink2)"/>`;
       else HL.hinges.forEach(v2 => {
-        g += `<rect x="${hx - (L.hingeLeft ? 0 : IN(0.55))}" y="${AFF(v2 + 2.25)}" width="${IN(0.55)}"
-          height="${IN(4.5)}" fill="var(--ink2)"/>`;
+        g += `<rect x="${hx - (L.hingeLeft ? 0 : IN(0.55))}" y="${AFF(v2 + HL.hl / 2)}" width="${IN(0.55)}"
+          height="${IN(HL.hl)}" fill="var(--ink2)"/>`;
       });
+      /* the swing mark architects draw on an elevation: dashed lines meeting at the hinge side */
+      if (mode === 'elev' && L.b - L.a > 30) {
+        const tipX = L.hingeLeft ? L.a : L.b, farX = L.hingeLeft ? L.b : L.a;
+        const top = headY + cl, bot = yF - uc;
+        g += `<path d="M${farX} ${top} L${tipX} ${(top + bot) / 2} L${farX} ${bot}" fill="none" stroke="var(--mute)"
+          stroke-width=".6" stroke-dasharray="4 3"/>`;
+      }
       /* lock on the active leaf, flush bolts on the inactive one */
       const sx = L.hingeLeft ? L.b : L.a;
       if (L.active && o.lockPrep !== 'NONE') {
@@ -2799,9 +2891,11 @@ function svgElevation(o, mode) {
       const tk = (yy, lab) => `<line x1="${x1}" y1="${yy}" x2="${rxx}" y2="${yy}" stroke="var(--steel)"
         stroke-width=".5" stroke-dasharray="2 2"/>${T(rxx + 2, yy + 2.6, lab, { a: 'start', fs: 7.5, fill: 'var(--steel)' })}`;
       const HL2 = hwLoc(o);
-      g += tk(AFF(HL2.strike), dimStr(HL2.strike).replace('"', ''));
-      g += tk(AFF(HL2.hinges[0]), 'HNG 1');
-      g += tk(AFF(HL2.hinges[HL2.hinges.length - 1]), 'HNG ' + HL2.hinges.length);
+      if (o.lockPrep !== 'NONE') g += tk(AFF(HL2.strike), dimStr(HL2.strike).replace('"', ''));
+      if (HL2.hinges.length) {
+        g += tk(AFF(HL2.hinges[0]), 'HNG 1');
+        g += tk(AFF(HL2.hinges[HL2.hinges.length - 1]), 'HNG ' + HL2.hinges.length);
+      }
       g += T(x1 + 16, yT + 46, HL2.source, { a:'start', fs:6, fill:'var(--steel)' });
     }
     g += T(W / 2, 13, (mode === 'frame' ? 'FRAME ' : '') + (o.mark || 'NO MARK') + '   ' +
@@ -3300,11 +3394,11 @@ function updateChrome() {
   const ops = S.openings;
   const n = ops.reduce((a, o) => a + num(o.qty), 0);
   const leaves = ops.reduce((a, o) => a + derive(o).leaves * num(o.qty), 0);
-  const sell = ops.reduce((a, o) => a + costs(o).sellT, 0);
+  const T = jobTotals(), sell = T.total;
   const errOps = ops.filter(o => checks(o).some(c => c.lvl === 'e')).length;
   $('#jobStats').innerHTML =
     `<span class="stat"><b>${n}</b> openings</span><span class="stat leaves"><b>${leaves}</b> leaves</span>` +
-    `<span class="stat money"><b>${money(sell)}</b></span>` +
+    `<span class="stat money" title="Quoted total: openings ${money(T.openings.sell)}${T.div10.sell ? ', Division 10 ' + money(T.div10.sell) : ''}${T.freight ? ', freight ' + money(T.freight) : ''}${T.tax ? ', tax ' + money(T.tax) : ''}"><b>${money(sell)}</b></span>` +
     (ops.length ? `<button class="issuepill ${errOps ? '' : 'clear'}" id="issuePill" title="${errOps ? 'Show the openings with errors' : 'Every opening passes the checks'}">${ic(errOps ? 'alert' : 'check')}${errOps ? plural(errOps, 'issue') : 'All clear'}</button>` : '');
   const nb = (id, html, cls) => { const e = $('#nb-' + id); if (e) { e.innerHTML = html; e.className = 'nb ' + (cls || ''); } };
   nb('project', S.project.job ? '' : '•', S.project.job ? '' : 'warn');
@@ -3323,6 +3417,12 @@ function updateChrome() {
   nb('summary', ops.length ? short(sell) : '');
   const openQ = (S.catalog || []).filter(r => r.status === 'QUESTION' || r.status === 'CONFIRM').length;
   nb('catalog', openQ || '', openQ ? 'warn' : '');
+  nb('div10', (S.div10 || []).length || '');
+  if (S.keying) { const ks = keyingSummary(); nb('keying', ks.unassigned.length && S.keying.keysets.length ? ks.unassigned.length : (S.keying.keysets.length || ''), ks.unassigned.length && S.keying.keysets.length ? 'warn' : ''); }
+  nb('pricebook', Object.keys(PB.mult).length || '');
+  nb('import', ops.filter(o => o.planRef && o.planRef.x != null).length || '');
+  const bl = activeBaseline();
+  if (bl) { const cmp = memo('cmp:' + bl.id, () => compareToBaseline(bl)); nb('changes', cmp.rows.length ? '\u0394' + cmp.rows.length : '', cmp.rows.length ? 'warn' : ''); } else nb('changes', '');
   $('#jobNoTop').textContent = S.project.jobNo ? '#' + S.project.jobNo : '';
   document.title = (S.project.job || 'Opening Takeoff') + ' — ' + plural(n, 'opening') + ', ' + plural(leaves, 'leaf').replace('leafs', 'leaves');
   histButtons();
@@ -3344,6 +3444,10 @@ function fieldHtml(f, o) {
     const list = [['', '— none —']].concat(S.sets.map(s =>
       [s.id, [s.id, s.group, s.name].filter(Boolean).join(' · ')]));
     inp = `<select id="f_${f.k}" data-k="${f.k}">${optHtml(list, v)}</select>`;
+  }
+  else if (f.t === 'keysel') {
+    const K = keying();
+    inp = `<select id="f_${f.k}" data-k="${f.k}"><option value="">— none —</option>${K.keysets.map(k => `<option value="${esc(k.id)}" ${k.id === v ? 'selected' : ''}>${esc(k.id + (k.desc ? ' · ' + k.desc : ''))}</option>`).join('')}${v && !K.keysets.some(k => k.id === v) ? `<option selected value="${esc(v)}">${esc(v)} (not on the Keying page)</option>` : ''}</select>`;
   }
   else if (f.t === 'chk') return `<div class="f ${f.full ? 'full' : ''}">
       <div class="chk"><input type="checkbox" id="f_${f.k}" data-k="${f.k}" ${v ? 'checked' : ''}>
@@ -3420,7 +3524,7 @@ const ESS_FIELDS = new Set(['mark','qty','roomFrom','roomTo','category','config'
   'trH','trType','slW','slQty','slType','slSill','frameScope','doorScope','doorLib','doorMat','doorDesign','gaugeDoor','core',
   'doorFinish','edgeSeam','species','woodCore','woodFinish','vlSize','louverSize','frameLib','frameMat','frameType','profile',
   'rabbets','blSill','blCols','blRows','blType','blCells','slLites','slCells','trDiv','trRows','trCells','mullThru','jambDepth','throat','headFace','gaugeFrame','wall','wallThk','anchor','prepStd','hingePrep','hingeQty',
-  'strikePrep','lockPrep','headPrep','closerReinf','flushBolt','fire','label','hand','swing','hwSet','hwReq','lead',
+  'strikePrep','lockPrep','headPrep','closerReinf','flushBolt','fire','label','hand','swing','hwSet','keyset','hwReq','lead',
   'costFrame','costDoor','costHw','laborHrs','notes','curLines','comments']);
 const fieldFilled = (o, f) => { const v = o[f.k]; return f.t === 'chk' ? !!v : (v !== '' && v != null && !(typeof v === 'number' && v === 0)); };
 const SHORT_SEC = { id:'Mark', size:'Size', scope:'Scope', door:'Door', frame:'Frame', prep:'Preps', perf:'Rating', hand:'Handing', cmt:'Comments' };
@@ -3471,6 +3575,7 @@ function renderDetail() {
             ${[['elev', 'Opening'], ['frame', 'Frame'], ['door', 'Door'], ['hw', 'Hinge locations'], ['sect', 'Jamb']].map(([k, l]) =>
               `<button type="button" class="${S.elevView === k ? 'on' : ''}" data-elev="${k}">${l}</button>`).join('')}
           </div><span class="spacer"></span>
+          <button type="button" class="iconbtn" data-cmd="enlarge" title="Open the drawing full size" aria-label="Enlarge drawing">${ic('expand')}</button>
           <button type="button" class="btn ghost sm" data-drawing="0" title="Hide the drawing to make room for the form">Hide</button></div>
           ${S.elevView === 'sect' ? jambBoxHtml(o) + svgSection(o) : S.elevView === 'hw' ? svgHingeChart(o) : svgElevation(o, S.elevView)}${meta}</div>`
       : `<div class="elevmin">${ic('eye')}<span class="mono" style="color:var(--ink)">${esc(ftin(d.nomW))} × ${esc(ftin(d.nomH))}</span>
@@ -3649,7 +3754,7 @@ function normItem(i) {
     product: i.product || PRODUCT_NAMES[cat] || cat,
     model: i.model || i.desc || '',
     mfr: i.mfr || '', fin: i.fin || '', func: i.func || '', keying: i.keying || '',
-    size: i.size || '', cost: num(i.cost), note: i.note || ''
+    size: i.size || '', list: num(i.list), cost: num(i.cost), note: i.note || ''
   };
 }
 function normSet(s) {
@@ -3663,7 +3768,9 @@ function renderSets() {
   const q = (($('#setSearch') || {}).value || '').toLowerCase().trim();
   const open = new Set(PREFS.openSets || []);
   const libOpts = Object.keys(HW_LIB).map(c => `<optgroup label="${esc(c)}">${HW_LIB[c].filter(x => x.desc)
-    .map((it, i) => `<option value="${esc(c)}|${i}">${esc(it.desc)}${it.mfr ? ' — ' + esc(it.mfr) : ''}</option>`).join('')}</optgroup>`).join('');
+    .map((it, i) => `<option value="${esc(c)}|${i}">${esc(it.desc)}${it.mfr ? ' — ' + esc(it.mfr) : ''}</option>`).join('')}</optgroup>`).join('') +
+    [...new Set(PB.items.map(x => x.mfr || 'Other'))].sort().map(m => `<optgroup label="Price book — ${esc(m)}">${PB.items.map((x, i) => [x, i]).filter(([x]) => (x.mfr || 'Other') === m)
+      .slice(0, 400).map(([x, i]) => `<option value="PB|${i}">${esc([x.model, x.desc].filter(Boolean).join(' · '))} · ${money2(x.list)} list</option>`).join('')}</optgroup>`).join('');
   let shown = 0;
   const html = S.sets.map((s, si) => {
     if (q) {
@@ -3695,7 +3802,7 @@ function renderSets() {
           <th style="min-width:180px">PRODUCT NAME</th><th style="min-width:150px">MODEL / CAT NO</th>
           <th style="min-width:110px">MANUFACTURER</th><th style="min-width:150px">FINISH (BHMA)</th>
           <th style="min-width:110px">FUNCTION</th><th style="min-width:90px">KEYING</th>
-          <th style="min-width:96px">SIZE / LENGTH</th><th style="min-width:74px">COST EA</th>
+          <th style="min-width:96px">SIZE / LENGTH</th><th style="min-width:74px" title="List price — with a multiplier for the maker on the Price book page, the cost follows it">LIST</th><th style="min-width:74px">COST EA</th>
           <th style="min-width:66px;text-align:right">EXT</th><th style="min-width:150px">NOTE</th><th style="width:30px"></th>
         </tr></thead><tbody>
         ${s.items.map((it, ii) => `<tr data-ii="${ii}">
@@ -3708,7 +3815,8 @@ function renderSets() {
           <td><input type="text" data-ik="func" value="${esc(it.func)}" placeholder="F86 storeroom"></td>
           <td><input type="text" data-ik="keying" value="${esc(it.keying)}" placeholder="KA / GMK"></td>
           <td><input type="text" data-ik="size" value="${esc(it.size)}" placeholder="10 x 34"></td>
-          <td><input type="number" data-ik="cost" value="${esc(it.cost)}" step="1"></td>
+          <td><input type="number" data-ik="list" value="${num(it.list) || ''}" step="any" placeholder="—"></td>
+          <td><input type="number" data-ik="cost" value="${esc(it.cost)}" step="any" ${num(it.list) && pbMult(it.mfr) ? `class="auto" title="List ${money2(it.list)} × ${pbMult(it.mfr)} (${esc(it.mfr)}) from the price book"` : ''}></td>
           <td class="mono" style="text-align:right;padding-right:8px">${money(num(it.qty) * num(it.cost))}</td>
           <td><input type="text" data-ik="note" value="${esc(it.note)}"></td>
           <td><button type="button" class="iconbtn" data-act="delitem" title="Remove this item" style="width:26px;height:26px">${ic('x')}</button></td>
@@ -3802,8 +3910,8 @@ function renderSummary() {
   const custom = ops.filter(o => derive(o).custom).reduce((a, o) => a + num(o.qty), 0);
   const rated = ops.filter(o => o.fire !== 'NR' && o.fire).reduce((a, o) => a + num(o.qty), 0);
   const errs = ops.filter(o => checks(o).some(c => c.lvl === 'e'));
-  const freight = num(pr.freight);
-  const gm = tot.sell ? Math.round((1 - tot.cost / tot.sell) * 100) : 0;
+  const T = jobTotals(), freight = T.freight;
+  const gm = Math.round(T.gm * 100);
 
   const byCat = {};
   ops.forEach(o => {
@@ -3816,12 +3924,16 @@ function renderSummary() {
   ops.forEach(o => { byLead[o.lead] = (byLead[o.lead] || 0) + num(o.qty); });
   const leadName = { 'SAME DAY':'Stock, same day', '3-5 DAY':'Stock with modification, 3 to 5 days', 'CUSTOM':'Special order, shop drawing' };
 
-  const parts = [['Frames', tot.frame, '#1c5975'], ['Doors', tot.door, '#4f8aa6'], ['Hardware', tot.hw, '#c07f00'], ['Glass, misc and labor', tot.other, '#8e99a4']];
-  const pctOf = v => tot.cost ? (v / tot.cost * 100) : 0;
+  const parts = [['Frames', tot.frame, '#1c5975'], ['Doors', tot.door, '#4f8aa6'], ['Hardware', tot.hw, '#c07f00'], ['Glass, misc and labor', tot.other, '#8e99a4'],
+    ['Division 10', T.div10.cost, '#6d5a96']];
+  const pctOf = v => T.cost ? (v / T.cost * 100) : 0;
+  const d10bySec = {};
+  (S.div10 || []).forEach(r => { const c = d10Costs(r), k = r.sec + ' ' + secName(r.sec);
+    d10bySec[k] = d10bySec[k] || { q: 0, cost: 0, sell: 0 }; d10bySec[k].q += num(r.qty); d10bySec[k].cost += c.cost; d10bySec[k].sell += c.sell; });
 
   $('#summaryBody').innerHTML = `
     <div class="phead">
-      <div><div class="eyebrow">Step 5</div><h1>Recap</h1><p>Totals by category, the production split and anything still blocking the bid.</p></div>
+      <div><div class="eyebrow">Review</div><h1>Recap</h1><p>Totals by category, the production split and anything still blocking the bid.</p></div>
       <div class="pact">
         <button class="btn" data-cmd="scheduleCsv">${ic('download')}Door schedule CSV</button>
         <button class="btn primary" data-cmd="recapPdf">${ic('download')}Bid recap PDF</button>
@@ -3830,13 +3942,13 @@ function renderSummary() {
     <div class="kpi">
       <div class="k"><div class="v">${qty}</div><div class="l">openings · ${leaves} leaves</div></div>
       <div class="k"><div class="v">${custom}</div><div class="l">custom elevations · ${rated} labeled</div></div>
-      <div class="k"><div class="v">${gm}%</div><div class="l">gross margin before freight</div></div>
-      <div class="k hero"><div class="v">${money(tot.sell + freight)}</div><div class="l">sell price${freight ? ', with ' + money(freight) + ' freight' : ''}</div></div>
+      <div class="k"><div class="v">${gm}%</div><div class="l">gross margin before freight and tax</div></div>
+      <div class="k hero"><div class="v">${money(T.total)}</div><div class="l">quoted total${freight ? ', ' + money(freight) + ' freight' : ''}${T.tax ? ', ' + money(T.tax) + ' tax' : ''}</div></div>
     </div>
 
     <div class="cols2">
       <div>
-        <div class="card"><div class="chead"><h2>Where the cost is</h2><span class="spacer"></span><span class="hint">Cost ${money(tot.cost)} · sell ${money(tot.sell)}</span></div>
+        <div class="card"><div class="chead"><h2>Where the cost is</h2><span class="spacer"></span><span class="hint">Cost ${money(T.cost)} · sell ${money(T.sub)}</span></div>
           <div class="marginbar">${parts.map(([l, v, c]) => v ? `<i style="width:${pctOf(v).toFixed(2)}%;background:${c}" title="${esc(l)} ${money(v)}"></i>` : '').join('')}</div>
           <div class="legendrow">${parts.map(([l, v, c]) => `<span><i style="background:${c}"></i>${esc(l)} <b class="mono" style="color:var(--ink)">${money(v)}</b></span>`).join('')}</div>
         </div>
@@ -3845,10 +3957,15 @@ function renderSummary() {
           ${Object.entries(byCat).map(([k, v]) => `<tr><td>${esc(k)}</td><td class="n">${v.q}</td><td class="n">${v.leaves}</td>
             <td class="n">${money(v.cost)}</td><td class="n">${money(v.sell)}</td><td class="n">${v.sell ? Math.round((1 - v.cost / v.sell) * 100) + '%' : '—'}</td></tr>`).join('')
             || '<tr><td colspan="6" class="hint">Nothing on the takeoff yet.</td></tr>'}
+          ${Object.entries(d10bySec).map(([k, v]) => `<tr><td>Division 10 · ${esc(k)}</td><td class="n">${v.q}</td><td class="n">—</td>
+            <td class="n">${money(v.cost)}</td><td class="n">${money(v.sell)}</td><td class="n">${v.sell ? Math.round((1 - v.cost / v.sell) * 100) + '%' : '—'}</td></tr>`).join('')}
           <tr class="tot"><td>Total</td><td class="n">${qty}</td><td class="n">${leaves}</td>
-            <td class="n">${money(tot.cost)}</td><td class="n">${money(tot.sell)}</td><td class="n">${gm}%</td></tr>
+            <td class="n">${money(T.cost)}</td><td class="n">${money(T.sub)}</td><td class="n">${gm}%</td></tr>
+          ${freight ? `<tr><td>Freight</td><td></td><td></td><td></td><td class="n">${money(freight)}</td><td></td></tr>` : ''}
+          ${T.tax ? `<tr><td>Tax ${num(pr.taxRate)}%</td><td></td><td></td><td></td><td class="n">${money(T.tax)}</td><td></td></tr>` : ''}
+          ${freight || T.tax ? `<tr class="tot"><td>Quoted total</td><td></td><td></td><td></td><td class="n">${money(T.total)}</td><td></td></tr>` : ''}
           </tbody></table>
-          <p class="hint" style="margin:10px 0 0">Freight ${money(freight)} · new frames ${frames} · labeled openings ${rated}</p>
+          <p class="hint" style="margin:10px 0 0">Labor ${T.labor.hrs.toFixed(1)} hr on openings${T.div10.hrs ? ' and ' + T.div10.hrs.toFixed(1) + ' hr on Division 10' : ''} · new frames ${frames} · labeled openings ${rated}</p>
         </div>
         <div class="card"><h2 style="margin-bottom:8px">Priced schedule</h2>
           <table class="sum"><thead><tr><th>MK</th><th>SIZE</th><th>DESCRIPTION</th>
@@ -3884,10 +4001,10 @@ const PROJ_FIELDS = [
   ['architect','Architect'],['estimator','Estimator'],['bidDate','Bid date','date'],
   ['planDate','Drawing date','date'],['addenda','Addenda / bulletins']];
 const PRICE_FIELDS = [['markupFrame','Frame markup %'],['markupDoor','Door markup %'],['markupHw','Hardware markup %'],
-  ['markupMisc','Misc & labor markup %'],['laborRate','Install rate, $/hr'],['ratePrep','Shop prep rate, $/hr'],
+  ['markupMisc','Misc & labor markup %'],['markupDiv10','Division 10 markup %'],['laborRate','Install rate, $/hr'],['ratePrep','Shop prep rate, $/hr'],
   ['rateField','Field measure rate, $/hr'],['rateDeliver','Delivery rate, $/hr'],['freight','Freight, $'],['taxRate','Tax %']];
 
-const PRICE_UNIT = { markupFrame:'%', markupDoor:'%', markupHw:'%', markupMisc:'%', laborRate:'$/hr', freight:'$', taxRate:'%' };
+const PRICE_UNIT = { markupFrame:'%', markupDoor:'%', markupHw:'%', markupMisc:'%', markupDiv10:'%', laborRate:'$/hr', ratePrep:'$/hr', rateField:'$/hr', rateDeliver:'$/hr', freight:'$', taxRate:'%' };
 function renderProject() {
   const ph = { job:'Warehouse fit out', jobNo:'26-0142', address:'Street, city', gc:'General contractor', architect:'Architect of record',
     estimator:'Your name', addenda:'Addendum 1, 2' };
@@ -4291,7 +4408,7 @@ function openModal(title, sub, bodyHtml, footHtml, size) {
   $('#mTitle').textContent = title; $('#mSub').textContent = sub || '';
   $('#mBody').innerHTML = bodyHtml; $('#mFoot').innerHTML = footHtml || '';
   $('#mFoot').hidden = !footHtml;
-  $('#mBody').onclick = $('#mBody').onchange = $('#mBody').oninput = null;
+  $('#mBody').onclick = $('#mBody').onchange = $('#mBody').oninput = $('#mFoot').onclick = null;
   $('#modal').hidden = false;
   const first = $('#mBody input, #mBody select, #mBody textarea'); if (first) setTimeout(() => first.focus(), 0);
 }
@@ -4458,6 +4575,7 @@ function openBulk() {
     let h;
     if (f.t === 'sel') h = `<select id="bulkVal2">${optHtml(O[f.o], o[f.k])}</select>`;
     else if (f.t === 'setsel') h = `<select id="bulkVal2"><option value="">— none —</option>${S.sets.map(s => `<option value="${esc(s.id)}">${esc(s.id + ' · ' + s.name)}</option>`).join('')}</select>`;
+    else if (f.t === 'keysel') h = `<select id="bulkVal2"><option value="">— none —</option>${keying().keysets.map(k => `<option value="${esc(k.id)}">${esc(k.id + (k.desc ? ' · ' + k.desc : ''))}</option>`).join('')}</select>`;
     else if (f.t === 'chk') h = `<select id="bulkVal2"><option value="1">Yes</option><option value="">No</option></select>`;
     else if (f.t === 'moneyRO') h = `<div class="readout">calculated from the set</div>`;
     else h = `<input type="text" id="bulkVal2" placeholder="${esc(f.ph || '')}">`;
@@ -4822,8 +4940,9 @@ function cur(o, key) {
 /* ---------- the two order description strings ---------- */
 /** width feet, width inches, height feet, height inches -> 3068 */
 function curSize(w, h) {
-  const wf = Math.floor(w / 12), wi = Math.round(w - wf * 12);
-  const hf = Math.floor(h / 12), hi = Math.round(h - hf * 12);
+  w = Math.round(num(w)); h = Math.round(num(h));          // whole inches first, so 35.6 is 3-0 and never 2-12
+  const wf = Math.floor(w / 12), wi = w - wf * 12;
+  const hf = Math.floor(h / 12), hi = h - hf * 12;
   return '' + wf + wi + hf + hi;
 }
 const tj = (sep, arr) => arr.filter(x => x != null && String(x).trim() !== '').join(sep);
@@ -4906,7 +5025,7 @@ function importWorkbookRow(c) {
   o.strikePrep = REV.strike[g(21)] || 'ASA 4-7/8';
   if (g(22) === 'CH') o.headPrep = 'OHS';
   if (g(23) && g(23) !== '-') { o.closerReinf = true; if (!/OHS/.test(o.headPrep)) o.headPrep = 'CLR'; }
-  if (g(19) === 'Y') o.faceSize = '3';
+  if (g(19) === 'Y') o.headFace = '4';                     // the 4" face header column
   o.notes = tj(' | ', [g(24), g(25)]);
   o.wall = /^(WMA|T)$/.test(g(11)) ? 'CMU' : o.wall;
   if (o.fire !== 'NR') o.closerReinf = true;
@@ -5192,7 +5311,7 @@ function frameBOM() {
     const key = Object.values(spec).join('|');
     const e = m.get(key) || { ...spec, qty: 0, marks: [], anchors: 0, cost: 0 };
     e.qty += num(o.qty);
-    e.anchors += d.anchors * 2 * num(o.qty);
+    e.anchors += d.anchorJambTot * num(o.qty);              // sidelite jambs carry anchors too
     if (e.marks.indexOf(o.mark || '—') < 0) e.marks.push(o.mark || '—');
     if (num(o.costFrame)) e.cost = num(o.costFrame);
     m.set(key, e);
@@ -5252,10 +5371,10 @@ function renderSheet() {
       `<td class="${col.cls || ''}">${esc(col.v(o, d, c))}</td>`).join('') + '</tr>';
   }).join('');
 
-  const navs = [['1', 'Openings'], ['2', 'Doors'], ['3', 'Frames'], ['4', 'Hardware'], ['5', 'Anchors'], ['6', 'Glass'], ['7', 'Order lines'], ['8', 'Quote recap']];
+  const navs = [['1', 'Openings'], ['2', 'Doors'], ['3', 'Frames'], ['4', 'Hardware'], ['5', 'Anchors'], ['6', 'Glass'], ['7', 'Order lines'], ['9', 'Division 10'], ['8', 'Quote recap']];
   $('#sheetBody').innerHTML = `
   <div class="phead">
-    <div><div class="eyebrow">Step 4 · ${esc(S.project.job || 'untitled job')}${S.project.jobNo ? ' · ' + esc(S.project.jobNo) : ''}</div><h1>Complete takeoff</h1>
+    <div><div class="eyebrow">Review · ${esc(S.project.job || 'untitled job')}${S.project.jobNo ? ' · ' + esc(S.project.jobNo) : ''}</div><h1>Complete takeoff</h1>
     <p>Every opening with every field, then the door, frame, hardware and glass counts the quote is built from.</p></div>
     <div class="pact">
       <button class="btn" data-cmd="takeoffCsv">${ic('download')}CSV</button>
@@ -5404,20 +5523,27 @@ function renderSheet() {
     })()}
   </div>
 
+  <div class="card" id="sh-9"><h2>9 · Division 10 specialties</h2>
+    <div class="scrollx"><table class="wide"><thead><tr><th>SECTION</th><th>ITEM</th><th>MODEL</th><th>MFR</th><th>ROOM</th><th>QTY</th><th>UNIT</th><th>COST/UNIT</th><th>HRS/UNIT</th><th>SELL</th></tr></thead><tbody>
+      ${(S.div10 || []).map(r => `<tr><td class="grp">${esc(r.sec)}</td><td>${esc(r.product)}</td><td>${esc(r.model)}</td><td>${esc(r.mfr)}</td><td>${esc(r.room)}</td>
+        <td class="n">${num(r.qty)}</td><td>${esc(r.unit)}</td><td class="n">${money2(r.cost)}</td><td class="n">${num(r.hrs)}</td><td class="n">${money(d10Costs(r).sell)}</td></tr>`).join('')
+        || '<tr><td colspan="10" class="hint">No Division 10 items on this job.</td></tr>'}
+    </tbody></table></div>
+  </div>
+
   <div class="card" id="sh-8"><h2>8 · Quote recap</h2>
-    <table class="sum"><tbody>
-      <tr><td>Frames</td><td class="n">${frameQty}</td><td class="n">${money(frames.reduce((a, r) => a + r.cost * r.qty, 0))}</td></tr>
-      <tr><td>Doors</td><td class="n">${doorQty}</td><td class="n">${money(doors.reduce((a, r) => a + r.cost * r.qty, 0))}</td></tr>
-      <tr><td>Hardware</td><td class="n">${hw.reduce((a, s) => a + s.qty, 0)}</td><td class="n">${money(hw.reduce((a, s) => a + s.ext, 0))}</td></tr>
-      <tr><td>Glass, louvers and misc</td><td class="n"></td><td class="n">${money(ops.reduce((a, o) => a + (num(o.costGlass) + num(o.costMisc)) * num(o.qty), 0))}</td></tr>
-      <tr><td>Installation labor</td><td class="n">${ops.reduce((a, o) => a + num(o.laborHrs) * num(o.qty), 0).toFixed(1)} hr</td>
-        <td class="n">${money(ops.reduce((a, o) => a + num(o.laborHrs) * num(o.qty) * num(S.project.laborRate), 0))}</td></tr>
-      <tr><td>Freight</td><td class="n"></td><td class="n">${money(num(S.project.freight))}</td></tr>
-      <tr class="tot"><td>Total cost</td><td class="n"></td><td class="n">${money(tot.cost + num(S.project.freight))}</td></tr>
-      <tr class="tot"><td>Sell price</td><td class="n"></td><td class="n">${money(tot.sell + num(S.project.freight))}</td></tr>
+    ${(() => { const T = jobTotals(); const r = (l, q, c, s2, b) => `<tr class="${b ? 'tot' : ''}"><td>${l}</td><td class="n">${q}</td><td class="n">${c == null ? '' : money(c)}</td><td class="n">${s2 == null ? '' : money(s2)}</td></tr>`;
+      return `<table class="sum"><thead><tr><th></th><th class="n">QTY</th><th class="n">COST</th><th class="n">SELL</th></tr></thead><tbody>
+      ${r('Frames', frameQty, T.frame.cost, T.frame.sell)}${r('Doors', doorQty, T.door.cost, T.door.sell)}
+      ${r('Hardware', hw.reduce((a, s2) => a + s2.qty, 0), T.hw.cost, T.hw.sell)}${r('Glass, louvers and misc', '', T.glass.cost, T.glass.sell)}
+      ${r('Labor, all hours', T.labor.hrs.toFixed(1) + ' hr', T.labor.cost, T.labor.sell)}
+      ${T.div10.sell ? r('Division 10 specialties', (S.div10 || []).length + ' lines', T.div10.cost, T.div10.sell) : ''}
+      ${r('Subtotal', '', T.cost, T.sub, true)}
+      ${T.freight ? r('Freight', '', null, T.freight) : ''}${T.tax ? r('Tax ' + num(S.project.taxRate) + '%', '', null, T.tax) : ''}
+      ${r('Quoted total', '', null, T.total, true)}
     </tbody></table>
-    <p class="hint" style="margin-top:8px">Gross margin ${tot.sell ? Math.round((1 - tot.cost / tot.sell) * 100) : 0}% before freight.
-    Custom elevations ${custom} of ${tQty} — those need shop drawings before the price is firm.</p>
+    <p class="hint" style="margin-top:8px">Gross margin ${gmPct(T)} before freight and tax.
+    Custom elevations ${custom} of ${tQty} — those need shop drawings before the price is firm.</p>`; })()}
   </div>`;
 
 }
@@ -5479,17 +5605,23 @@ function exportTakeoffCSV() {
       cur(o, 'header'), cur(o, 'closer'), [o.notes, o.existingNotes].filter(Boolean).join(' | ')])); });
   L.push('');
 
-  const tot = S.openings.reduce((a, o) => { const c = costs(o); a.cost += c.costT; a.sell += c.sellT; return a; }, { cost:0, sell:0 });
+  L.push(row(['9 - DIVISION 10 SPECIALTIES']));
+  L.push(row(['SECTION','ITEM','MODEL','MFR','ROOM','QTY','UNIT','COST/UNIT','HRS/UNIT','SELL']));
+  (S.div10 || []).forEach(r => L.push(row([r.sec, r.product, r.model, r.mfr, r.room, r.qty, r.unit, r.cost, r.hrs, Math.round(d10Costs(r).sell)])));
+  L.push('');
+  const T = jobTotals();
   L.push(row(['8 - QUOTE RECAP']));
-  L.push(row(['Frames', frames.reduce((a, r) => a + r.qty, 0), frames.reduce((a, r) => a + r.cost * r.qty, 0)]));
-  L.push(row(['Doors', doors.reduce((a, r) => a + r.qty, 0), doors.reduce((a, r) => a + r.cost * r.qty, 0)]));
-  L.push(row(['Hardware', hw.reduce((a, s) => a + s.qty, 0), hw.reduce((a, s) => a + s.ext, 0)]));
-  L.push(row(['Glass and misc', '', S.openings.reduce((a, o) => a + (num(o.costGlass) + num(o.costMisc)) * num(o.qty), 0)]));
-  L.push(row(['Labor', S.openings.reduce((a, o) => a + num(o.laborHrs) * num(o.qty), 0),
-    S.openings.reduce((a, o) => a + num(o.laborHrs) * num(o.qty) * num(p.laborRate), 0)]));
-  L.push(row(['Freight', '', num(p.freight)]));
-  L.push(row(['Total cost', '', Math.round(tot.cost + num(p.freight))]));
-  L.push(row(['Sell price', '', Math.round(tot.sell + num(p.freight))]));
+  L.push(row(['', 'QTY', 'COST', 'SELL']));
+  L.push(row(['Frames', frames.reduce((a, r) => a + r.qty, 0), Math.round(T.frame.cost), Math.round(T.frame.sell)]));
+  L.push(row(['Doors', doors.reduce((a, r) => a + r.qty, 0), Math.round(T.door.cost), Math.round(T.door.sell)]));
+  L.push(row(['Hardware', hw.reduce((a, s) => a + s.qty, 0), Math.round(T.hw.cost), Math.round(T.hw.sell)]));
+  L.push(row(['Glass and misc', '', Math.round(T.glass.cost), Math.round(T.glass.sell)]));
+  L.push(row(['Labor, all hours', T.labor.hrs.toFixed(1), Math.round(T.labor.cost), Math.round(T.labor.sell)]));
+  L.push(row(['Division 10', (S.div10 || []).length, Math.round(T.div10.cost), Math.round(T.div10.sell)]));
+  L.push(row(['Subtotal', '', Math.round(T.cost), Math.round(T.sub)]));
+  L.push(row(['Freight', '', '', Math.round(T.freight)]));
+  L.push(row(['Tax', '', '', Math.round(T.tax)]));
+  L.push(row(['Quoted total', '', '', Math.round(T.total)]));
 
   downloadFile((p.job || 'takeoff').replace(/[^\w-]+/g, '_') + '_complete_takeoff.csv', L.join('\n'), 'text/csv');
   toast('Complete takeoff exported');
@@ -5734,23 +5866,24 @@ function exportXlsx() {
   sheets.push({ name:'Curries order', rows:cRows, opt:{ freeze:1, w:[15,10,6,13,10,20,58,6,58,6,9,11,13,13,36] } });
 
   /* Recap */
-  const tot = ops.reduce((a, o) => { const c = costs(o); a.cost += c.costT; a.sell += c.sellT; return a; }, { cost:0, sell:0 });
+  const T = jobTotals();
   const leaves = ops.reduce((a, o) => a + derive(o).leaves * num(o.qty), 0);
   const pairs = ops.filter(isPair).reduce((a, o) => a + num(o.qty), 0);
   const custom = ops.filter(o => derive(o).custom).reduce((a, o) => a + num(o.qty), 0);
   const rated = ops.filter(o => o.fire && o.fire !== 'NR').reduce((a, o) => a + num(o.qty), 0);
-  const labHrs = ops.reduce((a, o) => a + num(o.laborHrs) * num(o.qty), 0);
-  sheets.push({ name:'Recap', opt:{ w:[30, 12, 14] }, rows: [
+  sheets.push({ name:'Recap', opt:{ w:[30, 12, 14, 14] }, rows: [
     [{ v:'QUOTE RECAP — ' + (p.job || 'untitled job'), s:2 }], [],
-    H(['ITEM','QTY','AMOUNT']),
-    ['Frames', frames.reduce((a, r) => a + r.qty, 0), M(frames.reduce((a, r) => a + r.cost * r.qty, 0))],
-    ['Doors', doors.reduce((a, r) => a + r.qty, 0), M(doors.reduce((a, r) => a + r.cost * r.qty, 0))],
-    ['Hardware sets', hw.reduce((a, s) => a + s.qty, 0), M(hw.reduce((a, s) => a + s.ext, 0))],
-    ['Glass, louvers and misc', '', M(ops.reduce((a, o) => a + (num(o.costGlass) + num(o.costMisc)) * num(o.qty), 0))],
-    ['Installation labor', labHrs, M(labHrs * num(p.laborRate))],
-    ['Freight', '', M(p.freight)],
-    [B('Total cost'), '', { v: Math.round(tot.cost + num(p.freight)), s:5 }],
-    [B('Sell price'), '', { v: Math.round(tot.sell + num(p.freight)), s:5 }],
+    H(['ITEM','QTY','COST','SELL']),
+    ['Frames', frames.reduce((a, r) => a + r.qty, 0), M(T.frame.cost), M(T.frame.sell)],
+    ['Doors', doors.reduce((a, r) => a + r.qty, 0), M(T.door.cost), M(T.door.sell)],
+    ['Hardware sets', hw.reduce((a, s) => a + s.qty, 0), M(T.hw.cost), M(T.hw.sell)],
+    ['Glass, louvers and misc', '', M(T.glass.cost), M(T.glass.sell)],
+    ['Labor, all hours', Math.round(T.labor.hrs * 10) / 10, M(T.labor.cost), M(T.labor.sell)],
+    ['Division 10 specialties', (S.div10 || []).length, M(T.div10.cost), M(T.div10.sell)],
+    [B('Subtotal'), '', { v: Math.round(T.cost), s:5 }, { v: Math.round(T.sub), s:5 }],
+    ['Freight', '', '', M(T.freight)],
+    ['Tax ' + num(p.taxRate) + '%', '', '', M(T.tax)],
+    [B('Quoted total'), '', '', { v: Math.round(T.total), s:5 }],
     [],
     H(['COUNTS','']),
     ['Openings', ops.reduce((a, o) => a + num(o.qty), 0)],
@@ -5760,8 +5893,20 @@ function exportXlsx() {
     ['Custom elevations', custom],
     ['Labeled openings', rated],
     ['Exterior openings', ops.filter(o => o.category === 'EXT').reduce((a, o) => a + num(o.qty), 0)],
-    ['Gross margin %', tot.sell ? Math.round((1 - tot.cost / tot.sell) * 100) : 0]
+    ['Gross margin %', Math.round(T.gm * 100)]
   ]});
+
+  /* Division 10 */
+  if ((S.div10 || []).length) sheets.push({ name:'Division 10', opt:{ freeze:1, w:[11, 22, 46, 16, 16, 24, 8, 7, 11, 9, 12, 12] }, rows:
+    [H(['SECTION','SECTION NAME','ITEM','MODEL','MANUFACTURER','ROOM','QTY','UNIT','COST/UNIT','HRS/UNIT','MATERIAL','SELL'])].concat(S.div10.map(r => {
+      const c = d10Costs(r); return [r.sec, secName(r.sec), r.product, r.model, r.mfr, r.room, num(r.qty), r.unit, { v: num(r.cost), s:3 }, num(r.hrs), M(c.mat), M(c.sell)]; })) });
+
+  /* Keying */
+  if (keying().keysets.length) sheets.push({ name:'Keying', opt:{ freeze:1, w:[12, 8, 10, 30, 7, 12, 30, 10, 26] }, rows:
+    [H(['KEYSET','LEVEL','UNDER','DESCRIPTION','KEYS','DOOR','LOCATION','HW SET','CYLINDERS'])].concat(keyingRows().flatMap(r => r.doors.length
+      ? r.doors.map((o, i) => [r.k.id, r.k.level, r.k.parent, i ? '' : r.k.desc, i ? '' : r.keys, o.mark, [o.roomFrom, o.roomTo].filter(Boolean).join(' to '), o.hwSet,
+        cylindersOf(o).map(c => c.qty * num(o.qty) + ' ' + c.type.toLowerCase()).join(', ')])
+      : [[r.k.id, r.k.level, r.k.parent, r.k.desc, r.keys]])) });
 
   /* Abbreviations */
   const aRows = [H(['SECTION','CODE','MEANING'])];
@@ -5848,7 +5993,8 @@ function exportXlsx() {
   const r3 = put([bar('HARDWARE SETS'), bar(''), bar(''), bar(''), bar(''), bar(''), bar(''), bar(''), bar('')]);
   rowH[r3 - 1] = 18;
   hw.forEach(s2 => {
-    put([{ v:s2.id, s:XS.bold }, { v:s2.name, s:XS.bold }, s2.group, s2.keying,
+    put([{ v:s2.id, s:XS.bold }, { v:s2.name, s:XS.bold }, s2.group,
+         [...new Set(s2.items.map(i => i.keying).filter(Boolean))].join(', '),
          s2.qty + ' openings', s2.marks.join(', ')]);
     put([{ v:'QTY', s:XS.hdr }, { v:'CATEGORY', s:XS.hdr }, { v:'PRODUCT', s:XS.hdr },
          { v:'MODEL', s:XS.hdr }, { v:'MFR', s:XS.hdr }, { v:'FINISH', s:XS.hdr },
@@ -6079,110 +6225,106 @@ function sheetFrame(p, title, sheetNo, sheetOf, scaleTxt) {
   p.txt(tx + TBW - 12, sy + 8, 'OF ' + sheetOf, 8, false, 'r');
 }
 
-/* ---- one elevation inside a cell, drawn at a true scale ---- */
+/* ---- one elevation inside a cell, drawn at a true scale ----
+   Drawn from the same unit layout as the screen and the shop plans, so a sidelite on the strike
+   side, a split transom, a borrowed lite and a pair all come out the way they are built. */
 function pdfElevation(p, o, cx, cy, cw, ch, mode, ppi) {
-  const d = derive(o);
-  const doorOnly = mode === 'door';
-  const totW = doorOnly ? d.nomW : d.outW, totH = doorOnly ? d.nomH : d.outH;
-  const w = totW * ppi, h = totH * ppi;
-  const x0 = cx + (cw - w) / 2, yF = cy + 40;
-  const IN = v => v * ppi;
-  const face = IN(d.face);
-  const x1 = x0 + w, yT = yF + h;
-  const AFF = v => yF + IN(v);
-
-  let bx = x0 + (doorOnly ? 0 : face);
-  const boxes = [];
-  if (!doorOnly && d.slN >= 1) { boxes.push({ x:bx, w:IN(d.slW) }); bx += IN(d.slW) + face; }
-  const doorX = bx, doorW = IN(d.nomW);
-  bx += doorW;
-  if (!doorOnly && d.slN === 2) { bx += face; boxes.push({ x:bx, w:IN(d.slW) }); }
-  const headY = AFF(d.nomH);
-  const trTop = d.trH > 0 ? headY + face + IN(d.trH) : null;
-
+  const d = derive(o), LY = unitLayout(o), doorOnly = mode === 'door';
+  const totW = doorOnly ? d.nomW : d.outW;
+  const IN = v => v * ppi, w = IN(totW);
+  const x0 = cx + (cw - w) / 2, yF = cy + 44;
+  const XI = v => x0 + IN(v), YI = v => yF + IN(v);
+  const oc = LY.open;
+  const doorX = doorOnly ? x0 : XI(oc.x), doorW = IN(doorOnly ? d.nomW : oc.w);
+  const botY = doorOnly ? yF : YI(oc.y), headY = botY + IN(d.nomH);
+  const hingeLeft = /^L/.test(o.hand) || o.hand === 'DBL EGR';
   p.stroke(0); p.gray(0);
+
   if (!doorOnly) {
-    p.lw(1.1); p.rect(x0, yF, w, h);                       // frame outside
-    p.lw(0.8); p.rect(doorX, yF, doorW, headY - yF);       // door opening
-    boxes.forEach(b => {
-      p.rect(b.x, yF, b.w, headY - yF);
-      p.txt(b.x + b.w / 2, (yF + headY) / 2, 'SIDELITE', 6, false, 'c');
-      p.txt(b.x + b.w / 2, (yF + headY) / 2 - 8, ftin(d.slW), 6, false, 'c');
+    const yB = YI(LY.base), h = IN(d.outH);
+    p.gray(0.86); p.rect(x0, yB, w, h, true);
+    LY.cells.forEach(c => { p.gray(c.kind === 'PANEL' ? 0.74 : 1); p.rect(XI(c.x), YI(c.y), IN(c.w), IN(c.h), true); });
+    p.gray(0); p.lw(1.1); p.rect(x0, yB, w, h);
+    LY.cells.forEach(c => {
+      const X = XI(c.x), Y = YI(c.y), W2 = IN(c.w), H2 = IN(c.h);
+      p.lw(0.7); p.rect(X, Y, W2, H2);
+      if (c.kind === 'LOUVER') { p.lw(0.2); for (let yy = Y + 2; yy < Y + H2 - 1; yy += 2) p.line(X + 1, yy, X + W2 - 1, yy); }
+      if (c.kind === 'PANEL') { p.lw(0.2); p.stroke(0.45); p.line(X, Y, X + W2, Y + H2); p.stroke(0); }
+      if (c.zone !== 'door' && W2 > 14 && H2 > 9) p.fit(X + W2 / 2, Y + H2 / 2 - 2, W2 - 2, CELL_LABEL[c.zone] + ' ' + (CELL_SHORT[c.kind] || c.kind), 4.8, true, 1, 5, 'c');
     });
-    if (trTop != null) {
-      p.rect(x0 + face, headY + face, w - 2 * face, trTop - headY - face);
-      p.txt(x0 + w / 2, headY + face + (trTop - headY - face) / 2, 'TRANSOM ' + ftin(d.trH), 6, false, 'c');
+    p.lw(1.6); p.line(x0 - 14, yF, x0 + w + 14, yF);
+    /* anchors as small amber ticks on the outside jambs, so the count on the schedule can be checked by eye */
+    if (mode === 'frame') {
+      p.rgb(SIG_RGB[0], SIG_RGB[1], SIG_RGB[2]);
+      const jx = [x0 + IN(d.face) / 2, x0 + w - IN(d.face) / 2].concat(LY.mulls.filter(m => !m.tr).map(m => XI(m.x + m.w / 2)));
+      jx.forEach((x, ji) => { const hh = ji < 2 ? d.unitH : d.nomH;
+        for (let i = 0; i < d.anchors; i++) { const v = d.anchors === 1 ? hh / 2 : 8 + (hh - 16) * i / (d.anchors - 1); const yy = YI(LY.base + v);
+          p.raw(`${x.toFixed(2)} ${(yy + 2).toFixed(2)} m ${(x + 1.7).toFixed(2)} ${yy.toFixed(2)} l ${x.toFixed(2)} ${(yy - 2).toFixed(2)} l ${(x - 1.7).toFixed(2)} ${yy.toFixed(2)} l h f`); } });
+      p.gray(0);
     }
-    p.lw(1.6); p.line(x0 - 14, yF, x1 + 14, yF);           // floor
   }
 
-  const leaves = [];
-  if (d.leaves === 1) leaves.push({ a:doorX, b:doorX + doorW, w:d.nomW });
-  else if (d.leaves === 2) {
-    const sp = doorX + IN(num(o.w1));
-    leaves.push({ a:doorX, b:sp, w:num(o.w1) }); leaves.push({ a:sp, b:doorX + doorW, w:d.w2 });
-  }
   if (mode !== 'frame' && d.leaves) {
-    const uc = IN(num(o.undercut));
-    p.lw(0.9);
+    const uc = IN(num(o.undercut)), cl = IN(0.125), HL = hwLoc(o);
+    const leaves = [];
+    if (d.leaves === 1) leaves.push({ a: doorX + cl, b: doorX + doorW - cl, w: d.nomW, hingeLeft, active: true });
+    else { const sp = doorX + IN(num(o.w1)), leftActive = o.hand !== 'RHRA';
+      leaves.push({ a: doorX + cl, b: sp - cl / 2, w: num(o.w1), hingeLeft: true, active: leftActive });
+      leaves.push({ a: sp + cl / 2, b: doorX + doorW - cl, w: d.w2, hingeLeft: false, active: !leftActive }); }
+    const vl = (o.vlSize || '').split(/[x×]/).map(parseDim), lv = (o.louverSize || '').split(/[x×]/).map(parseDim);
     leaves.forEach(L => {
-      p.rect(L.a + 1, yF + uc, L.b - L.a - 2, headY - yF - uc - 1);
-      if (d.leaves === 2) p.txt((L.a + L.b) / 2, yF + 8, ftin(L.w), 6, false, 'c');
+      const top = headY - cl, bot = botY + uc;
+      p.gray(1); p.rect(L.a, bot, L.b - L.a, top - bot, true); p.gray(0);
+      p.lw(0.9); p.rect(L.a, bot, L.b - L.a, top - bot);
+      /* hinges on this leaf's hinge edge */
+      const hw = Math.max(1.4, IN(0.6));
+      p.gray(0.25);
+      if (o.hingeQty === 'CONT') p.rect(L.hingeLeft ? L.a : L.b - hw, bot, hw, top - bot, true);
+      else HL.hinges.forEach(v => p.rect(L.hingeLeft ? L.a : L.b - hw, botY + IN(v - HL.hl / 2), hw, IN(HL.hl), true));
+      p.gray(0);
+      /* lock at the strike edge of the active leaf, flush bolts on the inactive one */
+      const se = L.hingeLeft ? L.b : L.a, dir = L.hingeLeft ? -1 : 1;
+      if (L.active && o.lockPrep !== 'NONE') {
+        const ly = botY + IN(HL.strike);
+        p.lw(0.7); p.circle(se + dir * IN(2.75), ly, Math.max(1.4, IN(1.1)));
+        if (/RIM|SVR|CVR|EXIT/.test(o.lockPrep)) { p.lw(0.5); p.rect(Math.min(se + dir * IN(1.5), se + dir * (L.b - L.a - IN(4))), ly - 1.6, Math.abs(L.b - L.a) - IN(5.5), 3.2); }
+      } else if (!L.active && o.flushBolt) {
+        p.lw(0.5); [top - IN(8), bot + IN(2)].forEach(yy => p.rect(L.hingeLeft ? se - IN(1) : se, yy, IN(1), IN(6)));
+      }
+      /* the architect's swing mark: dashed lines meeting at the hinge side */
+      if (L.b - L.a > 20) { p.lw(0.35); p.stroke(0.45); p.dash(3, 2);
+        const tip = L.hingeLeft ? L.a : L.b, far = L.hingeLeft ? L.b : L.a;
+        p.raw(`${far.toFixed(2)} ${top.toFixed(2)} m ${tip.toFixed(2)} ${((top + bot) / 2).toFixed(2)} l ${far.toFixed(2)} ${bot.toFixed(2)} l S`);
+        p.solid(); p.stroke(0); }
+      const mx = (L.a + L.b) / 2;
+      if (vl.length === 2 && isFinite(vl[0]) && isFinite(vl[1])) { p.gray(0.94); p.rect(mx - IN(vl[0]) / 2, botY + IN(60 - vl[1] / 2), IN(vl[0]), IN(vl[1]), true); p.gray(0);
+        p.lw(0.6); p.rect(mx - IN(vl[0]) / 2, botY + IN(60 - vl[1] / 2), IN(vl[0]), IN(vl[1])); }
+      if (lv.length === 2 && isFinite(lv[0]) && isFinite(lv[1])) { p.lw(0.6); p.rect(mx - IN(lv[0]) / 2, botY + IN(10), IN(lv[0]), IN(lv[1]));
+        p.lw(0.2); for (let yy = botY + IN(10) + 2; yy < botY + IN(10 + lv[1]) - 1; yy += 2) p.line(mx - IN(lv[0]) / 2 + 1, yy, mx + IN(lv[0]) / 2 - 1, yy); }
+      if (d.leaves === 2) p.txt(mx, bot + 6, ftin(L.w), 5.6, false, 'c');
     });
-    const hingeLeft = /^L/.test(o.hand) || o.hand === 'DBL EGR';
-    const hj = hingeLeft ? leaves[0] : leaves[leaves.length - 1];
-    const hx = hingeLeft ? hj.a + 1 : hj.b - 1;
-    const HL = hwLoc(o);
-    p.gray(0.25);
-    HL.hinges.forEach(v => p.rect(hx - (hingeLeft ? 0 : IN(0.6)), AFF(v - 2.25), IN(0.6), IN(4.5), true));
-    p.gray(0);
-    if (o.lockPrep !== 'NONE') {
-      const lx = hingeLeft ? leaves[leaves.length - 1].b - 1 : leaves[0].a + 1;
-      const ly = AFF(HL.strike), r = Math.max(1.6, IN(1.1));
-      p.lw(0.7);
-      p.rect(lx + (hingeLeft ? -IN(2.75) - r : IN(2.75) - r), ly - r, 2 * r, 2 * r);
-      p.dash(3, 2); p.line(lx + (hingeLeft ? -IN(7) : IN(7)), ly, lx, ly); p.solid();
-    }
-    const vl = (o.vlSize || '').split(/[x\u00d7]/).map(parseDim);
-    if (vl.length === 2 && isFinite(vl[0]) && isFinite(vl[1])) {
-      const L = leaves[0], mx = (L.a + L.b) / 2;
-      p.lw(0.7); p.rect(mx - IN(vl[0]) / 2, AFF(60 - vl[1] / 2), IN(vl[0]), IN(vl[1]));
-      p.txt(mx, AFF(60) - 3, o.glaz || 'VL', 5.5, false, 'c');
-    }
-    const lv = (o.louverSize || '').split(/[x\u00d7]/).map(parseDim);
-    if (lv.length === 2 && isFinite(lv[0]) && isFinite(lv[1])) {
-      const L = leaves[0], mx = (L.a + L.b) / 2;
-      p.lw(0.7); p.rect(mx - IN(lv[0]) / 2, AFF(10), IN(lv[0]), IN(lv[1]));
-      p.txt(mx, AFF(10) + IN(lv[1]) / 2 - 3, 'LVR', 5.5, false, 'c');
-    }
+    if (d.leaves === 2 && o.astragal) { p.rgbS(SIG_RGB[0], SIG_RGB[1], SIG_RGB[2]); p.lw(1.2); p.line(doorX + IN(num(o.w1)), botY + uc, doorX + IN(num(o.w1)), headY - cl); p.stroke(0); }
+    if (doorOnly) { p.lw(1.4); p.line(x0 - 10, yF, x0 + w + 10, yF); }
   } else if (mode === 'frame' && d.leaves) {
-    p.txt(doorX + doorW / 2, (yF + headY) / 2, 'DOOR OPENING', 6.5, false, 'c');
-    p.txt(doorX + doorW / 2, (yF + headY) / 2 - 9, ftin(d.nomW) + ' x ' + ftin(d.nomH), 6.5, false, 'c');
+    p.txt(doorX + doorW / 2, (botY + headY) / 2, 'DOOR OPENING', 6.2, false, 'c');
+    p.txt(doorX + doorW / 2, (botY + headY) / 2 - 8, ftin(d.nomW) + ' x ' + ftin(d.nomH), 6.2, false, 'c');
+    if (o.closerReinf || /CLR/.test(o.headPrep)) { p.rgb(SIG_RGB[0], SIG_RGB[1], SIG_RGB[2]); p.rect(doorX + doorW / 2 - IN(9), headY + 0.6, IN(18), Math.max(1.4, IN(d.headF) - 1.4), true); p.gray(0); }
   }
 
-  /* dimension strings under and beside the elevation */
-  const dimY = yF - 13;
-  p.lw(0.5);
-  p.line(doorX, dimY, doorX + doorW, dimY);
-  p.line(doorX, dimY - 3, doorX, dimY + 4); p.line(doorX + doorW, dimY - 3, doorX + doorW, dimY + 4);
-  p.txt(doorX + doorW / 2, dimY + 3, ftin(d.nomW), 6, false, 'c');
-  if (!doorOnly && (d.slN || d.trH)) {
-    p.line(x0, dimY - 12, x1, dimY - 12);
-    p.line(x0, dimY - 15, x0, dimY - 8); p.line(x1, dimY - 15, x1, dimY - 8);
-    p.txt((x0 + x1) / 2, dimY - 9, ftin(d.outW) + ' O/A', 6, false, 'c');
-  }
-  const dx = x0 - 12;
-  p.line(dx, yF, dx, headY);
-  p.line(dx - 3, yF, dx + 4, yF); p.line(dx - 3, headY, dx + 4, headY);
-  p.txt(dx - 3, (yF + headY) / 2, ftin(d.nomH), 6, false, 'c', true);
+  /* dimension strings: the opening and the overall under it, the heights beside it */
+  const dy = yF - 13;
+  pDimH(p, dy, doorX, doorX + doorW, ftin(d.nomW), { size: 5.8 });
+  if (!doorOnly && (d.slN || d.trH || mode === 'frame')) pDimH(p, dy - 13, x0, x0 + w, ftin(d.outW) + ' O/A', { size: 5.8 });
+  const sideX = x0 - 12;
+  pDimV(p, sideX, botY, headY, ftin(d.nomH), { size: 5.8 });
+  if (!doorOnly && (mode === 'frame' || d.trH || LY.base)) pDimV(p, sideX - 13, YI(LY.base), YI(LY.base) + IN(d.outH), ftin(d.outH) + ' O/A', { size: 5.8 });
 
-  /* cell caption */
-  p.txt(cx + cw / 2, cy + 20, (o.mark || 'NO MARK') + '   ' + sizeCode(d.nomW, d.nomH), 8.5, true, 'c');
-  p.txt(cx + cw / 2, cy + 11, mode === 'frame'
-    ? [o.frameType, o.profile, o.gaugeFrame, dimStr(jambIn(o)) + ' JD', o.anchor].filter(Boolean).join(' / ')
-    : [o.doorMat, o.doorDesign, isWood(o) ? o.species : o.gaugeDoor, o.hand,
-       o.fire !== 'NR' ? o.fire + ' MIN' : 'NR'].filter(Boolean).join(' / '), 6, false, 'c');
-  p.txt(cx + cw / 2, cy + 3, 'QTY ' + num(o.qty) + (d.custom ? '   CUSTOM ELEVATION' : ''), 6, false, 'c');
+  /* caption */
+  p.txt(cx + cw / 2, cy + 20, (o.mark || 'NO MARK') + '   ' + sizeCode(d.nomW, d.nomH) + (typeof typeOf === 'function' ? '   TYPE ' + typeOf(o) : ''), 8.5, true, 'c');
+  p.fit(cx + cw / 2, cy + 11, cw - 8, mode === 'frame'
+    ? [o.frameType, o.profile, o.gaugeFrame, dimStr(jambIn(o)) + ' JD', o.wall, o.anchor + ' ' + d.anchors + '/JAMB'].filter(Boolean).join(' / ')
+    : [o.doorMat, o.doorDesign, isWood(o) ? o.species : o.gaugeDoor, o.hand, o.fire !== 'NR' ? o.fire + ' MIN' : 'NR'].filter(Boolean).join(' / '), 6, false, 1, 7, 'c');
+  p.txt(cx + cw / 2, cy + 3, 'QTY ' + num(o.qty) + (d.custom ? '   CUSTOM ELEVATION' : '') + (num(o.degree) > 90 ? '   ' + o.degree + '°' : ''), 6, false, 'c');
 }
 
 /* ---- schedule table ---- */
@@ -7219,13 +7361,14 @@ function issueRevision(desc) {
 
 function renderSubmittal() {
   const pr = S.project, r = revisions();
-  const parts = Object.assign({ cover:true, schedule:true, hardware:true, plans:true, product:true, revlog:true }, pr.subParts || {});
+  const parts = Object.assign({ cover:true, schedule:true, hardware:true, keying:true, plans:true, product:true, revlog:true }, pr.subParts || {});
   const changed = S.openings.filter(o => revState(o));
   const f = (k, l, ph, type) => `<div class="f"><label for="sb_${k}">${esc(l)}</label><input type="${type || 'text'}" id="sb_${k}" data-sub="${k}" value="${esc(pr[k] || '')}" placeholder="${esc(ph || '')}"></div>`;
   const sections = [
     ['cover', 'Cover sheet with the architect review stamp and contents'],
     ['schedule', 'Door and frame schedule'],
     ['hardware', 'Hardware schedule, DHI sequence and format'],
+    ['keying', 'Keying schedule, with the owner approval block'],
     ['plans', 'Elevation drawing per opening, with hinge locations'],
     ['product', 'Product data list, frames, doors and hardware'],
     ['revlog', 'Revision log']
@@ -7274,7 +7417,7 @@ function renderSubmittal() {
 function submittalPDF() {
   if (!S.openings.length) return toast('Nothing on the takeoff yet');
   const pr = S.project, r = revisions();
-  const parts = Object.assign({ cover:true, schedule:true, hardware:true, plans:true, product:true, revlog:true }, pr.subParts || {});
+  const parts = Object.assign({ cover:true, schedule:true, hardware:true, keying:true, plans:true, product:true, revlog:true }, pr.subParts || {});
   const p = new Pdf();
   const toc = [];
   const rev = r.length ? 'REV ' + (r.length - 1) : 'NOT ISSUED';
@@ -7383,6 +7526,11 @@ function submittalPDF() {
     dhiScheduleDraw(p);
     if (p.pages.length > before) toc.push({ title: 'Hardware schedule, DHI format', page: before + 1 });
   }
+  if (parts.keying && keying().keysets.length) {
+    const before = p.pages.length;
+    keyingDraw(p);
+    toc.push({ title: 'Keying schedule', page: before + 1 });
+  }
 
   /* ---------- elevations ---------- */
   if (parts.plans) {
@@ -7458,7 +7606,8 @@ function specSections() {
    fields from the header row and can be changed before anything is created.
    PDF reading uses pdf.js, loaded from cdnjs the first time it is needed.
    ============================================================ */
-const IMP = { file:null, kind:'', pdf:null, page:1, pages:0, grid:[], headerRow:0, map:[], mode:'table', scale:1, markers:[], prefix:'', next:1, pageLabel:'' };
+const IMP = { file:null, kind:'', pdf:null, page:1, pages:0, grid:[], headerRow:0, map:[], mode:'table', scale:1, prefix:'', next:1, pageLabel:'',
+  tool:'open', zoom:1, d10:'', d10room:'', mPt:null, stack:[], tmpRuns:[], pw:612, ph:792, lastLen:0 };
 const IMPORT_FIELDS = [
   ['', '— ignore —'], ['mark', 'Mark / door no.'], ['qty', 'Quantity'], ['size', 'Size (3070, 3-0 x 7-0)'], ['width', 'Width'], ['height', 'Height'],
   ['thickness', 'Thickness'], ['config', 'Opening type (SGL / PR)'], ['doorMat', 'Door material'], ['frameMat', 'Frame material'],
@@ -7684,14 +7833,7 @@ function renderImport() {
         <button class="btn ghost sm" id="impClose">${ic('x')}Close file</button>
       </div>
     </div>
-    ${IMP.mode === 'count' && IMP.kind === 'pdf' ? `
-      <div class="card" style="padding:10px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-        <span class="hint">Next mark</span><input type="text" id="impPrefix" value="${esc(IMP.prefix)}" placeholder="prefix" style="width:70px"><input type="number" id="impNext" value="${IMP.next}" style="width:70px">
-        <span class="hint">Each click adds an opening with the quick entry size, type, preset, rating, hand and set: <b>${esc(QUICK.size)} ${esc(QUICK.config)}${QUICK.preset ? ' · ' + esc(QUICK.preset) : ''}</b></span>
-        <span class="spacer"></span><span class="chip info">${plural(IMP.markers.filter(m => m.page === IMP.page).length, 'opening')} on this page</span>
-        <button class="btn sm" id="impUndoPin">${ic('undo')}Remove last</button>
-      </div>
-      <div class="card" style="padding:0;overflow:auto;max-height:70vh;position:relative"><div id="impCanvasWrap" style="position:relative;display:inline-block;cursor:crosshair"><canvas id="impCanvas"></canvas><div id="impPins"></div></div></div>`
+    ${IMP.mode === 'count' && IMP.kind === 'pdf' ? countModeHtml()
     : `
     <div class="card">
       <div class="chead"><h2>Match the columns</h2><span class="hint">Header row</span>
@@ -7713,24 +7855,18 @@ async function drawImportPage() {
   const page = await IMP.pdf.getPage(IMP.page);
   const wrap = $('#impCanvasWrap'); if (!wrap) return;
   const vp0 = page.getViewport({ scale: 1 });
-  const scale = Math.min(2.2, Math.max(0.6, (wrap.parentElement.clientWidth - 4) / vp0.width));
+  IMP.pw = vp0.width; IMP.ph = vp0.height;
+  const fit = Math.max(0.3, (wrap.parentElement.clientWidth - 4) / vp0.width);
+  const scale = Math.min(8, fit * (IMP.zoom || 1));
   const vp = page.getViewport({ scale });
   const cv = $('#impCanvas'); cv.width = vp.width; cv.height = vp.height;
   await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
   IMP.scale = scale;
   drawPins();
 }
-function drawPins() {
-  const box = $('#impPins'); if (!box) return;
-  const cv = $('#impCanvas');
-  box.innerHTML = IMP.markers.filter(m => m.page === IMP.page).map(m => {
-    const o = S.openings.find(x => x.id === m.id);
-    return `<div style="position:absolute;left:${m.x * cv.width - 11}px;top:${m.y * cv.height - 11}px;min-width:22px;height:22px;padding:0 5px;border-radius:11px;background:${o ? 'var(--accent)' : 'var(--fire)'};color:#fff;font:600 11px var(--mono);display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.4);pointer-events:none">${esc(o ? o.mark : '?')}</div>`;
-  }).join('');
-}
 
 async function openImportFile(f) {
-  IMP.file = f; IMP.grid = []; IMP.map = []; IMP.headerRow = 0; IMP.markers = IMP.markers || [];
+  IMP.file = f; IMP.grid = []; IMP.map = []; IMP.headerRow = 0; IMP.stack = []; IMP.mPt = null; IMP.zoom = 1;
   const name = f.name.toLowerCase();
   try {
     if (name.endsWith('.pdf')) {
@@ -7781,26 +7917,11 @@ function bindImport() {
       toast(plural(made.length, 'opening') + ' imported', { label:'Undo', fn:undo });
       showView('takeoff'); return;
     }
-    if (e.target.closest('#impUndoPin')) {
-      const mine = IMP.markers.filter(m => m.page === IMP.page); const last = mine[mine.length - 1]; if (!last) return;
-      IMP.markers.splice(IMP.markers.indexOf(last), 1);
-      S.openings = S.openings.filter(o => o.id !== last.id); IMP.next = Math.max(1, IMP.next - 1);
-      persist(); renderImport(); return;
-    }
-    const wrap = e.target.closest('#impCanvasWrap');
-    if (wrap) {
-      const cv = $('#impCanvas'), rc = cv.getBoundingClientRect();
-      const x = (e.clientX - rc.left) / rc.width, y = (e.clientY - rc.top) / rc.height;
-      const mark = (IMP.prefix || '') + IMP.next;
-      const o = openingFromRow(Object.assign({}, QUICK, { mark }));
-      o.sheet = IMP.pageLabel || ''; o.planRef = { file: IMP.file.name, page: IMP.page, x, y };
-      S.openings.push(o); S.selId = o.id;
-      IMP.markers.push({ id: o.id, page: IMP.page, x, y }); IMP.next++;
-      persist(); drawPins();
-      const chip = box.querySelector('.chip.info'); if (chip) chip.textContent = plural(IMP.markers.filter(m => m.page === IMP.page).length, 'opening') + ' on this page';
-      const nx = $('#impNext'); if (nx) nx.value = IMP.next;
-      toast('Added ' + mark);
-    }
+    if (e.target.closest('#impUndoPin')) { planUndo(); return; }
+    const pt = e.target.closest('[data-ptool]'); if (pt) { IMP.tool = pt.dataset.ptool; IMP.mPt = null; refreshPlanTools(); return; }
+    const zm = e.target.closest('#impZoomIn,#impZoomOut,#impZoomFit');
+    if (zm) { IMP.zoom = zm.id === 'impZoomFit' ? 1 : Math.max(0.3, Math.min(6, (IMP.zoom || 1) * (zm.id === 'impZoomIn' ? 1.25 : 0.8))); refreshPlanTools(); drawImportPage(); return; }
+    if (e.target.closest('#impCanvasWrap')) { planClick(e); return; }
   });
   box.addEventListener('change', async e => {
     const el = e.target;
@@ -7811,6 +7932,13 @@ function bindImport() {
     if (el.id === 'impSheetLbl') { IMP.pageLabel = el.value; return; }
     if (el.id === 'impPrefix') { IMP.prefix = el.value; return; }
     if (el.id === 'impNext') { IMP.next = Math.max(1, num(el.value) || 1); return; }
+    if (el.dataset.qc) { QUICK[el.dataset.qc] = el.value;
+      if (el.dataset.qc === 'preset' && PRESETS[el.value]) ['config', 'fire', 'hand'].forEach(f => { if (PRESETS[el.value][f]) QUICK[f] = PRESETS[el.value][f]; });
+      renderQuickBar(); refreshPlanTools(); return; }
+    if (el.id === 'impD10') { IMP.d10 = el.value; return; }
+    if (el.id === 'impD10Room') { IMP.d10room = el.value.trim(); return; }
+    if (el.id === 'impScale') { if (el.value === 'Calibrated') return;
+      S.project.planScales = Object.assign({}, S.project.planScales || {}, { [planKey()]: num(el.value) }); persist(); refreshPlanTools(); return; }
   });
   box.addEventListener('dragover', e => { e.preventDefault(); });
   box.addEventListener('drop', e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) openImportFile(f); });
@@ -8462,8 +8590,11 @@ function phoneAddSheet() {
     o.mark = $('#pa_mark').value.trim();
     o.qty = num($('#pa_qty').value) || 1;
     const sz = parseSizePair($('#pa_size').value);
-    if (sz) { o.w1 = sz.w; o.h = sz.h; }
     o.config = $('#pa_cfg').value; o.hand = $('#pa_hand').value; o.wall = $('#pa_wall').value;
+    if (sz) { o.h = sz.h; if (isPair(o)) { o.w1 = sz.w / 2; o.w2 = sz.w / 2; } else o.w1 = sz.w; }
+    else if (isPair(o)) o.w2 = o.w1;
+    if (/CMU|CONC/.test(o.wall)) { o.frameType = 'WLD'; o.anchor = 'WIRE'; }
+    if (derive(o).custom) o.lead = 'CUSTOM';
     o.hwSet = $('#pa_set').value.trim(); o.roomFrom = $('#pa_from').value.trim(); o.roomTo = $('#pa_to').value.trim();
     S.openings.push(o); S.selId = o.id;
     persist(); renderAll(); closeSheet(); showView('takeoff');
@@ -8612,7 +8743,7 @@ function svgCalcDoor(c, L) {
   for (let i = 0; i < leaves; i++) {
     const lx = oX + STD.jambClr * sc + i * (netW + 0.0625) * sc;
     g += `<rect x="${lx}" y="${dTop}" width="${netW * sc}" height="${dBot - dTop}" fill="#fff" stroke="var(--ink)" stroke-width="1.6"/>`;
-    const hingeLeft = /^L/.test(CALC.hand) ? i === 0 : i === 1 && leaves === 2 ? false : leaves === 1;
+    const hingeLeft = leaves === 2 ? i === 0 : /^L/.test(CALC.hand);   // a pair hangs one leaf on each jamb
     /* hinges on the hinge jamb, strike opposite — read off the chart */
     (L.tops || []).forEach((t, n) => {
       const hy = Y(nomH - t), hx = hingeLeft ? lx : lx + netW * sc - 7;
@@ -8664,7 +8795,7 @@ function renderTools() {
   const mfr = CALC.mfr, hgt = num(CALC.nomH) || 84;
   const Lf = manuLoc(mfr, hgt, false), Ld = manuLoc(mfr, hgt, true);
   const cut = maxCutOff(mfr, hgt, num(CALC.uc));
-  const nH = num(CALC.nomH) ? (c.pair ? 4 : (hgt > 90 ? 4 : 3)) : 3;
+  const nH = hgt > 90 ? 4 : 3;                              // per leaf: 1-1/2 pair up to 7'-6", 2 pair above
   const tops = nH >= 4 && Lf.fourth != null ? [Lf.top, Lf.mid, Lf.bot, Lf.fourth] : [Lf.top, Lf.mid, Lf.bot];
   const topsD = tops.map(v => v - STD.topClr);
   const anchors = (c.outH || 86) <= 90 ? 3 : (c.outH || 86) <= 114 ? 4 : 5;
@@ -8791,14 +8922,18 @@ function renderTools() {
   $('#calcApply').onclick = () => {
     const o = S.openings.find(x => x.id === S.selId);
     if (!o) return toast('Pick an opening on the Openings step first');
-    if (num(CALC.nomW)) { if (CALC.pair) { o.config = 'PR'; o.w1 = num(CALC.nomW) / 2; o.w2 = num(CALC.nomW) / 2; }
-      else o.w1 = num(CALC.nomW); }
+    if (num(CALC.nomW)) { if (CALC.pair) { if (!isPair(o)) o.config = 'PR'; o.w1 = num(CALC.nomW) / 2; o.w2 = num(CALC.nomW) / 2; }
+      else { if (isPair(o)) o.config = 'SGL'; o.w1 = num(CALC.nomW); o.w2 = 0; } }
     if (num(CALC.nomH)) o.h = num(CALC.nomH);
     if (num(CALC.face)) o.faceSize = String(CALC.face);
     if (num(CALC.headF)) o.headFace = num(CALC.headF) === num(CALC.face) ? 'SAME' : String(CALC.headF);
     if (num(CALC.jd)) { const j = jambByInches(num(CALC.jd)); o.jambDepth = j.txt; }
     o.undercut = num(CALC.uc);
-    o.wall = CALC.wall; o.frameType = CALC.constr; o.gaugeFrame = CALC.gauge;
+    o.wall = CALC.wall === 'DRYWALL' ? 'STL STUD' : CALC.wall; o.frameType = CALC.constr; o.gaugeFrame = CALC.gauge;
+    o.steelFrame = { CRS:'CRS', A60:'A60', G90:'G90', SST:'SST 304' }[CALC.steel] || o.steelFrame;
+    if (CALC.rating !== 'NR') { o.fire = CALC.rating; o.closerReinf = true; }
+    if (MANU_LOC[CALC.mfr]) o.prepStd = CALC.mfr;
+    if (!isPair(o)) o.hand = CALC.hand;
     if (num(CALC.roW)) { o.wallThk = o.wallThk || num(CALC.jd); o.fieldVerify = true; }
     persist(); renderAll(); toast('Applied to ' + (o.mark || 'the opening'));
   };
@@ -9144,15 +9279,27 @@ function quoteLines() {
     if (loc && e.locations.indexOf(loc) < 0) e.locations.push(loc);
     m.set(key, e);
   });
-  return [...m.values()];
+  /* Division 10 after the openings, one line per product, the rooms it goes in underneath */
+  const d = new Map();
+  (S.div10 || []).forEach(r => {
+    if (!num(r.qty)) return;
+    const txt = r.product + (r.model || r.mfr ? ' (' + [r.mfr, r.model].filter(Boolean).join(' ') + ')' : '');
+    const key = r.sec + '|' + txt + '|' + r.unit;
+    const e = d.get(key) || { kind:'div10', sec:r.sec, txt, unit:r.unit, qty:0, sell:0, marks:[], locations:[], hwSet:'', hwName:'', mods:[] };
+    e.qty += num(r.qty); e.sell += d10Costs(r).sell;
+    if (r.room && e.locations.indexOf(r.room) < 0) e.locations.push(r.room);
+    d.set(key, e);
+  });
+  return [...m.values()].concat([...d.values()].sort((a, b) => a.sec.localeCompare(b.sec)));
 }
 function quoteTotals() {
-  const lines = quoteLines();
-  const sub = lines.reduce((a, l) => a + l.sell, 0);
-  const freight = num(S.project.freight);
-  const tax = (sub + freight) * num(S.project.taxRate) / 100;
-  return { lines, sub, freight, tax, total: sub + freight + tax };
+  const lines = quoteLines(), T = jobTotals();
+  return { lines, sub: T.sub, freight: T.freight, tax: T.tax, total: T.total };
 }
+const quoteLoc = l => l.kind === 'div10'
+  ? 'Division 10 · ' + secName(l.sec) + (l.locations.length ? ' — ' + l.locations.join('; ') : '')
+  : 'Openings ' + l.marks.join(', ') + (l.locations.length ? ' — ' + l.locations.join('; ') : '');
+const quoteQty = l => l.kind === 'div10' && l.unit !== 'EA' ? (Math.round(l.qty * 10) / 10) + ' ' + l.unit : String(l.qty);
 
 /* ---------- letter sized document helpers ---------- */
 const LW = 612, LH = 792, LM = 50;
@@ -9247,14 +9394,14 @@ function quotePDF() {
   t.lines.forEach((l, i) => {
     const main = fitLines(l.txt, descW, 9, true, 6);
     const modLines = l.mods.map(mm => fitLines(mm.qty + ' × ' + mm.text, descW - 16, 7.8, false, 2));
-    const locTxt = 'Openings ' + l.marks.join(', ') + (l.locations.length ? ' — ' + l.locations.join('; ') : '');
+    const locTxt = quoteLoc(l);
     const loc = fitLines(locTxt, descW, 7.3, false, 3);
     const hgt = main.lines.length * (main.size + 3) +
       (modLines.length ? 14 + modLines.reduce((a, mm) => a + mm.lines.length * 9.8, 0) : 0) +
       loc.lines.length * 9.5 + 18;
     if (y - hgt < LM + 50) { newPage(); header(); }
     p.gray(0.5); p.txt(LM + 7, y - 11, String(i + 1), 8.5, false); p.gray(0);
-    p.txt(LM + numW + 6, y - 11, String(l.qty), 9, true);
+    p.txt(LM + numW + 6, y - 11, quoteQty(l), quoteQty(l).length > 4 ? 7.4 : 9, true);
     p.txt(LW - LM - 7, y - 11, money(l.sell), 9.5, true, 'r');
     let ty = y - 11;
     main.lines.forEach(ln => { p.txt(dx, ty, ln, main.size, true); ty -= main.size + 3; });
@@ -9369,23 +9516,29 @@ function recapPDF() {
     y -= 15;
   };
   section('COST AND SELL');
-  line2('Category', 'QTY', 'SELL', true);
-  const fq = frames.reduce((a, r) => a + r.qty, 0), fc = frames.reduce((a, r) => a + r.cost * r.qty, 0);
-  const dq = doors.reduce((a, r) => a + r.qty, 0), dc = doors.reduce((a, r) => a + r.cost * r.qty, 0);
-  const hc = hw.reduce((a, s2) => a + s2.ext, 0);
-  const misc = ops.reduce((a, o) => a + (num(o.costGlass) + num(o.costMisc)) * num(o.qty), 0);
-  const lab = ops.reduce((a, o) => a + num(o.laborHrs) * num(o.qty) * num(pr.laborRate), 0);
-  line2('Frames', fq, money2(fc));
-  line2('Doors', dq, money2(dc));
-  line2('Hardware', hw.reduce((a, s2) => a + s2.qty, 0), money2(hc));
-  line2('Anchors and frame accessories', anch.reduce((a, r) => a + r.qty, 0), '');
-  line2('Glass, louvers and misc', '', money2(misc));
-  line2('Installation labor', ops.reduce((a, o) => a + num(o.laborHrs) * num(o.qty), 0).toFixed(1) + ' hr', money2(lab));
-  line2('Delivery', '', money2(freight));
+  const T = jobTotals();
+  const line3 = (a, q, c, sl, bold) => {
+    p.txt(LM + 2, y, a, 9, bold);
+    if (q != null) p.txt(LW - LM - 190, y, String(q), 9, bold, 'r');
+    if (c != null) p.txt(LW - LM - 100, y, c, 9, bold, 'r');
+    if (sl != null) p.txt(LW - LM - 2, y, sl, 9, bold, 'r');
+    if (!bold) { p.lw(0.3); p.stroke(0.88); p.line(LM, y - 5, LW - LM, y - 5); p.stroke(0); }
+    y -= 15;
+  };
+  line3('Category', 'QTY', 'COST', 'SELL', true);
+  line3('Frames', frames.reduce((a, r) => a + r.qty, 0), money(T.frame.cost), money(T.frame.sell));
+  line3('Doors', doors.reduce((a, r) => a + r.qty, 0), money(T.door.cost), money(T.door.sell));
+  line3('Hardware', hw.reduce((a, s2) => a + s2.qty, 0), money(T.hw.cost), money(T.hw.sell));
+  line3('Anchors and frame accessories', anch.reduce((a, r) => a + r.qty, 0), '', '');
+  line3('Glass, louvers and misc', '', money(T.glass.cost), money(T.glass.sell));
+  line3('Labor, install, shop, field and delivery', T.labor.hrs.toFixed(1) + ' hr', money(T.labor.cost), money(T.labor.sell));
+  if (T.div10.sell) line3('Division 10 specialties', (S.div10 || []).length + ' lines', money(T.div10.cost), money(T.div10.sell));
   p.lw(0.8); p.line(LM, y + 9, LW - LM, y + 9); y -= 4;
-  line2('Total cost', '', money2(t.cost + freight), true);
-  line2('Sell price', '', money2(t.sell + freight), true);
-  line2('Gross margin', '', (t.sell ? Math.round((1 - t.cost / t.sell) * 100) : 0) + '%', true);
+  line3('Subtotal', '', money(T.cost), money(T.sub), true);
+  if (T.freight) line3('Delivery', '', '', money(T.freight));
+  if (T.tax) line3('Tax ' + num(pr.taxRate) + '%', '', '', money(T.tax));
+  line3('Quoted total', '', '', money(T.total), true);
+  line3('Gross margin before freight and tax', '', '', gmPct(T), true);
   y -= 8;
 
   section('PRODUCTION SPLIT');
@@ -9428,7 +9581,7 @@ function renderQuote() {
       : `<input type="${t2 || 'text'}" id="q_${k}" data-qk="${k}" value="${esc(pr[k] == null ? '' : pr[k])}" placeholder="${esc(ph || '')}">`}</div>`;
   $('#quoteBody').innerHTML = `
     <div class="phead">
-      <div><div class="eyebrow">Step 6</div><h1>Quotation</h1>
+      <div><div class="eyebrow">Send</div><h1>Quotation</h1>
       <p>Written for the customer, not for the shop. Every opening is described in plain words, and identical openings share one priced line.</p></div>
       <div class="pact">
         <button class="btn" data-cmd="recapPdf">${ic('download')}Bid recap</button>
@@ -9498,11 +9651,11 @@ function renderQuotePaper() {
     </div>
     <table class="sum"><thead><tr><th style="width:26px">#</th><th class="n" style="width:40px">QTY</th>
       <th>WHAT YOU ARE GETTING</th><th class="n">AMOUNT</th></tr></thead><tbody>
-    ${t.lines.map((l, i) => `<tr><td class="n">${i + 1}</td><td class="n">${l.qty}</td>
+    ${t.lines.map((l, i) => `<tr><td class="n">${i + 1}</td><td class="n">${esc(quoteQty(l))}</td>
       <td><b>${esc(l.txt)}</b>
       ${l.mods.length ? `<div class="hwmods"><div class="hint" style="margin-bottom:2px">Hardware${l.hwSet ? ' — set ' + esc(l.hwSet) : ''}${l.hwName ? ', ' + esc(l.hwName) : ''}</div>
         ${l.mods.map(mm => `<div>${mm.qty} × ${esc(mm.text)}</div>`).join('')}</div>` : ''}
-      <div class="hint">Openings ${esc(l.marks.join(', '))}${l.locations.length ? ' — ' + esc(l.locations.join('; ')) : ''}</div></td>
+      <div class="hint">${esc(quoteLoc(l))}</div></td>
       <td class="n"><b>${money(l.sell)}</b></td></tr>`).join('') ||
       '<tr><td colspan="4" class="hint">Nothing on the takeoff yet.</td></tr>'}
     </tbody></table>
@@ -9610,7 +9763,8 @@ function takeoffPDF() {
         (d.trH ? '  \u00b7  transom ' + ftin(d.trH) : '') + (d.slN ? '  \u00b7  ' + d.slN + ' sidelite ' + ftin(d.slW) : '') +
         (d.custom ? '  \u00b7  CUSTOM ELEVATION' : ''));
       if (d.set) det.push('Hardware  ' + d.set.id + '  ' + (d.set.name || '') +
-        (d.set.keying ? '  \u00b7  keying ' + d.set.keying : ''));
+        ([...new Set(d.set.items.map(i => i.keying).filter(Boolean))].length ? '  \u00b7  keying ' + [...new Set(d.set.items.map(i => i.keying).filter(Boolean))].join(', ') : '') +
+        (o.keyset ? '  \u00b7  keyset ' + o.keyset : ''));
       const notes = [o.notes, o.existingNotes, o.prepNotes].filter(Boolean).join('  |  ');
       if (notes) det.push('Notes  ' + notes);
       const wrapped = det.map(t => fitLines(t, W2 - 16, 7.5, false, 3));
@@ -9726,6 +9880,7 @@ function buildCatalog(keepNotes) {
     r.kind + ' ' + r.size, '', '', r.spec, r.qty, [r.mark || '—']));
   anchorBOM().forEach(r => push('A:' + r.unit + r.name, 'Anchor and accessory', r.name, r.unit, '', '',
     r.qty, r.marks));
+  (S.div10 || []).forEach(r => push('X:' + r.id, 'Division 10 — ' + secName(r.sec), r.product, r.model, r.mfr, r.fin, num(r.qty) + (r.unit !== 'EA' ? ' ' + r.unit : ''), r.room ? [r.room] : []));
   (S.catalog || []).filter(r => r.manual).forEach(r => rows.push(r));
   return rows;
 }
@@ -9740,7 +9895,7 @@ function renderCatalog() {
   const cls = st => 'statsel s-' + String(st).replace(/\s+/g, '-');
   $('#catBody').innerHTML = `
     <div class="phead">
-      <div><div class="eyebrow">Step 7</div><h1>Project catalog</h1>
+      <div><div class="eyebrow">Send</div><h1>Project catalog</h1>
       <p>Everything going into this job on one list, with a place to write the question you need answered. Send it to the client or the architect as it is.</p></div>
       <div class="pact">
         <button class="btn" id="catRebuild" title="Pull the list again from the takeoff, keeping your statuses and questions">${ic('refresh')}Rebuild from takeoff</button>
@@ -9865,10 +10020,12 @@ function catalogPDF() {
    RENDER + EVENTS
    ============================================================ */
 const NAV = [
-  ['project', 'Job info', 'brief'], ['clients', 'Clients', 'brief'], ['takeoff', 'Openings', 'door'], ['import', 'Import from plans', 'folder'], ['hw', 'Hardware sets', 'key'],
-  ['sheet', 'Takeoff sheet', 'table'], ['shop', 'Shop production', 'blueprint'], ['summary', 'Recap', 'chart'], ['quote', 'Quotation', 'quote'],
-  ['submittal', 'Submittal package', 'file'], ['catalog', 'Project catalog', 'listcheck'], ['tools', 'Calculator', 'table'],
-  ['guide', 'Guide', 'book'], ['ref', 'Abbreviations', 'abc']
+  ['project', 'Job info', 'brief'], ['clients', 'Clients', 'brief'], ['pricebook', 'Price book', 'tag'],
+  ['import', 'Plans — import, count and measure', 'pin'], ['takeoff', 'Openings', 'door'], ['hw', 'Hardware sets', 'key'], ['keying', 'Keying', 'lock'],
+  ['div10', 'Division 10 specialties', 'box'],
+  ['sheet', 'Takeoff sheet', 'table'], ['summary', 'Recap', 'chart'], ['purchasing', 'Purchasing', 'cart'], ['shop', 'Shop production', 'blueprint'],
+  ['quote', 'Quotation', 'quote'], ['submittal', 'Submittal package', 'file'], ['changes', 'Change orders', 'delta'], ['catalog', 'Project catalog', 'listcheck'],
+  ['tools', 'Calculator', 'table'], ['guide', 'Guide', 'book'], ['ref', 'Abbreviations', 'abc']
 ];
 
 function showView(name) {
@@ -9888,6 +10045,11 @@ function showView(name) {
   if (name === 'import' && typeof renderImport === 'function') renderImport();
   if (name === 'quote') renderQuote();
   if (name === 'catalog') renderCatalog();
+  if (name === 'div10') renderDiv10();
+  if (name === 'keying') renderKeying();
+  if (name === 'pricebook') renderPriceBook();
+  if (name === 'changes') renderChanges();
+  if (name === 'purchasing') renderPurchasing();
   if (name === 'hw') renderSets();
   if (name === 'project') renderProject();
   if (name === 'ref') renderRef();
@@ -9900,6 +10062,8 @@ function renderAll() {
   if (S.view === 'hw') renderSets();
   if (S.view === 'summary') renderSummary();
   if (S.view === 'shop') renderShop();
+  if (S.view === 'div10') renderDiv10();
+  if (S.view === 'keying') renderKeying();
 }
 /* after undo, opening a file or clearing the job: every screen could be stale */
 function refreshEverything() {
@@ -9936,7 +10100,7 @@ function addOpening(base, presetName) {
   if (base) Object.assign(o, JSON.parse(JSON.stringify(base)), { id: o.id });
   const last = S.openings[S.openings.length - 1];
   if (!base && last) { o.level = last.level; o.sheet = last.sheet; }
-  o.mark = nextMark(base ? base.mark : (last ? last.mark : ''));
+  o.mark = uniqueMark(base ? base.mark : (last ? last.mark : ''));
   if (derive(o).custom) o.lead = 'CUSTOM';
   S.openings.push(o); S.selId = o.id;
   PREFS.dtab = 'spec';
@@ -9994,7 +10158,7 @@ function duplicateOpenings(ids) {
   if (!ids.length) return toast('Select an opening first');
   if (ids.length === 1) return addOpening(S.openings.find(o => o.id === ids[0]));
   ids.forEach(id => { const o = S.openings.find(x => x.id === id); if (!o) return;
-    const c = JSON.parse(JSON.stringify(o)); c.id = uid(); c.mark = nextMark(o.mark); S.openings.push(c); });
+    const c = JSON.parse(JSON.stringify(o)); c.id = uid(); c.mark = uniqueMark(o.mark); S.openings.push(c); });
   persist(); renderAll(); toast(plural(ids.length, 'opening') + ' duplicated', { label:'Undo', fn:undo });
 }
 
@@ -10031,7 +10195,7 @@ function quickAdd() {
   const times = Math.max(1, Math.min(50, num(QUICK.rep) || 1));
   if (times > 1) return quickAddMany(times);
   const last = S.openings[S.openings.length - 1];
-  const r = Object.assign({}, QUICK, { mark: QUICK.mark.trim() || (last ? nextMark(last.mark) : '') });
+  const r = Object.assign({}, QUICK, { mark: QUICK.mark.trim() || (last ? uniqueMark(last.mark) : '') });
   if (r.size && !parseSizePair(r.size)) { toast('Could not read the size "' + r.size + '" — try 3070, 36x84 or 3-0 x 7-0'); const s = $('#quickBar [data-q="size"]'); if (s) { s.focus(); s.select(); } return; }
   const o = openingFromRow(r);
   if (last) { o.level = last.level; o.sheet = last.sheet; }
@@ -10052,13 +10216,13 @@ function quickAddMany(times) {
     const el = $('#quickBar [data-q="size"]'); if (el) { el.focus(); el.select(); } return;
   }
   const last = S.openings[S.openings.length - 1];
-  let mark = QUICK.mark.trim() || (last ? nextMark(last.mark) : '101');
+  let mark = QUICK.mark.trim() || (last ? uniqueMark(last.mark) : '101');
   let added = 0, first = null;
   for (let i = 0; i < times; i++) {
     const o = openingFromRow(Object.assign({}, QUICK, { mark: mark }));
     if (last) { o.level = last.level; o.sheet = last.sheet; }
     S.openings.push(o); added++; first = first || o;
-    mark = nextMark(mark) || '';
+    mark = uniqueMark(mark) || '';
     if (!mark) break;
   }
   QUICK.mark = ''; QUICK.rep = 1;
@@ -10102,12 +10266,12 @@ function openMenu(id, btn) {
 /* ---------- commands shared by menus, buttons, palette and keys ---------- */
 function saveJobFile() {
   downloadFile((S.project.job || 'takeoff').replace(/[^\w-]+/g, '_') + '.json',
-    JSON.stringify({ v:1, project:S.project, openings:S.openings, sets:S.sets, catalog:S.catalog }, null, 1));
+    JSON.stringify(Object.assign({ v:2 }, JSON.parse(jobJSON())), null, 1));
   toast('Job file saved');
 }
 function ensureCatalog() { if (!S.catalog || !S.catalog.length) S.catalog = buildCatalog(false); }
 function clearJob(msg) {
-  S.openings = []; S.sets = []; S.catalog = []; S.selId = null; S.sel.clear();
+  S.openings = []; S.sets = []; S.catalog = []; S.div10 = []; S.keying = normKeying(); S.baselines = []; S.selId = null; S.sel.clear();
   S.project = { ...DEFAULT_PROJECT };
   persist(); S.view = 'project'; refreshEverything();
   toast(msg || 'Empty job ready', { label:'Undo', fn:undo });
@@ -10129,7 +10293,9 @@ const CMDS = {
   add: () => addOpening(null), batch: () => openBatch(), shortcuts: () => openShortcuts(),
   sidebar: () => { PREFS.rail = !$('#app').classList.contains('rail'); savePrefs(); applyShellPrefs(); },
   undo: () => undo(), redo: () => redo(),
-  nextFlag: () => nextFlag()
+  nextFlag: () => nextFlag(),
+  keyPdf: () => keyingPDF(), keyCsv: () => keyingCSV(), d10Csv: () => div10CSV(), poPdf: () => poPDF(), poCsv: () => poCSV(),
+  coPdf: () => changeOrderPDF(), enlarge: () => enlargeDrawing()
 };
 function runCmd(k) { closeMenus(); if (CMDS[k]) CMDS[k](); }
 
@@ -10168,7 +10334,9 @@ function paletteSource() {
    ['bpDoor', 'Export door elevations and schedule', 'blueprint'], ['bpShop', 'Export shop plans, letter, one opening per page', 'blueprint'],
    ['planOne', 'Export the shop plan for the selected opening', 'blueprint'], ['dhiPdf', 'Export the hardware schedule in DHI format', 'key'], ['submittal', 'Export the submittal package', 'file'],
    ['workPdf', 'Export shop work orders', 'blueprint'], ['cutPdf', 'Export the frame cut list', 'blueprint'], ['labelPdf', 'Export the label log', 'flag'], ['catalogPdf', 'Export the project catalog PDF', 'listcheck'],
-   ['takeoffCsv', 'Export the takeoff CSV', 'download'], ['scheduleCsv', 'Export the door schedule CSV', 'download']]
+   ['takeoffCsv', 'Export the takeoff CSV', 'download'], ['scheduleCsv', 'Export the door schedule CSV', 'download'],
+   ['keyPdf', 'Export the keying schedule PDF', 'lock'], ['poPdf', 'Export purchase orders PDF', 'cart'], ['coPdf', 'Export the change order PDF', 'delta'],
+   ['d10Csv', 'Export Division 10 CSV', 'box']]
     .forEach(([k, l, i]) => L.push({ g:'Export', l, i, run:CMDS[k] }));
   S.openings.forEach(o => { const d = derive(o);
     L.push({ g:'Openings', l:(o.mark || '—') + '  ·  ' + sizeCode(d.nomW, d.nomH) + ' ' + o.config, i:'door', mark:(o.mark || '').toLowerCase(),
@@ -10468,12 +10636,20 @@ function bindEvents() {
     if (e.target.dataset.lib) {
       const v = e.target.value; e.target.value = '';
       if (!v) return;
-      const parts = v.split('|'), it = HW_LIB[parts[0]][+parts[1]];
-      s.items.push(libToItem(parts[0], it));
+      const parts = v.split('|');
+      s.items.push(parts[0] === 'PB' ? pbToItem(PB.items[+parts[1]]) : priceItem(libToItem(parts[0], HW_LIB[parts[0]][+parts[1]])));
       persist(); renderSets(); renderAll(); return;
     }
     if (e.target.dataset.sk) {
       const old = s.id;
+      if (e.target.dataset.sk === 'id') {
+        const nid = e.target.value.trim();
+        if (!nid || S.sets.some(x => x !== s && x.id.toUpperCase() === nid.toUpperCase())) {
+          e.target.value = old;
+          return toast(nid ? nid + ' is already used by another set' : 'A set needs a number');
+        }
+        e.target.value = nid;
+      }
       s[e.target.dataset.sk] = e.target.value;
       if (e.target.dataset.sk === 'id') {
         S.openings.forEach(o => { if (o.hwSet === old) o.hwSet = s.id; });
@@ -10482,13 +10658,14 @@ function bindEvents() {
     } else if (e.target.dataset.ik) {
       const it = s.items[+e.target.closest('tr').dataset.ii];
       it[e.target.dataset.ik] = e.target.type === 'number' ? num(e.target.value) : e.target.value;
+      if (e.target.dataset.ik === 'list' || e.target.dataset.ik === 'mfr') priceItem(it);
     }
     persist(); renderTable();
-    if (e.target.dataset.ik === 'cost' || e.target.dataset.ik === 'qty' || e.target.dataset.sk) renderSets();
+    if (['cost', 'qty', 'list', 'mfr'].indexOf(e.target.dataset.ik) >= 0 || e.target.dataset.sk) renderSets();
   });
 
   /* job info */
-  ['#projGrid', '#priceGrid'].forEach(sel => $(sel).addEventListener('input', e => {
+  ['#projGrid', '#coGrid', '#priceGrid'].forEach(sel => $(sel).addEventListener('input', e => {
     const ck = e.target.dataset.ck;
     if (ck) { CO[ck] = e.target.value; saveCo(); clearTimeout(renderProject._t); renderProject._t = setTimeout(() => { if (S.view === 'quote') renderQuotePaper(); }, 150); return; }
     const k = e.target.dataset.pk; if (!k) return;
@@ -10508,10 +10685,8 @@ function bindEvents() {
     r.onload = () => {
       try {
         const j = JSON.parse(r.result);
-        S.project = Object.assign({}, DEFAULT_PROJECT, j.project || {});
-        S.openings = (j.openings || []).map(o => Object.assign(blankOpening(), migrateOpening(o)));
-        S.sets = (j.sets || []).map(normSet);
-        S.catalog = j.catalog || [];
+        if (!j || !Array.isArray(j.openings)) throw new Error('not a job file');
+        loadJob(j);
         S.sel.clear(); S.selId = (S.openings[0] || {}).id || null;
         persist(); S.view = 'takeoff'; refreshEverything();
         toast('Opened ' + (S.project.job || f.name), { label:'Undo', fn:undo });
@@ -10615,6 +10790,1058 @@ function tickRange(fromId, toId, on) {
 
 
 /* ============================================================
+   VERSION 2.0 — what the distributor packages do that this did not:
+   one set of job totals everything reads from, Division 10
+   specialties, keying, a price book with manufacturer multipliers,
+   change orders priced against a baseline, purchase orders by vendor
+   and a plan takeoff that counts, measures and remembers.
+   ============================================================ */
+const money2 = n => (n < 0 ? '-' : '') + '$' + Math.abs(num(n)).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const csvQ = v => { const t = String(v == null ? '' : v); return /[",\n]/.test(t) ? '"' + t.replace(/"/g, '""') + '"' : t; };
+const fileBase = () => (S.project.job || 'takeoff').replace(/[^\w-]+/g, '_');
+
+/* ---------- job totals: the recap, the quote, the workbook and the top bar all read this ---------- */
+function jobTotals() {
+  return memo('totals', () => {
+    const p = S.project, z = () => ({ cost: 0, sell: 0 });
+    const T = { frame: z(), door: z(), hw: z(), glass: z(), labor: Object.assign(z(), { hrs: 0 }), openings: z(),
+      div10: { cost: 0, sell: 0, mat: 0, lab: 0, hrs: 0 } };
+    S.openings.forEach(o => {
+      const c = costs(o), q = c.q;
+      T.frame.cost += c.frame * q; T.frame.sell += c.parts.frame * q;
+      T.door.cost += c.door * q; T.door.sell += c.parts.door * q;
+      T.hw.cost += c.hw * q; T.hw.sell += c.parts.hw * q;
+      T.glass.cost += (c.glass + c.misc) * q; T.glass.sell += c.parts.glass * q;
+      T.labor.cost += c.labor * q; T.labor.sell += c.parts.labor * q; T.labor.hrs += c.hrs * q;
+      T.openings.cost += c.costT; T.openings.sell += c.sellT;
+    });
+    (S.div10 || []).forEach(r => {
+      const c = d10Costs(r);
+      T.div10.cost += c.cost; T.div10.sell += c.sell; T.div10.mat += c.mat; T.div10.lab += c.lab; T.div10.hrs += c.hrs;
+    });
+    T.cost = T.openings.cost + T.div10.cost;
+    T.sub = T.openings.sell + T.div10.sell;
+    T.freight = num(p.freight);
+    T.tax = (T.sub + T.freight) * num(p.taxRate) / 100;
+    T.total = T.sub + T.freight + T.tax;
+    T.gm = T.sub ? 1 - T.cost / T.sub : 0;
+    return T;
+  });
+}
+const gmPct = T => Math.round(T.gm * 100) + '%';
+
+/* ============================================================
+   DIVISION 10 — SPECIALTIES. Toilet compartments and accessories,
+   fire extinguishers and cabinets, lockers, signage, wall protection.
+   Line items by CSI section, counted by hand or clicked off the plan.
+   ============================================================ */
+const DIV10_SECTIONS = [
+  ['10 11 00', 'Visual display units'], ['10 14 00', 'Signage'], ['10 21 13', 'Toilet compartments'],
+  ['10 21 23', 'Cubicle curtains and track'], ['10 22 13', 'Wire mesh partitions'], ['10 26 00', 'Wall and door protection'],
+  ['10 28 13', 'Toilet accessories'], ['10 28 19', 'Tub and shower doors'], ['10 44 13', 'Fire extinguisher cabinets'],
+  ['10 44 16', 'Fire extinguishers'], ['10 51 13', 'Metal lockers'], ['10 51 26', 'Plastic lockers'],
+  ['10 55 00', 'Postal specialties'], ['10 56 13', 'Metal storage shelving'], ['10 75 00', 'Flagpoles'], ['10 99 00', 'Other specialties']
+];
+const secName = c => (DIV10_SECTIONS.find(x => x[0] === c) || [c, 'Specialties'])[1];
+const D10_UNITS = ['EA', 'LF', 'SF', 'SET', 'PR', 'LS'];
+/* placeholder costs so the arithmetic shows — replace them with your buy prices or a price book */
+const DIV10_LIB = [
+  ['10 21 13', 'Toilet compartment, powder coated steel, floor mounted overhead braced', '', 'Generic', 'EA', 640, 2.5],
+  ['10 21 13', 'Toilet compartment, solid plastic (HDPE), floor mounted overhead braced', '', 'Scranton Products', 'EA', 980, 2.5],
+  ['10 21 13', 'Toilet compartment, phenolic core, floor to ceiling', '', 'Bobrick', 'EA', 1280, 3],
+  ['10 21 13', 'Accessible compartment, 60 in deep, solid plastic', '', 'Scranton Products', 'EA', 1150, 3],
+  ['10 21 13', 'Urinal screen, wall hung', '', 'Generic', 'EA', 260, 1],
+  ['10 28 13', 'Toilet tissue dispenser, dual roll, surface', 'B-2888', 'Bobrick', 'EA', 95, 0.5],
+  ['10 28 13', 'Paper towel dispenser, surface mounted', 'B-262', 'Bobrick', 'EA', 165, 0.5],
+  ['10 28 13', 'Combination towel dispenser and waste receptacle, recessed', 'B-3944', 'Bobrick', 'EA', 780, 2],
+  ['10 28 13', 'Soap dispenser, surface mounted', 'B-4112', 'Bobrick', 'EA', 55, 0.3],
+  ['10 28 13', 'Mirror, 24 x 36, stainless channel frame', 'B-290 2436', 'Bobrick', 'EA', 110, 0.5],
+  ['10 28 13', 'Grab bar, 18 in, satin stainless', 'B-6806x18', 'Bobrick', 'EA', 55, 0.5],
+  ['10 28 13', 'Grab bar, 36 in, satin stainless', 'B-6806x36', 'Bobrick', 'EA', 70, 0.5],
+  ['10 28 13', 'Grab bar, 42 in, satin stainless', 'B-6806x42', 'Bobrick', 'EA', 75, 0.5],
+  ['10 28 13', 'Sanitary napkin disposal, surface mounted', 'B-270', 'Bobrick', 'EA', 60, 0.3],
+  ['10 28 13', 'Robe hook', 'B-6717', 'Bobrick', 'EA', 18, 0.2],
+  ['10 28 13', 'Mop and broom holder, 36 in', 'B-223x36', 'Bobrick', 'EA', 95, 0.5],
+  ['10 28 13', 'Baby changing station, horizontal, surface', 'KB200', 'Koala Kare', 'EA', 320, 1],
+  ['10 28 13', 'Electric hand dryer, surface mounted', 'XL-SB', 'Excel Dryer', 'EA', 520, 1.5],
+  ['10 28 13', 'Folding shower seat, ADA', 'B-5181', 'Bobrick', 'EA', 380, 1],
+  ['10 44 13', 'Fire extinguisher cabinet, semi-recessed, steel', '2409-R3', 'Larsens', 'EA', 210, 1],
+  ['10 44 13', 'Fire extinguisher cabinet, fire rated, semi-recessed', 'FS 2409-R3', 'Larsens', 'EA', 380, 1.25],
+  ['10 44 16', 'Fire extinguisher, 10 lb ABC multipurpose', 'MP10', 'Larsens', 'EA', 75, 0.1],
+  ['10 44 16', 'Fire extinguisher bracket, wall', 'Bracket', 'Larsens', 'EA', 15, 0.2],
+  ['10 14 00', 'Room identification sign, tactile with Braille, 6 x 8', '', 'Generic', 'EA', 45, 0.25],
+  ['10 14 00', 'Restroom sign, tactile with Braille', '', 'Generic', 'EA', 48, 0.25],
+  ['10 14 00', 'Evacuation map, framed', '', 'Generic', 'EA', 120, 0.25],
+  ['10 26 00', 'Corner guard, stainless, 3/4 x 2-1/2 x 48 in', '', 'Inpro', 'EA', 85, 0.3],
+  ['10 26 00', 'Corner guard, vinyl, 48 in', '', 'Inpro', 'EA', 45, 0.3],
+  ['10 26 00', 'Crash rail, 6 in', '', 'Inpro', 'LF', 38, 0.15],
+  ['10 26 00', 'Handrail and bumper guard', '', 'Inpro', 'LF', 42, 0.15],
+  ['10 26 00', 'Wall protection sheet, 0.040 PVC', '', 'Inpro', 'SF', 9, 0.05],
+  ['10 11 00', 'Markerboard, porcelain steel, 4 x 8, aluminum trim', '', 'Claridge', 'EA', 520, 1],
+  ['10 11 00', 'Tackboard, cork, 4 x 4, aluminum trim', '', 'Claridge', 'EA', 180, 0.5],
+  ['10 21 23', 'Cubicle curtain track, ceiling mounted', '', 'Generic', 'LF', 22, 0.2],
+  ['10 51 13', 'Metal locker, single tier, 12 x 15 x 72', '', 'Penco', 'EA', 260, 0.75],
+  ['10 51 13', 'Metal locker, double tier, 12 x 15 x 36', '', 'Penco', 'EA', 290, 0.75],
+  ['10 51 13', 'Locker bench, 6 ft, with pedestals', '', 'Penco', 'EA', 330, 1],
+  ['10 51 26', 'Solid plastic locker, single tier', '', 'Scranton Products', 'EA', 420, 0.75],
+  ['10 55 00', 'Cluster mailbox, 4C horizontal, 13 doors', '', 'Salsbury', 'EA', 1200, 3],
+  ['10 56 13', 'Steel shelving unit, 36 x 18 x 84, 5 shelves', '', 'Generic', 'EA', 240, 1],
+  ['10 75 00', 'Aluminum flagpole, 30 ft, ground set', '', 'Generic', 'EA', 2600, 8]
+].map(([sec, product, model, mfr, unit, cost, hrs]) => ({ sec, product, model, mfr, unit, cost, hrs }));
+
+function normDiv10(r) {
+  r = r || {};
+  return { id: r.id || uid(), sec: r.sec || '10 28 13', product: r.product || '', model: r.model || '', mfr: r.mfr || '',
+    fin: r.fin || '', room: r.room || '', qty: r.qty == null ? 1 : num(r.qty), unit: r.unit || 'EA', list: num(r.list),
+    cost: num(r.cost), hrs: num(r.hrs), markup: num(r.markup), note: r.note || '',
+    pins: Array.isArray(r.pins) ? r.pins : [], runs: Array.isArray(r.runs) ? r.runs : [] };
+}
+function d10Costs(r) {
+  const p = S.project, q = num(r.qty), mk = (num(r.markup) || num(p.markupDiv10)) / 100;
+  const mat = num(r.cost) * q, lab = num(r.hrs) * q * num(p.laborRate);
+  return { q, mat, lab, hrs: num(r.hrs) * q, cost: mat + lab, sell: mat * (1 + mk) + lab * (1 + num(p.markupMisc) / 100) };
+}
+let d10Q = '', d10Sec = '';
+function renderDiv10() {
+  const list = S.div10 || [], T = jobTotals();
+  const q = d10Q.toLowerCase().trim();
+  const shown = list.filter(r => (!d10Sec || r.sec === d10Sec) &&
+    (!q || [r.sec, secName(r.sec), r.product, r.model, r.mfr, r.room, r.note].join(' ').toLowerCase().indexOf(q) >= 0));
+  const secs = [...new Set(shown.map(r => r.sec))].sort();
+  const libOpts = DIV10_SECTIONS.map(([c, n]) => {
+    const its = DIV10_LIB.map((x, i) => [x, i]).filter(([x]) => x.sec === c);
+    return its.length ? `<optgroup label="${esc(c + ' ' + n)}">${its.map(([x, i]) => `<option value="L|${i}">${esc(x.product)}${x.mfr ? ' — ' + esc(x.mfr) : ''}</option>`).join('')}</optgroup>` : '';
+  }).join('') + (PB.items.length ? `<optgroup label="Price book">${PB.items.map((x, i) => `<option value="P|${i}">${esc([x.mfr, x.model, x.desc].filter(Boolean).join(' · '))}</option>`).join('')}</optgroup>` : '');
+  const used = DIV10_SECTIONS.filter(([c]) => list.some(r => r.sec === c));
+  const row = r => {
+    const c = d10Costs(r);
+    return `<tr data-d10="${r.id}">
+      <td><select data-dk="sec" style="width:92px" title="${esc(secName(r.sec))}">${DIV10_SECTIONS.map(([c2]) => `<option ${c2 === r.sec ? 'selected' : ''}>${c2}</option>`).join('')}</select></td>
+      <td><input data-dk="product" value="${esc(r.product)}" placeholder="Grab bar, 36 in" style="min-width:220px"></td>
+      <td><input data-dk="model" value="${esc(r.model)}" placeholder="B-6806x36" style="width:100px"></td>
+      <td><input data-dk="mfr" value="${esc(r.mfr)}" placeholder="Bobrick" style="width:100px"></td>
+      <td><input data-dk="room" value="${esc(r.room)}" placeholder="Restrooms 110, 111" style="width:140px"></td>
+      <td><input type="number" data-dk="qty" value="${esc(r.qty)}" step="any" style="width:64px">${r.pins.length || r.runs.length ? `<div class="hint" title="Counted on the plan">${ic('pin')}${r.pins.length || ''}${r.runs.length ? ' · ' + r.runs.length + ' runs' : ''}</div>` : ''}</td>
+      <td><select data-dk="unit" style="width:62px">${D10_UNITS.map(u => `<option ${u === r.unit ? 'selected' : ''}>${u}</option>`).join('')}</select></td>
+      <td><input type="number" data-dk="list" value="${num(r.list) || ''}" step="any" placeholder="list" style="width:74px"></td>
+      <td><input type="number" data-dk="cost" value="${esc(r.cost)}" step="any" style="width:78px" ${num(r.list) && pbMult(r.mfr) ? `title="List ${money2(r.list)} × ${pbMult(r.mfr)} from the price book"` : ''}></td>
+      <td><input type="number" data-dk="hrs" value="${esc(r.hrs)}" step="any" style="width:58px"></td>
+      <td class="n">${money(c.sell)}</td>
+      <td style="white-space:nowrap"><button type="button" class="iconbtn" data-d10act="dup" title="Duplicate">${ic('copy')}</button><button type="button" class="iconbtn" data-d10act="del" title="Remove">${ic('trash')}</button></td>
+    </tr>`;
+  };
+  $('#div10Body').innerHTML = `
+    <div class="phead">
+      <div><div class="eyebrow">Take off · Division 10</div><h1>Specialties</h1>
+      <p>Toilet compartments and accessories, fire extinguishers and cabinets, lockers, signage, wall protection. Pick from the list, type them in, or click them off the plan on <b>Import plans</b>.</p></div>
+      <div class="pact">
+        <button class="btn" id="d10Csv">${ic('download')}CSV</button>
+        <button class="btn" data-goto="import">${ic('pin')}Count on the plan</button>
+        <button class="btn primary" id="d10Blank">${ic('plus')}Blank line</button>
+      </div>
+    </div>
+    <div class="kpi">
+      <div class="k"><div class="v">${list.reduce((a, r) => a + (r.unit === 'EA' || r.unit === 'SET' || r.unit === 'PR' ? num(r.qty) : 0), 0)}</div><div class="l">pieces · ${list.length} lines</div></div>
+      <div class="k"><div class="v">${used.length}</div><div class="l">CSI sections</div></div>
+      <div class="k"><div class="v">${T.div10.hrs.toFixed(1)}</div><div class="l">install hours · ${money(T.div10.lab)}</div></div>
+      <div class="k hero"><div class="v">${money(T.div10.sell)}</div><div class="l">Division 10 sell · cost ${money(T.div10.cost)}</div></div>
+    </div>
+    <div class="hwtools">
+      <select id="d10Lib" style="width:auto;max-width:420px"><option value="">+ Add from the specialties list…</option>${libOpts}</select>
+      <div class="searchbox"><svg class="ic"><use href="#i-search"/></svg><input type="text" id="d10Search" value="${esc(d10Q)}" placeholder="Find an item, room or maker…"></div>
+      <div class="fchips"><button type="button" class="fchip" data-d10sec="" aria-pressed="${!d10Sec}">All <b>${list.length}</b></button>${used.map(([c, n]) =>
+        `<button type="button" class="fchip" data-d10sec="${c}" aria-pressed="${d10Sec === c}" title="${esc(c)}">${esc(n)} <b>${list.filter(r => r.sec === c).length}</b></button>`).join('')}</div>
+    </div>
+    ${list.length ? secs.map(sc => {
+      const rows = shown.filter(r => r.sec === sc);
+      const sub = rows.reduce((a, r) => a + d10Costs(r).sell, 0);
+      return `<div class="card" style="padding:12px 14px"><div class="chead"><h2><span class="mono" style="color:var(--steel);font-weight:500">${esc(sc)}</span> ${esc(secName(sc))}</h2><span class="spacer"></span><span class="hint">${plural(rows.length, 'line')} · sell <b class="mono" style="color:var(--ink)">${money(sub)}</b></span></div>
+        <div class="scrollx"><table class="wide d10"><thead><tr><th>SECTION</th><th>ITEM</th><th>MODEL</th><th>MANUFACTURER</th><th>ROOM / LOCATION</th><th>QTY</th><th>UNIT</th><th>LIST</th><th>COST / UNIT</th><th>HRS / UNIT</th><th style="text-align:right">SELL</th><th></th></tr></thead>
+        <tbody>${rows.map(row).join('')}</tbody></table></div></div>`;
+    }).join('') || '<div class="card"><p class="hint" style="margin:0">Nothing matches that search.</p></div>'
+    : `<div class="card empty"><h3>No Division 10 items on this job</h3><p>Pick the first one from the list above, add a blank line, or open the floor plan on <b>Import plans</b> and click each accessory to count it.</p></div>`}
+    <p class="hint">Sell = material × (1 + Division 10 markup) + install hours × install rate × (1 + misc and labor markup). Markups are on <b>Job info</b>. Costs in the list are placeholders — load your price book to replace them.</p>`;
+}
+function d10FromLib(x) {
+  const r = normDiv10({ sec: x.sec, product: x.product, model: x.model, mfr: x.mfr, unit: x.unit, cost: x.cost, hrs: x.hrs, qty: 1 });
+  return r;
+}
+function bindDiv10() {
+  const box = $('#div10Body');
+  box.addEventListener('change', e => {
+    const el = e.target;
+    if (el.id === 'd10Lib') {
+      const v = el.value; if (!v) return;
+      const [k, i] = v.split('|');
+      const r = k === 'L' ? d10FromLib(DIV10_LIB[+i]) : pbToDiv10(PB.items[+i]);
+      S.div10.push(r); persist(); renderDiv10(); toast('Added ' + (r.product || 'the item'), { label: 'Undo', fn: undo });
+      const tr = box.querySelector(`tr[data-d10="${r.id}"] input[data-dk="qty"]`); if (tr) { tr.focus(); tr.select(); }
+      return;
+    }
+    const tr = el.closest('tr[data-d10]'); if (!tr || !el.dataset.dk) return;
+    const r = S.div10.find(x => x.id === tr.dataset.d10); if (!r) return;
+    const k = el.dataset.dk;
+    r[k] = el.type === 'number' ? num(el.value) : el.value;
+    if (k === 'list' || k === 'mfr') priceItem(r);
+    persist(); renderDiv10();
+  });
+  box.addEventListener('input', e => { if (e.target.id === 'd10Search') { d10Q = e.target.value; renderDiv10(); const f = $('#d10Search'); f.focus(); f.setSelectionRange(f.value.length, f.value.length); } });
+  box.addEventListener('click', e => {
+    const sc = e.target.closest('[data-d10sec]'); if (sc) { d10Sec = sc.dataset.d10sec; renderDiv10(); return; }
+    if (e.target.closest('#d10Blank')) { const r = normDiv10({ sec: d10Sec || '10 28 13' }); S.div10.push(r); persist(); renderDiv10();
+      const f = box.querySelector(`tr[data-d10="${r.id}"] input[data-dk="product"]`); if (f) f.focus(); return; }
+    if (e.target.closest('#d10Csv')) { div10CSV(); return; }
+    const a = e.target.closest('[data-d10act]'); if (!a) return;
+    const id = a.closest('tr').dataset.d10, i = S.div10.findIndex(x => x.id === id); if (i < 0) return;
+    if (a.dataset.d10act === 'del') { const r = S.div10[i]; S.div10.splice(i, 1); persist(); renderDiv10(); toast('Removed ' + (r.product || 'the line'), { label: 'Undo', fn: undo }); }
+    if (a.dataset.d10act === 'dup') { const c = normDiv10(Object.assign({}, S.div10[i], { id: uid(), pins: [], runs: [] })); S.div10.splice(i + 1, 0, c); persist(); renderDiv10(); }
+  });
+}
+function div10CSV() {
+  const L = [['CSI SECTION', 'SECTION', 'ITEM', 'MODEL', 'MANUFACTURER', 'ROOM', 'QTY', 'UNIT', 'LIST', 'COST/UNIT', 'MATERIAL', 'HRS/UNIT', 'LABOR', 'SELL', 'NOTE'].map(csvQ).join(',')];
+  S.div10.forEach(r => { const c = d10Costs(r); L.push([r.sec, secName(r.sec), r.product, r.model, r.mfr, r.room, r.qty, r.unit, r.list || '', r.cost,
+    Math.round(c.mat), r.hrs, Math.round(c.lab), Math.round(c.sell), r.note].map(csvQ).join(',')); });
+  downloadFile(fileBase() + '_division_10.csv', L.join('\n'), 'text/csv');
+  toast('Division 10 exported');
+}
+
+/* ============================================================
+   PRICE BOOK — manufacturer multipliers and list prices, kept in this
+   browser for every job. Cost = list × multiplier, the way every
+   distributor package prices hardware.
+   ============================================================ */
+const PB_KEY = 'takeoff:pricebook';
+const PB = (() => { try { const j = JSON.parse(localStorage.getItem(PB_KEY) || '{}'); return { mult: j.mult || {}, items: Array.isArray(j.items) ? j.items : [] }; } catch (e) { return { mult: {}, items: [] }; } })();
+function savePB() { try { localStorage.setItem(PB_KEY, JSON.stringify(PB)); } catch (e) { toast('The price book is too large to keep in this browser'); } }
+function pbMult(mfr) {
+  const t = String(mfr || '').trim().toUpperCase(); if (!t) return 0;
+  const k = Object.keys(PB.mult).find(x => x.trim().toUpperCase() === t);
+  return k ? num(PB.mult[k]) : 0;
+}
+/** a line with a list price and a multiplier for its maker is costed from the book */
+function priceItem(i) {
+  if (num(i.list) > 0) { const m = pbMult(i.mfr); if (m > 0) i.cost = Math.round(num(i.list) * m * 100) / 100; }
+  return i;
+}
+function repriceJob() {
+  let n = 0;
+  const one = i => { const b = num(i.cost); priceItem(i); if (Math.abs(num(i.cost) - b) > 0.004) n++; };
+  S.sets.forEach(s => s.items.forEach(one)); (S.div10 || []).forEach(one);
+  return n;
+}
+function pbGuessCat(t) {
+  t = String(t || '').toUpperCase();
+  const hit = HW_CAT.find(c => c !== 'MISC' && t.indexOf(c) >= 0);
+  if (hit) return hit;
+  if (/BUTT|HINGE/.test(t)) return 'HINGE'; if (/CLOSER/.test(t)) return 'CLOSER'; if (/EXIT|PANIC|RIM DEVICE/.test(t)) return 'EXIT DEVICE';
+  if (/LOCK/.test(t)) return 'LOCKSET'; if (/STOP|BUMPER/.test(t)) return 'WALL STOP'; if (/KICK/.test(t)) return 'KICK PLATE';
+  if (/SWEEP/.test(t)) return 'SWEEP'; if (/THRESH/.test(t)) return 'THRESHOLD'; if (/SEAL|GASKET/.test(t)) return 'GASKETING';
+  return 'MISC';
+}
+function pbToItem(x) { return priceItem(normItem({ qty: 1, cat: x.cat || pbGuessCat(x.desc), product: x.desc || '', model: x.model || '', mfr: x.mfr || '', list: num(x.list), cost: num(x.list) })); }
+function pbToDiv10(x) { return priceItem(normDiv10({ sec: x.sec || '10 99 00', product: x.desc || '', model: x.model || '', mfr: x.mfr || '', list: num(x.list), cost: num(x.list), unit: 'EA' })); }
+
+let pbQ = '';
+function renderPriceBook() {
+  const mfrs = Object.keys(PB.mult).sort((a, b) => a.localeCompare(b));
+  const jobMfrs = [...new Set(S.sets.flatMap(s => s.items.map(i => (i.mfr || '').trim())).concat((S.div10 || []).map(r => (r.mfr || '').trim())).filter(Boolean))];
+  const missing = jobMfrs.filter(m => !pbMult(m));
+  const q = pbQ.toLowerCase().trim();
+  const items = PB.items.map((x, i) => [x, i]).filter(([x]) => !q || [x.mfr, x.model, x.desc, x.cat].join(' ').toLowerCase().indexOf(q) >= 0);
+  $('#pbBody').innerHTML = `
+    <div class="phead">
+      <div><div class="eyebrow">Set up</div><h1>Price book</h1>
+      <p>Manufacturer multipliers and list prices. A hardware or Division 10 line with a list price is costed at list × the multiplier for its manufacturer. Kept in this browser for every job; save it to a file to share it.</p></div>
+      <div class="pact">
+        <button class="btn" id="pbExport">${ic('download')}Save price book</button>
+        <button class="btn" id="pbOpen">${ic('folder')}Open price book</button>
+        <button class="btn primary" id="pbReprice">${ic('refresh')}Reprice this job</button>
+      </div>
+    </div>
+    <div class="cols2">
+      <div class="card"><div class="chead"><h2>Multipliers</h2><span class="hint">Your buy price as a fraction of list</span><span class="spacer"></span>
+        <button class="btn sm" id="pbAddM">${ic('plus')}Manufacturer</button></div>
+        ${missing.length ? `<div class="alert w" style="margin-bottom:10px">${ic('alert')}<b>${plural(missing.length, 'manufacturer')} on this job with no multiplier</b><span>${esc(missing.join(', '))} · <button class="linkish" id="pbAddJob">add them</button></span></div>` : ''}
+        <table class="sum"><thead><tr><th>MANUFACTURER</th><th class="n">MULTIPLIER</th><th class="n">DISCOUNT</th><th class="n">ITEMS</th><th></th></tr></thead><tbody>
+        ${mfrs.map(m => `<tr data-pbm="${esc(m)}"><td><input data-pbk="name" value="${esc(m)}"></td>
+          <td class="n"><input type="number" data-pbk="mult" value="${esc(PB.mult[m])}" step="0.001" min="0" max="2" style="width:90px;text-align:right"></td>
+          <td class="n">${num(PB.mult[m]) ? Math.round((1 - num(PB.mult[m])) * 1000) / 10 + '%' : '—'}</td>
+          <td class="n">${PB.items.filter(x => (x.mfr || '').toUpperCase() === m.toUpperCase()).length}</td>
+          <td><button type="button" class="iconbtn" data-pbdel="${esc(m)}" title="Remove">${ic('trash')}</button></td></tr>`).join('')
+          || '<tr><td colspan="5" class="hint">No multipliers yet. Add the manufacturers you buy from, e.g. Schlage 0.42.</td></tr>'}
+        </tbody></table>
+      </div>
+      <div class="card"><h2>How it prices</h2>
+        <p class="sub">Type a list price on a hardware item (Hardware page, LIST column) or a Division 10 line. When its manufacturer has a multiplier here, the cost fills itself in and follows any change to the multiplier when you press <b>Reprice this job</b>.</p>
+        <p class="sub">Import a manufacturer list as Excel or CSV with columns for <b>manufacturer, model, description, category, list price</b>. Imported products appear in the <b>Add from the library</b> list on every hardware set and on Division 10.</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="pbImport">${ic('folder')}Import a price list</button>
+        ${PB.items.length ? `<button class="btn danger" id="pbClearItems">${ic('trash')}Remove all ${PB.items.length} products</button>` : ''}</div>
+      </div>
+    </div>
+    <div class="card"><div class="chead"><h2>Products</h2><span class="hint">${plural(PB.items.length, 'product')}</span><span class="spacer"></span>
+      <div class="searchbox"><svg class="ic"><use href="#i-search"/></svg><input type="text" id="pbSearch" value="${esc(pbQ)}" placeholder="Find a model or product…"></div></div>
+      ${PB.items.length ? `<div class="scrollx" style="max-height:52vh;overflow:auto"><table class="wide"><thead><tr><th>MANUFACTURER</th><th>MODEL</th><th>DESCRIPTION</th><th>CATEGORY</th><th style="text-align:right">LIST</th><th style="text-align:right">MULT</th><th style="text-align:right">NET</th></tr></thead><tbody>
+        ${items.slice(0, 300).map(([x]) => { const m = pbMult(x.mfr); return `<tr><td>${esc(x.mfr)}</td><td class="grp">${esc(x.model)}</td><td>${esc(x.desc)}</td><td>${esc(x.cat || pbGuessCat(x.desc))}</td>
+          <td class="n">${money2(x.list)}</td><td class="n">${m || '—'}</td><td class="n">${m ? money2(num(x.list) * m) : '—'}</td></tr>`; }).join('')}
+      </tbody></table></div>${items.length > 300 ? `<p class="hint">First 300 of ${items.length} shown — search to narrow it.</p>` : ''}` : '<p class="hint" style="margin:0">No products imported. Multipliers work on their own; products just make picking faster.</p>'}
+    </div>`;
+}
+function pbImportFile(f) {
+  const go = grid => {
+    if (!grid.length) return toast('Nothing in that file');
+    const guess = [[/manuf|mfr|brand|maker|vendor/i, 'mfr'], [/model|catalog|cat\.? ?no|part|sku|item ?no/i, 'model'], [/desc|product|name/i, 'desc'],
+      [/categ|class|type/i, 'cat'], [/list|price|msrp|amount/i, 'list'], [/csi|section/i, 'sec']];
+    let hr = 0, best = -1;
+    grid.slice(0, 15).forEach((r, i) => { const sc = r.filter(c => guess.some(([re]) => re.test(String(c)))).length; if (sc > best) { best = sc; hr = i; } });
+    const used = new Set();
+    const map = (grid[hr] || []).map(h => { const g = guess.find(([re, k]) => re.test(String(h || '')) && !used.has(k)); if (g) { used.add(g[1]); return g[1]; } return ''; });
+    if (map.indexOf('list') < 0) return toast('No list price column found — name one "List price"');
+    let n = 0;
+    grid.slice(hr + 1).forEach(r => {
+      const x = {}; map.forEach((k, i) => { if (k && r[i] != null && String(r[i]).trim() !== '') x[k] = String(r[i]).trim(); });
+      x.list = num(String(x.list || '').replace(/[$,]/g, ''));
+      if (!x.list || !(x.model || x.desc)) return;
+      const dup = PB.items.find(y => (y.mfr || '').toUpperCase() === (x.mfr || '').toUpperCase() && (y.model || '') === (x.model || '') && (y.desc || '') === (x.desc || ''));
+      if (dup) Object.assign(dup, x); else { PB.items.push(x); n++; }
+      if (x.mfr && PB.mult[x.mfr] == null && !pbMult(x.mfr)) PB.mult[x.mfr] = 1;
+    });
+    savePB(); renderPriceBook(); toast(n + ' products imported');
+  };
+  if (/\.xlsx$/i.test(f.name)) f.arrayBuffer().then(readXlsx).then(go, () => toast('That file could not be read'));
+  else f.text().then(t => go(readCsv(t)), () => toast('That file could not be read'));
+}
+function bindPriceBook() {
+  const box = $('#pbBody');
+  const pick = (accept, fn) => { const inp = document.createElement('input'); inp.type = 'file'; inp.accept = accept; inp.onchange = () => inp.files[0] && fn(inp.files[0]); inp.click(); };
+  box.addEventListener('click', e => {
+    if (e.target.closest('#pbAddM')) { let n = 'Manufacturer', k = 1; while (PB.mult[n]) n = 'Manufacturer ' + (++k); PB.mult[n] = 0.5; savePB(); renderPriceBook(); const f = box.querySelector(`tr[data-pbm="${n}"] input`); if (f) { f.focus(); f.select(); } return; }
+    if (e.target.closest('#pbAddJob')) {
+      const jobMfrs = [...new Set(S.sets.flatMap(s => s.items.map(i => (i.mfr || '').trim())).concat((S.div10 || []).map(r => (r.mfr || '').trim())).filter(Boolean))];
+      jobMfrs.filter(m => !pbMult(m)).forEach(m => { PB.mult[m] = 1; }); savePB(); renderPriceBook(); toast('Set each new multiplier — 1 means you pay list'); return;
+    }
+    const d = e.target.closest('[data-pbdel]'); if (d) { delete PB.mult[d.dataset.pbdel]; savePB(); renderPriceBook(); return; }
+    if (e.target.closest('#pbReprice')) { const n = repriceJob(); persist(); renderSets(); toast(n ? plural(n, 'line') + ' repriced from the book' : 'Every priced line already matches the book'); return; }
+    if (e.target.closest('#pbExport')) { downloadFile('price_book.json', JSON.stringify(PB, null, 1)); toast('Price book saved'); return; }
+    if (e.target.closest('#pbOpen')) { pick('.json', f => f.text().then(t => { try { const j = JSON.parse(t); PB.mult = j.mult || {}; PB.items = Array.isArray(j.items) ? j.items : []; savePB(); renderPriceBook(); toast('Price book loaded'); } catch (err) { toast('That is not a price book file'); } })); return; }
+    if (e.target.closest('#pbImport')) { pick('.csv,.xlsx,.txt', pbImportFile); return; }
+    if (e.target.closest('#pbClearItems')) { if (confirm('Remove every imported product? Multipliers stay.')) { PB.items = []; savePB(); renderPriceBook(); } return; }
+  });
+  box.addEventListener('change', e => {
+    const tr = e.target.closest('tr[data-pbm]'); if (!tr) return;
+    const old = tr.dataset.pbm, k = e.target.dataset.pbk;
+    if (k === 'mult') PB.mult[old] = Math.max(0, num(e.target.value));
+    if (k === 'name') { const n = e.target.value.trim(); if (n && n !== old && !PB.mult[n]) { PB.mult[n] = PB.mult[old]; delete PB.mult[old]; } }
+    savePB(); renderPriceBook();
+  });
+  box.addEventListener('input', e => { if (e.target.id === 'pbSearch') { pbQ = e.target.value; renderPriceBook(); const f = $('#pbSearch'); f.focus(); f.setSelectionRange(f.value.length, f.value.length); } });
+}
+
+/* ============================================================
+   KEYING — keysets in a master key system, a keyset on every locked
+   opening, cylinders counted from the hardware sets, and the keying
+   schedule the owner signs off before permanent cores are ordered.
+   ============================================================ */
+const KEY_LEVELS = [['GGMK', 'Great grand master'], ['GMK', 'Grand master'], ['MK', 'Master'], ['SKD', 'Change key, keyed different'],
+  ['KA', 'Keyed alike group'], ['CK', 'Control key'], ['CON', 'Construction']];
+function normKeying(k) {
+  k = k || {};
+  return { system: k.system || '', keyway: k.keyway || '', core: k.core || '', construction: k.construction !== false,
+    keysPer: k.keysPer == null ? 2 : num(k.keysPer), masterKeys: k.masterKeys == null ? 4 : num(k.masterKeys),
+    keysets: (k.keysets || []).map(x => ({ id: String(x.id || ''), level: x.level || 'SKD', parent: x.parent || '', desc: x.desc || '',
+      keys: x.keys === '' || x.keys == null ? '' : num(x.keys) })) };
+}
+const keying = () => (S.keying = S.keying || normKeying());
+const cylType = i => { const t = (i.product + ' ' + i.model + ' ' + i.size + ' ' + i.func).toLowerCase();
+  return /core|sfic|lfic|\bic\b/.test(t) ? 'IC CORE' : /rim/.test(t) ? 'RIM' : /mortise|\b86\b/.test(t) ? 'MORTISE' : 'CYLINDER'; };
+/** the keyed cylinders an opening takes, read off its hardware set */
+function cylindersOf(o) {
+  const d = derive(o); if (!d.set || !d.leaves || ['NIC', 'BO'].indexOf(o.hwScope) >= 0) return [];
+  const out = [], items = d.set.items;
+  const explicit = items.filter(i => i.cat === 'CYLINDER' || i.cat === 'CORE');
+  if (explicit.length) explicit.forEach(i => out.push({ type: cylType(i), qty: num(i.qty) || 1 }));
+  else items.forEach(i => {
+    const f = [i.func, i.product, i.model].join(' ').toLowerCase();
+    if ((i.cat === 'LOCKSET') && !/passage|privacy|dummy|exit only|nd10|nd40|l9010|l9040|f75|f76/.test(f))
+      out.push({ type: /mortise|l9\d|\b86\b|8200|3800/.test(f) ? 'MORTISE' : 'KEY IN LEVER', qty: num(i.qty) || 1 });
+    if (i.cat === 'DEADBOLT') out.push({ type: 'DEADBOLT', qty: num(i.qty) || 1 });
+    if (i.cat === 'EXIT DEVICE' && !/exit only|\beo\b|99eo|9927eo|9947eo/.test(f)) out.push({ type: 'RIM', qty: num(i.qty) || 1 });
+  });
+  return out;
+}
+const cylCount = o => cylindersOf(o).reduce((a, c) => a + c.qty, 0) * num(o.qty);
+function keysetOrder() {
+  const K = keying(), byId = {}; K.keysets.forEach(k => byId[k.id] = k);
+  const depth = k => { let n = 0, p = k; const seen = new Set(); while (p && p.parent && byId[p.parent] && !seen.has(p.id)) { seen.add(p.id); p = byId[p.parent]; n++; } return n; };
+  const pathOf = k => { const a = []; let p = k; const seen = new Set(); while (p && !seen.has(p.id)) { seen.add(p.id); a.unshift(p.id); p = byId[p.parent]; } return a; };
+  return K.keysets.slice().sort((a, b) => markCmp(pathOf(a).join('/'), pathOf(b).join('/'))).map(k => ({ k, depth: depth(k) }));
+}
+function keysOfSet(k) { const K = keying(); return k.keys === '' || k.keys == null ? (/GMK|MK|GGMK/.test(k.level) ? K.masterKeys : K.keysPer) : num(k.keys); }
+function keyingSummary() {
+  const K = keying(), locked = S.openings.filter(o => cylCount(o) > 0);
+  const byType = {}; locked.forEach(o => cylindersOf(o).forEach(c => { byType[c.type] = (byType[c.type] || 0) + c.qty * num(o.qty); }));
+  const keys = K.keysets.reduce((a, k) => a + keysOfSet(k), 0);
+  return { locked, byType, cyl: Object.values(byType).reduce((a, b) => a + b, 0), keys,
+    unassigned: locked.filter(o => !o.keyset || !K.keysets.some(k => k.id === o.keyset)) };
+}
+function renderKeying() {
+  const K = keying(), sum = keyingSummary(), order = keysetOrder();
+  const ksOpts = v => `<option value="">— none —</option>` + order.map(({ k, depth }) => `<option value="${esc(k.id)}" ${k.id === v ? 'selected' : ''}>${' '.repeat(depth)}${esc(k.id)}${k.desc ? ' · ' + esc(k.desc) : ''}</option>`).join('');
+  const doorsOf = id => S.openings.filter(o => o.keyset === id);
+  $('#keyBody').innerHTML = `
+    <div class="phead">
+      <div><div class="eyebrow">Take off · Hardware</div><h1>Keying</h1>
+      <p>The master key system, a keyset on every locked door, and the cylinders and keys it takes. Cylinders are counted from the hardware sets, so the schedule follows the takeoff.</p></div>
+      <div class="pact">
+        <button class="btn" id="keyCsv">${ic('download')}CSV</button>
+        <button class="btn primary" id="keyPdf">${ic('download')}Keying schedule PDF</button>
+      </div>
+    </div>
+    <div class="kpi">
+      <div class="k"><div class="v">${sum.locked.reduce((a, o) => a + num(o.qty), 0)}</div><div class="l">locked openings</div></div>
+      <div class="k"><div class="v">${sum.cyl}</div><div class="l">cylinders · ${Object.entries(sum.byType).map(([t, n]) => n + ' ' + t.toLowerCase()).join(', ') || 'none yet'}</div></div>
+      <div class="k"><div class="v">${K.keysets.length}</div><div class="l">keysets · ${sum.keys} cut keys</div></div>
+      <div class="k ${sum.unassigned.length ? '' : 'hero'}"><div class="v">${sum.unassigned.length}</div><div class="l">locked openings with no keyset</div></div>
+    </div>
+    <div class="cols2">
+      <div>
+        <div class="card"><div class="chead"><h2>Keysets</h2><span class="hint">GMK at the top, masters under it, change keys under each master</span><span class="spacer"></span>
+          <button class="btn sm" id="ksAdd">${ic('plus')}Keyset</button></div>
+          ${K.keysets.length ? `<div class="scrollx"><table class="wide"><thead><tr><th>KEYSET</th><th>LEVEL</th><th>UNDER</th><th>DESCRIPTION</th><th>KEYS</th><th>DOORS</th><th></th></tr></thead><tbody>
+          ${order.map(({ k, depth }) => `<tr data-ks="${esc(k.id)}">
+            <td style="padding-left:${8 + depth * 16}px"><input data-kk="id" value="${esc(k.id)}" class="mono" style="width:86px;font-weight:600"></td>
+            <td><select data-kk="level" style="width:160px">${KEY_LEVELS.map(([v, l]) => `<option value="${v}" ${v === k.level ? 'selected' : ''}>${v} — ${esc(l)}</option>`).join('')}</select></td>
+            <td><select data-kk="parent" style="width:96px"><option value="">—</option>${K.keysets.filter(x => x.id !== k.id).map(x => `<option ${x.id === k.parent ? 'selected' : ''}>${esc(x.id)}</option>`).join('')}</select></td>
+            <td><input data-kk="desc" value="${esc(k.desc)}" placeholder="e.g. Level 1 offices" style="min-width:160px"></td>
+            <td><input type="number" data-kk="keys" value="${k.keys === '' ? '' : esc(k.keys)}" placeholder="${keysOfSet(k)}" style="width:60px"></td>
+            <td class="hint">${esc(doorsOf(k.id).map(o => o.mark || '—').join(', ')) || '—'}</td>
+            <td><button type="button" class="iconbtn" data-ksdel="${esc(k.id)}" title="Remove">${ic('trash')}</button></td></tr>`).join('')}
+          </tbody></table></div>` : '<p class="hint" style="margin:0 0 8px">No keysets yet. Build them by hand, or let the buttons below lay out a standard system.</p>'}
+          <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
+            <button class="btn sm" id="ksAutoKD" title="One change key under a master for each floor, for every locked door with no keyset">Keyed different, a master per level</button>
+            <button class="btn sm" id="ksAutoSet" title="Doors on the same hardware set share one keyset">Keyed alike by hardware set</button>
+          </div>
+        </div>
+        <div class="card"><div class="chead"><h2>Locked openings</h2><span class="hint">Pick the keyset each door is keyed to</span></div>
+          ${sum.locked.length ? `<div class="scrollx"><table class="wide"><thead><tr><th>MARK</th><th>LOCATION</th><th>SET</th><th>CYLINDERS</th><th>KEYSET</th></tr></thead><tbody>
+          ${sum.locked.slice().sort((a, b) => markCmp(a.mark || '', b.mark || '')).map(o => `<tr><td class="grp"><button class="linkish mono" data-open="${o.id}">${esc(o.mark || '—')}</button></td>
+            <td>${esc([o.roomFrom, o.roomTo].filter(Boolean).join(' → '))}</td><td>${esc(o.hwSet)}</td>
+            <td>${cylindersOf(o).map(c => (c.qty * num(o.qty)) + ' ' + c.type.toLowerCase()).join(', ')}</td>
+            <td><select data-okey="${o.id}" style="width:180px">${ksOpts(o.keyset)}</select></td></tr>`).join('')}
+          </tbody></table></div>` : '<p class="hint" style="margin:0">No opening has a keyed lock yet. Cylinders come from the hardware sets: a lockset other than passage or privacy, a deadbolt, an exit device with trim, or a cylinder or core line.</p>'}
+        </div>
+      </div>
+      <div>
+        <div class="card"><h2 style="margin-bottom:10px">Keying system</h2>
+          <div class="g2">
+            <div class="f full"><label for="ky_system">Manufacturer and system</label><input id="ky_system" data-ky="system" value="${esc(K.system)}" placeholder="e.g. Schlage Everest 29 SL, restricted"></div>
+            <div class="f"><label for="ky_keyway">Keyway</label><input id="ky_keyway" data-ky="keyway" value="${esc(K.keyway)}" placeholder="e.g. C123"></div>
+            <div class="f"><label for="ky_core">Cores</label><input id="ky_core" data-ky="core" value="${esc(K.core)}" placeholder="e.g. full size IC, 7 pin SFIC"></div>
+            <div class="f"><label for="ky_keysPer">Keys per change keyset</label><input type="number" id="ky_keysPer" data-ky="keysPer" value="${esc(K.keysPer)}"></div>
+            <div class="f"><label for="ky_masterKeys">Keys per master</label><input type="number" id="ky_masterKeys" data-ky="masterKeys" value="${esc(K.masterKeys)}"></div>
+            <label class="chk full"><input type="checkbox" data-ky="construction" ${K.construction ? 'checked' : ''}><span>Construction keying and temporary cores until the owner takes over</span></label>
+          </div>
+        </div>
+        <div class="card"><h2 style="margin-bottom:8px">Summary</h2>
+          <table class="sum"><tbody>
+            ${Object.entries(sum.byType).map(([t, n]) => `<tr><td>${esc(t.charAt(0) + t.slice(1).toLowerCase())} cylinders</td><td class="n">${n}</td></tr>`).join('')}
+            <tr><td>Keysets</td><td class="n">${K.keysets.length}</td></tr>
+            ${KEY_LEVELS.map(([v, l]) => { const n = K.keysets.filter(k => k.level === v); return n.length ? `<tr><td class="hint" style="padding-left:16px">${esc(l)}</td><td class="n">${n.length} · ${n.reduce((a, k) => a + keysOfSet(k), 0)} keys</td></tr>` : ''; }).join('')}
+            <tr class="tot"><td>Cut keys</td><td class="n">${sum.keys}</td></tr>
+          </tbody></table>
+          ${sum.unassigned.length ? `<div class="alert w" style="margin-top:10px">${ic('alert')}<b>No keyset</b><span>${esc(sum.unassigned.map(o => o.mark || '—').join(', '))}</span></div>` : ''}
+          <p class="hint" style="margin:10px 0 0">The owner approves the keying schedule before permanent cylinders or cores are ordered.</p>
+        </div>
+      </div>
+    </div>`;
+}
+function autoKeying(mode) {
+  const K = keying();
+  const has = id => K.keysets.some(k => k.id === id);
+  const add = (id, level, parent, desc) => { if (!has(id)) K.keysets.push({ id, level, parent, desc, keys: '' }); return id; };
+  const locked = S.openings.filter(o => cylCount(o) > 0 && (!o.keyset || !has(o.keyset)));
+  if (!locked.length) return toast('Every locked opening already has a keyset');
+  const gmk = K.keysets.find(k => k.level === 'GMK') || null;
+  const top = gmk ? gmk.id : add('GMK', 'GMK', '', 'Grand master');
+  if (mode === 'set') {
+    locked.forEach(o => { const id = 'KA-' + (o.hwSet || 'NOSET'); add(id, 'KA', top, 'Keyed alike, set ' + (o.hwSet || 'none')); o.keyset = id; });
+  } else {
+    const levels = [...new Set(locked.map(o => o.level || ''))].sort(markCmp);
+    levels.forEach((lv, i) => {
+      let letter = String.fromCharCode(65 + i); while (has(letter) && K.keysets.find(k => k.id === letter).level !== 'MK') letter += letter[0];
+      const mk = add(letter, 'MK', top, lv ? 'Master, level ' + lv : 'Master');
+      let n = K.keysets.filter(k => k.parent === mk).length;
+      locked.filter(o => (o.level || '') === lv).sort((a, b) => markCmp(a.mark || '', b.mark || '')).forEach(o => {
+        let id; do { n++; id = mk + n; } while (has(id));
+        add(id, 'SKD', mk, [o.mark, o.roomTo || o.roomFrom].filter(Boolean).join(' · '));
+        o.keyset = id;
+      });
+    });
+  }
+  persist(); renderKeying(); toast(plural(locked.length, 'opening') + ' keyed', { label: 'Undo', fn: undo });
+}
+function bindKeying() {
+  const box = $('#keyBody');
+  box.addEventListener('click', e => {
+    if (e.target.closest('#ksAdd')) { const K = keying(); let n = K.keysets.length + 1, id = 'K' + n; while (K.keysets.some(k => k.id === id)) id = 'K' + (++n);
+      K.keysets.push({ id, level: K.keysets.length ? 'SKD' : 'GMK', parent: (K.keysets.find(k => k.level === 'GMK') || {}).id || '', desc: '', keys: '' }); persist(); renderKeying(); return; }
+    if (e.target.closest('#ksAutoKD')) { autoKeying('kd'); return; }
+    if (e.target.closest('#ksAutoSet')) { autoKeying('set'); return; }
+    const d = e.target.closest('[data-ksdel]');
+    if (d) { const K = keying(), id = d.dataset.ksdel; K.keysets = K.keysets.filter(k => k.id !== id);
+      K.keysets.forEach(k => { if (k.parent === id) k.parent = ''; }); S.openings.forEach(o => { if (o.keyset === id) o.keyset = ''; });
+      persist(); renderKeying(); toast('Removed keyset ' + id, { label: 'Undo', fn: undo }); return; }
+    if (e.target.closest('#keyPdf')) { keyingPDF(); return; }
+    if (e.target.closest('#keyCsv')) { keyingCSV(); return; }
+  });
+  box.addEventListener('change', e => {
+    const el = e.target, K = keying();
+    if (el.dataset.ky) { K[el.dataset.ky] = el.type === 'checkbox' ? el.checked : el.type === 'number' ? num(el.value) : el.value; persist(); renderKeying(); return; }
+    if (el.dataset.okey) { const o = S.openings.find(x => x.id === el.dataset.okey); if (o) { o.keyset = el.value; persist(); renderKeying(); } return; }
+    const tr = el.closest('tr[data-ks]'); if (!tr || !el.dataset.kk) return;
+    const k = K.keysets.find(x => x.id === tr.dataset.ks); if (!k) return;
+    if (el.dataset.kk === 'id') {
+      const nid = el.value.trim();
+      if (!nid || K.keysets.some(x => x !== k && x.id === nid)) { el.value = k.id; return toast(nid ? nid + ' is already a keyset' : 'A keyset needs a name'); }
+      K.keysets.forEach(x => { if (x.parent === k.id) x.parent = nid; }); S.openings.forEach(o => { if (o.keyset === k.id) o.keyset = nid; });
+      k.id = nid;
+    } else if (el.dataset.kk === 'keys') k.keys = el.value === '' ? '' : num(el.value);
+    else k[el.dataset.kk] = el.value;
+    persist(); renderKeying();
+  });
+}
+function keyingRows() {
+  return keysetOrder().map(({ k, depth }) => {
+    const doors = S.openings.filter(o => o.keyset === k.id).sort((a, b) => markCmp(a.mark || '', b.mark || ''));
+    return { k, depth, doors, cyl: doors.reduce((a, o) => a + cylCount(o), 0), keys: keysOfSet(k) };
+  });
+}
+function keyingCSV() {
+  const L = [['KEYSET', 'LEVEL', 'UNDER', 'DESCRIPTION', 'KEYS', 'DOOR', 'LOCATION', 'HW SET', 'CYLINDERS'].map(csvQ).join(',')];
+  keyingRows().forEach(r => {
+    if (!r.doors.length) L.push([r.k.id, r.k.level, r.k.parent, r.k.desc, r.keys, '', '', '', ''].map(csvQ).join(','));
+    r.doors.forEach((o, i) => L.push([r.k.id, r.k.level, r.k.parent, i ? '' : r.k.desc, i ? '' : r.keys, o.mark, [o.roomFrom, o.roomTo].filter(Boolean).join(' to '),
+      o.hwSet, cylindersOf(o).map(c => c.qty * num(o.qty) + ' ' + c.type).join(' + ')].map(csvQ).join(',')));
+  });
+  downloadFile(fileBase() + '_keying_schedule.csv', L.join('\n'), 'text/csv');
+  toast('Keying schedule exported');
+}
+function keyingDraw(p) {
+  const K = keying(), sum = keyingSummary();
+  p.page(LW, LH);
+  let y = letterHead(p, 'KEYING SCHEDULE', S.project.job || '', p.pages.length);
+  const W = LW - 2 * LM;
+  const newPage = () => { p.page(LW, LH); y = letterHead(p, 'KEYING SCHEDULE', 'continued', p.pages.length); };
+  const kv = (x, k, v) => { p.gray(0.45); p.txt(x, y, k, 6.4, true, null, false, 0.5); p.gray(0); p.fit(x, y - 11, 160, v || '—', 9, true, 1); };
+  kv(LM, 'SYSTEM', K.system); kv(LM + 180, 'KEYWAY', K.keyway); kv(LM + 330, 'CORES', K.core);
+  y -= 30;
+  kv(LM, 'CYLINDERS', String(sum.cyl)); kv(LM + 180, 'KEYSETS', String(K.keysets.length)); kv(LM + 330, 'CUT KEYS', String(sum.keys));
+  y -= 30;
+  if (K.construction) { p.gray(0.35); y -= p.fit(LM, y, W, 'Construction keying: temporary cores or construction keys until the owner accepts the building; permanent cores are keyed to this schedule.', 8, false, 2, 10); p.gray(0); y -= 6; }
+  const cx = [LM + 6, LM + 82, LM + 140, LM + 200, LM + 330, LM + 420, LM + 470];
+  const head = () => { y = letterTableHead(p, y, [{ x: cx[0], h: 'KEYSET' }, { x: cx[1], h: 'LEVEL' }, { x: cx[2], h: 'KEYS' }, { x: cx[3], h: 'DOOR / LOCATION' }, { x: cx[4], h: 'HW SET' }, { x: cx[5], h: 'CYL' }, { x: cx[6], h: 'TYPE' }]) - 4; };
+  head();
+  keyingRows().forEach(r => {
+    const need = 14 + Math.max(1, r.doors.length) * 11;
+    if (y - need < LM + 40) { newPage(); head(); }
+    y -= 11;
+    p.txt(cx[0] + r.depth * 8, y, r.k.id, 8.6, true);
+    p.txt(cx[1], y, r.k.level, 7.6, false); p.txt(cx[2], y, String(r.keys), 8, false);
+    if (r.k.desc) { p.gray(0.4); p.fit(cx[3], y, 250, r.k.desc, 7.4, false, 1); p.gray(0); }
+    r.doors.forEach(o => {
+      y -= 11;
+      p.fit(cx[3] + 8, y, 118, (o.mark || '—') + '  ' + [o.roomFrom, o.roomTo].filter(Boolean).join(' to '), 7.8, false, 1);
+      p.txt(cx[4], y, o.hwSet || '', 7.8, false);
+      p.txt(cx[5], y, String(cylCount(o)), 7.8, true);
+      p.fit(cx[6], y, LW - LM - cx[6], cylindersOf(o).map(c => c.type.toLowerCase()).join(', '), 7.2, false, 1);
+    });
+    y -= 4; p.lw(0.3); p.stroke(0.85); p.line(LM, y, LW - LM, y); p.stroke(0);
+  });
+  if (sum.unassigned.length) {
+    if (y < LM + 80) newPage();
+    y -= 18; p.rgb(0.66, 0.2, 0.16); p.txt(LM, y, 'LOCKED OPENINGS WITH NO KEYSET', 7.5, true, null, false, 0.6); p.gray(0); y -= 12;
+    y -= p.fit(LM, y, W, sum.unassigned.map(o => o.mark || '—').join(', '), 8.5, false, 4, 11);
+  }
+  if (y < LM + 100) newPage();
+  y -= 26; p.lw(0.6); p.stroke(0.7); p.rect(LM, y - 52, W, 52); p.stroke(0);
+  accent(p); p.txt(LM + 10, y - 14, 'OWNER APPROVAL', 7.5, true, null, false, 0.8); p.gray(0);
+  p.gray(0.35); p.txt(LM + 10, y - 25, 'Approved for ordering permanent cylinders and keys.', 8, false); p.gray(0);
+  p.lw(0.5); p.line(LM + 10, y - 42, LM + 250, y - 42); p.line(LM + 300, y - 42, LW - LM - 10, y - 42);
+  p.gray(0.45); p.txt(LM + 10, y - 50, 'Signature', 6.5, false); p.txt(LM + 300, y - 50, 'Date', 6.5, false); p.gray(0);
+}
+function keyingPDF() {
+  if (!keying().keysets.length && !keyingSummary().locked.length) return toast('Nothing to key yet');
+  const p = new Pdf(); keyingDraw(p);
+  p.out(fileBase() + '_KEYING_SCHEDULE.pdf'); toast('Keying schedule exported');
+}
+
+/* ============================================================
+   CHANGE ORDERS — a priced snapshot of the job (the bid, then each
+   accepted change), compared line by line with where it stands now,
+   so an addendum or a field change prices itself as an add or deduct.
+   ============================================================ */
+function pricingSnapshot(name) {
+  const snap = { id: uid(), name: name || 'Baseline', date: new Date().toISOString().slice(0, 10), openings: {}, div10: {} };
+  S.openings.forEach(o => { const c = costs(o); snap.openings[o.id] = { mark: o.mark || '', desc: itemLine(o), qty: c.q, sell: Math.round(c.sellT * 100) / 100, fp: fingerprint(o) }; });
+  (S.div10 || []).forEach(r => { snap.div10[r.id] = { desc: [r.product, r.model].filter(Boolean).join(' '), room: r.room, qty: num(r.qty), unit: r.unit, sell: Math.round(d10Costs(r).sell * 100) / 100 }; });
+  const T = jobTotals(); snap.sub = T.sub; snap.total = T.total;
+  return snap;
+}
+function compareToBaseline(b) {
+  const rows = [];
+  S.openings.forEach(o => {
+    const c = costs(o), now = Math.round(c.sellT * 100) / 100, was = b.openings[o.id];
+    if (!was) rows.push({ kind: 'ADD', what: 'Opening ' + (o.mark || '—'), desc: itemLine(o), qty: c.q, delta: now, id: o.id });
+    else if (Math.abs(now - was.sell) > 0.009 || was.fp !== fingerprint(o) || was.qty !== c.q)
+      rows.push({ kind: 'CHANGE', what: 'Opening ' + (o.mark || '—') + (was.mark && was.mark !== o.mark ? ' (was ' + was.mark + ')' : ''), desc: itemLine(o) + (was.qty !== c.q ? ' · qty ' + was.qty + ' to ' + c.q : ''), qty: c.q, delta: now - was.sell, id: o.id });
+  });
+  Object.keys(b.openings).forEach(id => { if (!S.openings.some(o => o.id === id)) { const w = b.openings[id]; rows.push({ kind: 'DELETE', what: 'Opening ' + (w.mark || '—'), desc: w.desc, qty: w.qty, delta: -w.sell }); } });
+  (S.div10 || []).forEach(r => {
+    const now = Math.round(d10Costs(r).sell * 100) / 100, was = b.div10[r.id], desc = [r.product, r.model].filter(Boolean).join(' ') + (r.room ? ' · ' + r.room : '');
+    if (!was) rows.push({ kind: 'ADD', what: secName(r.sec), desc, qty: num(r.qty), delta: now });
+    else if (Math.abs(now - was.sell) > 0.009 || was.qty !== num(r.qty)) rows.push({ kind: 'CHANGE', what: secName(r.sec), desc: desc + (was.qty !== num(r.qty) ? ' · qty ' + was.qty + ' to ' + num(r.qty) : ''), qty: num(r.qty), delta: now - was.sell });
+  });
+  Object.keys(b.div10 || {}).forEach(id => { if (!(S.div10 || []).some(r => r.id === id)) { const w = b.div10[id]; rows.push({ kind: 'DELETE', what: 'Division 10', desc: w.desc, qty: w.qty, delta: -w.sell }); } });
+  const net = rows.reduce((a, r) => a + r.delta, 0);
+  const taxNet = net * num(S.project.taxRate) / 100;
+  return { rows, add: rows.filter(r => r.delta > 0).reduce((a, r) => a + r.delta, 0), deduct: rows.filter(r => r.delta < 0).reduce((a, r) => a + r.delta, 0), net, taxNet, total: net + taxNet };
+}
+const activeBaseline = () => { const B = S.baselines || []; return B.find(b => b.id === PREFS.coBase) || B[B.length - 1] || null; };
+function renderChanges() {
+  const B = S.baselines || [], base = activeBaseline(), pr = S.project;
+  const cmp = base ? compareToBaseline(base) : null;
+  const chip = k => `<span class="chip ${k === 'ADD' ? 'ok' : k === 'DELETE' ? 'warn' : 'cust'}">${k}</span>`;
+  $('#coBody').innerHTML = `
+    <div class="phead">
+      <div><div class="eyebrow">Send</div><h1>Change orders</h1>
+      <p>Save the priced job as a baseline when the bid goes out. After an addendum, a revision or a field change, every opening and specialty that moved is priced as an add or a deduct against it.</p></div>
+      <div class="pact">
+        ${cmp && cmp.rows.length ? `<button class="btn" id="coAccept" title="Make the job as it is now the new baseline">${ic('check')}Accept as the new baseline</button>
+        <button class="btn primary" id="coPdf">${ic('download')}Change order PDF</button>` : ''}
+      </div>
+    </div>
+    <div class="cols2">
+      <div>
+        ${!base ? `<div class="card empty"><h3>No baseline yet</h3><p>Save the job as it was bid. From then on every change is priced against it.</p>
+          <div class="btns"><input type="text" id="coName0" value="Original bid" style="width:200px"><button class="btn primary" id="coSave0">${ic('save')}Save the baseline</button></div></div>`
+        : `<div class="kpi" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+            <div class="k"><div class="v">${money(base.total)}</div><div class="l">${esc(base.name)} · ${esc(base.date)}</div></div>
+            <div class="k"><div class="v" style="color:${cmp.net >= 0 ? 'var(--ok)' : 'var(--fire)'}">${cmp.net >= 0 ? '+' : ''}${money(cmp.total)}</div><div class="l">net change${cmp.taxNet ? ', with tax' : ''} · ${plural(cmp.rows.length, 'line')}</div></div>
+            <div class="k hero"><div class="v">${money(base.total + cmp.total)}</div><div class="l">revised contract</div></div>
+          </div>
+          <div class="card"><div class="chead"><h2>What changed since ${esc(base.name)}</h2><span class="spacer"></span><span class="hint">adds ${money(cmp.add)} · deducts ${money(cmp.deduct)}</span></div>
+            ${cmp.rows.length ? `<table class="sum"><thead><tr><th></th><th>ITEM</th><th>DESCRIPTION</th><th class="n">QTY</th><th class="n">AMOUNT</th></tr></thead><tbody>
+              ${cmp.rows.map(r => `<tr><td>${chip(r.kind)}</td><td>${r.id ? `<button class="linkish" data-open="${r.id}">${esc(r.what)}</button>` : esc(r.what)}</td><td class="hint" style="font-size:12px">${esc(r.desc)}</td><td class="n">${r.qty}</td><td class="n" style="color:${r.delta >= 0 ? 'var(--ok)' : 'var(--fire)'}">${r.delta >= 0 ? '+' : ''}${money(r.delta)}</td></tr>`).join('')}
+              <tr class="tot"><td></td><td colspan="3">Net change before tax</td><td class="n">${cmp.net >= 0 ? '+' : ''}${money(cmp.net)}</td></tr>
+              </tbody></table>` : '<p class="hint" style="margin:0">Nothing has changed since this baseline.</p>'}
+          </div>`}
+      </div>
+      <div>
+        <div class="card"><h2 style="margin-bottom:10px">Change order</h2>
+          <div class="g2">
+            <div class="f"><label for="co_no">Number</label><input id="co_no" data-co="coNo" value="${esc(pr.coNo || '')}" placeholder="CO-01"></div>
+            <div class="f"><label for="co_date">Date</label><input type="date" id="co_date" data-co="coDate" value="${esc(pr.coDate || '')}"></div>
+            <div class="f full"><label for="co_title">Title</label><input id="co_title" data-co="coTitle" value="${esc(pr.coTitle || '')}" placeholder="Addendum 2 — revised door schedule"></div>
+            <div class="f full"><label for="co_reason">Reason and scope</label><textarea id="co_reason" data-co="coReason" rows="3" placeholder="What changed and who asked for it">${esc(pr.coReason || '')}</textarea></div>
+          </div>
+        </div>
+        <div class="card"><div class="chead"><h2>Baselines</h2><span class="spacer"></span></div>
+          ${B.length ? `<table class="sum"><tbody>${B.slice().reverse().map(b => `<tr><td><label class="chk" style="min-height:0"><input type="radio" name="coBase" data-cobase="${b.id}" ${base && b.id === base.id ? 'checked' : ''}><span><b>${esc(b.name)}</b><span class="hint"> · ${esc(b.date)}</span></span></label></td>
+            <td class="n">${money(b.total)}</td><td style="width:30px"><button type="button" class="iconbtn" data-codel="${b.id}" title="Remove this baseline">${ic('trash')}</button></td></tr>`).join('')}</tbody></table>` : '<p class="hint" style="margin:0 0 8px">None saved.</p>'}
+          ${B.length ? `<div style="display:flex;gap:8px;margin-top:10px"><input type="text" id="coName" placeholder="e.g. Addendum 2 pricing"><button class="btn" id="coSave">${ic('save')}Save now</button></div>` : ''}
+          <p class="hint" style="margin:10px 0 0">A baseline is a priced copy of every opening and specialty line. It stays in the job file.</p>
+        </div>
+      </div>
+    </div>`;
+}
+function bindChanges() {
+  const box = $('#coBody');
+  const save = name => { S.baselines = S.baselines || []; const s = pricingSnapshot(name); S.baselines.push(s); PREFS.coBase = s.id; savePrefs(); persist(); renderChanges(); toast('Baseline saved: ' + s.name); };
+  box.addEventListener('click', e => {
+    if (e.target.closest('#coSave0')) return save(($('#coName0').value || 'Original bid').trim());
+    if (e.target.closest('#coSave')) return save(($('#coName').value || 'Baseline ' + ((S.baselines || []).length + 1)).trim());
+    if (e.target.closest('#coAccept')) return save((S.project.coNo ? S.project.coNo + ' accepted' : 'Accepted change ' + (S.baselines || []).length));
+    if (e.target.closest('#coPdf')) return changeOrderPDF();
+    const d = e.target.closest('[data-codel]');
+    if (d) { S.baselines = S.baselines.filter(b => b.id !== d.dataset.codel); persist(); renderChanges(); toast('Baseline removed', { label: 'Undo', fn: undo }); }
+  });
+  box.addEventListener('change', e => {
+    if (e.target.dataset.cobase) { PREFS.coBase = e.target.dataset.cobase; savePrefs(); renderChanges(); }
+  });
+  box.addEventListener('input', e => { const k = e.target.dataset.co; if (k) { S.project[k] = e.target.value; persist(true); } });
+}
+function changeOrderPDF() {
+  const base = activeBaseline(); if (!base) return toast('Save a baseline first');
+  const cmp = compareToBaseline(base), pr = S.project, p = new Pdf(), W = LW - 2 * LM;
+  p.page(LW, LH);
+  let y = letterHead(p, 'CHANGE ORDER', pr.coNo ? 'No. ' + pr.coNo : '', p.pages.length);
+  const newPage = () => { p.page(LW, LH); y = letterHead(p, 'CHANGE ORDER', 'continued', p.pages.length); };
+  const kv = (x, k, v, w) => { p.gray(0.45); p.txt(x, y, k, 6.4, true, null, false, 0.5); p.gray(0); p.fit(x, y - 12, w || 230, v || '—', 9.5, true, 2, 11); };
+  kv(LM, 'PROJECT', pr.job); kv(LM + 270, 'TO', [pr.customer || pr.gc, pr.attention].filter(Boolean).join(', '));
+  y -= 36;
+  kv(LM, 'CHANGE ORDER', pr.coNo, 120); kv(LM + 135, 'DATE', pr.coDate || new Date().toISOString().slice(0, 10), 120);
+  kv(LM + 270, 'AGAINST', base.name + ' (' + base.date + ')');
+  y -= 36;
+  if (pr.coTitle) { p.txt(LM, y, pr.coTitle, 12, true); y -= 16; }
+  if (pr.coReason) { p.gray(0.25); y -= p.fit(LM, y, W, pr.coReason, 9, false, 6, 11.5); p.gray(0); y -= 4; }
+  y -= 8;
+  const head = () => { y = letterTableHead(p, y, [{ x: LM + 6, h: '#' }, { x: LM + 26, h: 'ITEM' }, { x: LM + 136, h: 'DESCRIPTION' }, { x: LW - LM - 86, h: 'ADD', a: 'r' }, { x: LW - LM - 6, h: 'DEDUCT', a: 'r' }]) - 4; };
+  head();
+  cmp.rows.forEach((r, i) => {
+    const d = fitLines(r.desc, LW - LM - 100 - (LM + 136), 7.8, false, 3);
+    const h = Math.max(1, d.lines.length) * 9.5 + 6;
+    if (y - h < LM + 120) { newPage(); head(); }
+    y -= 10;
+    p.gray(0.45); p.txt(LM + 6, y, String(i + 1), 8, false); p.gray(0);
+    p.fit(LM + 26, y, 104, r.kind + '  ' + r.what, 8, true, 2, 9.5);
+    d.lines.forEach((ln, j) => p.txt(LM + 136, y - j * 9.5, ln, d.size, false));
+    p.txt(r.delta >= 0 ? LW - LM - 86 : LW - LM - 6, y, money(Math.abs(r.delta)), 8.8, true, 'r');
+    y -= (d.lines.length - 1) * 9.5 + 6;
+    p.lw(0.3); p.stroke(0.86); p.line(LM, y, LW - LM, y); p.stroke(0);
+  });
+  if (y < LM + 170) newPage();
+  y -= 12;
+  const bx = LW - LM - 240;
+  const tot = (l, v, b) => { p.gray(b ? 0 : 0.3); p.txt(bx, y, l, 9, b); p.gray(0); p.txt(LW - LM - 6, y, (v < 0 ? '-' : '') + money(Math.abs(v)), 9.5, b, 'r'); y -= 15; };
+  tot('Original contract (' + base.name + ')', base.total);
+  tot('Adds', cmp.add); tot('Deducts', cmp.deduct);
+  if (cmp.taxNet) tot('Tax on the change', cmp.taxNet);
+  p.lw(0.8); p.line(bx, y + 9, LW - LM, y + 9);
+  tot('Net change', cmp.total, true);
+  tot('Revised contract', base.total + cmp.total, true);
+  y -= 16;
+  p.lw(0.6); p.stroke(0.75); p.rect(LM, y - 60, W, 60); p.stroke(0);
+  accent(p); p.txt(LM + 12, y - 15, 'ACCEPTED', 7.5, true, null, false, 0.8); p.gray(0);
+  p.lw(0.5); [[LM + 12, LM + 220, 'Signature'], [LM + 240, LM + 400, 'Printed name'], [LM + 420, LW - LM - 12, 'Date']].forEach(([a, b, l]) => {
+    p.line(a, y - 42, b, y - 42); p.gray(0.45); p.txt(a, y - 52, l, 7, false); p.gray(0); });
+  p.out(fileBase() + '_CHANGE_ORDER' + (pr.coNo ? '_' + pr.coNo.replace(/[^\w-]+/g, '') : '') + '.pdf');
+  toast('Change order exported');
+}
+
+/* ============================================================
+   PURCHASING — the takeoff turned into purchase orders, one per
+   vendor. Each manufacturer can be bought through a distributor.
+   ============================================================ */
+const frameVendor = o => o.frameMat === 'WD' ? 'Wood frames' : cur(o, 'mfrFrame') === 'BSC' ? 'Baron (BSC)' : o.frameMat === 'AL' ? 'Aluminum frames' : 'Curries';
+const doorVendor = o => isWood(o) ? 'Wood doors' : o.doorMat === 'AL' ? 'Aluminum doors' : o.doorMat === 'FRP' ? 'FRP doors' : /STEELCRAFT/.test(o.prepStd) ? 'Baron (BSC)' : 'Curries';
+function buyFrom(mfr) { const m = (S.project.vendorMap || {}); return (m[mfr] || '').trim() || mfr; }
+function purchaseOrders() {
+  const V = new Map();
+  const add = (mfr, line) => {
+    const v = buyFrom(mfr || 'Unassigned');
+    if (!V.has(v)) V.set(v, { vendor: v, mfrs: new Set(), lines: new Map() });
+    const e = V.get(v); e.mfrs.add(mfr || 'Unassigned');
+    const key = [line.kind, line.desc, line.unit].join('|');
+    const l = e.lines.get(key) || Object.assign({}, line, { qty: 0, marks: [] });
+    l.qty += line.qty; (line.marks || []).forEach(m => { if (l.marks.indexOf(m) < 0) l.marks.push(m); });
+    e.lines.set(key, l);
+  };
+  let frameMain = 'Curries';
+  const fc = {};
+  S.openings.forEach(o => {
+    const q = num(o.qty), mk = o.mark || '—', d = derive(o);
+    if (!skipFrame(o)) { const v = frameVendor(o); fc[v] = (fc[v] || 0) + q;
+      add(v, { kind: 'Frame', desc: frameOrderLine(o) || [o.frameType, o.profile, sizeCode(d.nomW, d.nomH)].join(' '), unit: num(o.costFrame), uom: 'EA', qty: q, marks: [mk] }); }
+    if (d.leaves && !skipDoor(o)) add(doorVendor(o), { kind: 'Door', desc: doorOrderLine(o) || [o.doorMat, sizeCode(num(o.w1), d.nomH)].join(' '), unit: num(o.costDoor), uom: 'EA', qty: q * d.leaves, marks: [mk] });
+    if (num(o.costGlass) && (o.vlSize || o.louverSize)) add('Glass and louvers', { kind: 'Glass', desc: [o.vlSize ? 'Vision lite ' + o.vlSize + ' ' + (o.glaz || '') : '', o.louverSize ? 'Louver ' + o.louverSize : ''].filter(Boolean).join(' + '), unit: num(o.costGlass) / Math.max(1, d.leaves), uom: 'EA', qty: q * Math.max(1, d.leaves), marks: [mk] });
+  });
+  frameMain = Object.keys(fc).sort((a, b) => fc[b] - fc[a])[0] || frameMain;
+  anchorBOM().forEach(r => add(frameMain, { kind: 'Anchor', desc: r.name + ' (' + r.unit + ')', unit: 0, uom: 'EA', qty: r.qty, marks: r.marks }));
+  hwBOM().forEach(s => { if (!s.qty) return; s.items.forEach(i => add(i.mfr || 'Hardware, no manufacturer', { kind: i.cat, desc: [i.model, i.product, (i.fin || '').split(' —')[0], i.size].filter(Boolean).join(' · '), unit: num(i.cost), uom: 'EA', qty: i.ext, marks: s.marks })); });
+  (S.div10 || []).forEach(r => add(r.mfr || 'Division 10, no manufacturer', { kind: secName(r.sec), desc: [r.model, r.product].filter(Boolean).join(' · '), unit: num(r.cost), uom: r.unit, qty: num(r.qty), marks: r.room ? [r.room] : [] }));
+  return [...V.values()].map((v, i) => Object.assign(v, { no: (S.project.poPrefix || ('PO-' + (S.project.jobNo || 'JOB'))) + '-' + String(i + 1).padStart(2, '0'),
+    lines: [...v.lines.values()], mfrs: [...v.mfrs], total: [...v.lines.values()].reduce((a, l) => a + l.unit * l.qty, 0) }))
+    .sort((a, b) => b.total - a.total);
+}
+function renderPurchasing() {
+  const POs = purchaseOrders(), pr = S.project;
+  const mfrs = [...new Set(POs.flatMap(p => p.mfrs))].sort();
+  const vm = pr.vendorMap || {};
+  $('#poBody').innerHTML = `
+    <div class="phead">
+      <div><div class="eyebrow">Review</div><h1>Purchasing</h1>
+      <p>Every frame, door, anchor, hardware item and specialty on the takeoff, grouped into one purchase order per vendor. Frames and doors go out on the Curries order lines.</p></div>
+      <div class="pact">
+        <button class="btn" id="poCsv">${ic('download')}CSV</button>
+        <button class="btn primary" id="poAll">${ic('download')}All purchase orders PDF</button>
+      </div>
+    </div>
+    <div class="cols2">
+      <div>${POs.length ? POs.map((po, i) => `<div class="card">
+        <div class="chead"><h2>${esc(po.vendor)}</h2><span class="mono hint">${esc(po.no)}</span><span class="spacer"></span>
+          <span class="hint">${plural(po.lines.length, 'line')} · <b class="mono" style="color:var(--ink)">${money(po.total)}</b></span>
+          <button class="btn sm" data-po="${i}">${ic('download')}PDF</button></div>
+        ${po.mfrs.length > 1 || po.mfrs[0] !== po.vendor ? `<p class="sub">For ${esc(po.mfrs.join(', '))}</p>` : ''}
+        <div class="scrollx"><table class="wide"><thead><tr><th>QTY</th><th>UOM</th><th>ITEM</th><th>DESCRIPTION</th><th style="text-align:right">UNIT</th><th style="text-align:right">EXT</th><th>FOR</th></tr></thead><tbody>
+          ${po.lines.map(l => `<tr><td class="n">${l.qty}</td><td>${esc(l.uom)}</td><td>${esc(l.kind)}</td><td class="grp" style="white-space:normal;min-width:260px">${esc(l.desc)}</td>
+            <td class="n">${l.unit ? money2(l.unit) : '—'}</td><td class="n">${l.unit ? money(l.unit * l.qty) : '—'}</td><td class="hint">${esc(l.marks.slice(0, 8).join(', '))}${l.marks.length > 8 ? '…' : ''}</td></tr>`).join('')}
+        </tbody></table></div></div>`).join('') : '<div class="card empty"><h3>Nothing to buy yet</h3><p>Purchase orders build themselves from the openings, the hardware sets and Division 10.</p></div>'}
+      </div>
+      <div>
+        <div class="card"><h2 style="margin-bottom:10px">Order details</h2>
+          <div class="g2">
+            <div class="f"><label for="po_prefix">PO number prefix</label><input id="po_prefix" data-po2="poPrefix" value="${esc(pr.poPrefix || '')}" placeholder="PO-${esc(pr.jobNo || 'JOB')}"></div>
+            <div class="f"><label for="po_need">Needed on site by</label><input type="date" id="po_need" data-po2="poNeed" value="${esc(pr.poNeed || '')}"></div>
+            <div class="f full"><label for="po_ship">Ship to</label><input id="po_ship" data-po2="poShip" value="${esc(pr.poShip || '')}" placeholder="${esc(pr.address || 'Job site address')}"></div>
+            <div class="f full"><label for="po_notes">Notes on every order</label><textarea id="po_notes" data-po2="poNotes" rows="2" placeholder="Call 24 hours before delivery. Tag every opening with its mark.">${esc(pr.poNotes || '')}</textarea></div>
+          </div>
+        </div>
+        <div class="card"><h2>Buy from</h2><p class="sub">Leave blank to order from the manufacturer, or type the distributor you buy that line through. Lines from the same distributor go on one order.</p>
+          ${mfrs.length ? `<table class="sum"><tbody>${mfrs.map(m => `<tr><td>${esc(m)}</td><td><input data-vm="${esc(m)}" value="${esc(vm[m] || '')}" placeholder="${esc(m)}"></td></tr>`).join('')}</tbody></table>` : '<p class="hint" style="margin:0">No manufacturers yet.</p>'}
+        </div>
+      </div>
+    </div>`;
+}
+function poDraw(p, po) {
+  const pr = S.project, W = LW - 2 * LM;
+  p.page(LW, LH);
+  let y = letterHead(p, 'PURCHASE ORDER', 'No. ' + po.no, p.pages.length);
+  const newPage = () => { p.page(LW, LH); y = letterHead(p, 'PURCHASE ORDER', po.no + '  ·  continued', p.pages.length); };
+  const box = (x, label, lines) => { p.gray(0.965); p.rect(x, y - 62, W / 2 - 7, 62, true); p.gray(0); accent(p); p.txt(x + 10, y - 13, label, 6.8, true, null, false, 0.8); p.gray(0);
+    lines.filter(Boolean).slice(0, 4).forEach((l, i) => p.fit(x + 10, y - 27 - i * 11, W / 2 - 27, l, i ? 8.4 : 9.6, !i, 1)); };
+  box(LM, 'VENDOR', [po.vendor, po.mfrs.join(', ') !== po.vendor ? 'For ' + po.mfrs.join(', ') : '']);
+  box(LM + W / 2 + 7, 'SHIP TO', [pr.job, pr.poShip || pr.address, pr.gc ? 'c/o ' + pr.gc : '']);
+  y -= 76;
+  [['PO NUMBER', po.no], ['DATE', new Date().toISOString().slice(0, 10)], ['NEEDED BY', pr.poNeed || '—'], ['JOB', pr.jobNo || '—']].forEach(([k, v], i) => {
+    const x = LM + i * W / 4; p.gray(0.45); p.txt(x, y, k, 6.2, true, null, false, 0.5); p.gray(0); p.fit(x, y - 12, W / 4 - 10, v, 9.5, true, 1); });
+  y -= 30;
+  const head = () => { y = letterTableHead(p, y, [{ x: LM + 6, h: 'QTY' }, { x: LM + 44, h: 'UOM' }, { x: LM + 78, h: 'ITEM' }, { x: LM + 150, h: 'DESCRIPTION' }, { x: LW - LM - 76, h: 'UNIT', a: 'r' }, { x: LW - LM - 6, h: 'EXTENDED', a: 'r' }]) - 4; };
+  head();
+  po.lines.forEach(l => {
+    const d = fitLines(l.desc + (l.marks.length ? '   [' + l.marks.join(', ') + ']' : ''), LW - LM - 130 - (LM + 150), 7.8, false, 4);
+    if (y - d.lines.length * 9.5 - 8 < LM + 90) { newPage(); head(); }
+    y -= 10;
+    p.txt(LM + 6, y, String(l.qty), 8.6, true); p.txt(LM + 44, y, l.uom, 7.6, false); p.fit(LM + 78, y, 68, l.kind, 7.6, false, 1);
+    d.lines.forEach((ln, j) => p.txt(LM + 150, y - j * 9.5, ln, d.size, false));
+    if (l.unit) { p.txt(LW - LM - 76, y, money2(l.unit), 8, false, 'r'); p.txt(LW - LM - 6, y, money2(l.unit * l.qty), 8.4, true, 'r'); }
+    y -= (d.lines.length - 1) * 9.5 + 6; p.lw(0.3); p.stroke(0.86); p.line(LM, y, LW - LM, y); p.stroke(0);
+  });
+  if (y < LM + 110) newPage();
+  y -= 16; p.txt(LW - LM - 160, y, 'ORDER TOTAL', 9, true); p.txt(LW - LM - 6, y, money2(po.total), 11, true, 'r');
+  y -= 24;
+  if (pr.poNotes) { accent(p); p.txt(LM, y, 'NOTES', 7.5, true, null, false, 0.8); p.gray(0); y -= 13; y -= p.fit(LM, y, W, pr.poNotes, 8.6, false, 5, 11); }
+  y -= 10; p.gray(0.4); p.fit(LM, y, W, 'Confirm price and ship date by return. Tag every frame and door with its opening mark. Quote this PO number on every invoice and packing slip.', 7.6, false, 2, 9.5); p.gray(0);
+}
+function poPDF(which) {
+  const POs = purchaseOrders(); if (!POs.length) return toast('Nothing to order yet');
+  const list = which == null ? POs : [POs[which]];
+  const p = new Pdf(); list.forEach(po => poDraw(p, po));
+  p.out(fileBase() + (list.length === 1 ? '_' + list[0].no : '_PURCHASE_ORDERS') + '.pdf');
+  toast(plural(list.length, 'purchase order') + ' exported');
+}
+function poCSV() {
+  const L = [['PO', 'VENDOR', 'QTY', 'UOM', 'ITEM', 'DESCRIPTION', 'UNIT', 'EXTENDED', 'FOR'].map(csvQ).join(',')];
+  purchaseOrders().forEach(po => po.lines.forEach(l => L.push([po.no, po.vendor, l.qty, l.uom, l.kind, l.desc, l.unit, Math.round(l.unit * l.qty * 100) / 100, l.marks.join(' ')].map(csvQ).join(','))));
+  downloadFile(fileBase() + '_purchase_orders.csv', L.join('\n'), 'text/csv'); toast('Purchase orders exported');
+}
+function bindPurchasing() {
+  const box = $('#poBody');
+  box.addEventListener('click', e => {
+    if (e.target.closest('#poAll')) return poPDF();
+    if (e.target.closest('#poCsv')) return poCSV();
+    const b = e.target.closest('[data-po]'); if (b) poPDF(+b.dataset.po);
+  });
+  box.addEventListener('change', e => {
+    const el = e.target;
+    if (el.dataset.po2) { S.project[el.dataset.po2] = el.value; persist(); renderPurchasing(); }
+    if (el.dataset.vm != null) { S.project.vendorMap = Object.assign({}, S.project.vendorMap || {}, { [el.dataset.vm]: el.value.trim() }); persist(); renderPurchasing(); }
+  });
+}
+
+/* ============================================================
+   PLAN TAKEOFF — on a PDF floor plan: click doors to add openings,
+   click accessories to count Division 10, set the drawing scale and
+   measure runs of wall protection. Every pin is kept on the line it
+   created, so it survives a reload, follows undo, and comes back
+   when the same plan is opened again.
+   ============================================================ */
+const PLAN_SCALES = [['', 'Scale not set'], ['1.333333', '1/8" = 1\'-0"'], ['0.888889', '3/16" = 1\'-0"'], ['0.666667', '1/4" = 1\'-0"'],
+  ['2.666667', '1/16" = 1\'-0"'], ['1.777778', '3/32" = 1\'-0"'], ['0.444444', '3/8" = 1\'-0"'], ['0.333333', '1/2" = 1\'-0"']];
+const planKey = () => (IMP.file ? IMP.file.name : '') + '|' + IMP.page;
+const planScale = () => num(((S.project.planScales || {})[planKey()]) || 0);     // real inches per PDF point
+const onPage = r => r && r.file === (IMP.file ? IMP.file.name : '') && r.page === IMP.page;
+function countModeHtml() {
+  const t = IMP.tool || 'open';
+  const sc = planScale();
+  const d10opts = `<option value="">Pick the item to count…</option>` +
+    (S.div10.length ? `<optgroup label="On this job">${S.div10.map(r => `<option value="${r.id}" ${IMP.d10 === r.id ? 'selected' : ''}>${esc([r.product, r.model].filter(Boolean).join(' · ') || 'Unnamed line')} (${num(r.qty)} ${esc(r.unit)})</option>`).join('')}</optgroup>` : '') +
+    DIV10_SECTIONS.map(([c, n]) => { const its = DIV10_LIB.map((x, i) => [x, i]).filter(([x]) => x.sec === c);
+      return its.length ? `<optgroup label="New: ${esc(n)}">${its.map(([x, i]) => `<option value="L|${i}">${esc(x.product)}</option>`).join('')}</optgroup>` : ''; }).join('');
+  const sel = (k, list) => `<select data-qc="${k}" style="width:auto;height:28px">${list.map(([v, l]) => `<option value="${esc(v)}" ${v === QUICK[k] ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select>`;
+  const here = S.openings.filter(o => onPage(o.planRef));
+  const groups = {}; here.forEach(o => { const k = sizeCode(derive(o).nomW, derive(o).nomH) + ' ' + o.config; groups[k] = (groups[k] || 0) + num(o.qty); });
+  const d10here = S.div10.map(r => ({ r, n: r.pins.filter(onPage).length, lf: r.runs.filter(onPage).reduce((a, x) => a + num(x.lf), 0) })).filter(x => x.n || x.lf);
+  return `
+    <div class="card plantools" style="padding:10px 14px">
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div class="seg" role="group" aria-label="Plan tool">
+          <button type="button" data-ptool="open" class="${t === 'open' ? 'on' : ''}">${ic('door')} Openings</button>
+          <button type="button" data-ptool="d10" class="${t === 'd10' ? 'on' : ''}">${ic('box')} Division 10</button>
+          <button type="button" data-ptool="measure" class="${t === 'measure' ? 'on' : ''}">${ic('ruler')} Measure</button>
+        </div>
+        <span class="tbsep"></span>
+        <span class="hint">Scale</span><select id="impScale" style="width:auto;height:28px">${PLAN_SCALES.map(([v, l]) => `<option value="${v}" ${Math.abs(num(v) - sc) < 1e-4 && (v || !sc) ? 'selected' : ''}>${esc(l)}</option>`).join('')}${sc && !PLAN_SCALES.some(([v]) => Math.abs(num(v) - sc) < 1e-4) ? '<option selected>Calibrated</option>' : ''}</select>
+        <button type="button" class="btn sm ${t === 'cal' ? 'primary' : ''}" data-ptool="cal" title="Click two points a known distance apart">Calibrate</button>
+        <span class="spacer"></span>
+        <button type="button" class="iconbtn" id="impZoomOut" title="Zoom out">${ic('zoomout')}</button>
+        <span class="mono hint" style="min-width:42px;text-align:center">${Math.round((IMP.zoom || 1) * 100)}%</span>
+        <button type="button" class="iconbtn" id="impZoomIn" title="Zoom in">${ic('zoomin')}</button>
+        <button type="button" class="btn sm ghost" id="impZoomFit">Fit</button>
+        <button type="button" class="btn sm" id="impUndoPin">${ic('undo')}Remove last</button>
+      </div>
+      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:9px">
+      ${t === 'open' ? `
+        <label class="qf"><span class="hint">Next mark</span><span style="display:flex;gap:4px"><input type="text" id="impPrefix" value="${esc(IMP.prefix)}" placeholder="prefix" style="width:64px;height:28px"><input type="number" id="impNext" value="${IMP.next}" style="width:64px;height:28px"></span></label>
+        <label class="qf"><span class="hint">Size</span><input type="text" data-qc="size" value="${esc(QUICK.size)}" style="width:80px;height:28px"></label>
+        <label class="qf"><span class="hint">Type</span>${sel('config', O.config.map(([v]) => [v, v]))}</label>
+        <label class="qf"><span class="hint">Preset</span><select data-qc="preset" style="width:170px;height:28px"><option value="">No preset</option>${Object.keys(PRESETS).map(k => `<option ${k === QUICK.preset ? 'selected' : ''}>${esc(k)}</option>`).join('')}</select></label>
+        <label class="qf"><span class="hint">Rating</span>${sel('fire', O.fire.map(([v, l]) => [v, v === 'NR' ? 'NR' : l.split(' — ')[0]]))}</label>
+        <label class="qf"><span class="hint">Hand</span>${sel('hand', O.hand.map(([v]) => [v, v]))}</label>
+        <label class="qf"><span class="hint">HW set</span><select data-qc="hwSet" style="width:80px;height:28px"><option value="">—</option>${S.sets.map(s => `<option ${s.id === QUICK.hwSet ? 'selected' : ''}>${esc(s.id)}</option>`).join('')}</select></label>
+        <span class="hint" style="align-self:center">Click each door on the plan.</span>`
+      : t === 'd10' ? `
+        <label class="qf" style="flex:1 1 320px"><span class="hint">Count this item</span><select id="impD10" style="height:28px">${d10opts}</select></label>
+        <label class="qf"><span class="hint">Room</span><input type="text" id="impD10Room" value="${esc(IMP.d10room || '')}" placeholder="optional" style="width:150px;height:28px"></label>
+        <span class="hint" style="align-self:center">Each click adds one to its quantity.</span>`
+      : t === 'measure' ? `
+        <label class="qf" style="flex:1 1 320px"><span class="hint">Add the length to (LF items)</span><select id="impD10" style="height:28px"><option value="">Measure only</option>${S.div10.filter(r => r.unit === 'LF').map(r => `<option value="${r.id}" ${IMP.d10 === r.id ? 'selected' : ''}>${esc(r.product || 'Unnamed line')} (${num(r.qty)} LF)</option>`).join('')}${DIV10_LIB.map((x, i) => [x, i]).filter(([x]) => x.unit === 'LF').map(([x, i]) => `<option value="L|${i}">New: ${esc(x.product)}</option>`).join('')}</select></label>
+        <span class="hint" style="align-self:center">${sc ? 'Click the start, then the end of each run.' : '<b style="color:var(--fire)">Set the scale or calibrate first.</b>'}${IMP.lastLen ? ' Last run: <b>' + esc(ftin(IMP.lastLen)) + '</b>' : ''}</span>`
+      : `<span class="hint" style="align-self:center"><b>Calibrate:</b> click two points whose distance you know — a dimension string or a grid line. ${IMP.mPt ? 'Now click the second point.' : ''}</span>`}
+      </div>
+      <div class="hint" style="margin-top:8px;display:flex;gap:14px;flex-wrap:wrap">
+        <span>${ic('pin')} On this page: <b>${plural(here.length, 'opening')}</b>${Object.keys(groups).length ? ' — ' + esc(Object.entries(groups).map(([k, n]) => n + '× ' + k).join(', ')) : ''}</span>
+        ${d10here.map(x => `<span>${esc(x.r.product || 'item')}: <b>${x.n ? x.n : ''}${x.lf ? (x.n ? ' + ' : '') + x.lf.toFixed(1) + ' LF' : ''}</b></span>`).join('')}
+      </div>
+    </div>
+    <div class="card" style="padding:0;overflow:auto;max-height:72vh;position:relative" id="impScroll"><div id="impCanvasWrap" style="position:relative;display:inline-block;cursor:crosshair"><canvas id="impCanvas"></canvas><svg id="impOverlay" style="position:absolute;left:0;top:0;pointer-events:none"></svg></div></div>`;
+}
+function drawPins() {
+  const sv = $('#impOverlay'), cv = $('#impCanvas'); if (!sv || !cv) return;
+  const W = cv.width, H = cv.height;
+  sv.setAttribute('width', W); sv.setAttribute('height', H); sv.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  let g = '';
+  S.div10.forEach(r => r.runs.filter(onPage).forEach(x => {
+    g += `<line x1="${x.x1 * W}" y1="${x.y1 * H}" x2="${x.x2 * W}" y2="${x.y2 * H}" stroke="#c07f00" stroke-width="3" stroke-linecap="round" opacity=".85"/>`;
+    g += `<text x="${(x.x1 + x.x2) / 2 * W}" y="${(x.y1 + x.y2) / 2 * H - 6}" font-size="12" font-weight="700" fill="#7a5100" text-anchor="middle" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(num(x.lf).toFixed(1))} LF</text>`;
+  }));
+  (IMP.tmpRuns || []).filter(x => x.key === planKey()).forEach(x => {
+    g += `<line x1="${x.x1 * W}" y1="${x.y1 * H}" x2="${x.x2 * W}" y2="${x.y2 * H}" stroke="#1c5975" stroke-width="2" stroke-dasharray="6 4"/>`;
+    g += `<text x="${(x.x1 + x.x2) / 2 * W}" y="${(x.y1 + x.y2) / 2 * H - 6}" font-size="12" font-weight="700" fill="#1c5975" text-anchor="middle" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(ftin(x.len))}</text>`;
+  });
+  if (IMP.mPt && IMP.mPt.key === planKey()) g += `<circle cx="${IMP.mPt.x * W}" cy="${IMP.mPt.y * H}" r="5" fill="#a83228"/>`;
+  S.div10.forEach(r => r.pins.filter(onPage).forEach(x => {
+    const lab = (r.model || r.product || '?').slice(0, 10);
+    g += `<g transform="translate(${x.x * W},${x.y * H})"><rect x="-4" y="-4" width="8" height="8" fill="#c07f00" stroke="#fff" stroke-width="1.5" transform="rotate(45)"/>
+      <text x="8" y="4" font-size="10.5" font-weight="600" fill="#7a5100" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(lab)}</text></g>`;
+  }));
+  S.openings.filter(o => onPage(o.planRef) && o.planRef.x != null).forEach(o => {
+    const t = o.mark || '?', w = Math.max(22, t.length * 7.4 + 10);
+    g += `<g transform="translate(${o.planRef.x * W},${o.planRef.y * H})"><rect x="${-w / 2}" y="-11" width="${w}" height="22" rx="11" fill="${o.id === S.selId ? '#c07f00' : '#1c5975'}" stroke="#fff" stroke-width="1.5"/>
+      <text y="4" font-size="11" font-weight="600" font-family="IBM Plex Mono, monospace" fill="#fff" text-anchor="middle">${esc(t)}</text></g>`;
+  });
+  sv.innerHTML = g;
+}
+/** the tool bar and the pins, without drawing the plan again — a click should not cost a page render */
+function refreshPlanTools() {
+  const c = $('.plantools');
+  if (c) { const tmp = document.createElement('div'); tmp.innerHTML = countModeHtml(); c.replaceWith(tmp.querySelector('.plantools')); }
+  drawPins();
+}
+function planClick(e) {
+  const cv = $('#impCanvas'), rc = cv.getBoundingClientRect();
+  const x = (e.clientX - rc.left) / rc.width, y = (e.clientY - rc.top) / rc.height;
+  const file = IMP.file.name, page = IMP.page, t = IMP.tool || 'open';
+  IMP.stack = IMP.stack || [];
+  if (t === 'open') {
+    const mark = (IMP.prefix || '') + IMP.next;
+    const o = openingFromRow(Object.assign({}, QUICK, { mark }));
+    o.sheet = IMP.pageLabel || ''; o.planRef = { file, page, x, y };
+    const last = S.openings[S.openings.length - 1]; if (last && !o.level) o.level = last.level;
+    S.openings.push(o); S.selId = o.id; IMP.stack.push({ k: 'open', id: o.id });
+    IMP.next++; persist(); refreshPlanTools(); toast('Added ' + mark + ' · ' + sizeCode(derive(o).nomW, derive(o).nomH) + ' ' + o.config);
+    return;
+  }
+  const itemFor = (unitWanted) => {
+    if (!IMP.d10) return null;
+    if (/^L\|/.test(IMP.d10)) {
+      const r = d10FromLib(DIV10_LIB[+IMP.d10.split('|')[1]]); r.qty = 0;
+      if (unitWanted) r.unit = unitWanted;
+      S.div10.push(r); IMP.d10 = r.id; return r;
+    }
+    return S.div10.find(r => r.id === IMP.d10) || null;
+  };
+  if (t === 'd10') {
+    const r = itemFor(); if (!r) return toast('Pick the item to count first');
+    r.pins.push({ file, page, x, y }); r.qty = num(r.qty) + 1;
+    if (IMP.d10room && r.room.indexOf(IMP.d10room) < 0) r.room = [r.room, IMP.d10room].filter(Boolean).join(', ');
+    IMP.stack.push({ k: 'pin', id: r.id }); persist(); refreshPlanTools(); toast((r.product || 'Item') + ': ' + r.qty);
+    return;
+  }
+  if (t === 'cal' || t === 'measure') {
+    if (t === 'measure' && !planScale()) return toast('Set the drawing scale or calibrate first');
+    if (!IMP.mPt || IMP.mPt.key !== planKey()) { IMP.mPt = { key: planKey(), x, y }; drawPins(); if (t === 'cal') refreshPlanTools(); return; }
+    const a = IMP.mPt; IMP.mPt = null;
+    const pts = Math.hypot((x - a.x) * IMP.pw, (y - a.y) * IMP.ph);
+    if (pts < 2) return drawPins();
+    if (t === 'cal') {
+      const ans = prompt('How long is that, in real life? e.g. 10\'-0" or 120', "10'-0\"");
+      const real = parseDim(ans);
+      if (!isFinite(real) || real <= 0) { refreshPlanTools(); return toast('Calibration cancelled'); }
+      S.project.planScales = Object.assign({}, S.project.planScales || {}, { [planKey()]: real / pts });
+      IMP.tool = 'measure'; persist(); refreshPlanTools(); return toast('Scale set on this page: ' + ftin(real) + ' over ' + Math.round(pts) + ' pt');
+    }
+    const len = pts * planScale();
+    IMP.lastLen = len;
+    const r = itemFor('LF');
+    if (r) {
+      const lf = Math.round(len / 12 * 10) / 10;
+      r.runs.push({ file, page, x1: a.x, y1: a.y, x2: x, y2: y, lf }); r.qty = Math.round((num(r.qty) + lf) * 10) / 10;
+      IMP.stack.push({ k: 'run', id: r.id }); persist(); refreshPlanTools(); toast(ftin(len) + ' added to ' + (r.product || 'the line') + ', now ' + r.qty + ' LF');
+    } else {
+      IMP.tmpRuns = (IMP.tmpRuns || []).concat([{ key: planKey(), x1: a.x, y1: a.y, x2: x, y2: y, len }]);
+      refreshPlanTools(); toast('Measured ' + ftin(len));
+    }
+  }
+}
+function planUndo() {
+  const st = IMP.stack || [];
+  const last = st.pop();
+  if (!last) {
+    const mine = S.openings.filter(o => onPage(o.planRef)); const o = mine[mine.length - 1];
+    if (!o) return toast('Nothing to remove on this page');
+    S.openings = S.openings.filter(x => x !== o); IMP.next = Math.max(1, IMP.next - 1); persist(); refreshPlanTools(); return;
+  }
+  if (last.k === 'open') { S.openings = S.openings.filter(o => o.id !== last.id); IMP.next = Math.max(1, IMP.next - 1); }
+  else { const r = S.div10.find(x => x.id === last.id); if (r) {
+    if (last.k === 'pin' && r.pins.length) { r.pins.pop(); r.qty = Math.max(0, num(r.qty) - 1); }
+    if (last.k === 'run' && r.runs.length) { const x = r.runs.pop(); r.qty = Math.max(0, Math.round((num(r.qty) - num(x.lf)) * 10) / 10); } } }
+  persist(); refreshPlanTools();
+}
+
+/* ---------- a drawing, big: the panel copy is small, this one fills the screen ---------- */
+function enlargeDrawing() {
+  const o = S.openings.find(x => x.id === S.selId); if (!o) return;
+  const v = S.elevView;
+  const svg = v === 'sect' ? svgSection(o) : v === 'hw' ? svgHingeChart(o) : svgElevation(o, v);
+  const name = { elev: 'Opening', frame: 'Frame', door: 'Door', hw: 'Hinge locations', sect: 'Jamb section' }[v] || 'Drawing';
+  openModal(name + ' — ' + (o.mark || 'no mark'), [sizeCode(derive(o).nomW, derive(o).nomH), o.config, [o.roomFrom, o.roomTo].filter(Boolean).join(' → ')].filter(Boolean).join(' · '),
+    `<div class="bigdraw">${svg}</div>`,
+    `<div class="seg">${[['elev', 'Opening'], ['frame', 'Frame'], ['door', 'Door'], ['hw', 'Hinge locations'], ['sect', 'Jamb']].map(([k, l]) => `<button type="button" class="${v === k ? 'on' : ''}" data-bigv="${k}">${l}</button>`).join('')}</div>
+     <span style="flex:1"></span>
+     <button class="btn" id="bigSvg">${ic('download')}Save as SVG</button>
+     <button class="btn primary" data-cmd="planOne">${ic('blueprint')}Shop plan PDF</button>`);
+  $('#mFoot').onclick = e => {
+    const b = e.target.closest('[data-bigv]'); if (b) { S.elevView = b.dataset.bigv; renderDetail(); enlargeDrawing(); return; }
+    if (e.target.closest('#bigSvg')) {
+      const s = $('#mBody svg'); if (!s) return;
+      const css = ':root{--ink:#141a21;--ink2:#3d4853;--steel:#687581;--mute:#8e99a4;--signal:#c07f00;--fire:#a83228;--focus:#1c5975;--accent:#1c5975;--rule2:#eaedf0;--head:#eff1f0;--mono:"IBM Plex Mono",monospace}';
+      const out = s.outerHTML.replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" ').replace(/<defs>/, '<defs><style>' + css + '</style>');
+      downloadFile(fileBase() + '_' + (o.mark || 'opening') + '_' + v + '.svg', out, 'image/svg+xml'); toast('Drawing saved');
+    }
+  };
+}
+
+
+/* ============================================================
    SAMPLE JOB — replace with your own; Clear job empties it
    ============================================================ */
 function sampleJob() {
@@ -10648,6 +11875,22 @@ function sampleJob() {
       hand:'RH', swing:'IN', hwSet:'HW-2', lead:'CUSTOM', costFrame:0, costDoor:520, costGlass:180, laborHrs:1.8,
       existingNotes:'Existing 16 GA welded frame stays. Re-prep strike for new lockset.' })
   ];
+  ['A1', 'A2', 'A3', 'A4'].forEach((k, i) => { S.openings[i].keyset = k; });
+  S.keying = normKeying({ system:'Schlage Everest 29, restricted', keyway:'S123', core:'Full size interchangeable core', keysets:[
+    { id:'GMK', level:'GMK', desc:'Grand master' }, { id:'A', level:'MK', parent:'GMK', desc:'Master, level 01' },
+    { id:'A1', level:'SKD', parent:'A', desc:'101 · Vestibule 101' }, { id:'A2', level:'SKD', parent:'A', desc:'105 · Office 105' },
+    { id:'A3', level:'SKD', parent:'A', desc:'110A · Corridor 200' }, { id:'A4', level:'SKD', parent:'A', desc:'118 · Mech 119' }] });
+  const d10 = (i, qty, room) => Object.assign(d10FromLib(DIV10_LIB[i]), { qty, room });
+  const lib = k => DIV10_LIB.findIndex(x => x.product.indexOf(k) === 0);
+  S.div10 = [
+    d10(lib('Toilet compartment, powder coated'), 3, 'Restrooms 120, 121'),
+    d10(lib('Accessible compartment'), 2, 'Restrooms 120, 121'),
+    d10(lib('Grab bar, 36 in'), 2, 'Restrooms 120, 121'), d10(lib('Grab bar, 42 in'), 2, 'Restrooms 120, 121'),
+    d10(lib('Toilet tissue dispenser'), 5, 'Restrooms 120, 121'), d10(lib('Mirror, 24 x 36'), 4, 'Restrooms 120, 121'),
+    d10(lib('Fire extinguisher cabinet, semi-recessed'), 4, 'Corridors'), d10(lib('Fire extinguisher, 10 lb'), 4, 'Corridors'),
+    d10(lib('Corner guard, stainless'), 12, 'Corridor 100')
+  ];
+  S.baselines = [];
   S.selId = S.openings[0].id;
 }
 
@@ -10661,14 +11904,11 @@ let firstRun = false;
   bindShop();
   bindClients();
   bindImport();
+  bindDiv10(); bindKeying(); bindPriceBook(); bindChanges(); bindPurchasing();
   const raw = await store.get('takeoff:v1');
   if (raw) {
     try {
-      const j = JSON.parse(raw);
-      S.project = Object.assign({}, DEFAULT_PROJECT, j.project || {});
-      S.openings = (j.openings || []).map(o => Object.assign(blankOpening(), migrateOpening(o)));
-      S.sets = (j.sets || []).map(normSet);
-      S.catalog = j.catalog || [];
+      loadJob(JSON.parse(raw));
     } catch (e) { sampleJob(); }
   } else { sampleJob(); firstRun = true; }
   if (!S.selId && S.openings.length) S.selId = S.openings[0].id;
