@@ -767,6 +767,20 @@ table.d10 td input,table.d10 td select{height:28px;font-size:12.5px}
 .calctab thead th:first-child{text-align:left}
 .calctab td{padding:6px 0 6px 8px;text-align:right;border-bottom:1px solid var(--rule2);white-space:nowrap;vertical-align:top}
 .calctab td.mono{font-family:var(--mono,"IBM Plex Mono",monospace);font-size:15px;font-weight:600;color:var(--ink)}
+.calcdraw .chead{margin-bottom:6px}
+.calcdraw .seg{flex-wrap:wrap}
+.calcstrip{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.cchip{flex:1 1 150px;border:1px solid var(--rule2);border-radius:6px;padding:6px 9px;background:#fbfcfb;min-width:0}
+.cchip span{display:block;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel)}
+.cchip b{display:block;font-family:var(--mono,"IBM Plex Mono",monospace);font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3}
+.cchip.hi{border-color:var(--signal-line);background:var(--signal-bg)}
+.cchip.good{border-color:var(--ok-line);background:var(--ok-bg)}.cchip.good b{color:var(--ok)}
+.cchip.warn{border-color:var(--signal-line);background:var(--signal-bg)}.cchip.warn b{color:var(--signal)}
+.cchip.bad{border-color:var(--fire-line);background:var(--fire-bg)}.cchip.bad b{color:var(--fire)}
+.calctab tr.pick th{color:var(--ink);font-weight:600}
+.calctab tr.dim th,.calctab tr.dim td.mono{color:var(--mute);font-weight:500}
+.calctab tr.bad td.mono{color:var(--fire)}
+table.wide tr.pick td{background:var(--signal-bg);font-weight:600}
 @media (max-width:1180px){.calcwrap{grid-template-columns:1fr}.calcdraw{position:static}.calcblocks{grid-template-columns:1fr 1fr}}
 @media (max-width:860px){.calcblocks{grid-template-columns:1fr}}
 
@@ -1704,12 +1718,6 @@ function manuLoc(mfr, h, forDoor) {
   const row = tbl[key].map(v => v == null ? null : (forDoor ? v - 0.125 : v));
   return { key, top:row[0], mid:row[1], bot:row[2], fourth:row[3], strike:row[4] };
 }
-/** how much can come off the bottom before the bottom hinge is compromised */
-function maxCutOff(mfr, h, undercut) {
-  const L = manuLoc(mfr, h, true);
-  const net = h - (undercut == null ? 0.75 : undercut);
-  return Math.max(0, net - L.bot - 4.5 - 2.125);
-}
 
 /* Frame construction and weld codes — Curries form 1080 */
 const WELD_CODES = [
@@ -1796,56 +1804,6 @@ const GLOSSARY = [
   ['Undercut', 'UC', 'The gap left below the door. Over 3/4 in voids most fire labels.']
 ];
 
-/* ============================================================
-   FRAME CALCULATOR
-   Rebuilt from the company calculator: measure the hole, choose
-   the frame, and see what face is left and what the door nets out at.
-   ============================================================ */
-function frameCalc(inp) {
-  const roW = num(inp.roW), roH = num(inp.roH);
-  const nomW = num(inp.nomW), nomH = num(inp.nomH);
-  const face = num(inp.face) || 2, jd = num(inp.jd) || 5.75, headF = num(inp.headF) || face;
-  const uc = inp.uc == null ? 0.75 : num(inp.uc);
-  const pair = !!inp.pair;
-
-  const jambFace = roW && nomW ? (roW - nomW) / 2 : null;   // face left at each jamb
-  const headFace = roH && nomH ? (roH - nomH) : null;       // face left at the head
-  const outW = nomW ? nomW + 2 * face : null;
-  const outH = nomH ? nomH + headF : null;
-  const netW = nomW ? (pair ? (nomW - 0.25) / 2 : nomW - 0.25) : null;
-  const netH = nomH ? nomH - uc : null;
-  const bipassW = nomW ? nomW / 2 + 0.5 : null;             // 1 in overlap at the centre
-  const bipassH = nomH ? nomH - 2.875 : null;
-
-  /* what the frame actually needs */
-  const needMO = { w: nomW + 4.25, h: nomH + headF + 0.25 };
-  const needRO = { w: nomW + 2, h: nomH + 1 };
-
-  const flags = [];
-  if (jambFace != null && jambFace < 0.25)
-    flags.push({ lvl:'e', t:'No jamb face', m:'The opening is too narrow for this frame. Only ' +
-      dimStr(Math.max(0, jambFace)) + ' of face at each jamb.' });
-  else if (jambFace != null && jambFace < face - 0.5)
-    flags.push({ lvl:'w', t:'Tight jamb face', m:'Only ' + dimStr(jambFace) + ' of the ' + dimStr(face) +
-      ' face laps the wall at each jamb.' });
-  if (headFace != null && headFace < 0.25)
-    flags.push({ lvl:'e', t:'No head face', m:'The opening is too low for this frame.' });
-  else if (headFace != null && headFace < headF - 0.5)
-    flags.push({ lvl:'w', t:'Tight head face', m:'Only ' + dimStr(headFace) + ' of face at the head.' });
-  if (jambFace != null && jambFace > face + 0.75)
-    flags.push({ lvl:'w', t:'Oversize opening', m:'The hole is ' + dimStr(jambFace - face) +
-      ' wider than the face on each side. It will need filling or a larger frame.' });
-  if (roW && nomW && roW < needRO.w - 0.01)
-    flags.push({ lvl:'w', t:'Under rough opening', m:'A wrap frame wants ' + ftin(needRO.w) +
-      ' wide; the hole measures ' + ftin(roW) + '.' });
-  if (nomW && !isStdW(pair ? nomW / 2 : nomW))
-    flags.push({ lvl:'i', t:'Custom width', m:'Leaf width is outside the standard sizes, so this is a custom elevation.' });
-  if (nomH && !isStdH(nomH))
-    flags.push({ lvl:'i', t:'Custom height', m:'Height is outside the standard sizes, so this is a custom elevation.' });
-
-  return { roW, roH, nomW, nomH, face, headF, jd, uc, pair, jambFace, headFace, outW, outH,
-    netW, netH, bipassW, bipassH, needMO, needRO, flags };
-}
 
 /* industry standard clearances used on every drawing
    door hinge backset 1/4 in, frame hinge backset 5/16 in, door 1/8 in below the frame head,
@@ -8551,8 +8509,6 @@ function shopSheets(ops) {
 }
 
 
-let CALC = { roW:'', roH:'', nomW:36, nomH:84, face:2, headF:2, jd:5.75, uc:0.75, pair:false, mfr:'CURRIES',
-  wall:'CMU', constr:'WLD', gauge:'16 GA', steel:'CRS', rating:'NR', hand:'LH' };
 
 
 
@@ -8732,244 +8688,512 @@ function typeOf(o) {
 }
 
 /* ============================================================
-   CALCULATOR ELEVATION — frame and door drawn from the numbers
-   being typed, with the dimensions the shop and the customer ask
-   for: overall, nominal opening, net leaf, undercut, and the
-   masonry and rough openings the frame needs.
+   FRAME CALCULATOR
+   Measure the hole, choose the frame, and see what face is left and what
+   the door nets out at. The numbers are turned into a real opening, so the
+   calculator, the opening panel and the shop plans all work from one engine.
    ============================================================ */
-function svgCalcDoor(c, L) {
-  const VW = 470, VH = 430;
-  const outW = c.outW || 40, outH = c.outH || 86;
-  const padL = 86, padR = 84, padT = 76, padB = 66;
-  const sc = Math.min((VW - padL - padR) / outW, (VH - padT - padB) / outH);
-  const x0 = padL + ((VW - padL - padR) - outW * sc) / 2;
-  const yB = VH - padB, yT = yB - outH * sc;
-  const X = v => x0 + v * sc;                       // inches from the outside of the hinge jamb
-  const Y = v => yB - v * sc;                       // inches above the finished floor
-  const face = c.face, headF = c.headF;
-  const nomW = c.nomW || 0, nomH = c.nomH || 0;
-  const oX = X(face), oW = nomW * sc;               // the nominal opening
-  const oTop = Y(nomH);
-  let g = '';
+let CALC = { roW:'', roH:'', nomW:36, nomH:84, face:2, headF:2, jd:5.75, uc:0.75, cfg:'SGL', slW:24, slSide:'HINGE', trH:24,
+  wallThk:'', mfr:'CURRIES', wall:'CMU', constr:'WLD', profile:'', gauge:'16 GA', steel:'CRS', rating:'NR', hand:'LH', hinge:'4.5', degree:90, view:'elev' };
+const CALC_CFG = [['SGL', 'Single'], ['PR', 'Pair'], ['SGL+SL', 'Single with sidelite'], ['SGL+2SL', 'Single, two sidelites'],
+  ['SGL+TR', 'Single with transom'], ['PR+TR', 'Pair with transom'], ['SGL+SL+TR', 'Single, sidelite and transom']];
+const calcPair = c => /^PR/.test(c.cfg);
 
-  /* wall, frame, opening */
-  g += `<rect x="${x0 - 46}" y="${yT - 16}" width="46" height="${yB - yT + 16}" fill="url(#hatch)"/>`;
-  g += `<rect x="${x0 + outW * sc}" y="${yT - 16}" width="46" height="${yB - yT + 16}" fill="url(#hatch)"/>`;
-  g += `<rect x="${x0 + outW * sc - 46 - outW * sc}" y="${yT - 16}" width="0" height="0" fill="none"/>`;
-  g += `<rect x="${x0}" y="${yT}" width="${outW * sc}" height="${yB - yT}" fill="#dfe4e8" stroke="var(--ink)" stroke-width="1.4"/>`;
-  g += `<rect x="${oX}" y="${oTop}" width="${oW}" height="${yB - oTop}" fill="#fff" stroke="var(--ink)" stroke-width="1"/>`;
-
-  /* the leaf or leaves, net size, sitting on the undercut */
-  const netH = c.netH || 0, uc = c.uc;
-  const leaves = c.pair ? 2 : 1, netW = c.netW || 0;
-  const dTop = Y(nomH - STD.topClr), dBot = Y(uc);
-  for (let i = 0; i < leaves; i++) {
-    const lx = oX + STD.jambClr * sc + i * (netW + 0.0625) * sc;
-    g += `<rect x="${lx}" y="${dTop}" width="${netW * sc}" height="${dBot - dTop}" fill="#fff" stroke="var(--ink)" stroke-width="1.6"/>`;
-    const hingeLeft = leaves === 2 ? i === 0 : /^L/.test(CALC.hand);   // a pair hangs one leaf on each jamb
-    /* hinges on the hinge jamb, strike opposite — read off the chart */
-    (L.tops || []).forEach((t, n) => {
-      const hy = Y(nomH - t), hx = hingeLeft ? lx : lx + netW * sc - 7;
-      g += `<rect x="${hx}" y="${hy - 9}" width="7" height="12" fill="var(--ink2)"/>`;
-      if (i === 0) g += T(hx + (hingeLeft ? -5 : 12), hy + 1, 'ABCD'[n] || '', { fs: 11, fill: 'var(--ink2)', a: hingeLeft ? 'end' : 'start' });
-    });
-    if (L.strike != null && leaves === 1) {
-      const sy = Y(nomH - L.strike), sx = hingeLeft ? lx + netW * sc - 6 : lx;
-      g += `<circle cx="${sx + 3}" cy="${sy}" r="3.5" fill="none" stroke="var(--signal)" stroke-width="1.4"/>`;
-      g += T(sx + (hingeLeft ? 13 : -8), sy + 4, 'E', { fs: 11, fill: 'var(--signal)', a: hingeLeft ? 'start' : 'end' });
-    }
-    if (netW * sc > 52) {
-      g += T(lx + netW * sc / 2, (dTop + dBot) / 2 - 34, leaves === 2 ? (i ? 'LEAF 2' : 'LEAF 1') : 'DOOR', { fs: 13, fill: 'var(--steel)' });
-      g += T(lx + netW * sc / 2, (dTop + dBot) / 2 - 16, ftin(netW), { fs: 13, fill: 'var(--ink)' });
-      g += T(lx + netW * sc / 2, (dTop + dBot) / 2, 'x ' + ftin(netH), { fs: 13, fill: 'var(--ink)' });
-    }
-  }
-
-  /* floor */
-  g += `<line x1="${x0 - 56}" y1="${yB}" x2="${x0 + outW * sc + 56}" y2="${yB}" stroke="var(--ink)" stroke-width="2"/>`;
-  g += T(x0 - 56, yB + 14, 'FIN. FLOOR', { fs: 10, fill: 'var(--steel)', a: 'start' });
-
-  /* what the frame needs: masonry and rough opening, dashed around it */
-  const kd = CALC.constr === 'KD';
-  const need = kd ? c.needRO : c.needMO;
-  if (nomW) {
-    const dx = X(face + nomW / 2) - need.w * sc / 2, dy = Y(need.h);
-    g += `<rect x="${dx}" y="${dy}" width="${need.w * sc}" height="${need.h * sc}" fill="none" stroke="var(--signal)" stroke-width="1.2" stroke-dasharray="6 4"/>`;
-    g += T(x0 + outW * sc / 2, yT - 60, (kd ? 'ROUGH OPENING  ' : 'MASONRY OPENING  ') + ftin(need.w) + ' x ' + ftin(need.h),
-      { fs: 10.5, fill: 'var(--signal)' });
-  }
-
-  /* dimensions */
-  g += dimH(x0, x0 + outW * sc, yT - 34, ftin(outW) + ' O/A');
-  g += dimH(oX, oX + oW, yT - 16, ftin(nomW) + ' OPNG');
-  g += dimV(yT, yB, x0 - 30, ftin(outH) + ' O/A');
-  g += dimV(oTop, yB, x0 - 12, ftin(nomH) + ' OPNG');
-  g += dimV(dTop, dBot, x0 + outW * sc + 16, ftin(netH) + ' LEAF');
-  g += dimV(dBot, yB, x0 + outW * sc + 38, dimStr(uc) + ' UC');
-  g += T(X(face + nomW / 2), yB + 52, 'JAMB DEPTH ' + dimStr(c.jd) + '  \u00b7  HEAD FACE ' + dimStr(headF),
-    { fs: 10.5, fill: 'var(--ink2)' });
-
-  return `<svg class="calcsvg" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Frame and door elevation">${SVG_DEFS}`
-    + `<g font-size="10.5">${g}</g></svg>`;
+/** the calculator's numbers as an opening the rest of the app understands */
+function calcOpening(c) {
+  c = c || CALC;
+  const o = blankOpening(), pair = calcPair(c);
+  const W = num(c.nomW) || 36, H = num(c.nomH) || 84;
+  o.mark = 'CALC'; o.qty = 1;
+  o.config = pair ? 'PR' : /SL/.test(c.cfg) ? 'SGL+SL' : /TR/.test(c.cfg) ? 'SGL+TR' : 'SGL';
+  o.w1 = pair ? W / 2 : W; o.w2 = pair ? W / 2 : 0; o.h = H;
+  if (/SL/.test(c.cfg)) { o.slW = num(c.slW) || 24; o.slQty = /2SL/.test(c.cfg) ? '2' : '1'; o.slSide = c.slSide || 'HINGE'; o.anchorSl = 0; }
+  if (/TR/.test(c.cfg)) o.trH = num(c.trH) || 24;
+  const face = num(c.face) || 2, headF = num(c.headF) || face;
+  const fOpt = O.face.find(x => x[0] !== 'CUSTOM' && Math.abs(parseDim(x[0]) - face) < 0.01);
+  o.faceSize = fOpt ? fOpt[0] : 'CUSTOM'; o.faceCustom = face;
+  const hOpt = O.headFace.find(x => !/SAME|CUSTOM/.test(x[0]) && Math.abs(parseDim(x[0]) - headF) < 0.01);
+  o.headFace = Math.abs(headF - face) < 0.01 ? 'SAME' : hOpt ? hOpt[0] : 'CUSTOM'; o.headFaceCustom = headF;
+  o.jambDepth = jambByInches(num(c.jd) || 5.75).txt;
+  o.undercut = c.uc === '' || c.uc == null ? 0.75 : num(c.uc);
+  o.wall = c.wall === 'DRYWALL' ? 'STL STUD' : c.wall;
+  o.frameType = c.constr;
+  const stud = /STUD|GYP/.test(o.wall);
+  o.profile = c.profile || (o.frameType === 'KD' && stud ? 'DW' : 'DR');
+  o.anchor = /CMU|CONC|PRECAST/.test(o.wall) ? 'WIRE' : /EXTG/.test(o.wall) ? 'EMA' : o.wall === 'WD STUD' ? 'WD' : o.frameType === 'KD' ? 'COMP' : 'Z';
+  o.gaugeFrame = c.gauge; o.steelFrame = { CRS:'CRS', A60:'A60', G90:'G90', SST:'SST 304' }[c.steel] || 'CRS';
+  o.fire = c.rating || 'NR'; if (o.fire !== 'NR') { o.closerReinf = true; o.headPrep = 'CLR'; }
+  const rev = /R$/.test(c.hand);
+  o.hand = pair ? (/^L/.test(c.hand) ? 'LHRA' : 'RHRA') : c.hand; o.swing = rev ? 'OUT' : 'IN';
+  o.prepStd = c.mfr; o.hingePrep = c.hinge === '5' ? '5x4.5 HW' : '4.5x4.5 SW'; o.hingeQty = H > 90 ? '2 PR' : '1.5 PR';
+  if (pair) { o.flushBolt = true; o.coordinator = true; o.astragal = o.fire !== 'NR'; }
+  o.wallThk = num(c.wallThk); o.degree = String(num(c.degree) || 90);
+  return o;
 }
 
+/** what the frame, the hole and the door come to */
+function frameCalc(c) {
+  const o = calcOpening(c), d = derive(o), g = jambGeo(o), L = hwLoc(o);
+  const pair = calcPair(c), roW = num(c.roW), roH = num(c.roH);
+  const uc = num(o.undercut);
+  /* 1/8 at each jamb and, on a pair, 1/8 at the meeting edge; 1/8 under the head */
+  const netW = pair ? (d.nomW - 0.375) / 2 : d.nomW - 0.25;
+  const netH = d.nomH - STD.topClr - uc;
+  const jambFace = roW ? (roW - d.unitW) / 2 : null;       // frame face left lapping the wall at each jamb
+  const headFace = roH ? roH - d.unitH : null;              // and at the head
+  const needMO = { w: d.unitW + 4.25, h: d.unitH + d.headF + 0.25 }, needRO = { w: d.unitW + 2, h: d.unitH + 1 };
+  const masonry = /^MO/.test(d.roLabel);
+  /* clear width at 90 degrees: the leaf face to the stop on the strike jamb */
+  const clear = (pair ? netW + 0.125 : d.nomW) - STD.jambClr - g.thk - (g.hasStop ? g.stop : 0);
+  const clearPair = pair ? d.nomW - 2 * (STD.jambClr + g.thk) : null;
+  /* the most that can come off the bottom of the leaf before the bottom hinge leaf runs out of rail */
+  const tops = L.doorTops, last = tops.length ? tops[tops.length - 1] + L.hl : null;
+  const cut = last == null ? null : Math.max(0, (d.nomH - STD.topClr - uc) - last - 2.125);
+
+  const flags = [];
+  const face = d.face, headF = d.headF;
+  if (jambFace != null && jambFace < 0.25)
+    flags.push({ lvl:'e', t:'No jamb face', m:'The hole is too narrow for this frame: only ' + dimStr(Math.max(0, jambFace)) + ' of face at each jamb.' });
+  else if (jambFace != null && jambFace < face - 0.5)
+    flags.push({ lvl:'w', t:'Tight jamb face', m:'Only ' + dimStr(jambFace) + ' of the ' + dimStr(face) + ' face laps the wall at each jamb.' });
+  else if (jambFace != null && jambFace > face + 0.25)
+    flags.push({ lvl:'w', t:'Hole too wide', m:'The hole is ' + dimStr(jambFace - face) + ' wider than the face on each side. Shim and fill, or go to a wider face or a bigger frame.' });
+  if (headFace != null && headFace < 0.25)
+    flags.push({ lvl:'e', t:'No head face', m:'The hole is too low for this frame.' });
+  else if (headFace != null && headFace < headF - 0.5)
+    flags.push({ lvl:'w', t:'Tight head face', m:'Only ' + dimStr(headFace) + ' of the ' + dimStr(headF) + ' head face laps the wall.' });
+  else if (headFace != null && headFace > headF + 0.5)
+    flags.push({ lvl:'w', t:'Hole too tall', m:'The hole is ' + dimStr(headFace - headF) + ' taller than the head face covers.' });
+  if (roW && !masonry && roW < needRO.w - 0.01)
+    flags.push({ lvl:'w', t:'Under rough opening', m:'A wrap frame wants a ' + ftin(needRO.w) + ' rough opening; the hole measures ' + ftin(roW) + '.' });
+  if (clear < 32) flags.push({ lvl:'w', t:'Clear width', m:'About ' + inchStr(clear) + ' clear at 90°' + (pair ? ' through the active leaf' : '') + '. An accessible door needs 32 in clear.' });
+  if (pair && clearPair < 32 && clear < 32) flags.push({ lvl:'i', t:'Pair clear width', m:'Both leaves open give about ' + inchStr(clearPair) + ' clear.' });
+  if (!isStdW(num(o.w1)) || !isStdH(d.nomH)) flags.push({ lvl:'i', t:'Custom size', m:'Outside the standard sizes, so this is a custom elevation and the custom lead time.' });
+  /* the opening checks that apply to a calculator: wall, throat, rating, coursing, hinges */
+  const keep = /^(Throat|Jamb depth|Undercut|Frame type|Anchors|Block coursing|4 in head in a stud wall|Hinge count|Size code|Slip-on frame|Wood core)$/;
+  checks(o).filter(x => keep.test(x.t)).forEach(x => flags.push(x));
+  return { o, d, g, L, pair, roW, roH, uc, netW, netH, jambFace, headFace, needMO, needRO, masonry, clear, clearPair, cut, flags,
+    nomW: d.nomW, nomH: d.nomH, outW: d.outW, outH: d.outH, face, headF };
+}
+
+/* ---------- the calculator elevation: the frame in the hole, the leaves, every dimension asked for ---------- */
+function svgCalcDoor(c) {
+  const o = c.o, d = c.d, L = c.L, LY = unitLayout(o);
+  const VW = 600, VH = 530, padL = 128, padR = 128, padT = 118, padB = 92;
+  const measured = !!(c.roW || c.roH);
+  const holeW = c.roW || d.roW, holeH = c.roH || d.roH;
+  const s = Math.min((VW - padL - padR) / Math.max(d.outW, holeW), (VH - padT - padB) / Math.max(d.outH, holeH));
+  const cx = padL + (VW - padL - padR) / 2;
+  const x0 = cx - d.outW * s / 2, x1 = x0 + d.outW * s, yB = VH - padB, yT = yB - d.outH * s;
+  const X = v => x0 + v * s, Y = v => yB - v * s;
+  const fs = (n, b) => ({ fs: n, fill: b || 'var(--ink2)' });
+  let g = '';
+
+  /* the wall with the hole in it — the hole as measured, or as the frame needs it */
+  const hx0 = cx - holeW * s / 2, hx1 = hx0 + holeW * s, hy = Y(holeH);
+  const wTop = Math.min(hy, yT) - 16;
+  g += `<path d="M${hx0 - 44} ${wTop} H${hx1 + 44} V${yB} H${hx0 - 44} Z M${hx0} ${hy} H${hx1} V${yB} H${hx0} Z" fill="url(#hatch)" fill-rule="evenodd" stroke="#b9c1c8" stroke-width=".7"/>`;
+  if (measured) {
+    const nw = d.roW * s, nh = d.roH * s;
+    g += `<rect x="${cx - nw / 2}" y="${yB - nh}" width="${nw}" height="${nh}" fill="none" stroke="var(--signal)" stroke-width="1" stroke-dasharray="5 4"/>`;
+  }
+
+  /* the frame, its lites and panels, the door opening */
+  g += `<rect x="${x0}" y="${yT}" width="${d.outW * s}" height="${d.outH * s}" fill="#d9dfe3" stroke="var(--ink)" stroke-width="1.4"/>`;
+  LY.cells.forEach(cell => {
+    const cx2 = X(cell.x), cy2 = Y(cell.y + cell.h), cw2 = cell.w * s, ch2 = cell.h * s;
+    g += `<rect x="${cx2}" y="${cy2}" width="${cw2}" height="${ch2}" fill="${cellFill(cell.kind)}" stroke="var(--ink)" stroke-width="1"/>`;
+    if (cell.zone !== 'door') g += T(cx2 + cw2 / 2, cy2 + ch2 / 2 + 3, (CELL_LABEL[cell.zone] || '') + ' ' + ftin(cell.w).replace(/"$/, '"'), fs(8.5, 'var(--focus)'));
+  });
+
+  /* the leaves at their net size, sitting on the undercut */
+  const oc = LY.open, doorX = X(oc.x), cl = STD.jambClr * s;
+  const top = Y(d.nomH - STD.topClr), bot = Y(c.uc);
+  const leaves = c.pair
+    ? [{ a: doorX + cl, w: c.netW * s, hingeLeft: true, active: o.hand !== 'RHRA' }, { a: doorX + cl + (c.netW + 0.125) * s, w: c.netW * s, hingeLeft: false, active: o.hand === 'RHRA' }]
+    : [{ a: doorX + cl, w: c.netW * s, hingeLeft: /^L/.test(o.hand), active: true }];
+  const hw = Math.max(3, 0.7 * s);
+  leaves.forEach((Lf, i) => {
+    const b = Lf.a + Lf.w;
+    g += `<rect x="${Lf.a}" y="${top}" width="${Lf.w}" height="${bot - top}" fill="#fff" stroke="var(--ink)" stroke-width="1.6"/>`;
+    const tip = Lf.hingeLeft ? Lf.a : b, far = Lf.hingeLeft ? b : Lf.a;
+    g += `<path d="M${far} ${top} L${tip} ${(top + bot) / 2} L${far} ${bot}" fill="none" stroke="var(--mute)" stroke-width=".7" stroke-dasharray="5 4"/>`;
+    L.hinges.forEach(v => { g += `<rect x="${Lf.hingeLeft ? Lf.a - 1 : b - hw + 1}" y="${Y(v + L.hl / 2)}" width="${hw}" height="${L.hl * s}" fill="var(--ink2)"/>`; });
+    if (o.hingeQty === 'CONT') g += `<rect x="${Lf.hingeLeft ? Lf.a - 1 : b - hw + 1}" y="${top}" width="${hw}" height="${bot - top}" fill="var(--ink2)"/>`;
+    const se = Lf.hingeLeft ? b : Lf.a, dir = Lf.hingeLeft ? -1 : 1, ly = Y(L.strike);
+    if (Lf.active) {
+      const r = Math.max(3.4, 1.1 * s), kx = se + dir * 2.75 * s;
+      g += `<circle cx="${kx}" cy="${ly}" r="${r}" fill="#fff" stroke="var(--ink)" stroke-width="1.2"/>`;
+      g += `<line x1="${kx}" y1="${ly}" x2="${kx + dir * 4.5 * s}" y2="${ly}" stroke="var(--ink)" stroke-width="${Math.max(1.6, 0.7 * s)}" stroke-linecap="round"/>`;
+    } else {
+      [top + 3 * s, bot - 9 * s].forEach(yy => { g += `<rect x="${Lf.hingeLeft ? se - 1.4 * s : se}" y="${yy}" width="${1.4 * s}" height="${6 * s}" fill="none" stroke="var(--ink2)" stroke-width=".9"/>`; });
+    }
+    if (Lf.w > 70) {
+      const mx = Lf.a + Lf.w / 2, my = top + (bot - top) * 0.3;
+      g += T(mx, my - 18, c.pair ? (Lf.active ? 'ACTIVE LEAF' : 'INACTIVE LEAF') : 'DOOR', fs(9.5, 'var(--steel)'));
+      g += T(mx, my, ftin(c.netW), fs(12, 'var(--ink)'));
+      g += T(mx, my + 15, 'x ' + ftin(c.netH), fs(12, 'var(--ink)'));
+    }
+  });
+  if (c.pair && o.astragal) { const mx = doorX + cl + (c.netW + 0.0625) * s; g += `<line x1="${mx}" y1="${top}" x2="${mx}" y2="${bot}" stroke="var(--signal)" stroke-width="2"/>`; }
+
+  /* hinge chain and strike, called out on their own sides */
+  const hingeSideLeft = c.pair || /^L/.test(o.hand);
+  const hjX = hingeSideLeft ? doorX : X(oc.x + oc.w);
+  const lab = (yy, txt, left, col) => {
+    const xe = left ? x0 - 10 : x1 + 10;
+    return `<line x1="${hjX === xe ? hjX : (left === hingeSideLeft ? hjX : (hingeSideLeft ? X(oc.x + oc.w) : doorX))}" y1="${yy}" x2="${xe}" y2="${yy}" stroke="${col || 'var(--steel)'}" stroke-width=".6" stroke-dasharray="2 2"/>` +
+      T(left ? xe - 3 : xe + 3, yy + 3.5, txt, { fs: 9.5, a: left ? 'end' : 'start', fill: col || 'var(--ink2)' });
+  };
+  L.frameTops.forEach((t, i) => { g += lab(Y(d.nomH - t - L.hl / 2), 'ABCDFG'[i] + '  ' + inchStr(t), hingeSideLeft); });
+  if (o.lockPrep !== 'NONE') {
+    const strikeLeft = c.pair ? false : !hingeSideLeft;
+    g += lab(Y(L.strike), 'E  ' + inchStr(L.strikeFromTop), c.pair ? !hingeSideLeft : strikeLeft, 'var(--signal)');
+    g += T(c.pair || !strikeLeft ? x1 + 13 : x0 - 13, Y(L.strike) + 15, dimStr(L.strike) + ' AFF', { fs: 8, a: c.pair || !strikeLeft ? 'start' : 'end', fill: 'var(--signal)' });
+  }
+
+  /* dimensions: overall and opening across the top, heights on the left, the leaf on the right */
+  g += dimH(x0, x1, yT - 52, ftin(d.outW) + ' FRAME O/A');
+  g += dimH(doorX, X(oc.x + oc.w), yT - 28, ftin(d.nomW) + ' DOOR OPNG');
+  LY.sls.forEach(sl => { g += dimH(X(sl.x), X(sl.x + sl.w), yT - 28, ftin(sl.w) + ' SL'); });
+  g += dimV(yT, yB, x0 - 98, ftin(d.outH) + ' O/A');
+  g += dimV(Y(d.nomH), yB, x0 - 76, ftin(d.nomH) + ' OPNG');
+  if (d.trH) g += dimV(yT + d.headF * s, Y(d.nomH) - d.mFace * s, x0 - 76, ftin(d.trH) + ' TR');
+  g += dimV(top, bot, x1 + 82, ftin(c.netH) + ' LEAF');
+  g += `<line x1="${x1 + 4}" y1="${bot}" x2="${x1 + 66}" y2="${bot}" stroke="var(--steel)" stroke-width=".5"/>`;
+  g += T(x1 + 66, bot - 4, 'UC ' + inchStr(c.uc), { fs: 8.5, a: 'end', fill: 'var(--steel)' });
+  if (Math.abs(d.headF - d.face) > 0.01) g += T(cx, yT + d.headF * s / 2 + 3, dimStr(d.headF) + ' HEAD', fs(8, 'var(--focus)'));
+
+  /* floor, leaf widths, the hole */
+  g += `<line x1="${hx0 - 54}" y1="${yB}" x2="${hx1 + 54}" y2="${yB}" stroke="var(--ink)" stroke-width="2"/>`;
+  g += T(hx0 - 54, yB + 13, 'FIN. FLOOR', { fs: 8.5, a: 'start', fill: 'var(--steel)' });
+  leaves.forEach(Lf => { g += dimH(Lf.a, Lf.a + Lf.w, yB + 26, ftin(c.netW) + (c.pair ? '' : ' NET LEAF')); });
+  const holeLbl = measured ? 'HOLE AS MEASURED' : (c.masonry ? 'MASONRY OPENING' : 'ROUGH OPENING');
+  g += dimH(hx0, hx1, yB + 52, ftin(holeW) + ' ' + holeLbl);
+  if (measured && c.jambFace != null) {
+    const col = c.jambFace < 0.25 ? 'var(--fire)' : c.jambFace < c.face - 0.5 || c.jambFace > c.face + 0.25 ? 'var(--signal)' : 'var(--ok)';
+    g += T(cx, yB + 70, 'FACE LAP ' + dimStr(Math.max(0, c.jambFace)) + ' EACH JAMB' + (c.headFace != null ? '   ·   ' + dimStr(Math.max(0, c.headFace)) + ' AT THE HEAD' : ''), fs(9, col));
+  }
+
+  /* what the frame needs, across the top */
+  const need = c.masonry ? c.needMO : c.needRO;
+  g += T(VW / 2, 22, (c.masonry ? 'MASONRY OPENING  ' : 'ROUGH OPENING  ') + ftin(need.w) + ' x ' + ftin(need.h), fs(12, 'var(--signal)'));
+  g += T(VW / 2, 38, [CALC_CFG.find(x => x[0] === CALC.cfg)[1], o.hand, CALC.constr === 'WLD' ? 'welded' : 'knock down', o.gaugeFrame, dimStr(jambIn(o)) + ' JD', o.wall,
+    o.fire !== 'NR' ? o.fire + ' min' : ''].filter(Boolean).join('  ·  ').toUpperCase(), fs(8.5, 'var(--steel)'));
+  if (measured) g += T(VW / 2, 51, 'DASHED: THE HOLE THIS FRAME NEEDS · HATCH: THE HOLE AS MEASURED', fs(7.5, 'var(--signal)'));
+  return `<svg class="calcsvg" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Frame and door elevation">${SVG_DEFS}<g>${g}</g></svg>`;
+}
+
+/* ---------- plan: the wall, both jambs cut through, and the door swinging ---------- */
+function jambPts(g) {
+  /* the jamb profile in (u, v): u across the face, negative into the wall, v through the wall; the same shape svgSection draws */
+  const D = g.JD, face = g.face, st = g.hasStop ? g.stop : 0, r = g.retLeg;
+  const start = g.ret === 'DOUBLE' ? [[-face + r, g.bb], [-face, g.bb], [-face, 0]] : g.ret === 'NONE' ? [[-face, 0]] : [[-face, g.bb], [-face, 0]];
+  const end = g.ret === 'DOUBLE' ? [[-face, D], [-face, D - g.bb], [-face + r, D - g.bb]] : g.ret === 'NONE' ? [[-face, D]] : [[-face, D], [-face, D - g.bb]];
+  const mid = [[0, 0]];
+  if (!g.hasStop) mid.push([0, D]);
+  else if (g.r2 <= 0.001) mid.push([0, g.r1], [st, g.r1], [st, D]);
+  else mid.push([0, g.r1], [st, g.r1], [st, g.r1 + g.soffit], [0, g.r1 + g.soffit], [0, D]);
+  return start.concat(mid, end);
+}
+function svgCalcPlan(c) {
+  const o = c.o, d = c.d, g = c.g, LY = unitLayout(o);
+  const VW = 600, VH = 470;
+  const D = g.JD, wallT = g.wall || g.throat, thk = g.thk;
+  const reverse = /^(LHR|RHR)$/.test(CALC.hand);
+  const deg = Math.max(0, Math.min(180, num(CALC.degree) || 90)) * Math.PI / 180;
+  const ext = 18;                                             // wall drawn past the frame each side, inches
+  const sweep = c.netW * (deg > Math.PI / 2 ? 1 : Math.sin(deg)) + thk;     // how far the leaf reaches off the wall
+  const roomTop = 56, roomDims = 104;                         // the swing labels on one side, the dimensions on the other
+  const s = Math.min((VW - 90) / (d.outW + 2 * ext), (VH - roomTop - roomDims) / (D + sweep));
+  const xL = VW / 2 - d.outW * s / 2, X = u => xL + u * s;
+  /* the swing side is v = 0; it faces up when the door swings away from the viewer at the bottom */
+  const yFace = reverse ? roomDims + D * s : roomTop + sweep * s;
+  const Yv = v => reverse ? yFace - v * s : yFace + v * s, dirOut = reverse ? 1 : -1;
+  let q = '';
+  /* wall, centred on the jamb depth */
+  const w0 = (D - wallT) / 2, w1 = w0 + wallT, wy0 = Math.min(Yv(w0), Yv(w1)), wy1 = Math.max(Yv(w0), Yv(w1));
+  q += `<rect x="12" y="${wy0}" width="${X(-0.5) - 12}" height="${wy1 - wy0}" fill="url(#hatch)" stroke="#b9c1c8" stroke-width=".7"/>`;
+  q += `<rect x="${X(d.outW + 0.5)}" y="${wy0}" width="${VW - 12 - X(d.outW + 0.5)}" height="${wy1 - wy0}" fill="url(#hatch)" stroke="#b9c1c8" stroke-width=".7"/>`;
+  /* both outside jambs cut through, and any mullion */
+  const P = jambPts(g), F = d.face;
+  const poly = (pts) => `<polyline points="${pts.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ')}" fill="none" stroke="var(--ink)" stroke-width="2.6" stroke-linejoin="miter"/>`;
+  q += poly(P.map(([u, v]) => [X(F + u), Yv(v)]));
+  q += poly(P.map(([u, v]) => [X(d.outW - F - u), Yv(v)]));
+  LY.mulls.filter(m => !m.tr).forEach(m => { q += `<rect x="${X(m.x)}" y="${Math.min(Yv(0), Yv(D))}" width="${m.w * s}" height="${D * s}" fill="#dfe4e8" stroke="var(--ink)" stroke-width="1.6"/>`; });
+  LY.sls.forEach(sl => { q += `<line x1="${X(sl.x)}" y1="${Yv(D / 2)}" x2="${X(sl.x + sl.w)}" y2="${Yv(D / 2)}" stroke="#7fa6bd" stroke-width="2.2"/>`;
+    q += T(X(sl.x + sl.w / 2), Yv(D / 2) - dirOut * 12, 'SIDELITE', { fs: 8, fill: 'var(--focus)' }); });
+
+  /* the leaves, closed dashed and open at the degree of swing, with the arc the strike edge travels */
+  const oc = LY.open, vd0 = Math.max(g.r1 - 0.0625 - thk, 0);
+  const leaves = c.pair
+    ? [{ px: X(oc.x) + STD.jambClr * s, sx: 1, active: o.hand !== 'RHRA' }, { px: X(oc.x + oc.w) - STD.jambClr * s, sx: -1, active: o.hand === 'RHRA' }]
+    : [{ px: /^L/.test(CALC.hand) ? X(oc.x) + STD.jambClr * s : X(oc.x + oc.w) - STD.jambClr * s, sx: /^L/.test(CALC.hand) ? 1 : -1, active: true }];
+  leaves.forEach(Lf => {
+    const py = Yv(vd0);
+    const e1 = [Lf.sx, 0], e2 = [0, -dirOut];                  // along the leaf, and into the frame
+    const rot = th => [[Math.cos(th) * e1[0] + Math.sin(th) * e2[0] * -1, Math.cos(th) * e1[1] - Math.sin(th) * e2[1]],
+      [Math.sin(th) * e1[0] + Math.cos(th) * e2[0], Math.sin(th) * e1[1] + Math.cos(th) * e2[1]]];
+    const leaf = th => { const [a, b] = rot(th), L2 = c.netW * s, T2 = thk * s;
+      return [[Lf.px, py], [Lf.px + a[0] * L2, py + a[1] * L2], [Lf.px + a[0] * L2 + b[0] * T2, py + a[1] * L2 + b[1] * T2], [Lf.px + b[0] * T2, py + b[1] * T2]]; };
+    const pts = arr => arr.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ');
+    q += `<polygon points="${pts(leaf(0))}" fill="none" stroke="var(--mute)" stroke-width=".8" stroke-dasharray="3 3"/>`;
+    const arc = []; for (let i = 0; i <= 32; i++) { const th = deg * i / 32, [a] = rot(th); arc.push([Lf.px + a[0] * c.netW * s, py + a[1] * c.netW * s]); }
+    q += `<polyline points="${pts(arc)}" fill="none" stroke="var(--steel)" stroke-width=".9" stroke-dasharray="6 4"/>`;
+    q += `<polygon points="${pts(leaf(deg))}" fill="#fff" stroke="var(--ink)" stroke-width="1.6"/>`;
+    q += `<circle cx="${Lf.px}" cy="${py}" r="2.6" fill="var(--ink)"/>`;
+    if (c.pair) { const [a] = rot(deg / 2); q += T(Lf.px + a[0] * c.netW * s * 0.6, py + a[1] * c.netW * s * 0.6, Lf.active ? 'ACTIVE' : 'INACTIVE', { fs: 8, fill: 'var(--steel)' }); }
+  });
+  if (deg < Math.PI / 2 - 0.01 || deg > Math.PI / 2 + 0.01) q += T(VW - 22, reverse ? VH - 34 : 34, 'DRAWN OPEN ' + Math.round(deg * 180 / Math.PI) + '°', { fs: 9, a: 'end', fill: 'var(--signal)' });
+
+  /* clear width at 90 degrees, measured at the stop */
+  const hingeLeft = leaves[0].sx > 0 && !c.pair ? true : c.pair;
+  const cx0 = c.pair ? leaves[0].px + thk * s : (hingeLeft ? leaves[0].px + thk * s : X(oc.x) + (g.hasStop ? g.stop : 0) * s);
+  const cx1 = c.pair ? leaves[1].px - thk * s : (hingeLeft ? X(oc.x + oc.w) - (g.hasStop ? g.stop : 0) * s : leaves[0].px - thk * s);
+  const cyc = Yv(D) + (reverse ? -1 : 1) * 22;
+  const ok = c.clear >= 32;
+  q += `<line x1="${cx0}" y1="${cyc}" x2="${cx1}" y2="${cyc}" stroke="${ok ? 'var(--ok)' : 'var(--fire)'}" stroke-width="1" marker-start="url(#ar2)" marker-end="url(#ar)"/>`;
+  q += T((cx0 + cx1) / 2, cyc - 4, (c.pair ? 'BOTH LEAVES ' + inchStr(c.clearPair) + ' · ACTIVE ' : '') + inchStr(c.clear) + ' CLEAR AT 90°' + (ok ? '' : ' — UNDER 32"'), { fs: 9, fill: ok ? 'var(--ok)' : 'var(--fire)' });
+
+  /* the opening and the wall, dimensioned */
+  const dimY = Yv(D) + (reverse ? -1 : 1) * 44;
+  q += dimH(X(oc.x), X(oc.x + oc.w), dimY, ftin(d.nomW) + ' DOOR OPNG');
+  q += dimH(X(0), X(d.outW), dimY + (reverse ? -1 : 1) * 22, ftin(d.outW) + ' FRAME O/A');
+  q += dimV(Math.min(Yv(0), Yv(D)), Math.max(Yv(0), Yv(D)), X(0) - 26, inchStr(D) + ' JD');
+  q += dimV(wy0, wy1, X(d.outW) + 34, inchStr(wallT) + (g.wall ? ' WALL' : ' THROAT'));
+
+  /* which side is which */
+  const swingSideY = reverse ? VH - 14 : 18;
+  q += T(VW / 2, swingSideY, 'SWING SIDE  ·  PULL', { fs: 9, fill: 'var(--steel)' });
+  q += T(VW / 2, reverse ? 18 : VH - 14, 'PUSH SIDE  ·  ' + (reverse ? 'INSIDE' : 'OUTSIDE, WHERE THE HAND IS READ FROM'), { fs: 9, fill: 'var(--steel)' });
+  q += T(22, reverse ? VH - 34 : 34, (c.pair ? 'PAIR ' : '') + CALC.hand + ' — ' + ({ LH: 'hinges left, swings away', RH: 'hinges right, swings away', LHR: 'hinges left, swings toward you', RHR: 'hinges right, swings toward you' })[CALC.hand].toUpperCase(),
+    { fs: 9, a: 'start', fill: 'var(--ink)' });
+  return `<svg class="calcsvg" viewBox="0 0 ${VW} ${VH}" role="img" aria-label="Plan view with the door swing">${SVG_DEFS}${q}</svg>`;
+}
+
+/* ---------- the screen ---------- */
+const CALC_VIEWS = [['elev', 'Elevation'], ['plan', 'Plan and swing'], ['sect', 'Jamb section'], ['hw', 'Hinge locations'], ['frame', 'Frame and anchors']];
+function calcText(c) {
+  const L = c.L, o = c.o, need = c.masonry ? c.needMO : c.needRO;
+  return [
+    ftin(c.nomW) + ' x ' + ftin(c.nomH) + ' ' + (CALC_CFG.find(x => x[0] === CALC.cfg) || [, ''])[1].toLowerCase() + ', ' + CALC.hand,
+    (CALC.constr === 'WLD' ? 'Welded' : 'Knock down') + ' ' + o.gaugeFrame + ' ' + o.steelFrame + ' frame, ' + dimStr(jambIn(o)) + ' jamb depth, ' + dimStr(c.face) + ' face' + (Math.abs(c.headF - c.face) > 0.01 ? ', ' + dimStr(c.headF) + ' head' : ''),
+    (c.masonry ? 'Masonry opening ' : 'Rough opening ') + ftin(need.w) + ' x ' + ftin(need.h) + ', frame ' + ftin(c.outW) + ' x ' + ftin(c.outH) + ' overall',
+    'Leaf ' + (c.pair ? '2 @ ' : '') + ftin(c.netW) + ' x ' + ftin(c.netH) + ', undercut ' + inchStr(c.uc) + ', about ' + inchStr(c.clear) + ' clear',
+    'Hinges ' + L.frameTops.map(inchStr).join(', ') + ' from the head (' + CALC.mfr + '), strike ' + inchStr(L.strikeFromTop) + ' (' + dimStr(L.strike) + ' AFF)',
+    'Throat ' + inchStr(c.g.throat) + ', ' + c.d.anchors + ' ' + o.anchor + ' anchors a jamb'
+  ].join('\n');
+}
 function renderTools() {
-  const c = frameCalc(CALC);
-  const mfr = CALC.mfr, hgt = num(CALC.nomH) || 84;
-  const Lf = manuLoc(mfr, hgt, false), Ld = manuLoc(mfr, hgt, true);
-  const cut = maxCutOff(mfr, hgt, num(CALC.uc));
-  const nH = hgt > 90 ? 4 : 3;                              // per leaf: 1-1/2 pair up to 7'-6", 2 pair above
-  const tops = nH >= 4 && Lf.fourth != null ? [Lf.top, Lf.mid, Lf.bot, Lf.fourth] : [Lf.top, Lf.mid, Lf.bot];
-  const topsD = tops.map(v => v - STD.topClr);
-  const anchors = (c.outH || 86) <= 90 ? 3 : (c.outH || 86) <= 114 ? 4 : 5;
-  const val = v => (v == null || !isFinite(v)) ? '—' : (Math.abs(v) < 12 ? dimStr(v) : ftin(v));
-
-  const f = (k, l, ph) => `<div class="f"><label for="c_${k}">${esc(l)}</label>
-    <input type="text" id="c_${k}" data-ck2="${k}" autocomplete="off" value="${esc(CALC[k] === '' ? '' : (typeof CALC[k] === 'number' ? dimStr(CALC[k]) : CALC[k]))}"
-    placeholder="${esc(ph || '')}"></div>`;
+  const v = k => CALC[k] === '' || CALC[k] == null ? '' : k === 'degree' ? String(CALC[k]) : typeof CALC[k] === 'number' ? dimStr(CALC[k]) : CALC[k];
+  const f = (k, l, ph, hint) => `<div class="f"><label for="c_${k}">${esc(l)}</label>
+    <input type="text" id="c_${k}" data-ck2="${k}" autocomplete="off" inputmode="decimal" value="${esc(v(k))}" placeholder="${esc(ph || '')}">${hint ? `<div class="fhelp">${esc(hint)}</div>` : ''}</div>`;
   const sel = (k, l, opts) => `<div class="f"><label for="c_${k}">${esc(l)}</label>
-    <select id="c_${k}" data-ck2="${k}">${opts.map(o => { const v = Array.isArray(o) ? o[0] : o, t = Array.isArray(o) ? o[1] : o;
-      return `<option value="${esc(v)}" ${String(CALC[k]) === String(v) ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></div>`;
-  const row = (l, v, note) => `<tr><th>${esc(l)}${note ? `<i>${esc(note)}</i>` : ''}</th><td class="mono">${esc(v)}</td></tr>`;
-
+    <select id="c_${k}" data-ck2="${k}">${opts.map(o2 => { const val = Array.isArray(o2) ? o2[0] : o2, t = Array.isArray(o2) ? o2[1] : o2;
+      return `<option value="${esc(val)}" ${String(CALC[k]) === String(val) ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></div>`;
+  const hasSL = /SL/.test(CALC.cfg), hasTR = /TR/.test(CALC.cfg);
   $('#toolsBody').innerHTML = `
   <div class="phead">
-    <div><div class="eyebrow">Reference</div><h1>Frame calculator</h1>
-    <p>Everything a customer asks for on the phone, on one screen. Sizes take 3-0, 36, 36 1/2 or 3'-0".</p></div>
+    <div><div class="eyebrow">Help</div><h1>Frame calculator</h1>
+    <p>Everything a customer asks for on the phone, on one screen. Sizes take 3-0, 36, 36 1/2 or 3'-0". Measure the hole and the frame tells you what laps the wall.</p></div>
     <div class="pact">
       <button class="btn" id="calcFrom">${ic('download')}Load the selected opening</button>
-      <button class="btn primary" id="calcApply">Use these numbers on it</button>
+      <button class="btn" id="calcCopy">${ic('copy')}Copy the numbers</button>
+      <button class="btn" id="calcPdf">${ic('blueprint')}Shop plan PDF</button>
+      <button class="btn" id="calcNew">${ic('plus')}New opening</button>
+      <button class="btn primary" id="calcApply">Use on the selected opening</button>
     </div>
   </div>
-
   <div class="calcwrap">
     <div class="card calcin">
       <h2>The opening</h2>
       <div class="g2">
-        ${f('nomW', 'Nominal width', '3-0')}${f('nomH', 'Nominal height', '7-0')}
-        ${f('roW', 'Measured width', 'what you measured')}${f('roH', 'Measured height', '')}
+        ${sel('cfg', 'Configuration', CALC_CFG)}${sel('hand', 'Hand', [['LH', 'LH — hinges left, swings away'], ['RH', 'RH — hinges right, swings away'], ['LHR', 'LHR — hinges left, swings toward'], ['RHR', 'RHR — hinges right, swings toward']])}
+        ${f('nomW', calcPair(CALC) ? 'Nominal width, both leaves' : 'Nominal width', '3-0')}${f('nomH', 'Nominal height', '7-0')}
+        ${hasSL ? f('slW', 'Sidelite width', '2-0') + sel('slSide', 'Sidelite on', [['HINGE', 'Hinge side'], ['STRIKE', 'Strike side']]) : ''}
+        ${hasTR ? f('trH', 'Transom height', '2-0') : ''}
+        ${f('uc', 'Undercut', '3/4')}${f('degree', 'Swing, degrees', '90')}
+      </div>
+      <h2 style="margin-top:14px">The hole</h2>
+      <div class="g2">
+        ${f('roW', 'Measured width', 'what you measured')}${f('roH', 'Measured height', 'to the floor')}
+        ${f('wallThk', 'Wall thickness', 'e.g. 4-7/8', 'Checks the throat')}${sel('wall', 'Wall', [['CMU', 'CMU block'], ['CONC', 'Concrete'], ['STL STUD', 'Steel stud'], ['WD STUD', 'Wood stud'], ['EXTG MAS', 'Existing masonry'], ['EXTG GYP', 'Existing drywall']])}
       </div>
       <h2 style="margin-top:14px">The frame</h2>
       <div class="g2">
+        ${sel('constr', 'Construction', [['WLD', 'Welded'], ['KD', 'Knock down']])}${sel('profile', 'Profile', [['', 'Auto — from the wall'], ['DR', 'Double rabbet'], ['SR', 'Single rabbet'], ['DW', 'Drywall wrap'], ['DW-SLIP', 'Drywall slip-on'], ['CO', 'Cased opening']])}
         ${f('jd', 'Jamb depth', '5-3/4')}${f('face', 'Jamb face', '2')}
-        ${f('headF', 'Head face', '2 or 4')}${f('uc', 'Undercut', '3/4')}
-        ${sel('constr', 'Construction', [['WLD', 'Welded'], ['KD', 'Knock down']])}
-        ${sel('wall', 'Wall', ['CMU', 'CONC', 'STL STUD', 'WD STUD', 'EXTG MAS', 'DRYWALL'])}
-        ${sel('gauge', 'Gauge', ['16 GA', '14 GA', '18 GA', '12 GA'])}
-        ${sel('steel', 'Steel', ['CRS', 'A60', 'G90', 'SST'])}
+        ${f('headF', 'Head face', '2 or 4')}${sel('gauge', 'Gauge', ['16 GA', '14 GA', '18 GA', '12 GA'])}
+        ${sel('steel', 'Steel', [['CRS', 'CRS — cold rolled'], ['A60', 'A60 — galvannealed'], ['G90', 'G90 — galvanized'], ['SST', 'Stainless']])}
         ${sel('rating', 'Label', [['NR', 'No label'], ['20', '20 min'], ['45', '45 min'], ['60', '60 min'], ['90', '90 min'], ['180', '180 min']])}
-        ${sel('pair', 'Configuration', [['', 'Single leaf'], ['1', 'Pair of leaves']])}
-        ${sel('hand', 'Hand', ['LH', 'RH', 'LHR', 'RHR'])}
-        ${sel('mfr', 'Prep chart', Object.keys(MANU_LOC))}
+        ${sel('mfr', 'Prep chart', Object.keys(MANU_LOC).concat(['SDI']))}${sel('hinge', 'Hinges', [['4.5', '4-1/2 x 4-1/2'], ['5', '5 x 4-1/2']])}
       </div>
-      ${c.flags.length ? `<div class="alerts" style="padding:10px 0 0">${c.flags.map(x =>
-        `<div class="alert ${x.lvl}"><b>${esc(x.t)}</b><span>${esc(x.m)}</span></div>`).join('')}</div>`
-        : '<div class="alert i" style="margin-top:10px"><b>It fits</b><span>The frame covers the opening with face to spare.</span></div>'}
+      <div id="calcFlags"></div>
     </div>
-
     <div class="card calcdraw">
-      <div class="chead"><h2>Elevation</h2><span class="spacer"></span>
-        <span class="hint">${esc(c.pair ? 'Pair' : 'Single')} · ${esc(CALC.hand)} · ${esc(CALC.constr === 'WLD' ? 'welded' : 'knock down')} · ${esc(CALC.wall)}</span></div>
-      ${svgCalcDoor(c, { tops: tops, strike: Lf.strike })}
+      <div class="chead"><div class="seg" role="group" aria-label="Drawing">${CALC_VIEWS.map(([k, l]) => `<button type="button" data-cview="${k}" class="${CALC.view === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+        <span class="spacer"></span><button type="button" class="iconbtn" id="calcBig" title="Open full size">${ic('expand')}</button></div>
+      <div id="calcDraw"></div>
+      <div id="calcStrip" class="calcstrip"></div>
     </div>
   </div>
+  <div id="calcOut"></div>`;
+  renderCalcOut();
+  const box = $('#toolsBody');
+  box.oninput = e => {
+    const k = e.target.dataset.ck2; if (!k || e.target.tagName === 'SELECT') return;
+    const t = e.target.value.trim();
+    if (t === '') CALC[k] = ''; else { const p = parseDim(t); if (!isFinite(p)) return; CALC[k] = p; }
+    renderCalcOut();                                        // the field is left alone while you type
+  };
+  box.onchange = e => {
+    const k = e.target.dataset.ck2; if (!k) return;
+    if (e.target.tagName === 'SELECT') {
+      CALC[k] = e.target.value;
+      if (k === 'cfg') { const pr = calcPair(CALC), was = /^PR/.test(e.target.dataset.was || '');
+        if (pr && !was && num(CALC.nomW) && num(CALC.nomW) < 50) CALC.nomW = num(CALC.nomW) * 2;
+        if (!pr && was && num(CALC.nomW) > 50) CALC.nomW = num(CALC.nomW) / 2; }
+      if (k === 'wall') { if (/CMU|CONC/.test(CALC.wall)) { CALC.constr = 'WLD'; if (num(CALC.jd) < 7) CALC.jd = 8.75; } else if (/STUD/.test(CALC.wall) && num(CALC.jd) > 7.5) CALC.jd = 5.75; }
+      if (k === 'rating' && CALC.rating !== 'NR' && num(CALC.uc) > 0.75) CALC.uc = 0.75;
+      if (['cfg', 'wall', 'rating'].indexOf(k) >= 0) return renderTools();
+      return renderCalcOut();
+    }
+    const val = CALC[k]; e.target.value = val === '' ? '' : k === 'degree' ? String(Math.max(0, Math.min(180, num(val)))) : dimStr(num(val));
+  };
+  box.onclick = e => {
+    const vb = e.target.closest('[data-cview]'); if (vb) { CALC.view = vb.dataset.cview; $$('[data-cview]').forEach(b2 => b2.classList.toggle('on', b2 === vb)); renderCalcOut(); return; }
+    if (e.target.closest('#calcBig')) {
+      openModal('Frame calculator — ' + (CALC_VIEWS.find(x => x[0] === CALC.view) || [, ''])[1], calcText(frameCalc(CALC)).split('\n')[0],
+        `<div class="bigdraw">${$('#calcDraw').innerHTML}</div>`, '<span class="hint">The drawing follows every number on the calculator.</span>');
+      return;
+    }
+    if (e.target.closest('#calcCopy')) {
+      const t = calcText(frameCalc(CALC));
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Numbers copied — paste them into an email or a text'), () => toast('Select the numbers and copy'));
+      return;
+    }
+    if (e.target.closest('#calcPdf')) { shopPlanPDF([calcOpening(CALC)]); return; }
+    if (e.target.closest('#calcNew')) {
+      const o = calcOpening(CALC), last = S.openings[S.openings.length - 1];
+      o.id = uid(); o.mark = uniqueMark(last ? last.mark : '100') || '101';
+      if (num(CALC.roW)) o.fieldVerify = true;
+      if (derive(o).custom) o.lead = 'CUSTOM';
+      S.openings.push(o); S.selId = o.id; persist();
+      toast('Added ' + o.mark + ' from the calculator', { label: 'Open it', fn: () => selectOpening(o.id) });
+      return;
+    }
+    if (e.target.closest('#calcApply')) {
+      const o = S.openings.find(x => x.id === S.selId);
+      if (!o) return toast('Pick an opening on the Openings step first');
+      const n = calcOpening(CALC);
+      ['config', 'w1', 'w2', 'h', 'slW', 'slQty', 'slSide', 'trH', 'faceSize', 'faceCustom', 'headFace', 'headFaceCustom', 'jambDepth', 'undercut', 'wall', 'frameType', 'profile',
+        'anchor', 'gaugeFrame', 'steelFrame', 'fire', 'prepStd', 'hingePrep', 'hingeQty', 'hand', 'swing', 'wallThk', 'degree'].forEach(k2 => { o[k2] = n[k2]; });
+      if (n.fire !== 'NR') { o.closerReinf = true; if (o.headPrep === 'NONE') o.headPrep = 'CLR'; }
+      if (num(CALC.roW)) o.fieldVerify = true;
+      if (derive(o).custom) o.lead = 'CUSTOM';
+      persist(); renderAll(); toast('Applied to ' + (o.mark || 'the opening'), { label: 'Undo', fn: undo });
+      return;
+    }
+    if (e.target.closest('#calcFrom')) {
+      const o = S.openings.find(x => x.id === S.selId);
+      if (!o) return toast('Pick an opening on the Openings step first');
+      const d = derive(o);
+      CALC = Object.assign({}, CALC, { nomW: d.nomW, nomH: d.nomH, face: d.face, headF: d.headF, jd: jambIn(o), uc: num(o.undercut),
+        cfg: isPair(o) ? (d.trH ? 'PR+TR' : 'PR') : d.slN && d.trH ? 'SGL+SL+TR' : d.slN === 2 ? 'SGL+2SL' : d.slN ? 'SGL+SL' : d.trH ? 'SGL+TR' : 'SGL',
+        slW: d.slW || CALC.slW, slSide: o.slSide === 'STRIKE' ? 'STRIKE' : 'HINGE', trH: d.trH || CALC.trH,
+        wallThk: num(o.wallThk) || '', wall: o.wall || CALC.wall, constr: o.frameType === 'WLD' ? 'WLD' : 'KD', profile: o.profile || '',
+        gauge: o.gaugeFrame || CALC.gauge, steel: /A60|A40/.test(o.steelFrame) ? 'A60' : /G90/.test(o.steelFrame) ? 'G90' : /SST/.test(o.steelFrame) ? 'SST' : 'CRS',
+        rating: ['20', '45', '60', '90', '180'].indexOf(o.fire) >= 0 ? o.fire : 'NR',
+        hand: { LHRA: 'LH', RHRA: 'RH', 'DBL EGR': 'LH', 'N/A': 'LH' }[o.hand] || o.hand || 'LH', hinge: /^5x/.test(o.hingePrep) ? '5' : '4.5',
+        degree: num(o.degree) || 90, roW: '', roH: '',
+        mfr: MANU_LOC[String(o.prepStd).toUpperCase()] ? String(o.prepStd).toUpperCase() : o.prepStd === 'SDI' ? 'SDI' : CALC.mfr });
+      renderTools(); toast('Loaded ' + (o.mark || 'the opening'));
+    }
+  };
+  $$('#toolsBody select[data-ck2="cfg"]').forEach(s2 => { s2.dataset.was = CALC.cfg; });
+}
 
+/** everything below the inputs: the drawing, the flags and the three blocks of numbers */
+function renderCalcOut() {
+  const c = frameCalc(CALC), o = c.o, d = c.d, L = c.L, g = c.g;
+  const val = v => (v == null || !isFinite(v)) ? '—' : (Math.abs(v) < 12 ? dimStr(v) : ftin(v));
+  const view = CALC.view;
+  $$('[data-cview]').forEach(b2 => b2.classList.toggle('on', b2.dataset.cview === view));
+  $('#calcDraw').innerHTML = view === 'plan' ? svgCalcPlan(c) : view === 'sect' ? svgSection(o) : view === 'hw' ? svgHingeChart(o)
+    : view === 'frame' ? svgElevation(o, 'frame') : svgCalcDoor(c);
+  const chip = (l, v, cls) => `<div class="cchip ${cls || ''}"><span>${esc(l)}</span><b>${esc(v)}</b></div>`;
+  const need = c.masonry ? c.needMO : c.needRO;
+  const lapCls = x => x == null ? '' : x < 0.25 ? 'bad' : (x < c.face - 0.5 || x > c.face + 0.25) ? 'warn' : 'good';
+  $('#calcStrip').innerHTML = chip(c.masonry ? 'Masonry opening' : 'Rough opening', ftin(need.w) + ' x ' + ftin(need.h), 'hi') +
+    chip('Frame O/A', ftin(c.outW) + ' x ' + ftin(c.outH)) +
+    chip('Net leaf', (c.pair ? '2 @ ' : '') + ftin(c.netW) + ' x ' + ftin(c.netH)) +
+    chip('Clear at 90°', inchStr(c.clear), c.clear >= 32 ? 'good' : 'bad') +
+    (c.jambFace != null ? chip('Face lap, jamb', dimStr(Math.max(0, c.jambFace)), lapCls(c.jambFace)) : '') +
+    (c.headFace != null ? chip('Face lap, head', dimStr(Math.max(0, c.headFace)), c.headFace < 0.25 ? 'bad' : (c.headFace < c.headF - 0.5 || c.headFace > c.headF + 0.5) ? 'warn' : 'good') : '');
+  $('#calcFlags').innerHTML = c.flags.length
+    ? `<div class="alerts" style="padding:12px 0 0">${c.flags.map(x => `<div class="alert ${x.lvl}">${ic(x.lvl === 'i' ? 'info' : 'alert')}<b>${esc(x.t)}</b><span>${esc(x.m)}</span></div>`).join('')}</div>`
+    : `<div class="alerts" style="padding:12px 0 0"><div class="alert okay">${ic('check')}<b>It fits</b><span>The frame covers the hole with face to spare, and nothing else needs a second look.</span></div></div>`;
+
+  const row = (l, v, note, cls) => `<tr class="${cls || ''}"><th>${esc(l)}${note ? `<i>${esc(note)}</i>` : ''}</th><td class="mono">${esc(v)}</td></tr>`;
+  const n = L.frameTops.length;
+  const fl = frameOrderLine(o), dl = doorOrderLine(o);
+  $('#calcOut').innerHTML = `
   <div class="calcblocks">
     <div class="card">
       <h2>Sizes</h2>
       <table class="calctab"><tbody>
-        ${row('Masonry opening', c.nomW ? ftin(c.needMO.w) + ' x ' + ftin(c.needMO.h) : '—', 'welded in block')}
-        ${row('Rough opening', c.nomW ? ftin(c.needRO.w) + ' x ' + ftin(c.needRO.h) : '—', 'wrap frame in stud')}
-        ${row('Frame overall', c.outW ? ftin(c.outW) + ' x ' + ftin(c.outH) : '—', 'outside to outside')}
-        ${row('Throat', val(num(CALC.jd) - (CALC.constr === 'KD' ? 1 : 0.875)), CALC.constr === 'KD' ? 'jamb depth less 1' : 'jamb depth less 7/8')}
-        ${row('Net leaf', c.netW ? ftin(c.netW) + ' x ' + ftin(c.netH) : '—', c.pair ? 'each leaf' : '1/8 clearance each side')}
-        ${row('Face at the jamb', val(c.jambFace), 'what laps the wall')}
-        ${row('Face at the head', val(c.headFace), '')}
-        ${row('Maximum cut off', dimStr(cut), 'before the bottom hinge is hit')}
+        ${row('Masonry opening', ftin(c.needMO.w) + ' x ' + ftin(c.needMO.h), 'welded frame in block' + (c.masonry ? ' — this one' : ''), c.masonry ? 'pick' : 'dim')}
+        ${row('Rough opening', ftin(c.needRO.w) + ' x ' + ftin(c.needRO.h), 'wrap frame in stud' + (!c.masonry ? ' — this one' : ''), !c.masonry ? 'pick' : 'dim')}
+        ${row('Frame overall', ftin(c.outW) + ' x ' + ftin(c.outH), 'outside to outside')}
+        ${d.slN || d.trH ? row('Door opening', ftin(c.nomW) + ' x ' + ftin(c.nomH), 'inside the unit') : ''}
+        ${row('Throat', inchStr(g.throat), g.kd ? 'jamb depth less 1' : 'jamb depth less 7/8')}
+        ${g.wall ? row('Wall', inchStr(g.wall), g.fit === 'tight' ? 'thicker than the throat' : g.fit === 'loose' ? 'throat is loose on it' : 'fits the throat', g.fit === 'tight' ? 'bad' : '') : ''}
+        ${row('Net leaf', (c.pair ? '2 @ ' : '') + ftin(c.netW) + ' x ' + ftin(c.netH), c.pair ? '1/8 at the jambs and the meeting edge' : '1/8 each side, 1/8 at the head')}
+        ${row('Clear width at 90°', inchStr(c.clear) + (c.pair ? ' · ' + inchStr(c.clearPair) + ' both' : ''), 'leaf face to the strike stop, 32 in for access', c.clear >= 32 ? '' : 'bad')}
+        ${row('Face at the jamb', val(c.jambFace), c.roW ? 'what laps the wall' : 'type the measured width')}
+        ${row('Face at the head', val(c.headFace), c.roH ? '' : 'type the measured height')}
+        ${row('Maximum cut off', c.cut == null ? '—' : inchStr(c.cut), 'off the bottom before the bottom hinge is hit')}
       </tbody></table>
     </div>
-
     <div class="card">
       <h2>Hinges and strike</h2>
-      <p class="sub">${esc(mfr)} chart at ${esc(ftin(Lf.key))}${Math.abs(Lf.key - hgt) > 0.01 ? ', adjusted to ' + esc(ftin(hgt)) : ''}. Measured from the top down.</p>
+      <p class="sub">${esc(L.source)}. Measured from the top down.</p>
       <table class="calctab"><thead><tr><th></th><th>FRAME</th><th>DOOR</th></tr></thead><tbody>
-        ${tops.map((t, i) => `<tr><th>${'ABCD'[i]} · hinge ${i + 1}</th><td class="mono">${inchStr(t)}</td><td class="mono">${inchStr(topsD[i])}</td></tr>`).join('')}
-        <tr><th>E · strike</th><td class="mono">${inchStr(Lf.strike)}</td><td class="mono">${inchStr(Ld.strike)}</td></tr>
-        <tr><th>Hinges</th><td class="mono">${nH} per leaf</td><td class="mono">${nH * (c.pair ? 2 : 1)} total</td></tr>
+        ${L.frameTops.map((t, i) => `<tr><th>${'ABCDFG'[i]} · hinge ${i + 1}<i>${dimStr(L.hinges[i] - L.hl / 2)} AFF to the bottom</i></th><td class="mono">${inchStr(t)}</td><td class="mono">${inchStr(L.doorTops[i])}</td></tr>`).join('')}
+        <tr><th>E · strike<i>${dimStr(L.strike)} above the floor</i></th><td class="mono">${inchStr(L.strikeFromTop)}</td><td class="mono">${inchStr(L.doorStrikeFromTop)}</td></tr>
+        <tr><th>Hinges<i>${dimStr(L.hl)} ${esc(o.hingePrep)}</i></th><td class="mono">${n} a leaf</td><td class="mono">${n * (c.pair ? 2 : 1)} in all</td></tr>
       </tbody></table>
     </div>
-
     <div class="card">
       <h2>Anchors and material</h2>
       <table class="calctab"><tbody>
-        ${row('Anchors per jamb', String(anchors), 'from the frame height')}
-        ${row('Jamb anchors total', String(anchors * 2), '')}
-        ${row('Base anchors', c.pair ? '2' : '2', 'one at each jamb')}
-        ${row('Anchor type', ({ CMU:'WIRE or T', CONC:'EMA / drill-in', 'STL STUD':'COMP (Z)', 'WD STUD':'wood screw',
-              'EXTG MAS': 'EMA / expansion', DRYWALL:'COMP (Z)' })[CALC.wall] || '—', 'for ' + CALC.wall)}
-        ${row('Construction', CALC.constr === 'WLD' ? 'Welded, face welded' : 'Knock down, 3 piece', '')}
-        ${row('Gauge and steel', CALC.gauge + ' · ' + CALC.steel, CALC.rating !== 'NR' ? 'labelled work' : '')}
-        ${row('Label', CALC.rating === 'NR' ? 'No label' : CALC.rating + ' min', CALC.rating !== 'NR' ? 'frame and door labelled' : '')}
-        ${row('Spreader / silencers', '1 · ' + (c.pair ? '2' : '3'), 'shipped with the frame')}
+        ${row('Anchors per jamb', String(d.anchors), 'from the frame height')}
+        ${row('Jamb anchors', String(d.anchorJambTot), d.jambs + ' jambs')}
+        ${row('Base anchors', String(d.anchorBaseTot), 'one at each jamb')}
+        ${row('Anchor type', o.anchor, (ANCHOR_NAME[o.anchor] || '').toLowerCase())}
+        ${row('Construction', (CALC.constr === 'WLD' ? 'Welded' : 'Knock down') + ' · ' + o.profile, g.kind)}
+        ${row('Gauge and steel', o.gaugeFrame + ' · ' + o.steelFrame, o.fire !== 'NR' ? 'labeled work' : '')}
+        ${row('Label', o.fire === 'NR' ? 'No label' : o.fire + ' min', o.fire !== 'NR' ? 'closer reinforcement in the head' : '')}
+        ${row('Spreader · silencers', '1 · ' + (c.pair ? '2 + 2' : '3'), 'shipped with the frame')}
       </tbody></table>
     </div>
   </div>
-
+  <div class="card"><div class="chead"><h2>Curries order lines</h2><span class="hint">What this frame and door are ordered as</span></div>
+    <div class="curbox">${[['FRAME', fl], ['DOOR', dl]].filter(x => x[1]).map(([k, line]) => `<div class="curline"><div class="curlbl">${k}<span>${line.length} chars</span></div>
+      <div class="curval mono">${esc(line)}</div><button class="btn sm" data-copyline2="${esc(line)}" style="align-self:flex-start">${ic('copy')}Copy</button></div>`).join('')}</div></div>
   <div class="card">
-    <div class="chead"><h2>Chart in full</h2><span class="hint" id="calcWho"></span></div>
-    <div class="scrollx"><table class="wide"><thead><tr>
-      <th>MEASURED ON</th><th>TOP HINGE</th><th>INTERMEDIATE</th><th>BOTTOM HINGE</th>
-      <th>FOURTH HINGE</th><th>STRIKE CENTRE</th></tr></thead><tbody>
-      <tr><td>Frame, from the head</td><td class="n">${dimStr(Lf.top)}</td><td class="n">${dimStr(Lf.mid)}</td>
-        <td class="n">${dimStr(Lf.bot)}</td><td class="n">${Lf.fourth ? dimStr(Lf.fourth) : '—'}</td>
-        <td class="n">${dimStr(Lf.strike)}</td></tr>
-      <tr><td>Door, from the top edge</td><td class="n">${dimStr(Ld.top)}</td><td class="n">${dimStr(Ld.mid)}</td>
-        <td class="n">${dimStr(Ld.bot)}</td><td class="n">${Ld.fourth ? dimStr(Ld.fourth) : '—'}</td>
-        <td class="n">${dimStr(Ld.strike)}</td></tr>
+    <div class="chead"><h2>Chart in full</h2><span class="hint">${esc(CALC.mfr)} · inches from the top</span><span class="hint" id="calcWho"></span></div>
+    <div class="scrollx"><table class="wide"><thead><tr><th>MEASURED ON</th><th>HEIGHT</th><th style="text-align:right">TOP HINGE</th><th style="text-align:right">INTERMEDIATE</th><th style="text-align:right">BOTTOM HINGE</th>
+      <th style="text-align:right">FOURTH HINGE</th><th style="text-align:right">STRIKE CENTRE</th></tr></thead><tbody>
+      ${manuHeights(CALC.mfr === 'SDI' ? 'CURRIES' : CALC.mfr).map(h => { const F = manuLoc(CALC.mfr, h, false), Dd = manuLoc(CALC.mfr, h, true), here = Math.abs(h - c.nomH) < 0.01;
+        return ['Frame', 'Door'].map((w, i) => { const R = i ? Dd : F; return `<tr class="${here ? 'pick' : ''}"><td>${w}, from the ${i ? 'top edge' : 'head'}</td><td>${ftin(h)}</td>
+          <td class="n">${inchStr(R.top)}</td><td class="n">${inchStr(R.mid)}</td><td class="n">${inchStr(R.bot)}</td><td class="n">${R.fourth ? inchStr(R.fourth) : '—'}</td><td class="n">${inchStr(R.strike)}</td></tr>`; }).join(''); }).join('')}
     </tbody></table></div>
+    ${CALC.mfr === 'SDI' ? '<p class="hint" style="margin-top:8px">SDI has no chart: the table shows Curries for reference. SDI locations on this opening: top hinge 5 in below the head, bottom hinge 10 in off the floor, strike 40-5/16 in above the floor.</p>' : ''}
   </div>`;
-
-  const who = S.openings.find(o => o.id === S.selId);
-  $('#calcWho').textContent = who ? 'Selected opening: ' + (who.mark || 'unnamed') : 'No opening selected';
-  $('#toolsBody').oninput = $('#toolsBody').onchange = e => {
-    const k = e.target.dataset.ck2; if (!k) return;
-    if (k === 'pair') CALC.pair = !!e.target.value;
-    else if (['mfr', 'wall', 'constr', 'gauge', 'steel', 'rating', 'hand'].indexOf(k) >= 0) CALC[k] = e.target.value;
-    else { const v = parseDim(e.target.value); CALC[k] = isFinite(v) ? v : ''; }
-    const box = document.activeElement && document.activeElement.id;
-    const caret = document.activeElement && document.activeElement.selectionStart;
-    renderTools();
-    const el = box && $('#' + box);
-    if (el) { el.focus(); if (el.setSelectionRange && caret != null) { try { el.setSelectionRange(caret, caret); } catch (err) {} } }
-  };
-  $('#calcApply').onclick = () => {
-    const o = S.openings.find(x => x.id === S.selId);
-    if (!o) return toast('Pick an opening on the Openings step first');
-    if (num(CALC.nomW)) { if (CALC.pair) { if (!isPair(o)) o.config = 'PR'; o.w1 = num(CALC.nomW) / 2; o.w2 = num(CALC.nomW) / 2; }
-      else { if (isPair(o)) o.config = 'SGL'; o.w1 = num(CALC.nomW); o.w2 = 0; } }
-    if (num(CALC.nomH)) o.h = num(CALC.nomH);
-    if (num(CALC.face)) o.faceSize = String(CALC.face);
-    if (num(CALC.headF)) o.headFace = num(CALC.headF) === num(CALC.face) ? 'SAME' : String(CALC.headF);
-    if (num(CALC.jd)) { const j = jambByInches(num(CALC.jd)); o.jambDepth = j.txt; }
-    o.undercut = num(CALC.uc);
-    o.wall = CALC.wall === 'DRYWALL' ? 'STL STUD' : CALC.wall; o.frameType = CALC.constr; o.gaugeFrame = CALC.gauge;
-    o.steelFrame = { CRS:'CRS', A60:'A60', G90:'G90', SST:'SST 304' }[CALC.steel] || o.steelFrame;
-    if (CALC.rating !== 'NR') { o.fire = CALC.rating; o.closerReinf = true; }
-    if (MANU_LOC[CALC.mfr]) o.prepStd = CALC.mfr;
-    if (!isPair(o)) o.hand = CALC.hand;
-    if (num(CALC.roW)) { o.wallThk = o.wallThk || num(CALC.jd); o.fieldVerify = true; }
-    persist(); renderAll(); toast('Applied to ' + (o.mark || 'the opening'));
-  };
-  $('#calcFrom').onclick = () => {
-    const o = S.openings.find(x => x.id === S.selId);
-    if (!o) return toast('Pick an opening on the Openings step first');
-    const d = derive(o);
-    CALC = Object.assign({}, CALC, { roW:d.roW, roH:d.roH, nomW:d.nomW, nomH:d.nomH, face:d.face, headF:d.headF,
-      jd:jambIn(o), uc:num(o.undercut), pair:isPair(o), wall:o.wall || CALC.wall, constr:o.frameType || CALC.constr,
-      gauge:o.gaugeFrame || CALC.gauge, hand:o.hand || CALC.hand,
-      mfr: MANU_LOC[String(o.prepStd).toUpperCase()] ? String(o.prepStd).toUpperCase() : CALC.mfr });
-    renderTools(); toast('Loaded ' + (o.mark || 'the opening'));
-  };
+  const who = S.openings.find(x => x.id === S.selId);
+  const w = $('#calcWho'); if (w) w.textContent = who ? ' · selected opening ' + (who.mark || 'unnamed') : '';
+  $$('#calcOut [data-copyline2]').forEach(b => b.onclick = () => navigator.clipboard && navigator.clipboard.writeText(b.dataset.copyline2).then(() => toast('Order line copied')));
 }
 
 

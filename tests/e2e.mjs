@@ -185,6 +185,53 @@ if (pdfjsDir) {
   await ev(() => showView('takeoff'));
 }
 
+console.log('14b. frame calculator');
+await ev(() => showView('tools'));
+await page.waitForTimeout(150);
+const calc = await ev(() => {
+  CALC = Object.assign({}, CALC, { cfg: 'SGL', nomW: 36, nomH: 84, uc: 0.75, roW: '', roH: '', hand: 'LH', wall: 'CMU', constr: 'WLD', mfr: 'CURRIES', rating: 'NR' });
+  const a = frameCalc(CALC);
+  const pr = frameCalc(Object.assign({}, CALC, { cfg: 'PR', nomW: 72 }));
+  const tight = frameCalc(Object.assign({}, CALC, { nomW: 30, roW: 32, roH: 85 }));
+  const out = { netW: a.netW, netH: a.netH, prW: pr.netW, clear: a.clear, tightClear: tight.flags.some(f => f.t === 'Clear width'),
+    tightFace: tight.flags.some(f => /jamb face/i.test(f.t)), cut: a.cut, mo: a.needMO.w };
+  const svgs = [];
+  ['SGL', 'PR', 'SGL+SL+TR', 'PR+TR', 'SGL+2SL'].forEach(cfg => ['LH', 'RH', 'LHR', 'RHR'].forEach(hand => {
+    const c = frameCalc(Object.assign({}, CALC, { cfg, hand, nomW: /PR/.test(cfg) ? 72 : 36, roW: 40, roH: 86 }));
+    svgs.push(svgCalcDoor(c), svgCalcPlan(c));
+  }));
+  out.nan = svgs.filter(x => /NaN|undefined/.test(x)).length;
+  return out;
+});
+ok(Math.abs(calc.netW - 35.75) < 1e-6 && Math.abs(calc.netH - 83.125) < 1e-6, 'single 3070 nets 2\'-11 3/4" x 6\'-11 1/8": ' + calc.netW + ' x ' + calc.netH);
+ok(Math.abs(calc.prW - 35.8125) < 1e-6, 'pair 6070 nets 2 @ 35-13/16: ' + calc.prW);
+ok(Math.abs(calc.clear - 33.5) < 1e-6, 'single 3070 clear at 90 is 33-1/2: ' + calc.clear);
+ok(calc.tightClear && calc.tightFace, 'a 2\'-6" door in a 32" hole warns on clear width and face');
+ok(calc.cut > 0 && calc.cut < 12, 'maximum cut off is sane: ' + calc.cut);
+ok(Math.abs(calc.mo - 40.25) < 1e-6, 'masonry opening 3\'-4 1/4": ' + calc.mo);
+ok(calc.nan === 0, 'calculator elevation and plan draw every configuration and hand without NaN');
+for (const v of ['elev', 'plan', 'sect', 'hw', 'frame']) {
+  await page.click(`[data-cview="${v}"]`);
+  ok(await ev(() => !!document.querySelector('#calcDraw svg')), 'calculator view ' + v + ' draws');
+}
+await page.fill('#c_nomW', '3-4');
+await page.waitForTimeout(80);
+ok(await ev(() => document.getElementById('c_nomW').value === '3-4' && CALC.nomW === 40), 'typing a width is left alone while the numbers follow');
+await page.fill('#c_degree', '120'); await page.locator('#c_degree').blur();
+ok(await ev(() => document.getElementById('c_degree').value === '120' && CALC.degree === 120), 'degree of swing stays a plain number');
+const nOpen = await ev(() => S.openings.length);
+await page.click('#calcNew');
+await page.waitForTimeout(100);
+const added = await ev(() => { const o = S.openings[S.openings.length - 1]; return { n: S.openings.length, w: num(o.w1), marks: new Set(S.openings.map(x => x.mark)).size }; });
+ok(added.n === nOpen + 1 && added.w === 40 && added.marks === added.n, 'New opening adds the calculator size under a free mark');
+await ev(() => undo());
+try { const p = await grab('save'); ok(fs.statSync(p).size > 100, 'job still saves'); } catch (e) { ok(false, e.message); }
+await page.waitForTimeout(250);
+const [dlc] = await Promise.all([page.waitForEvent('download', { timeout: 8000 }), page.click('#calcPdf')]);
+const cp = path.join(out, dlc.suggestedFilename()); await dlc.saveAs(cp);
+ok(fs.readFileSync(cp).slice(0, 5).toString() === '%PDF-', 'calculator shop plan PDF');
+await ev(() => showView('takeoff'));
+
 console.log('15. reload keeps the job');
 const before2 = await ev(() => ({ n: S.openings.length, d: S.div10.length, k: S.keying.keysets.length, b: S.baselines.length }));
 await page.waitForTimeout(700);

@@ -39,3 +39,24 @@ Los trabajos guardados en el navegador con la 1.9 y los archivos de trabajo `.js
 - **Dibujos** — botón para ver cualquier dibujo a pantalla completa y guardarlo como SVG; marca de giro en la elevación.
 - **Menú** reorganizado: Set up · Take off Div 08 · Take off Div 10 · Review · Send · Help.
 - **Pruebas** — `tests/e2e.mjs` recorre todas las páginas, todas las exportaciones (valida cada PDF y Excel) y los flujos principales.
+
+## Calculadora de marcos (2.0.1)
+
+**Errores corregidos**
+
+| Qué pasaba | Arreglo |
+|---|---|
+| La hoja neta ignoraba la holgura de 1/8" bajo el cabezal (6'-11 1/4" en vez de 6'-11 1/8"). | Alto neto = nominal − 1/8 − undercut. |
+| En pares el ancho neto no restaba el 1/8" del encuentro (no coincidía con el plan de taller). | (nominal − 3/8) / 2. |
+| El "máximo a cortar" estaba 1/8" corrido y no usaba el largo real de la bisagra. | Desde la bisagra inferior de la puerta, con su largo real. |
+| Elevación: bisagras de tamaño fijo, no a escala; la cerradura y su texto encima del borde de la hoja; letras sobre el muro; el rectángulo del vano encima del marco; el "UC" sobre la línea de piso; en pares no se dibujaba la cerradura. | Elevación reescrita a escala desde el mismo layout del plan de taller. |
+| Al escribir, cada tecla redibujaba los campos y reformateaba el texto ("3-0" se volvía 3"). | El campo no se toca mientras se escribe; se formatea al salir. |
+| "Chart in full" mezclaba pies-pulgadas con pulgadas y la fila de bisagras mezclaba columnas. | Pulgadas en todo el cuadro; fila del alto actual resaltada. |
+
+**Nuevo**
+
+- La calculadora arma una abertura real, así que usa los mismos cálculos que el resto de la app (derive, ubicaciones de herrajes, chequeos).
+- Configuraciones: sencilla, par, con sidelite (uno o dos), con transom y combinadas. Perfil, espesor de muro (chequea la garganta), tamaño de bisagra y grados de apertura.
+- Cinco vistas: **Elevación** acotada (vano medido vs. el que pide el marco, solape de la cara en cada jamba), **Planta y giro** (muro, jambas en corte, arco de la hoja según mano y grados, ancho libre con aviso bajo 32"), **Corte de jamba**, **Ubicación de bisagras**, **Marco y anclajes**. Botón para verla en grande.
+- Franja de resultados con colores (vano, marco, hoja neta, ancho libre, solape de cara).
+- Líneas de pedido Curries con botón Copiar; **Copiar los números** para un correo o mensaje; **Plan de taller PDF**; **Nueva abertura** con estos números; cargar y aplicar a la abertura seleccionada pasan todos los campos.
