@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Takeoff 1.9 — Doors, Frames &amp; Hardware</title>
+<title>Takeoff 2.0 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 /* ============================================================
-   Takeoff 1.9 — industrial workspace
+   Takeoff 2.0 — industrial workspace
    One stylesheet. Tokens first, then shell, then each screen.
    ============================================================ */
 :root{
@@ -117,7 +117,7 @@ svg.ic{width:16px;height:16px;flex:0 0 auto;fill:none;stroke:currentColor;stroke
 .iconbtn[disabled]{opacity:.35;cursor:not-allowed;background:transparent}
 .iconbtn.on{background:var(--accent-bg);color:var(--accent)}
 
-input[type=text],input[type=number],input[type=date],input[type=search],input[type=email],input[type=tel],select,textarea{
+input:not([type]):not(.jobname),input[type=text],input[type=number],input[type=date],input[type=search],input[type=email],input[type=tel],select,textarea{
   background:#fff;border:1px solid var(--rule);border-radius:5px;padding:0 8px;height:var(--ctl);width:100%;
   transition:border-color .12s,box-shadow .12s;
 }
@@ -710,7 +710,9 @@ table.batch{width:100%;border-collapse:collapse;font-size:12px}
 /* ---- 2.0 ---- */
 .wrap.wide{max-width:1520px}
 .bigdraw{display:flex;justify-content:center;background:#fafbf9;border:1px solid var(--rule2);border-radius:6px;padding:10px}
-.bigdraw svg{width:100%;height:auto;max-height:72vh;display:block}
+.bigdraw svg{width:100%;height:auto;max-height:60vh;display:block}
+body.phone .hwtools select,body.phone .hwtools .searchbox{max-width:100%!important;width:100%!important;flex:1 1 100%}
+body.phone .plantools .seg{flex-wrap:wrap}
 .plantools .seg button{display:inline-flex;align-items:center;gap:5px}
 .plantools .seg .ic{width:14px;height:14px}
 .plantools .qf{display:flex;flex-direction:column;gap:2px}
@@ -930,7 +932,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
       <button class="mi" data-cmd="submittal"><svg class="ic"><use href="#i-file"/></svg><span>Submittal package</span><em>PDF, letter</em></button>
       <button class="mi" data-cmd="catalogPdf"><svg class="ic"><use href="#i-listcheck"/></svg><span>Project catalog</span><em>PDF, letter</em></button>
       <div class="mh">For the office</div>
-      <button class="mi" data-cmd="xlsx"><svg class="ic"><use href="#i-table"/></svg><span>Excel workbook</span><em>11 sheets</em></button>
+      <button class="mi" data-cmd="xlsx"><svg class="ic"><use href="#i-table"/></svg><span>Excel workbook</span><em>every sheet</em></button>
       <button class="mi" data-cmd="takeoffPdf"><svg class="ic"><use href="#i-file"/></svg><span>Takeoff</span><em>PDF, letter</em></button>
       <button class="mi" data-cmd="dhiPdf"><svg class="ic"><use href="#i-key"/></svg><span>Hardware schedule, DHI format</span><em>PDF, letter</em></button>
       <button class="mi" data-cmd="recapPdf"><svg class="ic"><use href="#i-chart"/></svg><span>Bid recap</span><em>PDF, letter</em></button>
@@ -998,7 +1000,20 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <section class="view" id="view-guide">
   <div class="guide">
   <div class="card">
-    <h2>What version 1.9 adds</h2>
+    <h2>What version 2.0 adds</h2>
+    <p class="sub">What the distributor packages — Comsense, PRO-TECH and Software for Hardware — do that this did not, and a round of fixes.</p>
+    <ul style="margin:0 0 18px;padding-left:18px;line-height:1.7">
+      <li><b>Division 10 specialties</b> — toilet compartments and accessories, fire extinguishers and cabinets, lockers, signage, wall protection, by CSI section, with a starter list. They price with their own markup and install hours, and print on the quotation, the recap, the workbook, the catalog and the purchase orders.</li>
+      <li><b>Keying</b> — the master key system, a keyset on every locked door, cylinders counted from the hardware sets, keys per keyset, one click to key a job a master per level or keyed alike by set, and a keying schedule PDF with the owner approval block. It goes in the submittal too.</li>
+      <li><b>Price book</b> — manufacturer multipliers and list prices. A line with a list price costs list × multiplier; import a manufacturer price list from Excel or CSV and pick from it on any set; reprice the whole job in one click.</li>
+      <li><b>Change orders</b> — save the priced job as a baseline when the bid goes out; after an addendum every opening and specialty that moved is priced as an add or a deduct, and the change order prints with the revised contract total.</li>
+      <li><b>Purchasing</b> — one purchase order per vendor: frames and doors on the Curries order lines, anchors with the frames, hardware by manufacturer or the distributor you buy it through, Division 10 by maker.</li>
+      <li><b>Plans</b> — click doors on the floor plan to add openings with the size, type, rating, hand and set you pick; click accessories to count Division 10; set the drawing scale or calibrate on a dimension and measure runs of corner guard and crash rail. Pins stay with the job.</li>
+      <li><b>Better plans</b> — the 11 x 17 frame and door sheets draw from the same layout as the shop plans: hinges on both leaves of a pair, the lock at the meeting stile, sidelites on the side they are on, split transoms and borrowed lites, the swing mark, and a scale and grid picked to fill the sheet. Any drawing opens full size from the panel and saves as SVG.</li>
+      <li><b>One set of totals</b> — the top bar, the recap, the takeoff sheet, the workbook, the bid recap and the quotation now read the same numbers, with tax, freight, every labor hour and Division 10 in all of them.</li>
+      <li><b>Fixes</b> — the company name and address on Job info are saved again; sizes round to the nearest 1/16; out of scope frames, doors and hardware are no longer priced; a door on a deleted hardware set and duplicate marks are flagged; duplicates and quick entry never reuse a mark; the calculator hangs a right hand door on the right and a 7 ft pair on 3 hinges a leaf; and more listed in the release notes.</li>
+    </ul>
+    <h2>What version 1.9 added</h2>
     <p class="sub">A calculator you can work a phone call from, one elevation per type instead of one per door, and the whole thing on a phone.</p>
     <ul style="margin:0 0 18px;padding-left:18px;line-height:1.7">
       <li><b>Frame calculator, rebuilt</b> — the frame and the door are drawn as you type, with the overall size, the nominal opening, the net leaf, the undercut and the masonry or rough opening the frame needs. Underneath, three blocks you can read straight down the phone: sizes, hinge and strike locations, anchors and material.</li>
@@ -2555,6 +2570,8 @@ function checks(o) {
     if (miss.length) a.push({ lvl:'w', t:'Hardware missing',
       m: miss.map(r => r.cat).join(', ') + ' not in ' + set.id + ' — see the hardware panel below.' });
   }
+  if (S.keying && S.keying.keysets.length && cylindersOf(o).length && !S.keying.keysets.some(k => k.id === o.keyset))
+    a.push({ lvl:'i', t:'No keyset', m:'This door locks. Pick its keyset on the Hardware tab or on the Keying page.' });
   const fracW = Math.abs(num(o.w1) - Math.round(num(o.w1))) > 0.01,
         fracH = Math.abs(d.nomH - Math.round(d.nomH)) > 0.01;
   if (fracW || fracH) a.push({ lvl:'w', t:'Size code',
@@ -6232,7 +6249,7 @@ function pdfElevation(p, o, cx, cy, cw, ch, mode, ppi) {
   const d = derive(o), LY = unitLayout(o), doorOnly = mode === 'door';
   const totW = doorOnly ? d.nomW : d.outW;
   const IN = v => v * ppi, w = IN(totW);
-  const x0 = cx + (cw - w) / 2, yF = cy + 44;
+  const x0 = cx + (cw - w) / 2 + 8, yF = cy + 60;
   const XI = v => x0 + IN(v), YI = v => yF + IN(v);
   const oc = LY.open;
   const doorX = doorOnly ? x0 : XI(oc.x), doorW = IN(doorOnly ? d.nomW : oc.w);
@@ -7811,18 +7828,20 @@ function renderImport() {
   const willMake = IMP.kind && IMP.mode === 'table' ? data.map(r => importRow(r, IMP.map)).filter(Boolean) : [];
   $('#importBody').innerHTML = `
     <div class="phead">
-      <div><div class="eyebrow">Take off</div><h1>Import from plans</h1>
-      <p>Open the architect's door schedule as a PDF, an Excel sheet or a CSV and bring the openings straight in. On a PDF plan sheet, click each door to count it.</p></div>
+      <div><div class="eyebrow">Take off</div><h1>Plans</h1>
+      <p>Open the drawings as a PDF to read the door schedule, click doors and accessories off the floor plan and measure runs at the drawing scale — or bring a schedule in from Excel or CSV.</p></div>
       <div class="pact"><button class="btn primary" id="impPick">${ic('folder')}Open a file</button><input type="file" id="impFile" accept=".pdf,.xlsx,.csv,.txt" hidden></div>
     </div>
     ${!IMP.kind ? `<div class="card empty" id="impDrop" style="border:2px dashed var(--rule)"><h3>Drop a door schedule here</h3>
       <p>PDF from the architect, the door schedule tab of an Excel file, or a CSV. Nothing leaves this computer.</p>
       <div class="btns"><button class="btn primary" data-imppick="1">${ic('folder')}Choose a file</button></div></div>
-      <div class="g3" style="margin-top:4px">
-        <div class="card"><h2>Read a schedule</h2><p class="sub" style="margin:0">Pick the page with the door schedule. Rows and columns are found from the text, the header row is matched to fields, and you check the mapping before anything is created.</p></div>
-        <div class="card"><h2>Count on a plan</h2><p class="sub" style="margin:0">Open a floor plan page and click each door. Every click adds an opening with the next mark and the quick entry defaults, tagged with the sheet and page.</p></div>
-        <div class="card"><h2>Excel and CSV</h2><p class="sub" style="margin:0">The first sheet of an .xlsx, or any CSV or tab separated text. Same column matching.</p></div>
-      </div>` : `
+      <div class="g4" style="margin-top:4px">
+        <div class="card"><h2>${ic('table')} Read a schedule</h2><p class="sub" style="margin:0">Pick the page with the door schedule. Rows and columns are found from the text, the header row is matched to fields, and you check the mapping before anything is created.</p></div>
+        <div class="card"><h2>${ic('door')} Count openings</h2><p class="sub" style="margin:0">On a floor plan page, click each door. Every click adds an opening with the next mark, the size, type, rating, hand and set you pick, tagged with the sheet and page.</p></div>
+        <div class="card"><h2>${ic('box')} Count and measure Division 10</h2><p class="sub" style="margin:0">Click accessories, extinguisher cabinets or partitions to count them. Set the scale, or calibrate on a dimension, and measure corner guard and crash rail runs in lineal feet.</p></div>
+        <div class="card"><h2>${ic('folder')} Excel and CSV</h2><p class="sub" style="margin:0">The first sheet of an .xlsx, or any CSV or tab separated text. Same column matching. Pins and counts are kept with the job and come back when the same plan is opened.</p></div>
+      </div>
+      <p class="hint">PDF reading uses pdf.js, fetched from cdnjs the first time a PDF is opened. Plans never leave this computer.</p>` : `
     <div class="card" style="padding:10px 14px">
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <b>${esc(IMP.file.name)}</b>
@@ -8422,24 +8441,28 @@ function pdfShopElevation(p, o, cx, cy, cw, ch, ppi) {
 
   /* hardware locations from the chart, dimensioned off the head */
   const HL = hwLoc(o);
-  const hingeLeft = /^L/.test(o.hand) || o.hand === 'DBL EGR';
-  const hxx = hingeLeft ? doorX : doorX + doorW;
+  const hingeLeft = /^L/.test(o.hand) || o.hand === 'DBL EGR' || d.leaves === 2;
+  /* a pair hangs on both jambs; the chain is dimensioned once, on the left */
+  const hingeJambs = !d.leaves ? [] : d.leaves === 2 ? [[doorX, true], [doorX + doorW, false]] : [[hingeLeft ? doorX : doorX + doorW, hingeLeft]];
   p.lw(0.5);
-  HL.hinges.forEach((v, i) => {
+  hingeJambs.forEach(([hxx, left], ji) => HL.hinges.forEach((v, i) => {
     const yy = AFF(v);
-    p.rect(hxx - (hingeLeft ? 0 : 4), yy - IN(2.25), 4, IN(4.5));
-    const lx = hingeLeft ? x0 - 16 : x1 + 16;
+    p.rect(hxx - (left ? 0 : 4), yy - IN(HL.hl / 2), 4, IN(HL.hl));
+    if (ji) return;
+    const lx = left ? x0 - 16 : x1 + 16;
     p.dash(2, 2); p.line(hxx, yy, lx, yy); p.solid();
-    p.txt(hingeLeft ? lx - 3 : lx + 3, yy - 2.5,
-      'HNG ' + (i + 1) + '  ' + dimStr(v - 2.25) + ' AFF', 6, false, hingeLeft ? 'r' : 'l');
-  });
-  const sxx = hingeLeft ? doorX + doorW : doorX;
-  const sy = AFF(HL.strike);
-  p.rect(sxx - 3, sy - 4, 6, 8);
-  const slx = hingeLeft ? x1 + 16 : x0 - 16;
-  p.dash(2, 2); p.line(sxx, sy, slx, sy); p.solid();
-  p.txt(hingeLeft ? slx + 3 : slx - 3, sy - 2.5, 'STRIKE  ' + dimStr(HL.strike) + ' AFF',
-    6, false, hingeLeft ? 'l' : 'r');
+    p.txt(left ? lx - 3 : lx + 3, yy - 2.5,
+      'HNG ' + (i + 1) + '  ' + dimStr(v - HL.hl / 2) + ' AFF', 6, false, left ? 'r' : 'l');
+  }));
+  if (d.leaves === 1 && o.lockPrep !== 'NONE') {
+    const sxx = hingeLeft ? doorX + doorW : doorX;
+    const sy = AFF(HL.strike);
+    p.rect(sxx - 3, sy - 4, 6, 8);
+    const slx = hingeLeft ? x1 + 16 : x0 - 16;
+    p.dash(2, 2); p.line(sxx, sy, slx, sy); p.solid();
+    p.txt(hingeLeft ? slx + 3 : slx - 3, sy - 2.5, 'STRIKE  ' + dimStr(HL.strike) + ' AFF',
+      6, false, hingeLeft ? 'l' : 'r');
+  }
 
   /* dimensions */
   p.lw(0.5);
@@ -9016,20 +9039,24 @@ function blueprintPDF(kind) {
   const p = new Pdf();
   const bodyW = PW - 2 * M - 18 - TBW - 16, bodyX = M + 18, bodyTop = PH - M - 24, bodyBot = M + 24;
 
-  /* one scale for the whole set: the largest standard scale that fits every cell */
-  const perRow = 5, cellW = bodyW / perRow, cellH = 300;
+  /* one scale for the whole set. The grid is chosen for it: the fewest sheets, then the largest
+     standard scale that fits every cell, so three openings fill a sheet at 1/2" instead of sitting small in a corner */
   const maxIn = ops.reduce((a, o) => { const d = derive(o);
     return Math.max(a, isFrame ? d.outW : d.nomW); }, 36);
   const maxHi = ops.reduce((a, o) => { const d = derive(o);
-    return Math.max(a, isFrame ? d.outH : d.nomH); }, 84);
-  let scale = SCALES[SCALES.length - 1];
-  for (const sc of SCALES) {
-    const ppi = sc[0] * PT / 12;
-    if (maxIn * ppi < cellW - 46 && maxHi * ppi < cellH - 62) { scale = sc; break; }
+    return Math.max(a, isFrame ? d.base + d.outH : d.nomH); }, 84);
+  const usableH = bodyTop - 24 - bodyBot;
+  let lay = null;
+  for (let rows = 1; rows <= 2; rows++) for (let pr = 1; pr <= 5; pr++) {
+    if ((rows - 1) * pr >= ops.length) continue;                 // a second row nothing would sit on
+    const cw = bodyW / pr, chh = Math.min(usableH / rows, 430);
+    const sc = SCALES.find(sc2 => { const k = sc2[0] * PT / 12; return maxIn * k < cw - 64 && maxHi * k < chh - 96; }) || SCALES[SCALES.length - 1];
+    const pages = Math.ceil(ops.length / (pr * rows));
+    if (!lay || pages < lay.pages || (pages === lay.pages && sc[0] > lay.sc[0])) lay = { pr, rows, cw, chh, sc, pages };
   }
+  const perRow = lay.pr, cellW = lay.cw, cellH = lay.chh, scale = lay.sc;
   const ppi = scale[0] * PT / 12;
-
-  const perPage = perRow * 2;
+  const perPage = perRow * lay.rows;
   const elevPages = Math.ceil(ops.length / perPage);
   const cols = isFrame
     ? [{ h:'MARK', w:26 }, { h:'QTY', w:15 }, { h:'SIZE', w:26 }, { h:'TYPE', w:24 }, { h:'FLOOR', w:30 },
@@ -9061,6 +9088,7 @@ function blueprintPDF(kind) {
       const cx = bodyX + col * cellW;
       const cy = bodyTop - 24 - (rowi + 1) * cellH + 14;
       pdfElevation(p, o, cx, cy, cellW, cellH, isFrame ? 'frame' : 'door', ppi);
+      if (col) { p.lw(0.3); p.stroke(0.85); p.line(cx, cy + 4, cx, cy + cellH - 18); p.stroke(0); }
     });
   }
 
@@ -10916,18 +10944,18 @@ function renderDiv10() {
   const row = r => {
     const c = d10Costs(r);
     return `<tr data-d10="${r.id}">
-      <td><select data-dk="sec" style="width:92px" title="${esc(secName(r.sec))}">${DIV10_SECTIONS.map(([c2]) => `<option ${c2 === r.sec ? 'selected' : ''}>${c2}</option>`).join('')}</select></td>
-      <td><input data-dk="product" value="${esc(r.product)}" placeholder="Grab bar, 36 in" style="min-width:220px"></td>
-      <td><input data-dk="model" value="${esc(r.model)}" placeholder="B-6806x36" style="width:100px"></td>
-      <td><input data-dk="mfr" value="${esc(r.mfr)}" placeholder="Bobrick" style="width:100px"></td>
-      <td><input data-dk="room" value="${esc(r.room)}" placeholder="Restrooms 110, 111" style="width:140px"></td>
-      <td><input type="number" data-dk="qty" value="${esc(r.qty)}" step="any" style="width:64px">${r.pins.length || r.runs.length ? `<div class="hint" title="Counted on the plan">${ic('pin')}${r.pins.length || ''}${r.runs.length ? ' · ' + r.runs.length + ' runs' : ''}</div>` : ''}</td>
-      <td><select data-dk="unit" style="width:62px">${D10_UNITS.map(u => `<option ${u === r.unit ? 'selected' : ''}>${u}</option>`).join('')}</select></td>
-      <td><input type="number" data-dk="list" value="${num(r.list) || ''}" step="any" placeholder="list" style="width:74px"></td>
-      <td><input type="number" data-dk="cost" value="${esc(r.cost)}" step="any" style="width:78px" ${num(r.list) && pbMult(r.mfr) ? `title="List ${money2(r.list)} × ${pbMult(r.mfr)} from the price book"` : ''}></td>
-      <td><input type="number" data-dk="hrs" value="${esc(r.hrs)}" step="any" style="width:58px"></td>
+      <td><select data-dk="sec" style="width:88px" title="${esc(secName(r.sec))}">${DIV10_SECTIONS.map(([c2]) => `<option ${c2 === r.sec ? 'selected' : ''}>${c2}</option>`).join('')}</select></td>
+      <td style="width:34%"><input data-dk="product" value="${esc(r.product)}" placeholder="What it is" style="min-width:190px" title="${esc(r.product)}"></td>
+      <td><input data-dk="model" value="${esc(r.model)}" placeholder="model" style="width:96px"></td>
+      <td><input data-dk="mfr" value="${esc(r.mfr)}" placeholder="maker" style="width:96px"></td>
+      <td><input data-dk="room" value="${esc(r.room)}" placeholder="where" style="width:128px" title="${esc(r.room)}"></td>
+      <td><input type="number" data-dk="qty" value="${esc(r.qty)}" step="any" style="width:58px">${r.pins.length || r.runs.length ? `<div class="hint" title="Counted on the plan">${ic('pin')}${r.pins.length || ''}${r.runs.length ? ' · ' + r.runs.length + ' runs' : ''}</div>` : ''}</td>
+      <td><select data-dk="unit" style="width:58px">${D10_UNITS.map(u => `<option ${u === r.unit ? 'selected' : ''}>${u}</option>`).join('')}</select></td>
+      <td><input type="number" data-dk="list" value="${num(r.list) || ''}" step="any" placeholder="—" style="width:66px"></td>
+      <td><input type="number" data-dk="cost" value="${esc(r.cost)}" step="any" style="width:72px" ${num(r.list) && pbMult(r.mfr) ? `title="List ${money2(r.list)} × ${pbMult(r.mfr)} from the price book"` : ''}></td>
+      <td><input type="number" data-dk="hrs" value="${esc(r.hrs)}" step="any" style="width:52px"></td>
       <td class="n">${money(c.sell)}</td>
-      <td style="white-space:nowrap"><button type="button" class="iconbtn" data-d10act="dup" title="Duplicate">${ic('copy')}</button><button type="button" class="iconbtn" data-d10act="del" title="Remove">${ic('trash')}</button></td>
+      <td style="white-space:nowrap;width:58px"><button type="button" class="iconbtn" data-d10act="dup" title="Duplicate" style="width:26px;height:26px">${ic('copy')}</button><button type="button" class="iconbtn" data-d10act="del" title="Remove" style="width:26px;height:26px">${ic('trash')}</button></td>
     </tr>`;
   };
   $('#div10Body').innerHTML = `
@@ -11141,8 +11169,8 @@ function bindPriceBook() {
    opening, cylinders counted from the hardware sets, and the keying
    schedule the owner signs off before permanent cores are ordered.
    ============================================================ */
-const KEY_LEVELS = [['GGMK', 'Great grand master'], ['GMK', 'Grand master'], ['MK', 'Master'], ['SKD', 'Change key, keyed different'],
-  ['KA', 'Keyed alike group'], ['CK', 'Control key'], ['CON', 'Construction']];
+const KEY_LEVELS = [['GGMK', 'Great grand master'], ['GMK', 'Grand master'], ['MK', 'Master'], ['SKD', 'Change key'],
+  ['KA', 'Keyed alike'], ['CK', 'Control key'], ['CON', 'Construction']];
 function normKeying(k) {
   k = k || {};
   return { system: k.system || '', keyway: k.keyway || '', core: k.core || '', construction: k.construction !== false,
@@ -11208,12 +11236,12 @@ function renderKeying() {
           <button class="btn sm" id="ksAdd">${ic('plus')}Keyset</button></div>
           ${K.keysets.length ? `<div class="scrollx"><table class="wide"><thead><tr><th>KEYSET</th><th>LEVEL</th><th>UNDER</th><th>DESCRIPTION</th><th>KEYS</th><th>DOORS</th><th></th></tr></thead><tbody>
           ${order.map(({ k, depth }) => `<tr data-ks="${esc(k.id)}">
-            <td style="padding-left:${8 + depth * 16}px"><input data-kk="id" value="${esc(k.id)}" class="mono" style="width:86px;font-weight:600"></td>
-            <td><select data-kk="level" style="width:160px">${KEY_LEVELS.map(([v, l]) => `<option value="${v}" ${v === k.level ? 'selected' : ''}>${v} — ${esc(l)}</option>`).join('')}</select></td>
-            <td><select data-kk="parent" style="width:96px"><option value="">—</option>${K.keysets.filter(x => x.id !== k.id).map(x => `<option ${x.id === k.parent ? 'selected' : ''}>${esc(x.id)}</option>`).join('')}</select></td>
-            <td><input data-kk="desc" value="${esc(k.desc)}" placeholder="e.g. Level 1 offices" style="min-width:160px"></td>
-            <td><input type="number" data-kk="keys" value="${k.keys === '' ? '' : esc(k.keys)}" placeholder="${keysOfSet(k)}" style="width:60px"></td>
-            <td class="hint">${esc(doorsOf(k.id).map(o => o.mark || '—').join(', ')) || '—'}</td>
+            <td style="padding-left:${6 + depth * 14}px"><input data-kk="id" value="${esc(k.id)}" class="mono" style="width:70px;font-weight:600"></td>
+            <td><select data-kk="level" style="width:118px">${KEY_LEVELS.map(([v, l]) => `<option value="${v}" ${v === k.level ? 'selected' : ''}>${v} — ${esc(l)}</option>`).join('')}</select></td>
+            <td><select data-kk="parent" style="width:80px"><option value="">—</option>${K.keysets.filter(x => x.id !== k.id).map(x => `<option ${x.id === k.parent ? 'selected' : ''}>${esc(x.id)}</option>`).join('')}</select></td>
+            <td><input data-kk="desc" value="${esc(k.desc)}" placeholder="e.g. Level 1 offices" style="min-width:130px"></td>
+            <td><input type="number" data-kk="keys" value="${k.keys === '' ? '' : esc(k.keys)}" placeholder="${keysOfSet(k)}" style="width:52px"></td>
+            <td class="hint" style="white-space:normal">${esc(doorsOf(k.id).map(o => o.mark || '—').join(', ')) || '—'}</td>
             <td><button type="button" class="iconbtn" data-ksdel="${esc(k.id)}" title="Remove">${ic('trash')}</button></td></tr>`).join('')}
           </tbody></table></div>` : '<p class="hint" style="margin:0 0 8px">No keysets yet. Build them by hand, or let the buttons below lay out a standard system.</p>'}
           <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
@@ -11548,9 +11576,9 @@ function purchaseOrders() {
   anchorBOM().forEach(r => add(frameMain, { kind: 'Anchor', desc: r.name + ' (' + r.unit + ')', unit: 0, uom: 'EA', qty: r.qty, marks: r.marks }));
   hwBOM().forEach(s => { if (!s.qty) return; s.items.forEach(i => add(i.mfr || 'Hardware, no manufacturer', { kind: i.cat, desc: [i.model, i.product, (i.fin || '').split(' —')[0], i.size].filter(Boolean).join(' · '), unit: num(i.cost), uom: 'EA', qty: i.ext, marks: s.marks })); });
   (S.div10 || []).forEach(r => add(r.mfr || 'Division 10, no manufacturer', { kind: secName(r.sec), desc: [r.model, r.product].filter(Boolean).join(' · '), unit: num(r.cost), uom: r.unit, qty: num(r.qty), marks: r.room ? [r.room] : [] }));
-  return [...V.values()].map((v, i) => Object.assign(v, { no: (S.project.poPrefix || ('PO-' + (S.project.jobNo || 'JOB'))) + '-' + String(i + 1).padStart(2, '0'),
-    lines: [...v.lines.values()], mfrs: [...v.mfrs], total: [...v.lines.values()].reduce((a, l) => a + l.unit * l.qty, 0) }))
-    .sort((a, b) => b.total - a.total);
+  return [...V.values()].map(v => Object.assign(v, { lines: [...v.lines.values()], mfrs: [...v.mfrs], total: [...v.lines.values()].reduce((a, l) => a + l.unit * l.qty, 0) }))
+    .sort((a, b) => b.total - a.total || a.vendor.localeCompare(b.vendor))
+    .map((v, i) => Object.assign(v, { no: (S.project.poPrefix || ('PO-' + (S.project.jobNo || 'JOB'))) + '-' + String(i + 1).padStart(2, '0') }));
 }
 function renderPurchasing() {
   const POs = purchaseOrders(), pr = S.project;

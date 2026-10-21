@@ -9,7 +9,8 @@ import os from 'os';
 import { createRequire } from 'module';
 
 const file = path.resolve(process.argv[2] || 'takeoff.html');
-const pdfjsDir = process.argv[3] ? path.resolve(process.argv[3]) : '';
+const pdfjsDir = process.argv[3] && fs.existsSync(path.resolve(process.argv[3], 'build/pdf.min.js')) ? path.resolve(process.argv[3]) : '';
+if (!pdfjsDir) console.log('pdfjs-dist not found: the plan takeoff checks are skipped');
 const out = fs.mkdtempSync(path.join(os.tmpdir(), 'takeoff-e2e-'));
 const errors = [], fails = [];
 const ok = (cond, msg) => { if (!cond) { fails.push(msg); console.log('  FAIL', msg); } else console.log('  ok  ', msg); };
