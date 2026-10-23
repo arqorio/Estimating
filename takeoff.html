@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Takeoff 2.0 — Doors, Frames, Hardware &amp; Specialties</title>
+<title>Takeoff 2.1 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -404,6 +404,7 @@ table.sched{border-collapse:separate;border-spacing:0;width:100%;font-size:12.5p
 .elevmeta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 12px;font-size:11.5px;color:var(--steel);padding:8px 2px 2px}
 .elevmeta div{display:flex;justify-content:space-between;gap:8px;border-bottom:1px dotted var(--rule);padding-bottom:2px}
 .elevmeta span{font-family:var(--mono);color:var(--ink);white-space:nowrap}
+.elevmeta span.bad{color:var(--fire);font-weight:600}
 .elevmin{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid var(--rule);background:#fafbf9;font-size:12px;color:var(--steel)}
 
 .alerts{padding:10px 12px 4px;display:flex;flex-direction:column;gap:5px}
@@ -753,6 +754,20 @@ table.d10 td input,table.d10 td select{height:28px;font-size:12.5px}
 .featlist div{display:flex;gap:10px;font-size:11.5px;padding:3px 0;border-top:1px solid var(--rule2,#eceff1)}
 .featlist b{flex:0 0 118px;font-weight:600}
 .featlist span{opacity:.75}
+.schtab td[contenteditable]{outline:none;cursor:text}
+.schtab td[contenteditable]:focus{background:#fffbe9;box-shadow:inset 0 0 0 1.5px var(--signal)}
+.schtab tr.off td{opacity:.4;text-decoration:line-through}
+.schtab th.mapped{background:var(--ok-bg)}
+.schtab td.mapped{background:#fbfdfc}
+tr.warnrow td{background:var(--signal-bg)}
+.tagbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:1px solid var(--rule2)}
+.psteps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:10px}
+.pstep{display:flex;gap:9px;align-items:center;border:1px solid var(--rule2);border-radius:7px;padding:7px 10px;background:#fbfcfb}
+.pstep>b{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#e6eaec;color:var(--ink2);font-size:12px}
+.pstep>div{flex:1;min-width:0}.pstep .pt{font-weight:600;font-size:12.5px;color:var(--ink)}
+.pstep.on{border-color:var(--focus);box-shadow:inset 3px 0 0 var(--focus)}.pstep.on>b{background:var(--focus);color:#fff}
+.pstep.done>b{background:var(--ok);color:#fff}.pstep.done>b .ic{width:13px;height:13px}
+body.phone .psteps{grid-template-columns:1fr}
 /* calculator */
 .calcwrap{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.25fr);gap:14px;align-items:start}
 .calcin .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
@@ -1013,6 +1028,15 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <!-- ============ GUIDE ============ -->
 <section class="view" id="view-guide">
   <div class="guide">
+  <div class="card">
+    <h2>What 2.1 adds</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Reading a door schedule off the drawings</b> — open the PDF set and the schedule page is found and read on its own: two row headers (DOOR / FRAME / DETAILS over WD, HT, THK…), wrapped remarks, pairs written as (2) 3'-0". Drag a box on the sheet to read just part of it, fix a cell by clicking it, untick rows, read every page with the same schedule, and read again later to update the openings instead of duplicating them.</li>
+      <li><b>Door tags on the floor plans</b> — on a plan page, <i>Find door tags on this sheet</i> pins every scheduled door where its tag is drawn, picks the tag over a room number that says the same thing, and lists tags on the sheet that are not on the job.</li>
+      <li><b>Every door its own glass</b> — vision, narrow, half and full glass, stacked lites, louvers, embossed panels and dutch doors drawn from the door design at the maker's standard size and location, or the size, height and edge you type. Wired, tempered, laminated, insulated and fire rated glass each look different. The shop sheet dimensions the lite and gives the cutout.</li>
+      <li><b>Exact sizes</b> — the door as cut (unequal pairs too), clear width at 90°, what is left under the door once the floor finish or threshold is in, the lite cutout and glass size, with checks for a dragging door, NFPA 80 clearance, 32 in clear and the 43 in lite height on accessible doors.</li>
+    </ul>
+  </div>
   <div class="card">
     <h2>What version 2.0 adds</h2>
     <p class="sub">What the distributor packages — Comsense, PRO-TECH and Software for Hardware — do that this did not, and a round of fixes.</p>
@@ -2010,6 +2034,8 @@ const O = {
   stop: [['5/8','5/8 in — standard'],['1/2','1/2 in'],['3/4','3/4 in']],
   thickness: [['1-3/4','1-3/4 in — standard'],['1-3/8','1-3/8 in'],['2','2 in']],
   slQty: [['1','1 — one side'],['2','2 — both sides']],
+  vlSide: [['','Standard for the design'],['CENTER','Centred on the leaf'],['LOCK','Lock side'],['HINGE','Hinge side']],
+  vlQty: [['1','1 lite'],['2','2 lites, stacked'],['3','3 lites, stacked'],['4','4 lites, stacked']],
   degree: [['90','90\u00b0'],['95','95\u00b0'],['105','105\u00b0'],['110','110\u00b0'],['120','120\u00b0'],['135','135\u00b0'],['180','180\u00b0']],
   edge: [['BEV','Bevel lock edge, 1/8 in in 2 in'],['SQ','Square edges'],['BEV2','Bevel both edges'],['RAD','Radius lock edge'],OTHER],
   caps: [['FT-IB','Flush top, inverted bottom (standard)'],['FT-FB','Flush top and bottom'],['IT-IB','Inverted top and bottom'],['CLOSED','Closed top and bottom, exterior'],OTHER],
@@ -2047,7 +2073,9 @@ const SECTIONS = [
     { k:'w2', l:'Leaf 2 width', t:'dim', d:0, showIf:o=>/^PR|DBL/.test(o.config) },
     { k:'h', l:'Opening height', t:'dim', d:84 },
     { k:'thickness', l:'Door thickness', t:'sel', o:'thickness', d:'1-3/4' },
-    { k:'undercut', l:'Undercut (UC)', t:'dim', d:0.75, help:'Below finished floor' },
+    { k:'undercut', l:'Undercut (UC)', t:'dim', d:0.75, help:'Bottom of the frame to the bottom of the door' },
+    { k:'floorFin', l:'Floor finish under the door', t:'dim', d:'', ph:'e.g. 1/4 carpet', help:'Added after the frame is set. Leave blank when the frame sits on the finish floor' },
+    { k:'threshH', l:'Threshold height', t:'dim', d:'', ph:'e.g. 1/2', help:'The door clears the threshold, not the floor' },
     { k:'blSill', l:'Height to the bottom of the frame', t:'dim', d:0, help:'Floor to the underside of the bottom member', showIf:o => LITE_CFG(o.config) },
     { k:'blCols', l:'Lites across', t:'num', d:1, showIf:o => LITE_CFG(o.config) },
     { k:'blRows', l:'Lites high', t:'num', d:1, showIf:o => LITE_CFG(o.config) },
@@ -2111,10 +2139,16 @@ const SECTIONS = [
     { k:'edgeBand', l:'Edge band', t:'text', ph:'Matching hardwood, 5-ply', showIf:isWood },
     { k:'faceNote', l:'Face / sequence note', t:'text', ph:'Faces A & B same species; sequence 1 of 6', showIf:isWood, full:true },
     /* lites & louvers */
-    { k:'vlSize', l:'Vision lite size', t:'text', ph:'10 x 10', help:'Width x height, in' },
+    { k:'vlSize', l:'Vision lite size', t:'text', ph:'10 x 10', help:'Visible glass, width x height. Blank uses the standard size for the design' },
+    { k:'vlQty', l:'Lites', t:'sel', o:'vlQty', d:'1', showIf:o => !!(o.vlSize || /^(FG|HG|N|V|G)$/.test(o.doorDesign)) },
+    { k:'vlTop', l:'Top of door to top of glass', t:'dim', d:'', ph:'standard', showIf:o => !!(o.vlSize || /^(FG|HG|N|V|G)$/.test(o.doorDesign)),
+      help:'Blank: full and half glass 5 and 6 in, narrow lites with the glass bottom at 43 in, vision lites centred at 60 in' },
+    { k:'vlSide', l:'Lite across the leaf', t:'sel', o:'vlSide', d:'', showIf:o => !!(o.vlSize || /^(FG|HG|N|V|G)$/.test(o.doorDesign)) },
+    { k:'vlEdge', l:'Edge of door to the glass', t:'dim', d:'', ph:'standard', showIf:o => /LOCK|HINGE/.test(o.vlSide) || o.doorDesign === 'N' },
     { k:'glaz', l:'Glazing', t:'sel', o:'glaz', d:'' },
     { k:'louverSize', l:'Louver size', t:'text', ph:'24 x 12' },
     { k:'louverType', l:'Louver type', t:'sel', o:'louverType', d:'' },
+    { k:'louverBot', l:'Bottom of door to the louver', t:'dim', d:'', ph:'10"', showIf:o => !!(o.louverSize || /^(L|FL)$/.test(o.doorDesign)) },
     { k:'cutoutOpt', l:'Cutout option', t:'sel', o:'cutout', d:'KIT', showIf:o => !!(o.vlSize || o.louverSize) },
     { k:'edge', l:'Edge', t:'sel', o:'edge', d:'BEV' },
     { k:'caps', l:'Top and bottom channels', t:'sel', o:'caps', d:'FT-IB', showIf:o => !isWood(o) },
@@ -2330,7 +2364,7 @@ const DEFAULT_PROJECT = {
   quoteNo:'', validDays:30, terms:'Net 30 days on approved credit.',
   included:'', excluded:'', custNotes:'', internalNotes:'',
   markupFrame:22, markupDoor:22, markupHw:25, markupMisc:20, markupDiv10:25, laborRate:78, taxLabor:false,
-  ratePrep:65, rateField:85, rateDeliver:55, freight:0, taxRate:0
+  ratePrep:65, rateField:85, rateDeliver:55, freight:0, taxRate:0, kitAllow:1.5
 };
 let S = { project:{...DEFAULT_PROJECT}, openings:[], sets:[], catalog:[], div10:[], keying:null, baselines:[], selId:null, elevView:'elev', sel:new Set() };
 
@@ -2418,6 +2452,30 @@ function derive(o) {
   return { nomW, nomH, w2, face, headF, mFace, slSill, trH, slW, slN, lite, base, unitW, unitH, jambs, outW, outH, roW, roH, roLabel,
     custom, nonStd, anchors, anchorJambTot, anchorBaseTot, anchorHeadTot, anchorSlTot,
     hinges, leaves, hwCost, set };
+}
+
+/** the door as the shop cuts it, and what it leaves at the floor and through the opening.
+    1/8 at each jamb, 1/16 each side of the meeting edge on a pair, 1/8 under the head. */
+function doorSize(o) {
+  const d = derive(o), g = jambGeo(o), uc = num(o.undercut);
+  const pair = d.leaves === 2;
+  const leafW = pair ? [num(o.w1) - 0.1875, d.w2 - 0.1875] : d.leaves ? [d.nomW - 0.25] : [];
+  const leafH = d.leaves ? d.nomH - STD.topClr - uc : 0;
+  const floorFin = num(o.floorFin), thresh = num(o.threshH);
+  const clearFloor = uc - (thresh > 0 ? thresh : floorFin);         // what is left under the door once the floor is in
+  /* clear width at 90°, butt hinges: the leaf stands its thickness into the opening, the stop takes the other side */
+  const stop = g.hasStop ? g.stop : 0;
+  const leftActive = o.hand !== 'RHRA';
+  const activeW = pair ? (leftActive ? num(o.w1) : d.w2) : d.nomW;
+  const swingClear = /SC/.test(o.hingePrep || '') || o.doorDesign === 'SC';
+  const clear = d.leaves ? (pair
+    ? activeW - 0.0625 - STD.jambClr - (swingClear ? 0 : g.thk)
+    : d.nomW - STD.jambClr - (swingClear ? 0 : g.thk) - stop) : d.nomW - 2 * stop;
+  const clearBoth = pair ? d.nomW - 2 * (STD.jambClr + (swingClear ? 0 : g.thk)) : null;
+  /* the most that can come off the bottom before the bottom hinge leaf runs out of rail (2-1/8 kept below it) */
+  const L = hwLoc(o), tops = L.doorTops;
+  const cutOff = tops.length ? Math.max(0, leafH - (tops[tops.length - 1] + L.hl) - 2.125) : null;
+  return { leafW, leafH, thk: g.thk, clearFloor, floorFin, thresh, clear, clearBoth, cutOff, pair };
 }
 
 function costs(o) {
@@ -2517,6 +2575,24 @@ function checks(o) {
     a.push({ lvl:'e', t:'No strike', m:'Latching lockset with no strike prep in the frame.' });
   if (d.nomH > 90 && d.hinges === 3)
     a.push({ lvl:'w', t:'Hinge count', m:'Doors over 7 ft 6 in normally take 2 pair of hinges.' });
+  /* the door against the floor, and the door against the people going through it */
+  if (d.leaves) {
+    const z = doorSize(o);
+    if ((z.floorFin || z.thresh) && z.clearFloor < 0.125)
+      a.push({ lvl:'e', t:'Door drags', m:'With ' + (z.thresh ? 'a ' + inchStr(z.thresh) + ' threshold' : inchStr(z.floorFin) + ' of floor finish') + ' the door clears by ' + inchStr(Math.max(0, z.clearFloor)) +
+        '. Undercut it ' + inchStr((z.thresh || z.floorFin) + (z.thresh ? 0.25 : 0.5)) + '.' });
+    if (rated && (z.floorFin || z.thresh) && z.clearFloor > 0.75)
+      a.push({ lvl:'e', t:'Clearance under the door', m:'NFPA 80 allows 3/4 in under a fire door; this one has ' + inchStr(z.clearFloor) + ' once the floor is in.' });
+    if (o.ada) {
+      if (z.clear < 32) a.push({ lvl:'e', t:'Clear width', m:'About ' + inchStr(z.clear) + ' clear at 90°' + (z.pair ? ' through the active leaf' : '') + '. An accessible door needs 32 in (ICC A117.1 404.2.3).' });
+      if (z.thresh > 0.5) a.push({ lvl:'e', t:'Threshold', m:'Thresholds on an accessible route are 1/2 in high at most.' });
+    }
+    const lw = z.leafW[0] || 0, lr = doorLites(o, lw, z.leafH, /^L/.test(o.hand) || isPair(o));
+    lr.warn.forEach(m => a.push({ lvl:'w', t:'Lite', m }));
+    if (o.ada && lr.lite && lr.lite.bottomAFF > 43.01)
+      a.push({ lvl:'w', t:'Lite height', m:'The bottom of the glass is ' + inchStr(lr.lite.bottomAFF) + ' above the floor. An accessible door with a vision lite wants it at 43 in or lower.' });
+  }
+
   if (o.hand === 'LH' || o.hand === 'RH') {
     if (o.lockPrep === 'RIM') a.push({ lvl:'i', t:'Exit device', m:'Rim devices mount on the push side — confirm the hand is a reverse bevel.' });
   }
@@ -2652,6 +2728,151 @@ function downloadFile(name, text, type){
 }
 
 /* ============================================================
+   LITES, LOUVERS AND PANELS — what is cut into each leaf and where.
+   One place works it out, so the elevation, the 11x17 sheets, the shop
+   sheet and the calculator all draw the same thing. The size typed on
+   the opening is the visible glass; the cutout adds the kit allowance.
+   Locations are read the way the shop lays them out: from the top of
+   the door down to the top of the glass, and in from an edge.
+   ============================================================ */
+const LITE_GAP = 4;                         // rail between stacked lites
+const LITE_STD = {                          // design → the maker's standard visible size (Curries) for a leaf LW x LH
+  FG: (LW, LH) => LW >= 34 && LH >= 79 ? { w: 24, h: LH >= 89 ? 64 : 60 } : { w: Math.max(4, LW - 12), h: Math.max(4, LH - 20) },
+  HG: (LW, LH) => ({ w: Math.min(24, Math.max(4, LW - 12)), h: LH > 90 ? 36 : 30 }),
+  N:  () => ({ w: 6, h: 27 }),
+  V:  () => ({ w: 12, h: 12 }),
+  G:  () => ({ w: 12, h: 12 })
+};
+const sizePair = s => {
+  const p = String(s || '').split(/\s*[x×X*]\s*/).map(parseDim);
+  return p.length === 2 && p.every(v => isFinite(v) && v > 0) ? { w: p[0], h: p[1] } : null;
+};
+const kitAllow = () => num(S.project.kitAllow) || 1.5;      // visible glass to cutout, each way
+
+/** the inserts in one leaf, in inches: x from the leaf's left edge, y up from the bottom of the door */
+function doorLites(o, LW, LH, hingeLeft) {
+  const des = o.doorDesign || 'F', uc = num(o.undercut), items = [], warn = [];
+  const fromFloor = v => v - uc;
+  let size = sizePair(o.vlSize);
+  if (!size && LITE_STD[des]) size = LITE_STD[des](LW, LH);
+  const glassy = size && (/^(FG|HG|N|V|G|SC)$/.test(des) || sizePair(o.vlSize));
+  let lite = null;
+  if (glassy) {
+    const q = Math.max(1, Math.min(4, Math.round(num(o.vlQty)) || 1));
+    const totH = q * size.h + (q - 1) * LITE_GAP;
+    let top;                                                     // door top to the top of the glass
+    if (num(o.vlTop) > 0) top = num(o.vlTop);
+    else if (des === 'FG') top = 5;
+    else if (des === 'HG') top = 6;
+    else if (des === 'N' || o.ada) top = LH - (fromFloor(43) + totH);   // bottom of the glass at 43 in, ANSI A117.1
+    else top = LH - fromFloor(60) - totH / 2;                    // vision lite centred at eye level, 60 in
+    top = Math.max(des === 'FG' ? 4 : 5, Math.min(top, LH - totH - 5));
+    const side = o.vlSide || (des === 'N' ? 'LOCK' : 'CENTER');
+    const edge = num(o.vlEdge) > 0 ? num(o.vlEdge) : des === 'N' ? 5.5 : 5;
+    const lockOnLeft = !hingeLeft;
+    let x = (LW - size.w) / 2;
+    if (side === 'LOCK') x = lockOnLeft ? edge : LW - edge - size.w;
+    else if (side === 'HINGE') x = lockOnLeft ? LW - edge - size.w : edge;
+    for (let i = 0; i < q; i++) {
+      const y = LH - top - size.h - i * (size.h + LITE_GAP);
+      items.push({ kind: 'glass', x, y, w: size.w, h: size.h, glaz: o.glaz || '' });
+    }
+    lite = { w: size.w, h: size.h, q, top, side, edge: side === 'CENTER' ? (LW - size.w) / 2 : edge,
+      bottomAFF: LH - top - totH + uc, cut: { w: size.w + kitAllow(), h: size.h + kitAllow() } };
+    lite.glass = { w: lite.cut.w - 0.5, h: lite.cut.h - 0.5 };
+    if (x < 3.5 || x + size.w > LW - 3.5) warn.push('The lite leaves less than 3-1/2 in of stile.');
+    if (top < 4.5) warn.push('The lite leaves less than 4-1/2 in of top rail.');
+    /* the lock: backset 2-3/4 from the lock edge, trim about 3 in across, at the strike height */
+    const L = hwLoc(o), lockY = L.strike - uc, lockX = lockOnLeft ? 2.75 : LW - 2.75;
+    if (o.lockPrep !== 'NONE' && items.some(it => lockY > it.y - 2 && lockY < it.y + it.h + 2 && lockX > it.x - 1.75 && lockX < it.x + it.w + 1.75))
+      warn.push('The lite runs into the lockset and its trim.');
+  }
+  const lvDefault = /^(L|FL)$/.test(des) ? { w: Math.min(24, LW - 10), h: 12 } : null;
+  const lv = sizePair(o.louverSize) || lvDefault;
+  if (lv) {
+    const bot = num(o.louverBot) > 0 ? num(o.louverBot) : 10;
+    items.push({ kind: 'louver', x: (LW - lv.w) / 2, y: bot, w: lv.w, h: lv.h, type: o.louverType || 'I' });
+    if (lite && items.some(it => it.kind === 'glass' && it.y < bot + lv.h + 3)) warn.push('The lite and the louver are less than 3 in apart.');
+  }
+  if (!lite && !lv && (des === 'E' || o.doorMat === 'WD-SR')) {
+    const mid = LH * 0.45;
+    items.push({ kind: 'panel', x: 5, y: mid + 2, w: LW - 10, h: LH - 5 - (mid + 2) });
+    items.push({ kind: 'panel', x: 5, y: 8, w: LW - 10, h: mid - 2 - 8 });
+  }
+  if (des === 'D') items.push({ kind: 'split', y: fromFloor(42) });
+  return { items, lite, warn };
+}
+
+const inchPair = (w, h) => inchStr(w) + ' x ' + inchStr(h);
+/** the lite on this opening as the schedules print it, standard sizes included; '' when there is none */
+function liteLabel(o) {
+  if (!o.vlSize && !LITE_STD[o.doorDesign]) return '';
+  const z = doorSize(o); if (!z.leafW.length) return '';
+  const lt = doorLites(o, z.leafW[0], z.leafH, true).lite;
+  return lt ? 'VL ' + (lt.q > 1 ? lt.q + ' @ ' : '') + inchPair(lt.w, lt.h) : '';
+}
+const GLAZ_NAME = { FL: 'fire rated ceramic', WG: 'wired glass', TEMP: 'tempered', LAM: 'laminated', IG: 'insulated unit', LEX: 'polycarbonate' };
+const GLAZ_FILL = { FL: '#f7e6df', WG: '#e4ecf0', TEMP: '#e1eef7', LAM: '#e3f1ef', IG: '#e6eef6', LEX: '#ecf3e6' };
+const GLAZ_TAG = { FL: 'FR', WG: 'WG', TEMP: 'T', LAM: 'LAM', IG: 'IG', LEX: 'PC' };
+/** the inserts drawn in SVG: left and bottom of the leaf in px, px per inch */
+function svgInserts(o, x0, yBot, k, LW, LH, hingeLeft) {
+  const r = doorLites(o, LW, LH, hingeLeft);
+  let g = '';
+  r.items.forEach(it => {
+    if (it.kind === 'split') { g += `<line x1="${x0}" y1="${yBot - it.y * k}" x2="${x0 + LW * k}" y2="${yBot - it.y * k}" stroke="var(--ink)" stroke-width="1.1"/>`; return; }
+    const x = x0 + it.x * k, y = yBot - (it.y + it.h) * k, w = it.w * k, h = it.h * k;
+    if (it.kind === 'glass') {
+      g += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${GLAZ_FILL[it.glaz] || '#eaf1f6'}" stroke="var(--ink)" stroke-width=".9"/>`;
+      if (it.glaz === 'WG') g += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="url(#wire)" stroke="none"/>`;
+      if (it.glaz === 'LAM' || it.glaz === 'IG') { const i2 = Math.min(2, w / 8, h / 8); g += `<rect x="${x + i2}" y="${y + i2}" width="${w - 2 * i2}" height="${h - 2 * i2}" fill="none" stroke="var(--focus)" stroke-width=".5"/>`; }
+      if (w > 10 && h > 10) {                                     // a glint so glass reads as glass
+        const a = Math.min(w, h) * 0.35;
+        g += `<path d="M${x + w * 0.18} ${y + h * 0.18 + a} L${x + w * 0.18 + a} ${y + h * 0.18} M${x + w * 0.18 + a * 0.35} ${y + h * 0.18 + a * 1.25} L${x + w * 0.18 + a * 1.25} ${y + h * 0.18 + a * 0.35}" stroke="#fff" stroke-width="1.2" opacity=".9"/>`;
+      }
+      if (GLAZ_TAG[it.glaz] && w > 14 && h > 9) g += T(x + w / 2, y + h / 2 + 3, GLAZ_TAG[it.glaz], { fs: Math.min(8, h * 0.45), fill: 'var(--focus)' });
+    } else if (it.kind === 'louver') {
+      g += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#eef1f3" stroke="var(--ink)" stroke-width=".9"/>`;
+      if (it.type === 'P') { for (let yy = y + 2.5; yy < y + h - 1; yy += 3) for (let xx = x + 2.5; xx < x + w - 1; xx += 3) g += `<circle cx="${xx}" cy="${yy}" r=".6" fill="var(--ink2)"/>`; }
+      else { const step = Math.max(2, 1.25 * k); for (let yy = y + step; yy < y + h - 0.5; yy += step) g += `<line x1="${x + 1}" y1="${yy}" x2="${x + w - 1}" y2="${yy - (it.type === 'A' ? 0 : step * 0.45)}" stroke="var(--ink2)" stroke-width=".55"/>`; }
+      if (it.type === 'FUS' && w > 16) g += T(x + w / 2, y - 2, 'FUSIBLE', { fs: 6.5, fill: 'var(--fire)' });
+    } else if (it.kind === 'panel') {
+      const i2 = Math.min(1.5 * k, w / 6);
+      g += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="none" stroke="var(--ink2)" stroke-width=".8"/>`;
+      g += `<rect x="${x + i2}" y="${y + i2}" width="${w - 2 * i2}" height="${h - 2 * i2}" fill="#f3f5f6" stroke="var(--ink2)" stroke-width=".5"/>`;
+    }
+  });
+  return g;
+}
+/** the same inserts in a PDF: left and bottom of the leaf in points, points per inch, y up */
+function pdfInserts(p, o, x0, yBot, k, LW, LH, hingeLeft, labels) {
+  const r = doorLites(o, LW, LH, hingeLeft);
+  r.items.forEach(it => {
+    if (it.kind === 'split') { p.lw(0.8); p.line(x0, yBot + it.y * k, x0 + LW * k, yBot + it.y * k); return; }
+    const x = x0 + it.x * k, y = yBot + it.y * k, w = it.w * k, h = it.h * k;
+    if (it.kind === 'glass') {
+      const c = { FL: [0.97, 0.9, 0.87], WG: [0.89, 0.93, 0.94], TEMP: [0.88, 0.93, 0.97], LAM: [0.89, 0.95, 0.94], IG: [0.9, 0.93, 0.96], LEX: [0.93, 0.95, 0.9] }[it.glaz] || [0.92, 0.95, 0.97];
+      p.rgb(c[0], c[1], c[2]); p.rect(x, y, w, h, true); p.gray(0);
+      p.lw(0.6); p.rect(x, y, w, h);
+      if (it.glaz === 'WG') { p.lw(0.15); p.stroke(0.55);
+        for (let t = -h; t < w; t += 2.4) { const a = Math.max(0, t), b = Math.min(w, t + h); if (b > a) { p.line(x + a, y + (a - t), x + b, y + (b - t)); p.line(x + a, y + h - (a - t), x + b, y + h - (b - t)); } }
+        p.stroke(0); }
+      if (it.glaz === 'LAM' || it.glaz === 'IG') { const i2 = Math.min(1.2, w / 8, h / 8); p.lw(0.25); p.rect(x + i2, y + i2, w - 2 * i2, h - 2 * i2); }
+      if (w > 8 && h > 8) { p.lw(0.4); p.stroke(1); const a = Math.min(w, h) * 0.3; p.line(x + w * 0.2, y + h * 0.8 - a, x + w * 0.2 + a, y + h * 0.8); p.stroke(0); }
+      if (labels && GLAZ_TAG[it.glaz] && w > 10 && h > 7) { p.gray(0.25); p.txt(x + w / 2, y + h / 2 - 1.8, GLAZ_TAG[it.glaz], Math.min(5.5, h * 0.4), true, 'c'); p.gray(0); }
+    } else if (it.kind === 'louver') {
+      p.gray(0.95); p.rect(x, y, w, h, true); p.gray(0); p.lw(0.6); p.rect(x, y, w, h);
+      p.lw(0.25); const step = Math.max(1.6, 1.25 * k);
+      if (it.type === 'P') for (let yy = y + 1.6; yy < y + h - 0.6; yy += 2) for (let xx = x + 1.6; xx < x + w - 0.6; xx += 2) p.rect(xx - 0.2, yy - 0.2, 0.4, 0.4, true);
+      else for (let yy = y + step; yy < y + h - 0.4; yy += step) p.line(x + 0.8, yy, x + w - 0.8, yy - (it.type === 'A' ? 0 : step * 0.45));
+    } else if (it.kind === 'panel') {
+      const i2 = Math.min(1.5 * k, w / 6);
+      p.lw(0.5); p.rect(x, y, w, h); p.gray(0.96); p.rect(x + i2, y + i2, w - 2 * i2, h - 2 * i2, true); p.gray(0); p.lw(0.3); p.rect(x + i2, y + i2, w - 2 * i2, h - 2 * i2);
+    }
+  });
+  return r;
+}
+
+/* ============================================================
    DRAWINGS — elevation and jamb section
    ============================================================ */
 const SVG_DEFS = `<defs>
@@ -2663,6 +2884,8 @@ const SVG_DEFS = `<defs>
     <line x1="0" y1="0" x2="0" y2="7" stroke="#c9d0d6" stroke-width="1.6"/></pattern>
   <pattern id="hatch2" width="5" height="5" patternTransform="rotate(-45)" patternUnits="userSpaceOnUse">
     <line x1="0" y1="0" x2="0" y2="5" stroke="#d9dee2" stroke-width="1.2"/></pattern>
+  <pattern id="wire" width="5" height="5" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+    <path d="M0 0H5M0 0V5" stroke="#7d93a1" stroke-width=".45" fill="none"/></pattern>
 </defs>`;
 
 const T = (x, y, s, o) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${(o&&o.fs)||8.5}" fill="${(o&&o.fill)||'var(--ink2)'}" text-anchor="${(o&&o.a)||'middle'}" font-family="var(--mono)" ${o&&o.rot?`transform="rotate(-90 ${x.toFixed(1)} ${y.toFixed(1)})"`:''}>${esc(s)}</text>`;
@@ -2749,8 +2972,6 @@ function svgElevation(o, mode) {
   const showLeaf = mode !== 'frame' && d.leaves;
   if (showLeaf) {
     const nH = d.hinges || 0, HL = hwLoc(o);
-    const vl = (o.vlSize || '').split(/[x×]/).map(parseDim);
-    const lv = (o.louverSize || '').split(/[x×]/).map(parseDim);
     leaves.forEach(L => {
       g += `<rect x="${L.a}" y="${headY + cl}" width="${L.b - L.a}" height="${yF - headY - cl - uc}"
          fill="#fff" stroke="var(--ink)" stroke-width="1.1"/>`;
@@ -2783,17 +3004,9 @@ function svgElevation(o, mode) {
           g += `<rect x="${sx + (L.hingeLeft ? -IN(1.2) : 0)}" y="${yy}" width="${IN(1.2)}" height="${IN(4)}"
             fill="none" stroke="var(--ink2)" stroke-width=".8"/>`);
       }
-      /* every leaf carries the lite and the louver */
-      const mx = (L.a + L.b) / 2;
-      if (vl.length === 2 && isFinite(vl[0]) && isFinite(vl[1])) {
-        g += `<rect x="${mx - IN(vl[0]) / 2}" y="${AFF(60 + vl[1] / 2)}" width="${IN(vl[0])}" height="${IN(vl[1])}"
-          fill="#eaf1f6" stroke="var(--ink)" stroke-width=".9"/>`;
-        g += T(mx, AFF(60) + 3, (o.glaz || 'VL'), { fs: 7, fill: 'var(--focus)' });
-      }
-      if (lv.length === 2 && isFinite(lv[0]) && isFinite(lv[1])) {
-        g += `<rect x="${mx - IN(lv[0]) / 2}" y="${AFF(10 + lv[1])}" width="${IN(lv[0])}" height="${IN(lv[1])}"
-          fill="url(#hatch2)" stroke="var(--ink)" stroke-width=".9"/>`;
-      }
+      /* what is cut into this leaf: lites, louver, panels, from the door design */
+      const k1 = IN(1), lTop = headY + cl, lBot = yF - uc;
+      g += svgInserts(o, L.a, lBot, k1, (L.b - L.a) / k1, (lBot - lTop) / k1, L.hingeLeft);
     });
     /* astragal at the meeting edge */
     if (d.leaves === 2 && o.astragal) {
@@ -3543,6 +3756,9 @@ function renderDetail() {
       <div title="${esc(d.roLabel)}">${esc(d.roLabel.split(' — ')[0])} <span>${esc(ftin(d.roW))} × ${esc(ftin(d.roH))}</span></div>
       <div>Anchors <span>${d.anchors}/jamb · ${d.anchorJambTot + d.anchorBaseTot + d.anchorHeadTot + d.anchorSlTot} tot</span></div>
       <div>Hinges <span>${d.hinges || '—'}</span></div>
+      ${d.leaves ? (() => { const z = doorSize(o); return `<div title="The door as the shop cuts it">Door cut <span>${esc(z.pair ? (Math.abs(z.leafW[0] - z.leafW[1]) < 0.01 ? '2 @ ' + ftin(z.leafW[0]) : ftin(z.leafW[0]) + ' + ' + ftin(z.leafW[1])) : ftin(z.leafW[0]))} × ${esc(ftin(z.leafH))}</span></div>
+      <div title="Leaf face to the stop at 90°">Clear at 90° <span class="${z.clear < 32 ? 'bad' : ''}">${esc(inchStr(z.clear))}</span></div>
+      ${z.floorFin || z.thresh ? `<div title="Under the door once the floor or threshold is in">Under the door <span class="${z.clearFloor < 0.125 ? 'bad' : ''}">${esc(inchStr(Math.max(0, z.clearFloor)))}</span></div>` : ''}`; })() : ''}
     </div>` + featuresHtml(o);
     $('#elevBox').innerHTML = PREFS.drawing
       ? `<div class="elev"><div class="elevbar">
@@ -3679,7 +3895,7 @@ function onFieldChange(e) {
   if (k !== 'lead' && d.custom && o.lead !== 'CUSTOM') o.lead = 'CUSTOM';
 
   persist();
-  if (['mark','config','w1','w2','h','doorMat','fire','hand','wall','frameType','undercut','vlSize','louverSize','hingeQty','closerReinf','headPrep','lockPrep','jambDepth','faceSize','stopH','thickness','profile','anchor','hwSet','category','frameLib','doorLib','trH','slW','slQty','anchorQty','anchorBase','anchorHead','anchorSl','strikePrep','steelDoor','steelFrame','core','woodCore','glaz','louverType','label','frameScope','fieldVerify','astragal','coordinator','mullion','smoke','posPressure','thermal','ada','gaugeDoor','match','faceNote','headFace','hospStop','prepStd','degree','edge','caps','cutoutOpt','glassThk','backBend','wallThk','rabbets','faceCustom','headFaceCustom','blSill','blCols','blRows','blType','slLites','slBase','mullThru','trDiv','trRows','returnBend','profile','slType','trType','slSill','memberFace','memberFaceCustom','slGlaz','trGlaz','edgeSeam','locA','locB','locC','locD','locE'].indexOf(k) >= 0) {
+  if (['mark','config','w1','w2','h','doorMat','fire','hand','wall','frameType','undercut','vlSize','louverSize','hingeQty','closerReinf','headPrep','lockPrep','jambDepth','faceSize','stopH','thickness','profile','anchor','hwSet','category','frameLib','doorLib','trH','slW','slQty','anchorQty','anchorBase','anchorHead','anchorSl','strikePrep','steelDoor','steelFrame','core','woodCore','glaz','louverType','label','frameScope','fieldVerify','astragal','coordinator','mullion','smoke','posPressure','thermal','ada','gaugeDoor','match','faceNote','headFace','hospStop','prepStd','degree','edge','caps','cutoutOpt','glassThk','backBend','wallThk','rabbets','faceCustom','headFaceCustom','blSill','blCols','blRows','blType','slLites','slBase','mullThru','trDiv','trRows','returnBend','profile','slType','trType','slSill','memberFace','memberFaceCustom','slGlaz','trGlaz','edgeSeam','locA','locB','locC','locD','locE','vlQty','vlTop','vlSide','vlEdge','louverBot','floorFin','threshH','doorDesign'].indexOf(k) >= 0) {
     /* keep the cursor where the estimator put it — tabbing out of a field lands on the next one, not back on this one */
     const act = document.activeElement, actId = act && act.id;
     renderAll();
@@ -3977,9 +4193,9 @@ const PROJ_FIELDS = [
   ['planDate','Drawing date','date'],['addenda','Addenda / bulletins']];
 const PRICE_FIELDS = [['markupFrame','Frame markup %'],['markupDoor','Door markup %'],['markupHw','Hardware markup %'],
   ['markupMisc','Misc & labor markup %'],['markupDiv10','Division 10 markup %'],['laborRate','Install rate, $/hr'],['ratePrep','Shop prep rate, $/hr'],
-  ['rateField','Field measure rate, $/hr'],['rateDeliver','Delivery rate, $/hr'],['freight','Freight, $'],['taxRate','Tax %']];
+  ['rateField','Field measure rate, $/hr'],['rateDeliver','Delivery rate, $/hr'],['freight','Freight, $'],['taxRate','Tax %'],['kitAllow','Lite kit: cutout over glass']];
 
-const PRICE_UNIT = { markupFrame:'%', markupDoor:'%', markupHw:'%', markupMisc:'%', markupDiv10:'%', laborRate:'$/hr', ratePrep:'$/hr', rateField:'$/hr', rateDeliver:'$/hr', freight:'$', taxRate:'%' };
+const PRICE_UNIT = { markupFrame:'%', markupDoor:'%', markupHw:'%', markupMisc:'%', markupDiv10:'%', laborRate:'$/hr', ratePrep:'$/hr', rateField:'$/hr', rateDeliver:'$/hr', freight:'$', taxRate:'%', kitAllow:'in' };
 function renderProject() {
   const ph = { job:'Warehouse fit out', jobNo:'26-0142', address:'Street, city', gc:'General contractor', architect:'Architect of record',
     estimator:'Your name', addenda:'Addendum 1, 2' };
@@ -4310,7 +4526,7 @@ function requiredHardware(o) {
     add('SILENCER', num(o.silencers) || 3, 'Hollow metal frame stop', 'rec');
 
   /* openings in the leaf */
-  if (o.vlSize) add('LITE KIT', d.leaves, 'Vision lite frame ' + o.vlSize + (rated ? ', fire rated' : ''));
+  if (liteLabel(o)) add('LITE KIT', d.leaves, 'Vision lite frame, ' + liteLabel(o).replace(/^VL /, '') + ' visible' + (rated ? ', fire rated' : ''));
   if (o.louverSize) add('LOUVER', d.leaves, 'Louver ' + o.louverSize + (rated ? ', fusible link' : ''));
 
   /* electrified */
@@ -4885,7 +5101,9 @@ function curAuto(o, key) {
 }
 function curFaceCode(o) {
   const dims = s => (s || '').replace(/["\s]/g, '').toLowerCase();
-  const vl = dims(o.vlSize), lv = dims(o.louverSize);
+  let vl = dims(o.vlSize), lv = dims(o.louverSize);
+  if (!vl && LITE_STD[o.doorDesign]) { const z = LITE_STD[o.doorDesign](35.75, 83.125); vl = z.w + 'x' + z.h; }
+  if (!lv && o.doorDesign === 'FL') lv = '24x12';
   if (lv) {
     if (lv === '12x12') return 'FL-12"x12"';
     if (lv === '24x12') return 'FL-24"x12"';
@@ -5252,7 +5470,7 @@ function doorBOM() {
         build: isWood(o) ? veneerStr(o) : [o.gaugeDoor, o.steelDoor, o.core, o.doorFinish].filter(Boolean).join(' '),
         thk: dimStr(thkIn(o)),
         rating: ratingStr(o),
-        prep: [o.hingePrep, o.hingeQty, o.lockPrep, o.vlSize ? 'VL ' + o.vlSize : '',
+        prep: [o.hingePrep, o.hingeQty, o.lockPrep, liteLabel(o),
                o.louverSize ? 'LVR ' + o.louverSize : '', num(o.undercut) ? 'UC ' + dimStr(num(o.undercut)) : ''].filter(Boolean).join(' / '),
         custom: d.custom ? 'CUSTOM' : 'STD'
       };
@@ -5929,7 +6147,7 @@ function exportXlsx() {
         d.anchorBaseTot + ' base'].filter(Boolean).join(' \u00b7 '));
       if (d.leaves && !skipDoor(o)) det.push('Door: ' + [o.doorMat, isWood(o) ? '' : o.gaugeDoor,
         isWood(o) ? o.species + ' ' + o.cut + ' ' + o.woodCore : o.core,
-        isWood(o) ? o.woodFinish : o.doorFinish, o.vlSize ? 'VL ' + o.vlSize : '',
+        isWood(o) ? o.woodFinish : o.doorFinish, liteLabel(o),
         o.louverSize ? 'LVR ' + o.louverSize : ''].filter(Boolean).join(' \u00b7 '));
       det.push('Preps: ' + [o.hingePrep + ' ' + o.hingeQty, o.strikePrep, o.lockPrep,
         o.headPrep !== 'NONE' ? o.headPrep : '',
@@ -6246,7 +6464,6 @@ function pdfElevation(p, o, cx, cy, cw, ch, mode, ppi) {
     else { const sp = doorX + IN(num(o.w1)), leftActive = o.hand !== 'RHRA';
       leaves.push({ a: doorX + cl, b: sp - cl / 2, w: num(o.w1), hingeLeft: true, active: leftActive });
       leaves.push({ a: sp + cl / 2, b: doorX + doorW - cl, w: d.w2, hingeLeft: false, active: !leftActive }); }
-    const vl = (o.vlSize || '').split(/[x×]/).map(parseDim), lv = (o.louverSize || '').split(/[x×]/).map(parseDim);
     leaves.forEach(L => {
       const top = headY - cl, bot = botY + uc;
       p.gray(1); p.rect(L.a, bot, L.b - L.a, top - bot, true); p.gray(0);
@@ -6272,10 +6489,7 @@ function pdfElevation(p, o, cx, cy, cw, ch, mode, ppi) {
         p.raw(`${far.toFixed(2)} ${top.toFixed(2)} m ${tip.toFixed(2)} ${((top + bot) / 2).toFixed(2)} l ${far.toFixed(2)} ${bot.toFixed(2)} l S`);
         p.solid(); p.stroke(0); }
       const mx = (L.a + L.b) / 2;
-      if (vl.length === 2 && isFinite(vl[0]) && isFinite(vl[1])) { p.gray(0.94); p.rect(mx - IN(vl[0]) / 2, botY + IN(60 - vl[1] / 2), IN(vl[0]), IN(vl[1]), true); p.gray(0);
-        p.lw(0.6); p.rect(mx - IN(vl[0]) / 2, botY + IN(60 - vl[1] / 2), IN(vl[0]), IN(vl[1])); }
-      if (lv.length === 2 && isFinite(lv[0]) && isFinite(lv[1])) { p.lw(0.6); p.rect(mx - IN(lv[0]) / 2, botY + IN(10), IN(lv[0]), IN(lv[1]));
-        p.lw(0.2); for (let yy = botY + IN(10) + 2; yy < botY + IN(10 + lv[1]) - 1; yy += 2) p.line(mx - IN(lv[0]) / 2 + 1, yy, mx + IN(lv[0]) / 2 - 1, yy); }
+      pdfInserts(p, o, L.a, bot, IN(1), (L.b - L.a) / IN(1), (top - bot) / IN(1), L.hingeLeft, true);
       if (d.leaves === 2) p.txt(mx, bot + 6, ftin(L.w), 5.6, false, 'c');
     });
     if (d.leaves === 2 && o.astragal) { p.rgbS(SIG_RGB[0], SIG_RGB[1], SIG_RGB[2]); p.lw(1.2); p.line(doorX + IN(num(o.w1)), botY + uc, doorX + IN(num(o.w1)), headY - cl); p.stroke(0); }
@@ -6637,12 +6851,15 @@ function shopPlanPage(p, o, sheetNo, sheetOf, opts) {
       ['Material', wood ? ['WOOD', o.species, o.cut, o.match, 'grade ' + o.grade, o.woodCore, o.woodFinish].filter(Boolean).join(' · ')
         : [o.doorMat, 'design ' + o.doorDesign, o.edgeModel, o.gaugeDoor, o.steelDoor, o.core + ' core', o.doorFinish].filter(Boolean).join(' · ')],
       ['Nominal', (d.leaves === 2 ? '2 @ ' + ftin(num(o.w1)) : ftin(d.nomW)) + ' x ' + ftin(d.nomH) + ' x ' + dimStr(thkIn(o))],
-      ['Actual', (d.leaves === 2 ? '2 @ ' + ftin(num(o.w1) - 0.1875) : ftin(d.nomW - 0.25)) + ' x ' + ftin(d.nomH - STD.topClr - num(o.undercut || STD.uc))],
-      ['Undercut', dimStr(num(o.undercut || STD.uc))],
+      ['Actual', (() => { const z = doorSize(o); return (z.pair ? (Math.abs(z.leafW[0] - z.leafW[1]) < 0.01 ? '2 @ ' + ftin(z.leafW[0]) : ftin(z.leafW[0]) + ' + ' + ftin(z.leafW[1])) : ftin(z.leafW[0])) +
+        ' x ' + ftin(z.leafH) + ' · clear ' + inchStr(z.clear) + ' at 90°'; })()],
+      ['Undercut', (() => { const z = doorSize(o); return dimStr(num(o.undercut)) + (z.thresh ? ' · ' + dimStr(z.thresh) + ' threshold, clears ' + dimStr(z.clearFloor) : z.floorFin ? ' · ' + dimStr(z.floorFin) + ' floor finish, clears ' + dimStr(z.clearFloor) : '') +
+        (z.cutOff != null ? ' · cut off ' + inchStr(z.cutOff) + ' max' : ''); })()],
       ['Edge / caps', [({ BEV:'bevel lock edge', SQ:'square', BEV2:'bevel both', RAD:'radius' })[o.edge] || o.edge,
         wood ? '' : 'seam ' + (o.edgeSeam || 'S'),
         wood ? '' : ({ 'FT-IB':'flush top, inverted bottom', 'FT-FB':'flush top and bottom', 'IT-IB':'inverted top and bottom', CLOSED:'closed top and bottom' })[o.caps] || o.caps].filter(Boolean).join(' · ')],
-      ['Lite / louver', [o.vlSize && 'VL ' + o.vlSize + ' ' + (o.glaz || ''), o.louverSize && 'LVR ' + o.louverSize + ' ' + (o.louverType || ''), (o.vlSize || o.louverSize) && o.cutoutOpt ? 'cutout ' + o.cutoutOpt.toLowerCase() : ''].filter(Boolean).join(' · ')],
+      ['Lite / louver', [(() => { const z = doorSize(o), lt = doorLites(o, z.leafW[0] || 0, z.leafH, true).lite;
+          return lt ? (lt.q > 1 ? lt.q + ' @ ' : '') + 'VL ' + inchPair(lt.w, lt.h) + ' ' + (o.glaz || '') + ', cutout ' + inchPair(lt.cut.w, lt.cut.h) + ', glass ' + inchPair(lt.glass.w, lt.glass.h) + ', ' + inchStr(lt.top) + ' from the top' : ''; })(), o.louverSize && 'LVR ' + o.louverSize + ' ' + (o.louverType || ''), (o.vlSize || o.louverSize) && o.cutoutOpt ? 'cutout ' + o.cutoutOpt.toLowerCase() : ''].filter(Boolean).join(' · ')],
       ['Hand', o.hand + ' · ' + o.swing + (num(o.degree) > 90 ? ' · ' + o.degree + '°' : '') + (d.leaves === 2 ? ' · active ' + (o.hand === 'RHRA' ? 'right' : 'left') : '')],
       ['Templates', [o.actTemplate && 'active ' + o.actTemplate, o.inactTemplate && 'inactive ' + o.inactTemplate].filter(Boolean).join(' · ')],
       ['Series', cur(o, 'series') + (o.archDoorType ? ' · arch type ' + o.archDoorType : '')],
@@ -6835,6 +7052,7 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
   p.lw(1.6); p.line(x0 - 20, yF, x0 + IN(d.nomW) + 44, yF);
   p.lw(0.3); p.dash(2, 2); p.line(x0 - 6, headY, x0 + IN(d.nomW) + 6, headY); p.solid();
   const lx = ['A', 'B', 'C', 'D', 'F', 'G'];
+  let liteTxt = '';
   leaves.forEach((Lf, li) => {
     p.lw(1); p.rect(Lf.a, dBot, Lf.b - Lf.a, dTop - dBot);
     const hx = Lf.hingeLeft ? Lf.a : Lf.b, cw = Math.max(2, IN(0.9));
@@ -6852,11 +7070,18 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
       p.lw(0.5); [dTop - IN(2) - IN(6), dBot + IN(2)].forEach(yy => p.rect(Lf.hingeLeft ? ex - IN(1) : ex, yy, IN(1), IN(6)));
     }
     /* lite and louver, located from the floor the way the shop lays them out */
-    const vl = (o.vlSize || '').split(/[x×]/).map(parseDim), lv = (o.louverSize || '').split(/[x×]/).map(parseDim);
-    const mx = (Lf.a + Lf.b) / 2;
-    if (vl.length === 2 && isFinite(vl[0]) && isFinite(vl[1])) { p.lw(0.6); p.rect(mx - IN(vl[0]) / 2, yF + IN(60 - vl[1] / 2), IN(vl[0]), IN(vl[1])); p.txt(mx, yF + IN(60) - 2, 'VL', 5.2, true, 'c'); }
-    if (lv.length === 2 && isFinite(lv[0]) && isFinite(lv[1])) { p.lw(0.6); p.rect(mx - IN(lv[0]) / 2, yF + IN(10), IN(lv[0]), IN(lv[1]));
-      p.lw(0.25); for (let yy = yF + IN(10) + 2.5; yy < yF + IN(10 + lv[1]) - 1; yy += 2.5) p.line(mx - IN(lv[0]) / 2 + 1, yy, mx + IN(lv[0]) / 2 - 1, yy); }
+    const LWi = (Lf.b - Lf.a) / ppi, LHi = (dTop - dBot) / ppi;
+    const ins = pdfInserts(p, o, Lf.a, dBot, ppi, LWi, LHi, Lf.hingeLeft, true);
+    /* locate the lite for the shop: door top to the top of the glass, and in from the nearer edge */
+    if (ins.lite) {
+      const lt = ins.lite, g0 = ins.items.find(it => it.kind === 'glass');
+      const gx = Lf.a + IN(g0.x), gTop = dTop - IN(lt.top);
+      const nearLeft = g0.x <= LWi - g0.x - g0.w;
+      pDimV(p, nearLeft ? gx + IN(g0.w) + 7 : gx - 7, dTop, gTop, inchStr(lt.top), { color: [0.11, 0.35, 0.46], side: nearLeft ? 'r' : 'l', size: 5.2 });
+      const ey = gTop - IN(Math.min(g0.h, 6)) / 2;
+      pDimH(p, ey, nearLeft ? Lf.a : gx + IN(g0.w), nearLeft ? gx : Lf.b, inchStr(nearLeft ? g0.x : LWi - g0.x - g0.w), { size: 5 });
+      if (li === 0) liteTxt = (lt.q > 1 ? lt.q + ' @ ' : '') + 'GLASS ' + inchPair(lt.w, lt.h) + ' VISIBLE   ·   CUTOUT ' + inchPair(lt.cut.w, lt.cut.h) + '   ·   ' + (GLAZ_NAME[o.glaz] || 'glazing by others');
+    }
     /* the hinge chain once, on the first leaf's hinge side */
     if (li === 0) {
       const cx = Lf.hingeLeft ? Lf.a - 12 : Lf.b + 12, step = Lf.hingeLeft ? -10 : 10;
@@ -6866,7 +7091,7 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
       const exX = d.leaves === 2 ? (Lf.hingeLeft ? Lf.b - IN(6) : Lf.a + IN(6)) : (Lf.hingeLeft ? Lf.b + 12 : Lf.a - 12);
       pDimV(p, exX, dTop, ly, 'E ' + inchStr(L.doorStrikeFromTop), { color: SIG_RGB, side: Lf.hingeLeft ? 'r' : 'l' });
     }
-    pDimH(p, yF - 14, Lf.a, Lf.b, ftin(Lf.w - (d.leaves === 2 ? 0.1875 : 0.25)));
+    pDimH(p, yF - 14, Lf.a, Lf.b, ftin(doorSize(o).leafW[li] || 0));
   });
   /* undercut and actual height */
   const farLeft = d.leaves === 1 && !hingeLeftSingle;
@@ -6876,9 +7101,11 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
   p.txt(farLeft ? x0 - 4 : x0 + IN(d.nomW) + 4, yF - 8, 'UC ' + inchStr(uc), 5.6, true, farLeft ? 'r' : null);
   p.gray(0);
   p.gray(0.35);
-  p.txt(x0 + IN(d.nomW) / 2, yF - 28, 'ACTUAL DOOR   ' + (d.leaves === 2 ? '2 @ ' : '') + ftin(d.leaves === 2 ? num(o.w1) - 0.1875 : d.nomW - 0.25) +
-    ' x ' + ftin(d.nomH - STD.topClr - uc) + ' x ' + dimStr(thkIn(o)), 5.8, false, 'c');
+  const zs = doorSize(o);
+  p.txt(x0 + IN(d.nomW) / 2, yF - 28, 'ACTUAL DOOR   ' + (zs.pair ? (Math.abs(zs.leafW[0] - zs.leafW[1]) < 0.01 ? '2 @ ' + ftin(zs.leafW[0]) : ftin(zs.leafW[0]) + ' + ' + ftin(zs.leafW[1])) : ftin(zs.leafW[0])) +
+    ' x ' + ftin(zs.leafH) + ' x ' + dimStr(thkIn(o)) + '   ·   CLEAR ' + inchStr(zs.clear) + ' AT 90°', 5.8, false, 'c');
   p.txt(x0 + IN(d.nomW) / 2, yF - 36, 'hinge backset ' + inchStr(STD.bsDoor) + '   ·   ' + (o.edge === 'SQ' ? 'square edges' : 'bevel lock edge') + '   ·   ' + o.hand, 5.8, false, 'c');
+  if (liteTxt) p.txt(x0 + IN(d.nomW) / 2, yF - 44, liteTxt, 5.8, false, 'c');
   p.gray(0);
 }
 
@@ -7005,8 +7232,10 @@ function shopTasks(o) {
     if (rated) add('FRAME', 'label', 'Apply ' + (o.labelAgency === 'W' ? 'WHI' : 'UL') + ' ' + ratingStr(o) + ' frame label and record the serial number', 0.15);
   }
   if (d.leaves && !skipDoor(o)) {
-    const vl = (o.vlSize || '').trim(), lv = (o.louverSize || '').trim();
-    if (vl) add('DOOR', 'lite', 'Cut vision lite ' + vl + (o.cutoutOpt === 'CUT' ? ', kit by others' : ', install kit') + (o.glaz ? ' and ' + o.glaz + ' glass' : ''), 1);
+    const vl = liteLabel(o), lv = (o.louverSize || '').trim();
+    if (vl) { const z = doorSize(o), lt = doorLites(o, z.leafW[0], z.leafH, true).lite;
+      add('DOOR', 'lite', 'Cut ' + (lt.q > 1 ? lt.q + ' lites' : 'the lite') + ' ' + inchPair(lt.cut.w, lt.cut.h) + ', ' + inchStr(lt.top) + ' down from the top (' + vl.replace(/^VL /, '') + ' visible)' +
+        (o.cutoutOpt === 'CUT' ? ', kit by others' : ', install kit') + (o.glaz ? ' and ' + (GLAZ_NAME[o.glaz] || o.glaz) + ' glass' : ''), lt.q > 1 ? 1.5 : 1); }
     if (lv) add('DOOR', 'louver', 'Cut louver ' + lv + ' and install ' + (o.louverType || 'inserted') + ' louver', 1);
     if (d.custom && !isWood(o)) add('DOOR', 'cut', 'Cut door to ' + ftin(d.leaves === 2 ? num(o.w1) - 0.1875 : d.nomW - 0.25) + ' x ' + ftin(d.nomH - STD.topClr - num(o.undercut || STD.uc)) + ' and re-channel', 1.5);
     if (Math.abs(num(o.undercut) - STD.uc) > 0.01 && num(o.undercut)) add('DOOR', 'uc', 'Undercut to ' + inchStr(num(o.undercut)), 0.4);
@@ -7673,28 +7902,282 @@ function readCsv(text) {
   return rows.filter(r => r.some(c => c.trim()));
 }
 
-/** text on a PDF page, grouped into rows by height and into columns by the gaps between words */
-async function pdfPageGrid(pageNo) {
+/* ---------- reading a door schedule off a drawing ----------
+   Every word on the page is placed in page coordinates (top left, points), whatever the sheet rotation.
+   The schedule is found from its header row; columns come from the gaps the data leaves down the page,
+   so a SIZE header spread over WD / HT / THK still lands in three columns; wrapped remarks join the row above. */
+async function pdfItems(pageNo) {
   const page = await IMP.pdf.getPage(pageNo);
+  const vp = page.getViewport({ scale: 1 });
   const tc = await page.getTextContent();
-  const items = tc.items.filter(it => it.str.trim()).map(it => ({ s: it.str.trim(), x: it.transform[4], y: it.transform[5], w: it.width }));
-  if (!items.length) return [];
-  items.sort((a, b) => b.y - a.y || a.x - b.x);
-  const lines = [];
-  items.forEach(it => { const ln = lines.find(l => Math.abs(l.y - it.y) < 3.2); if (ln) ln.items.push(it); else lines.push({ y: it.y, items: [it] }); });
-  /* column edges from where text starts, clustered */
-  const starts = items.map(it => it.x).sort((a, b) => a - b), edges = [];
-  starts.forEach(x => { if (!edges.length || x - edges[edges.length - 1].max > 9) edges.push({ min: x, max: x, n: 1 }); else { edges[edges.length - 1].max = x; edges[edges.length - 1].n++; } });
-  const cols = edges.filter(e => e.n >= Math.max(2, lines.length * 0.12)).map(e => e.min);
-  if (!cols.length) cols.push(starts[0]);
-  return lines.map(l => {
-    const r = cols.map(() => '');
-    l.items.sort((a, b) => a.x - b.x).forEach(it => {
-      let ci = 0; for (let i = 0; i < cols.length; i++) if (it.x >= cols[i] - 4) ci = i;
-      r[ci] = r[ci] ? r[ci] + ' ' + it.s : it.s;
-    });
-    return r;
+  const out = [];
+  tc.items.forEach(it => {
+    const s = String(it.str || '').trim(); if (!s) return;
+    const t = it.transform, fh = Math.hypot(t[2], t[3]) || it.height || 8;
+    const len = Math.hypot(t[0], t[1]) || 1, ux = t[0] / len, uy = t[1] / len;
+    const [ax, ay] = vp.convertToViewportPoint(t[4], t[5]);
+    const [bx, by] = vp.convertToViewportPoint(t[4] + ux * it.width, t[5] + uy * it.width);
+    const vert = Math.abs(by - ay) > Math.abs(bx - ax);
+    if (vert) out.push({ s, vert, x0: Math.min(ax, bx) - fh, x1: Math.max(ax, bx), y0: Math.min(ay, by), y1: Math.max(ay, by), y: Math.max(ay, by), h: fh });
+    else out.push({ s, vert, x0: Math.min(ax, bx), x1: Math.max(ax, bx), y0: ay - fh, y1: ay, y: ay, h: fh });
   });
+  return { items: out, w: vp.width, h: vp.height };
+}
+
+const HEAD_RULES = [
+  [/\b(QTY|QUANT\w*|NO\. OF|COUNT)\b/, 'qty'],
+  [/\b(W|WD|WDTH|WIDTH)\b/, 'width'], [/\b(H|HT|HGT|HEIGHT)\b/, 'height'], [/\b(T|THK|THICK|THICKNESS)\b/, 'thickness'],
+  [/\bSIZE\b/, 'size'],
+  [/\b(HDW|HDWR|HW|HARDWARE|HARDWR|HDWE)\b|\bSET\b|\bGROUP\b/, 'hwSet'],
+  [/\bHAND(ING)?\b|\bSWING\b/, 'hand'],
+  [/\b(FIRE|RATING|RATED|LABEL|FR|F\.R\.|MINUTES?)\b/, 'fire'],
+  [/FRAME.*\b(MAT|MATL|MATERIAL)\b/, 'frameMat'], [/FRAME.*\b(TYPE|ELEV|ELEVATION)\b|\bFR\.? TYPE\b/, 'archFrameType'],
+  [/DOOR.*\b(MAT|MATL|MATERIAL)\b|^\s*MATL?\s*$|^\s*MATERIAL\s*$/, 'doorMat'],
+  [/DOOR.*\b(TYPE|ELEV|ELEVATION)\b|^\s*ELEV|^\s*TYPE\s*$/, 'archDoorType'],
+  [/\bHEAD\b/, 'headDetail'], [/\bJAMB\b/, 'jambDetail'], [/\bSILL\b|\bTHRESH/, 'sillDetail'],
+  [/GLAZ|GLASS/, 'glaz'],
+  [/\bFROM\b/, 'roomFrom'], [/^\s*TO\b|\bTO ROOM\b/, 'roomTo'],
+  [/\bROOM\b|\bLOCATION\b|\bSPACE\b|\bNAME\b/, 'room'],
+  [/REMARK|NOTE|COMMENT/, 'notes'],
+  [/\bCONFIG|\bOPNG TYPE|\bOPENING TYPE|\bLEAF|\bLEAVES\b/, 'config'],
+  [/\bMARK\b|\bNO\.?\s*$|\bNUMBER\b|\bTAG\b|^\s*DOOR\s*$|^\s*OPENING\s*$|^\s*ID\s*$|^\s*#\s*$|\bDOOR\s*(NO|#)/, 'mark']
+];
+const headWords = t => HEAD_RULES.some(([re]) => re.test(t.toUpperCase())) || /^(DOOR|FRAME|DETAILS?|SIZE|FINISH|FIN|HDW|NO\.?|REMARKS?)$/i.test(t);
+function guessField(text, used) {
+  const t = String(text || '').toUpperCase().replace(/\s+/g, ' ').trim(); if (!t) return '';
+  const hit = HEAD_RULES.find(([re, k]) => re.test(t) && !used.has(k));
+  return hit ? hit[1] : '';
+}
+function guessMap(header) {
+  const used = new Set();
+  return header.map(h => { const k = guessField(h, used); if (k) used.add(k); return k; });
+}
+
+/** the schedule on a page, or inside a box drawn on it: header row plus data rows, and where everything was */
+function parseSchedule(P, box) {
+  let items = P.items;
+  if (box) items = items.filter(it => (it.x0 + it.x1) / 2 >= box.x0 && (it.x0 + it.x1) / 2 <= box.x1 && (it.y0 + it.y1) / 2 >= box.y0 && (it.y0 + it.y1) / 2 <= box.y1);
+  const flat = items.filter(it => !it.vert);
+  if (!flat.length) return null;
+  /* lines of text */
+  const lines = [];
+  flat.slice().sort((a, b) => a.y - b.y || a.x0 - b.x0).forEach(it => {
+    const ln = lines.find(l => Math.abs(l.y - it.y) < Math.max(2.2, it.h * 0.45));
+    if (ln) { ln.items.push(it); ln.h = Math.max(ln.h, it.h); } else lines.push({ y: it.y, h: it.h, items: [it] });
+  });
+  lines.forEach(l => { l.items.sort((a, b) => a.x0 - b.x0); l.x0 = l.items[0].x0; l.x1 = Math.max(...l.items.map(i => i.x1)); });
+  /* the header: the line with the most schedule words, a mark-ish one counting double */
+  let hi = -1, best = 1;
+  lines.forEach((l, i) => {
+    const used = new Set(); let sc = 0;
+    l.items.forEach(it => { const k = guessField(it.s, used); if (k) { used.add(k); sc += k === 'mark' ? 2 : 1; } });
+    if (sc > best) { best = sc; hi = i; }
+  });
+  if (hi < 0) return null;
+  const H = lines[hi];
+  /* lines just above the header that are header too (DOOR / FRAME / SIZE groups), and just below (WD HT THK) */
+  let top = hi, bot = hi;
+  while (top > 0 && H.y - lines[top - 1].y < H.h * 3.2 && lines[top - 1].items.every(it => headWords(it.s) || it.s.length < 14) && lines[top - 1].items.some(it => headWords(it.s))) top--;
+  while (bot + 1 < lines.length && lines[bot + 1].y - lines[bot].y < H.h * 2.6 && lines[bot + 1].items.filter(it => headWords(it.s)).length >= Math.max(2, lines[bot + 1].items.length * 0.6)) bot++;
+  const headLines = lines.slice(top, bot + 1);
+  const hx0 = Math.min(...headLines.map(l => l.x0)) - 4, hx1 = Math.max(...headLines.map(l => l.x1)) + 4;
+  /* data: lines under the header, inside the header's width, until the table runs out */
+  const data = [];
+  let lastY = lines[bot].y;
+  const gaps = [];
+  for (let i = bot + 1; i < lines.length; i++) {
+    const l = lines[i];
+    const inside = l.items.filter(it => it.x1 > hx0 - 2 && it.x0 < hx1 + 30);
+    if (!inside.length) continue;
+    const gap = l.y - lastY;
+    const med = gaps.length ? gaps.slice().sort((a, b) => a - b)[Math.floor(gaps.length / 2)] : H.h * 2.2;
+    if (!box && data.length > 2 && gap > Math.max(med * 3.2, H.h * 5)) break;
+    gaps.push(gap); lastY = l.y;
+    /* the same header printed again on a continued schedule */
+    const used = new Set(); if (inside.filter(it => guessField(it.s, used)).length >= Math.max(3, inside.length * 0.6)) continue;
+    data.push(Object.assign({}, l, { items: inside }));
+  }
+  if (!data.length) return null;
+  /* columns: where the data leaves an empty strip from top to bottom */
+  const x0 = Math.min(hx0, ...data.map(l => l.items[0].x0)) - 1, x1 = Math.max(hx1, ...data.map(l => Math.max(...l.items.map(i => i.x1)))) + 1;
+  const n = Math.ceil(x1 - x0) + 1, cover = new Array(n).fill(0);
+  const limit = Math.max(0, Math.floor(data.length * 0.04));
+  const mark = (it, w) => { for (let x = Math.floor(it.x0 - x0); x <= Math.ceil(it.x1 - x0); x++) if (x >= 0 && x < n) cover[x] += w; };
+  data.forEach(l => l.items.forEach(it => mark(it, 1)));
+  headLines[headLines.length - 1].items.forEach(it => mark(it, limit + 1));      // a cut never runs through a header word
+  const cuts = []; let run = -1;
+  for (let x = 0; x < n; x++) {
+    if (cover[x] <= limit) { if (run < 0) run = x; }
+    else if (run >= 0) { if (x - run >= 2.2 && run > 0) cuts.push(x0 + (run + x) / 2); run = -1; }
+  }
+  const bounds = [x0].concat(cuts, [x1]);
+  const ncol = bounds.length - 1;
+  const colOf = (a, b) => { const m = (a + b) / 2; for (let i = 0; i < ncol; i++) if (m >= bounds[i] && m < bounds[i + 1]) return i; return m < bounds[0] ? 0 : ncol - 1; };
+  /* header text per column: each header word goes to every column it spans; vertical words too */
+  const head = new Array(ncol).fill('').map(() => []);
+  headLines.forEach((l, li) => l.items.forEach((it, ii) => {
+    /* a group word over the sub headers (DOOR, FRAME, DETAILS) reaches across to the next group word */
+    const group = li < headLines.length - 1 && /^(DOOR|DOORS|FRAME|FRAMES|FR\.?|DETAILS?)$/i.test(it.s);
+    const xEnd = group ? (l.items[ii + 1] ? l.items[ii + 1].x0 - 1 : x1) : it.x1;
+    for (let i = 0; i < ncol; i++) { const ov = Math.min(xEnd, bounds[i + 1]) - Math.max(it.x0, bounds[i]); if (ov > Math.min(4, (it.x1 - it.x0) * 0.3)) head[i].push(it.s); }
+  }));
+  const dataTop = data[0].y - data[0].h;
+  items.filter(it => it.vert && it.y1 <= dataTop + 2 && it.y0 > H.y - 120 && it.x1 > x0 && it.x0 < x1).forEach(it => { const c = colOf(it.x0, it.x1); head[c].push(it.s); });
+  const header = head.map(a => a.join(' ').replace(/\s+/g, ' ').trim());
+  /* rows; a line with nothing in the mark column carries on the row above */
+  const raw = data.map(l => { const r = new Array(ncol).fill(''); l.items.forEach(it => { const c = colOf(it.x0, it.x1); r[c] = r[c] ? r[c] + ' ' + it.s : it.s; }); return r; });
+  const map = guessMap(header);
+  let mc = map.indexOf('mark'); if (mc < 0) mc = 0;
+  const rows = [];
+  raw.forEach(r => {
+    const filled = r.filter(Boolean).length;
+    if (!r[mc] && rows.length && filled <= Math.max(2, ncol * 0.3)) { const p = rows[rows.length - 1]; r.forEach((v, i) => { if (v) p[i] = p[i] ? p[i] + ' ' + v : v; }); }
+    else if (filled >= 2 || (r[mc] && filled >= 1)) rows.push(r);
+  });
+  const y1 = data[data.length - 1].y + 3;
+  return { header, rows, map, region: { x0, y0: Math.min(...headLines.map(l => l.y - l.h)) - 3, x1, y1 }, bounds, headBand: [headLines[0].y - headLines[0].h - 2, headLines[headLines.length - 1].y + 2] };
+}
+
+/** the sheet number from the title block: bottom right, the biggest one, never a detail callout like 5/A-501 */
+function sheetNumber(P) {
+  const re = /(?:^|\s|SHEET\s*(?:NO\.?)?\s*)([A-Z]{1,2}-?\d{1,3}(?:\.\d{1,3})?)(?=\s|$)/i;
+  let best = null, score = -1;
+  P.items.forEach(it => {
+    if (/\//.test(it.s)) return;
+    const m = it.s.match(re); if (!m) return;
+    const cx = (it.x0 + it.x1) / 2 / P.w, cy = (it.y0 + it.y1) / 2 / P.h;
+    const sc = it.h * 2 + (cx > 0.65 ? 20 : 0) + (cy > 0.65 ? 20 : 0) + (/SHEET/i.test(it.s) ? 30 : 0) + (it.s.trim().length === m[1].length ? 5 : 0);
+    if (sc > score) { score = sc; best = m[1].toUpperCase(); }
+  });
+  return best;
+}
+
+/** read the schedule on the current page into the grid the column matcher works on */
+async function readSchedulePage(keepMap) {
+  if (!IMP.items || IMP.items.page !== IMP.page) { IMP.items = await pdfItems(IMP.page); IMP.items.page = IMP.page; }
+  const r = parseSchedule(IMP.items, IMP.box);
+  IMP.sched = r;
+  if (!r) { IMP.grid = []; IMP.map = []; IMP.headerRow = 0; return; }
+  IMP.grid = [r.header].concat(r.rows);
+  IMP.headerRow = 0;
+  IMP.map = keepMap && keepMap.length === r.header.length ? keepMap : r.map;
+  IMP.skip = new Set();
+}
+
+/** every page that carries the same kind of schedule, added under the rows already read */
+async function readAllSchedulePages() {
+  const want = IMP.map.slice(), wantHead = IMP.grid[0] || [];
+  const fields = want.filter(Boolean);
+  let added = 0, pages = [];
+  for (let pg = 1; pg <= IMP.pages; pg++) {
+    if (pg === IMP.page) continue;
+    const P = await pdfItems(pg);
+    const r = parseSchedule(P, null);
+    if (!r || r.map.filter(k => fields.indexOf(k) >= 0).length < Math.min(3, fields.length) || r.map.indexOf('mark') < 0) continue;
+    /* line the page's columns up with ours, field by field, then by header text */
+    const idx = want.map((k, i) => k ? r.map.indexOf(k) : r.header.findIndex(h => h && h === wantHead[i]));
+    r.rows.forEach(row => { IMP.grid.push(idx.map(j => j >= 0 ? row[j] || '' : '')); added++; });
+    pages.push(pg);
+  }
+  return { added, pages };
+}
+
+/* ---------- the schedule page on screen, with the box you can draw ---------- */
+async function drawSchedPage() {
+  const wrap = $('#schWrap'); if (!wrap || !IMP.pdf) return;
+  const page = await IMP.pdf.getPage(IMP.page);
+  const vp0 = page.getViewport({ scale: 1 });
+  const fit = Math.max(0.3, (wrap.parentElement.clientWidth - 4) / vp0.width);
+  const scale = Math.min(6, fit * (IMP.sZoom || 1));
+  const vp = page.getViewport({ scale });
+  const cv = $('#schCanvas'); cv.width = vp.width; cv.height = vp.height;
+  IMP.sScale = scale;
+  await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
+  drawSchedOverlay();
+  /* bring the schedule into view */
+  const r = IMP.sched && IMP.sched.region, sc = $('#schScroll');
+  if (r && sc && !IMP.sScrolled) { sc.scrollTop = Math.max(0, r.y0 * scale - 30); sc.scrollLeft = Math.max(0, r.x0 * scale - 30); IMP.sScrolled = true; }
+}
+function drawSchedOverlay(drag) {
+  const sv = $('#schOverlay'), cv = $('#schCanvas'); if (!sv || !cv) return;
+  const k = IMP.sScale || 1, W = cv.width, H = cv.height;
+  sv.setAttribute('width', W); sv.setAttribute('height', H); sv.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  let g = '';
+  const R = IMP.sched;
+  if (R) {
+    const r = R.region;
+    g += `<path d="M0 0H${W}V${H}H0Z M${r.x0 * k} ${r.y0 * k}V${r.y1 * k}H${r.x1 * k}V${r.y0 * k}Z" fill="rgba(20,30,40,.18)" fill-rule="evenodd"/>`;
+    g += `<rect x="${r.x0 * k}" y="${R.headBand[0] * k}" width="${(r.x1 - r.x0) * k}" height="${(R.headBand[1] - R.headBand[0]) * k}" fill="rgba(192,127,0,.16)"/>`;
+    R.bounds.slice(1, -1).forEach(b => { g += `<line x1="${b * k}" y1="${r.y0 * k}" x2="${b * k}" y2="${r.y1 * k}" stroke="#1c5975" stroke-width="1" stroke-dasharray="4 3" opacity=".75"/>`; });
+    g += `<rect x="${r.x0 * k}" y="${r.y0 * k}" width="${(r.x1 - r.x0) * k}" height="${(r.y1 - r.y0) * k}" fill="none" stroke="#1c5975" stroke-width="2"/>`;
+    g += `<text x="${r.x0 * k + 4}" y="${r.y0 * k - 6}" font-size="12" font-weight="700" fill="#1c5975" stroke="#fff" stroke-width="3" paint-order="stroke">${R.rows.length} rows · ${R.bounds.length - 1} columns</text>`;
+  }
+  if (drag) g += `<rect x="${Math.min(drag.a.x, drag.b.x)}" y="${Math.min(drag.a.y, drag.b.y)}" width="${Math.abs(drag.b.x - drag.a.x)}" height="${Math.abs(drag.b.y - drag.a.y)}" fill="rgba(192,127,0,.12)" stroke="#c07f00" stroke-width="2" stroke-dasharray="6 4"/>`;
+  sv.innerHTML = g;
+}
+function bindSchedDrag() {
+  const wrap = $('#schWrap'); if (!wrap) return;
+  let drag = null;
+  const pt = e => { const rc = $('#schCanvas').getBoundingClientRect(); return { x: e.clientX - rc.left, y: e.clientY - rc.top }; };
+  wrap.onpointerdown = e => { if (e.button) return; drag = { a: pt(e), b: pt(e) }; wrap.setPointerCapture(e.pointerId); e.preventDefault(); };
+  wrap.onpointermove = e => { if (!drag) return; drag.b = pt(e); drawSchedOverlay(drag); };
+  wrap.onpointerup = async e => {
+    if (!drag) return; const d = drag; drag = null;
+    const k = IMP.sScale || 1;
+    if (Math.abs(d.b.x - d.a.x) < 12 || Math.abs(d.b.y - d.a.y) < 12) { drawSchedOverlay(); return; }
+    IMP.box = { x0: Math.min(d.a.x, d.b.x) / k, y0: Math.min(d.a.y, d.b.y) / k, x1: Math.max(d.a.x, d.b.x) / k, y1: Math.max(d.a.y, d.b.y) / k };
+    await readSchedulePage();
+    drawSchedOverlay(); renderSchedTable();
+    toast(IMP.sched ? plural(IMP.sched.rows.length, 'row') + ' read from the box' : 'No schedule header inside that box — draw it to include the header row');
+  };
+}
+
+/* ---------- tags on a floor plan: put every scheduled door where its tag is ---------- */
+async function findTagsOnPage() {
+  const P = await pdfItems(IMP.page);
+  const marks = new Map();
+  S.openings.forEach(o => { const m = String(o.mark || '').trim().toUpperCase(); if (m) marks.set(m, o); });
+  if (!marks.size) return toast('Read the door schedule first, or add openings with marks');
+  const hits = new Map();
+  P.items.forEach(it => {
+    const t = it.s.toUpperCase().replace(/\s+/g, '');
+    if (marks.has(t)) { if (!hits.has(t)) hits.set(t, []); hits.get(t).push(it); }
+  });
+  /* when a door tag and a room number say the same thing, take the one in the size most tags are drawn at */
+  const sizes = {}; hits.forEach(a => { if (a.length === 1) { const k = Math.round(a[0].h * 2) / 2; sizes[k] = (sizes[k] || 0) + 1; } });
+  const pref = num(Object.keys(sizes).sort((a, b) => sizes[b] - sizes[a])[0]) || 0;
+  let placed = 0, moved = 0;
+  hits.forEach((a, m) => {
+    const it = pref ? a.slice().sort((p, q) => Math.abs(p.h - pref) - Math.abs(q.h - pref))[0] : a[0];
+    const o = marks.get(m);
+    const ref = { file: IMP.file.name, page: IMP.page, x: (it.x0 + it.x1) / 2 / P.w, y: (it.y0 + it.y1) / 2 / P.h };
+    if (o.planRef && o.planRef.x != null) moved++;
+    o.planRef = ref; if (IMP.pageLabel && !o.sheet) o.sheet = IMP.pageLabel;
+    placed++;
+  });
+  /* tags drawn like door tags that are not on the job yet */
+  const shapes = new Set([...marks.keys()].map(m => m.replace(/\d/g, '9').replace(/[A-Z]/g, 'A')));
+  const seen = new Set(), missing = [];
+  P.items.forEach(it => {
+    const t = it.s.toUpperCase().replace(/\s+/g, '');
+    if (marks.has(t) || seen.has(t) || t.length > 8) return;
+    if (shapes.has(t.replace(/\d/g, '9').replace(/[A-Z]/g, 'A')) && /\d/.test(t) && (!pref || Math.abs(it.h - pref) < 0.6)) { seen.add(t); missing.push({ t, it }); }
+  });
+  IMP.missingTags = missing.map(x => ({ mark: x.t, x: (x.it.x0 + x.it.x1) / 2 / P.w, y: (x.it.y0 + x.it.y1) / 2 / P.h }));
+  persist(); renderImport();
+  const notFound = marks.size - placed;
+  toast(placed ? plural(placed, 'opening') + ' placed on this page' + (notFound ? ' · ' + notFound + ' not on it' : '') + (missing.length ? ' · ' + plural(missing.length, 'tag') + ' not in the job' : '')
+    : 'None of the job\'s marks are written on this page');
+}
+function addMissingTags() {
+  const list = IMP.missingTags || []; if (!list.length) return;
+  list.forEach(t => {
+    const o = openingFromRow(Object.assign({}, QUICK, { mark: t.mark }));
+    o.sheet = IMP.pageLabel || ''; o.planRef = { file: IMP.file.name, page: IMP.page, x: t.x, y: t.y };
+    S.openings.push(o);
+  });
+  IMP.missingTags = [];
+  persist(); refreshPlanTools(); toast(plural(list.length, 'opening') + ' added from the plan tags', { label: 'Undo', fn: undo });
 }
 
 function guessHeader(grid) {
@@ -7705,16 +8188,6 @@ function guessHeader(grid) {
   });
   return best;
 }
-function guessMap(header) {
-  const used = new Set();
-  return header.map(h => {
-    const t = String(h || '').trim();
-    const hit = HEADER_GUESS.find(([re, k]) => re.test(t) && !used.has(k));
-    if (hit) { used.add(hit[1]); return hit[1]; }
-    return '';
-  });
-}
-
 /* ---------- turning a row into an opening ---------- */
 function normFire(v) {
   const t = String(v || '').toUpperCase();
@@ -7748,9 +8221,23 @@ function importRow(cells, map) {
   let w = NaN, h = NaN;
   map.forEach((k, i) => {
     const v = String(cells[i] == null ? '' : cells[i]).trim(); if (!k || !v) return;
-    if (k === 'width') w = parseDim(v.replace(/\s*x.*$/i, ''));
+    if (k === 'width') {
+      const pr = v.match(/^\s*(?:\(2\)|2\s*@|PR\.?|PAIR(?: OF)?)\s*(.+)$/i);
+      if (pr) { w = parseDim(pr[1].replace(/\s*x.*$/i, '')) * 2; if (!r.config) r.config = 'PR'; }
+      else w = parseDim(v.replace(/\s*x.*$/i, ''));
+    }
     else if (k === 'height') h = parseDim(v);
-    else if (k === 'size') { r.size = v.replace(/[’']/g, "'"); }
+    else if (k === 'size') {
+      let t = v.replace(/[’′]/g, "'").replace(/[”″]/g, '"');
+      const pr = t.match(/^\s*(?:\(2\)|2\s*@|PR\.?|PAIR(?: OF)?)\s*(.+)$/i);
+      if (pr) { t = pr[1]; if (!r.config) r.config = 'PR'; }
+      /* 3'-0" 7'-0" or 3'-0" x 7'-0" x 1-3/4" */
+      const parts = t.split(/\s*[x×X]\s*|\s{1,}(?=\d+')/).map(z => z.trim()).filter(Boolean);
+      if (parts.length >= 2 && isFinite(parseDim(parts[0])) && isFinite(parseDim(parts[1]))) {
+        w = parseDim(parts[0]) * (pr ? 2 : 1); h = parseDim(parts[1]);
+        if (parts[2] && !extra.thickness) extra.thickness = /1-?3\/8|1\.375/.test(parts[2]) ? '1-3/8' : /^2/.test(parts[2]) ? '2' : '1-3/4';
+      } else r.size = t;
+    }
     else if (k === 'qty') r.qty = num(v) || 1;
     else if (k === 'config') r.config = /PR|PAIR|DBL|DOUBLE/i.test(v) ? (/EGR/i.test(v) ? 'DBL EGR' : 'PR') : /SL|SIDE/i.test(v) ? 'SGL+SL' : 'SGL';
     else if (k === 'doorMat') r.doorMat = normMat(v);
@@ -7767,11 +8254,17 @@ function importRow(cells, map) {
   if (isFinite(w) && isFinite(h)) r.size = w + 'x' + h;
   else if (isFinite(w) && !r.size) r.size = w + 'x84';
   if (!r.config) { const p = parseSizePair(r.size); r.config = p && p.w > 50 ? 'PR' : 'SGL'; }
+  r.mark = String(r.mark || '').replace(/\s+/g, '');
   if (!r.mark && !r.size) return null;
+  if (r.mark && !/[0-9]/.test(r.mark) && !r.size) return null;          // a heading or a note, not a door
   const o = openingFromRow(r);
   if (extra.fire) { o.fire = extra.fire; if (extra.label) o.label = extra.label; if (o.fire !== 'NR') o.closerReinf = true; delete extra.fire; delete extra.label; }
   Object.assign(o, extra);
-  if (o.hand === '' || !o.hand) o.hand = o.config === 'PR' ? 'LHRA' : 'LH';
+  /* an architect's door type that is an SDI design letter tells us the lite */
+  const dt = String(extra.archDoorType || '').toUpperCase().trim();
+  if (/^(F|FG|HG|N|V|G|L|FL|E|D)$/.test(dt)) o.doorDesign = dt;
+  if (/VISION|\bVL\b|\bLITE\b/i.test(extra.notes || '') && o.doorDesign === 'F') o.doorDesign = 'V';
+  if (!r.hand || (isPair(o) && !/RA$|EGR/.test(o.hand))) o.hand = isPair(o) ? (o.config === 'DBL EGR' ? 'DBL EGR' : /^R/.test(r.hand || '') ? 'RHRA' : 'LHRA') : (o.hand || 'LH');
   if (o.doorMat === 'WD') Object.assign(o, { woodFinish:'UNF', species:'RO', cut:'PS', match:'BM', grade:'A', woodCore: o.fire && o.fire !== 'NR' ? 'FD' : 'PC' });
   if (derive(o).custom) o.lead = 'CUSTOM';
   o.planRef = { file: IMP.file ? IMP.file.name : '', page: IMP.kind === 'pdf' ? IMP.page : null };
@@ -7780,10 +8273,40 @@ function importRow(cells, map) {
 }
 
 /* ---------- screen ---------- */
+/** the rows that will become openings, with the ones switched off left out */
+function schedOpenings() {
+  const skip = IMP.skip || new Set();
+  return IMP.grid.slice(IMP.headerRow + 1).map((r, i) => skip.has(i) ? null : importRow(r, IMP.map)).filter(Boolean);
+}
+function renderSchedTable() {
+  const box = $('#schTable'); if (!box) return;
+  const g = IMP.grid, hr = IMP.headerRow, data = g.slice(hr + 1), skip = IMP.skip || (IMP.skip = new Set());
+  const made = schedOpenings();
+  const have = new Map(S.openings.map(o => [String(o.mark || '').trim().toUpperCase(), o]));
+  const upd = made.filter(o => o.mark && have.has(o.mark.toUpperCase())).length;
+  const width = (g[hr] || []).length;
+  const bad = o => { const d = derive(o), z = []; if (!o.mark) z.push('no mark'); if (!d.nomW || !d.nomH) z.push('no size'); if (!d.leaves && o.config !== 'CO') z.push('no door'); return z; };
+  box.innerHTML = `
+    <div class="card">
+      <div class="chead"><h2>Check the columns</h2>
+        ${IMP.kind !== 'pdf' ? `<span class="hint">Header row</span><select id="impHeader" style="width:auto">${g.slice(0, 30).map((r, i) => `<option value="${i}" ${i === hr ? 'selected' : ''}>Row ${i + 1}: ${esc(r.filter(Boolean).slice(0, 4).join(' · ').slice(0, 60))}</option>`).join('')}</select>` : ''}
+        <span class="hint">Pick what each column is. Click a cell to fix a misread. Untick a row to leave it out.</span>
+        <span class="spacer"></span>
+        <span class="chip ${made.length ? 'ok' : 'mute'}">${plural(made.length, 'opening')}</span>
+        ${upd ? `<label class="hint" style="display:flex;gap:5px;align-items:center"><input type="checkbox" id="impUpd" ${IMP.update !== false ? 'checked' : ''}> update the ${upd} already on the job</label>` : ''}
+        <button class="btn primary" id="impGo" ${made.length ? '' : 'disabled'}>${ic('plus')}${upd && IMP.update !== false ? 'Add ' + (made.length - upd) + ', update ' + upd : 'Create ' + plural(made.length, 'opening')}</button></div>
+      ${g.length ? `<div class="scrollx" style="max-height:52vh;overflow:auto"><table class="wide schtab"><thead>
+        <tr><th style="width:28px"><input type="checkbox" id="impAllRows" ${skip.size ? '' : 'checked'} title="All rows"></th>${(g[hr] || []).map((h, i) => `<th style="min-width:96px" class="${IMP.map[i] ? 'mapped' : ''}"><select data-impcol="${i}" style="height:24px;font-size:11px">${optHtml(IMPORT_FIELDS, IMP.map[i] || '')}</select><div style="font-weight:400;margin-top:3px;white-space:normal">${esc(h)}</div></th>`).join('')}</tr></thead><tbody>
+        ${data.slice(0, 400).map((r, ri) => { const o = skip.has(ri) ? null : importRow(r, IMP.map), z = o ? bad(o) : [];
+          return `<tr class="${skip.has(ri) ? 'off' : z.length ? 'warnrow' : ''}" title="${esc(z.join(', '))}"><td><input type="checkbox" data-improw="${ri}" ${skip.has(ri) ? '' : 'checked'}></td>${Array.from({ length: width }, (_, i) => `<td contenteditable="true" spellcheck="false" data-cell="${ri}|${i}" class="${IMP.map[i] ? 'mapped' : ''}">${esc(r[i] || '')}</td>`).join('')}</tr>`; }).join('')}
+      </tbody></table></div>${data.length > 400 ? `<p class="hint">Showing 400 of ${data.length} rows; all of them are imported.</p>` : ''}` : `<p class="hint">${IMP.kind === 'pdf' ? 'No schedule found on this page. Pick the page with the door schedule, or drag a box around it on the sheet above. A scanned sheet has no text to read — use Count on plan instead.' : 'Nothing to read in this file.'}</p>`}
+    </div>
+    ${made.length ? `<div class="card"><div class="chead"><h2>What will be created</h2><span class="hint">Read the way the openings will be priced. Rows with a problem are shaded.</span></div><div class="scrollx"><table class="sum"><thead><tr><th>MARK</th><th class="n">QTY</th><th>SIZE</th><th>TYPE</th><th>DOOR</th><th>RATING</th><th>HAND</th><th>SET</th><th>LOCATION</th><th></th></tr></thead><tbody>
+      ${made.slice(0, 60).map(o => { const z = bad(o), ex = o.mark && have.has(o.mark.toUpperCase()); return `<tr class="${z.length ? 'warnrow' : ''}"><td class="mono">${esc(o.mark)}</td><td class="n">${o.qty}</td><td class="mono">${esc(sizeCode(derive(o).nomW, derive(o).nomH))}${isPair(o) ? ' PR' : ''}</td><td>${esc(o.config)}</td><td>${esc(o.doorMat)}</td><td>${esc(ratingStr(o))}</td><td>${esc(o.hand)}</td><td>${esc(o.hwSet)}${o.hwSet && !S.sets.some(x => x.id === o.hwSet) ? ' <span class="chip mute" title="Add this set on the Hardware page">new</span>' : ''}</td><td>${esc([o.roomFrom, o.roomTo].filter(Boolean).join(' → '))}</td><td>${z.length ? `<span class="chip warn">${esc(z.join(', '))}</span>` : ex && IMP.update !== false ? '<span class="chip cust">update</span>' : ''}</td></tr>`; }).join('')}
+      </tbody></table></div>${made.length > 60 ? `<p class="hint">and ${made.length - 60} more</p>` : ''}</div>` : ''}`;
+}
+
 function renderImport() {
-  const g = IMP.grid, hr = IMP.headerRow;
-  const data = g.slice(hr + 1);
-  const willMake = IMP.kind && IMP.mode === 'table' ? data.map(r => importRow(r, IMP.map)).filter(Boolean) : [];
   $('#importBody').innerHTML = `
     <div class="phead">
       <div><div class="eyebrow">Take off</div><h1>Plans</h1>
@@ -7803,28 +8326,38 @@ function renderImport() {
     <div class="card" style="padding:10px 14px">
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <b>${esc(IMP.file.name)}</b>
-        ${IMP.kind === 'pdf' ? `<span class="hint">page</span><select id="impPage" style="width:auto">${Array.from({ length: IMP.pages }, (_, i) => `<option ${i + 1 === IMP.page ? 'selected' : ''}>${i + 1}</option>`).join('')}</select>
+        ${IMP.kind === 'pdf' ? `<span class="hint">page</span><button type="button" class="iconbtn" id="impPrev" title="Previous page" ${IMP.page <= 1 ? 'disabled' : ''}>‹</button><select id="impPage" style="width:auto">${Array.from({ length: IMP.pages }, (_, i) => `<option ${i + 1 === IMP.page ? 'selected' : ''}>${i + 1}</option>`).join('')}</select><button type="button" class="iconbtn" id="impNextPg" title="Next page" ${IMP.page >= IMP.pages ? 'disabled' : ''}>›</button>
           <span class="hint">sheet</span><input type="text" id="impSheetLbl" value="${esc(IMP.pageLabel)}" placeholder="A-601" style="width:90px">
           <div class="seg"><button type="button" data-impmode="table" class="${IMP.mode === 'table' ? 'on' : ''}">Read schedule</button><button type="button" data-impmode="count" class="${IMP.mode === 'count' ? 'on' : ''}">Count on plan</button></div>` : ''}
         <span class="spacer"></span>
         <button class="btn ghost sm" id="impClose">${ic('x')}Close file</button>
       </div>
+      ${IMP.kind === 'pdf' ? (() => {
+        const fromFile = S.openings.filter(o => o.planRef && o.planRef.file === IMP.file.name);
+        const placed = S.openings.filter(o => o.planRef && o.planRef.x != null && o.planRef.file === IMP.file.name).length;
+        const st = (n, on, done, title, txt, btn) => `<div class="pstep ${on ? 'on' : ''} ${done ? 'done' : ''}"><b>${done ? ic('check') : n}</b><div><div class="pt">${title}</div><div class="hint">${txt}</div></div>${btn || ''}</div>`;
+        return `<div class="psteps">
+          ${st(1, IMP.mode === 'table', fromFile.length > 0, 'Read the door schedule', fromFile.length ? plural(fromFile.length, 'opening') + ' read from this set' : IMP.sched ? plural(IMP.sched.rows.length, 'row') + ' found on this page' : 'Pick the page with the schedule', IMP.mode !== 'table' ? '<button class="btn sm" data-impmode="table">Go</button>' : '')}
+          ${st(2, IMP.mode === 'count', placed > 0, 'Place the doors on the plans', placed ? placed + ' of ' + S.openings.length + ' openings on a sheet' : 'Open a floor plan page and find the tags', IMP.mode !== 'count' ? '<button class="btn sm" data-impmode="count">Go</button>' : '')}
+          ${st(3, false, S.div10.some(r => r.pins && r.pins.length), 'Count Division 10', 'Accessories, cabinets and runs off the same sheets', '')}
+        </div>`; })() : ''}
     </div>
     ${IMP.mode === 'count' && IMP.kind === 'pdf' ? countModeHtml()
-    : `
-    <div class="card">
-      <div class="chead"><h2>Match the columns</h2><span class="hint">Header row</span>
-        <select id="impHeader" style="width:auto">${g.slice(0, 30).map((r, i) => `<option value="${i}" ${i === hr ? 'selected' : ''}>Row ${i + 1}: ${esc(r.filter(Boolean).slice(0, 4).join(' · ').slice(0, 60))}</option>`).join('')}</select>
-        <span class="spacer"></span><span class="chip ${willMake.length ? 'ok' : 'mute'}">${plural(willMake.length, 'opening')} ready</span>
-        <button class="btn primary" id="impGo" ${willMake.length ? '' : 'disabled'}>${ic('plus')}Create ${plural(willMake.length, 'opening')}</button></div>
-      ${g.length ? `<div class="scrollx" style="max-height:56vh;overflow:auto"><table class="wide"><thead>
-        <tr>${(g[hr] || []).map((h, i) => `<th style="min-width:110px"><select data-impcol="${i}" style="height:24px;font-size:11px">${optHtml(IMPORT_FIELDS, IMP.map[i] || '')}</select><div style="font-weight:400;margin-top:3px;white-space:normal">${esc(h)}</div></th>`).join('')}</tr></thead><tbody>
-        ${data.slice(0, 200).map(r => `<tr>${(g[hr] || r).map((_, i) => `<td>${esc(r[i] || '')}</td>`).join('')}</tr>`).join('')}
-      </tbody></table></div>` : '<p class="hint">No text found on this page. A scanned drawing has no text layer — use Count on plan instead.</p>'}
-    </div>
-    ${willMake.length ? `<div class="card"><h2 style="margin-bottom:8px">Preview</h2><table class="sum"><thead><tr><th>MARK</th><th class="n">QTY</th><th>SIZE</th><th>TYPE</th><th>DOOR</th><th>RATING</th><th>HAND</th><th>SET</th><th>LOCATION</th></tr></thead><tbody>
-      ${willMake.slice(0, 40).map(o => `<tr><td class="mono">${esc(o.mark)}</td><td class="n">${o.qty}</td><td class="mono">${esc(sizeCode(derive(o).nomW, derive(o).nomH))}</td><td>${esc(o.config)}</td><td>${esc(o.doorMat)}</td><td>${esc(ratingStr(o))}</td><td>${esc(o.hand)}</td><td>${esc(o.hwSet)}</td><td>${esc([o.roomFrom, o.roomTo].filter(Boolean).join(' → '))}</td></tr>`).join('')}
-      </tbody></table>${willMake.length > 40 ? `<p class="hint">and ${willMake.length - 40} more</p>` : ''}</div>` : ''}`}`}`;
+    : (IMP.kind === 'pdf' ? `
+    <div class="card schcard">
+      <div class="chead"><h2>${ic('table')} The schedule on the sheet</h2>
+        <span class="hint">${IMP.sched ? 'Found it — the box shows what is read, the dashed lines are the columns.' : 'No schedule header found on this page.'} Drag a box on the sheet to read just that part.</span>
+        <span class="spacer"></span>
+        <button class="btn sm" id="schAuto" title="Forget the box and find the schedule again">${ic('search')}Find it again</button>
+        <button class="btn sm" id="schAll" ${IMP.sched ? '' : 'disabled'} title="Read the same schedule on every other page and add the rows">${ic('copy')}Read every page like this</button>
+        <button type="button" class="iconbtn" id="schZoomOut" title="Zoom out">${ic('zoomout')}</button>
+        <button type="button" class="iconbtn" id="schZoomIn" title="Zoom in">${ic('zoomin')}</button>
+      </div>
+      <div id="schScroll" style="overflow:auto;max-height:46vh;border:1px solid var(--rule2);border-radius:6px;background:#fff">
+        <div id="schWrap" style="position:relative;display:inline-block;cursor:crosshair;touch-action:none"><canvas id="schCanvas"></canvas><svg id="schOverlay" style="position:absolute;left:0;top:0;pointer-events:none"></svg></div>
+      </div>
+    </div>` : '') + `<div id="schTable"></div>`}`}`;
+  if (IMP.kind && IMP.mode === 'table') { renderSchedTable(); if (IMP.kind === 'pdf') { drawSchedPage(); bindSchedDrag(); } }
   if (IMP.mode === 'count' && IMP.kind === 'pdf') drawImportPage();
 }
 
@@ -7844,6 +8377,7 @@ async function drawImportPage() {
 
 async function openImportFile(f) {
   IMP.file = f; IMP.grid = []; IMP.map = []; IMP.headerRow = 0; IMP.stack = []; IMP.mPt = null; IMP.zoom = 1;
+  IMP.items = null; IMP.sched = null; IMP.box = null; IMP.skip = new Set(); IMP.missingTags = []; IMP.sZoom = 1; IMP.sScrolled = false;
   const name = f.name.toLowerCase();
   try {
     if (name.endsWith('.pdf')) {
@@ -7861,6 +8395,7 @@ async function openImportFile(f) {
       }
       IMP.page = best;
       await loadImportPage();
+      IMP.mode = IMP.sched ? 'table' : 'count';             // a schedule to read, or a plan to count on
     } else if (name.endsWith('.xlsx')) {
       IMP.kind = 'xlsx'; IMP.mode = 'table'; IMP.grid = await readXlsx(await f.arrayBuffer());
       IMP.headerRow = guessHeader(IMP.grid); IMP.map = guessMap(IMP.grid[IMP.headerRow] || []);
@@ -7872,11 +8407,9 @@ async function openImportFile(f) {
   renderImport();
 }
 async function loadImportPage() {
-  IMP.grid = await pdfPageGrid(IMP.page);
-  IMP.headerRow = guessHeader(IMP.grid); IMP.map = guessMap(IMP.grid[IMP.headerRow] || []);
-  const tc = await (await IMP.pdf.getPage(IMP.page)).getTextContent();
-  const m = tc.items.map(x => x.str).join(' ').match(/\b([A-Z]{1,2}-?\d{1,2}\.?\d{1,3})\b/);
-  IMP.pageLabel = m ? m[1] : IMP.pageLabel;
+  IMP.box = null; IMP.sScrolled = false; IMP.missingTags = [];
+  await readSchedulePage();
+  IMP.pageLabel = sheetNumber(IMP.items) || IMP.pageLabel;
 }
 
 function bindImport() {
@@ -7887,13 +8420,40 @@ function bindImport() {
     if (e.target.closest('#impClose')) { IMP.kind = ''; IMP.file = null; IMP.pdf = null; renderImport(); return; }
     const md = e.target.closest('[data-impmode]'); if (md) { IMP.mode = md.dataset.impmode; renderImport(); return; }
     if (e.target.closest('#impGo')) {
-      const made = IMP.grid.slice(IMP.headerRow + 1).map(r => importRow(r, IMP.map)).filter(Boolean);
+      const made = schedOpenings();
       if (!made.length) return;
-      made.forEach(o => S.openings.push(o));
-      S.selId = made[made.length - 1].id; persist();
-      toast(plural(made.length, 'opening') + ' imported', { label:'Undo', fn:undo });
+      const have = new Map(S.openings.map(o => [String(o.mark || '').trim().toUpperCase(), o]));
+      const keep = ['id', 'hwSet', 'keyset', 'shopDone', 'planRef', 'notes', 'level'];
+      let added = 0, updated = 0;
+      const fromSched = ['qty', 'config', 'w1', 'w2', 'h', 'doorMat', 'frameMat', 'fire', 'label', 'hand', 'roomFrom', 'roomTo', 'thickness', 'glaz',
+        'archDoorType', 'archFrameType', 'headDetail', 'jambDetail', 'sillDetail', 'closerReinf', 'lead'];
+      made.forEach(o => {
+        const ex = o.mark && have.get(o.mark.toUpperCase());
+        if (ex && IMP.update !== false) {
+          fromSched.forEach(k => { if (o[k] !== '' && o[k] != null && keep.indexOf(k) < 0) ex[k] = o[k]; });
+          if (o.hwSet) ex.hwSet = o.hwSet; if (o.notes) ex.notes = o.notes;
+          updated++;
+        } else { if (ex) o.mark = uniqueMark(o.mark); S.openings.push(o); added++; }
+      });
+      /* hardware sets named on the schedule that the job does not have yet */
+      const newSets = [...new Set(made.map(o => o.hwSet).filter(id => id && !S.sets.some(x => x.id === id)))];
+      newSets.forEach(id => S.sets.push({ id, name: 'From the schedule', items: [] }));
+      S.selId = (S.openings[S.openings.length - 1] || {}).id; persist();
+      toast([added && plural(added, 'opening') + ' added', updated && updated + ' updated', newSets.length && plural(newSets.length, 'empty hardware set') + ' to fill in'].filter(Boolean).join(' · '), { label:'Undo', fn:undo });
       showView('takeoff'); return;
     }
+    const pg = e.target.closest('#impPrev,#impNextPg');
+    if (pg) { IMP.page = Math.max(1, Math.min(IMP.pages, IMP.page + (pg.id === 'impPrev' ? -1 : 1))); await loadImportPage(); renderImport(); return; }
+    if (e.target.closest('#schAuto')) { IMP.box = null; IMP.sScrolled = false; await readSchedulePage(); renderImport(); return; }
+    if (e.target.closest('#schAll')) {
+      const b = e.target.closest('#schAll'); b.disabled = true; b.textContent = 'Reading…';
+      const r = await readAllSchedulePages(); renderSchedTable(); b.disabled = false; b.innerHTML = ic('copy') + 'Read every page like this';
+      toast(r.added ? plural(r.added, 'row') + ' added from page' + (r.pages.length > 1 ? 's ' : ' ') + r.pages.join(', ') : 'No other page has this schedule'); return;
+    }
+    const sz = e.target.closest('#schZoomIn,#schZoomOut');
+    if (sz) { IMP.sZoom = Math.max(0.5, Math.min(5, (IMP.sZoom || 1) * (sz.id === 'schZoomIn' ? 1.3 : 0.77))); drawSchedPage(); return; }
+    if (e.target.closest('#impFindTags')) { findTagsOnPage(); return; }
+    if (e.target.closest('#impAddTags')) { addMissingTags(); return; }
     if (e.target.closest('#impUndoPin')) { planUndo(); return; }
     const pt = e.target.closest('[data-ptool]'); if (pt) { IMP.tool = pt.dataset.ptool; IMP.mPt = null; refreshPlanTools(); return; }
     const zm = e.target.closest('#impZoomIn,#impZoomOut,#impZoomFit');
@@ -7904,8 +8464,11 @@ function bindImport() {
     const el = e.target;
     if (el.id === 'impFile') { if (el.files[0]) openImportFile(el.files[0]); el.value = ''; return; }
     if (el.id === 'impPage') { IMP.page = +el.value; await loadImportPage(); renderImport(); return; }
-    if (el.id === 'impHeader') { IMP.headerRow = +el.value; IMP.map = guessMap(IMP.grid[IMP.headerRow] || []); renderImport(); return; }
-    if (el.dataset.impcol != null) { IMP.map[+el.dataset.impcol] = el.value; renderImport(); return; }
+    if (el.id === 'impHeader') { IMP.headerRow = +el.value; IMP.map = guessMap(IMP.grid[IMP.headerRow] || []); IMP.skip = new Set(); renderSchedTable(); return; }
+    if (el.dataset.impcol != null) { IMP.map[+el.dataset.impcol] = el.value; renderSchedTable(); return; }
+    if (el.dataset.improw != null) { const i = +el.dataset.improw; IMP.skip = IMP.skip || new Set(); el.checked ? IMP.skip.delete(i) : IMP.skip.add(i); renderSchedTable(); return; }
+    if (el.id === 'impAllRows') { IMP.skip = el.checked ? new Set() : new Set(IMP.grid.slice(IMP.headerRow + 1).map((_, i) => i)); renderSchedTable(); return; }
+    if (el.id === 'impUpd') { IMP.update = el.checked; renderSchedTable(); return; }
     if (el.id === 'impSheetLbl') { IMP.pageLabel = el.value; return; }
     if (el.id === 'impPrefix') { IMP.prefix = el.value; return; }
     if (el.id === 'impNext') { IMP.next = Math.max(1, num(el.value) || 1); return; }
@@ -7917,6 +8480,13 @@ function bindImport() {
     if (el.id === 'impScale') { if (el.value === 'Calibrated') return;
       S.project.planScales = Object.assign({}, S.project.planScales || {}, { [planKey()]: num(el.value) }); persist(); refreshPlanTools(); return; }
   });
+  box.addEventListener('focusout', e => {
+    const c = e.target.closest && e.target.closest('[data-cell]'); if (!c) return;
+    const [ri, ci] = c.dataset.cell.split('|').map(Number), row = IMP.grid[IMP.headerRow + 1 + ri]; if (!row) return;
+    const v = c.textContent.trim(); if ((row[ci] || '') === v) return;
+    row[ci] = v; renderSchedTable();
+  });
+  box.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.closest && e.target.closest('[data-cell]')) { e.preventDefault(); e.target.blur(); } });
   box.addEventListener('dragover', e => { e.preventDefault(); });
   box.addEventListener('drop', e => { e.preventDefault(); const f = e.dataTransfer.files[0]; if (f) openImportFile(f); });
 }
@@ -8155,7 +8725,7 @@ const COMBINED_COLS = [
   { g:'DOOR', h:'CORE', w:28, v:o => isWood(o) ? o.woodCore : o.core },
   { g:'DOOR', h:'FINISH', w:32, v:o => isWood(o) ? o.woodFinish : o.doorFinish },
   { g:'DOOR', h:'SEAM', w:22, v:o => isWood(o) ? '' : (o.edgeSeam || 'S') },
-  { g:'DOOR', h:'LITE / LVR', w:46, v:o => [o.vlSize ? 'VL ' + o.vlSize : '',
+  { g:'DOOR', h:'LITE / LVR', w:46, v:o => [liteLabel(o),
       o.louverSize ? 'LVR ' + o.louverSize : ''].filter(Boolean).join(' ') },
   { g:'HARDWARE', h:'HINGE', w:40, v:o => (o.hingePrep || '') + ' ' + (o.hingeQty || '') },
   { g:'HARDWARE', h:'STRIKE', w:36, v:o => o.strikePrep },
@@ -8694,7 +9264,8 @@ function typeOf(o) {
    calculator, the opening panel and the shop plans all work from one engine.
    ============================================================ */
 let CALC = { roW:'', roH:'', nomW:36, nomH:84, face:2, headF:2, jd:5.75, uc:0.75, cfg:'SGL', slW:24, slSide:'HINGE', trH:24,
-  wallThk:'', mfr:'CURRIES', wall:'CMU', constr:'WLD', profile:'', gauge:'16 GA', steel:'CRS', rating:'NR', hand:'LH', hinge:'4.5', degree:90, view:'elev' };
+  wallThk:'', mfr:'CURRIES', wall:'CMU', constr:'WLD', profile:'', gauge:'16 GA', steel:'CRS', rating:'NR', hand:'LH', hinge:'4.5', degree:90, view:'elev',
+  design:'F', vl:'', glaz:'', floorFin:'', thresh:'' };
 const CALC_CFG = [['SGL', 'Single'], ['PR', 'Pair'], ['SGL+SL', 'Single with sidelite'], ['SGL+2SL', 'Single, two sidelites'],
   ['SGL+TR', 'Single with transom'], ['PR+TR', 'Pair with transom'], ['SGL+SL+TR', 'Single, sidelite and transom']];
 const calcPair = c => /^PR/.test(c.cfg);
@@ -8728,6 +9299,8 @@ function calcOpening(c) {
   o.prepStd = c.mfr; o.hingePrep = c.hinge === '5' ? '5x4.5 HW' : '4.5x4.5 SW'; o.hingeQty = H > 90 ? '2 PR' : '1.5 PR';
   if (pair) { o.flushBolt = true; o.coordinator = true; o.astragal = o.fire !== 'NR'; }
   o.wallThk = num(c.wallThk); o.degree = String(num(c.degree) || 90);
+  o.doorDesign = c.design || 'F'; o.vlSize = c.vl || ''; o.glaz = c.glaz || (o.fire !== 'NR' && (c.vl || /^(FG|HG|N|V|G)$/.test(o.doorDesign)) ? 'FL' : '');
+  o.floorFin = num(c.floorFin) || ''; o.threshH = num(c.thresh) || '';
   return o;
 }
 
@@ -8770,9 +9343,10 @@ function frameCalc(c) {
   if (pair && clearPair < 32 && clear < 32) flags.push({ lvl:'i', t:'Pair clear width', m:'Both leaves open give about ' + inchStr(clearPair) + ' clear.' });
   if (!isStdW(num(o.w1)) || !isStdH(d.nomH)) flags.push({ lvl:'i', t:'Custom size', m:'Outside the standard sizes, so this is a custom elevation and the custom lead time.' });
   /* the opening checks that apply to a calculator: wall, throat, rating, coursing, hinges */
-  const keep = /^(Throat|Jamb depth|Undercut|Frame type|Anchors|Block coursing|4 in head in a stud wall|Hinge count|Size code|Slip-on frame|Wood core)$/;
+  const keep = /^(Throat|Jamb depth|Undercut|Frame type|Anchors|Block coursing|4 in head in a stud wall|Hinge count|Size code|Slip-on frame|Wood core|Door drags|Clearance under the door|Lite|Lite height|Glazing|Louver|Fire louver|Threshold)$/;
   checks(o).filter(x => keep.test(x.t)).forEach(x => flags.push(x));
-  return { o, d, g, L, pair, roW, roH, uc, netW, netH, jambFace, headFace, needMO, needRO, masonry, clear, clearPair, cut, flags,
+  const z = doorSize(o), lite = doorLites(o, netW, netH, true).lite;
+  return { o, d, g, L, z, lite, pair, roW, roH, uc, netW, netH, jambFace, headFace, needMO, needRO, masonry, clear, clearPair, cut, flags,
     nomW: d.nomW, nomH: d.nomH, outW: d.outW, outH: d.outH, face, headF };
 }
 
@@ -8816,6 +9390,7 @@ function svgCalcDoor(c) {
   leaves.forEach((Lf, i) => {
     const b = Lf.a + Lf.w;
     g += `<rect x="${Lf.a}" y="${top}" width="${Lf.w}" height="${bot - top}" fill="#fff" stroke="var(--ink)" stroke-width="1.6"/>`;
+    g += svgInserts(o, Lf.a, bot, s, c.netW, c.netH, Lf.hingeLeft);
     const tip = Lf.hingeLeft ? Lf.a : b, far = Lf.hingeLeft ? b : Lf.a;
     g += `<path d="M${far} ${top} L${tip} ${(top + bot) / 2} L${far} ${bot}" fill="none" stroke="var(--mute)" stroke-width=".7" stroke-dasharray="5 4"/>`;
     L.hinges.forEach(v => { g += `<rect x="${Lf.hingeLeft ? Lf.a - 1 : b - hw + 1}" y="${Y(v + L.hl / 2)}" width="${hw}" height="${L.hl * s}" fill="var(--ink2)"/>`; });
@@ -9013,10 +9588,14 @@ function renderTools() {
         ${hasSL ? f('slW', 'Sidelite width', '2-0') + sel('slSide', 'Sidelite on', [['HINGE', 'Hinge side'], ['STRIKE', 'Strike side']]) : ''}
         ${hasTR ? f('trH', 'Transom height', '2-0') : ''}
         ${f('uc', 'Undercut', '3/4')}${f('degree', 'Swing, degrees', '90')}
+        ${sel('design', 'Door design', [['F', 'Flush'], ['V', 'Vision lite'], ['N', 'Narrow lite'], ['HG', 'Half glass'], ['FG', 'Full glass'], ['G', 'Glass, sized'], ['L', 'Louver'], ['FL', 'Flush with louver'], ['E', 'Embossed panels'], ['D', 'Dutch']])}
+        ${/^(F|L|FL|E|D)$/.test(CALC.design) ? '' : f('vl', 'Glass size', 'standard', 'Visible glass, w x h')}
+        ${/^(F|L|FL|E|D)$/.test(CALC.design) ? '' : sel('glaz', 'Glazing', O.glaz.filter(x => x[0] !== 'OTHER'))}
       </div>
       <h2 style="margin-top:14px">The hole</h2>
       <div class="g2">
         ${f('roW', 'Measured width', 'what you measured')}${f('roH', 'Measured height', 'to the floor')}
+        ${f('floorFin', 'Floor finish', 'e.g. 1/4', 'Laid after the frame')}${f('thresh', 'Threshold', 'e.g. 1/2')}
         ${f('wallThk', 'Wall thickness', 'e.g. 4-7/8', 'Checks the throat')}${sel('wall', 'Wall', [['CMU', 'CMU block'], ['CONC', 'Concrete'], ['STL STUD', 'Steel stud'], ['WD STUD', 'Wood stud'], ['EXTG MAS', 'Existing masonry'], ['EXTG GYP', 'Existing drywall']])}
       </div>
       <h2 style="margin-top:14px">The frame</h2>
@@ -9043,6 +9622,7 @@ function renderTools() {
   box.oninput = e => {
     const k = e.target.dataset.ck2; if (!k || e.target.tagName === 'SELECT') return;
     const t = e.target.value.trim();
+    if (k === 'vl') { CALC.vl = t; renderCalcOut(); return; }
     if (t === '') CALC[k] = ''; else { const p = parseDim(t); if (!isFinite(p)) return; CALC[k] = p; }
     renderCalcOut();                                        // the field is left alone while you type
   };
@@ -9055,9 +9635,10 @@ function renderTools() {
         if (!pr && was && num(CALC.nomW) > 50) CALC.nomW = num(CALC.nomW) / 2; }
       if (k === 'wall') { if (/CMU|CONC/.test(CALC.wall)) { CALC.constr = 'WLD'; if (num(CALC.jd) < 7) CALC.jd = 8.75; } else if (/STUD/.test(CALC.wall) && num(CALC.jd) > 7.5) CALC.jd = 5.75; }
       if (k === 'rating' && CALC.rating !== 'NR' && num(CALC.uc) > 0.75) CALC.uc = 0.75;
-      if (['cfg', 'wall', 'rating'].indexOf(k) >= 0) return renderTools();
+      if (['cfg', 'wall', 'rating', 'design'].indexOf(k) >= 0) return renderTools();
       return renderCalcOut();
     }
+    if (k === 'vl') return;
     const val = CALC[k]; e.target.value = val === '' ? '' : k === 'degree' ? String(Math.max(0, Math.min(180, num(val)))) : dimStr(num(val));
   };
   box.onclick = e => {
@@ -9153,6 +9734,8 @@ function renderCalcOut() {
         ${row('Face at the jamb', val(c.jambFace), c.roW ? 'what laps the wall' : 'type the measured width')}
         ${row('Face at the head', val(c.headFace), c.roH ? '' : 'type the measured height')}
         ${row('Maximum cut off', c.cut == null ? '—' : inchStr(c.cut), 'off the bottom before the bottom hinge is hit')}
+        ${c.z.floorFin || c.z.thresh ? row('Under the door', inchStr(Math.max(0, c.z.clearFloor)), 'after the ' + (c.z.thresh ? 'threshold' : 'floor finish') + ' · undercut ' + inchStr((c.z.thresh || c.z.floorFin) + (c.z.thresh ? 0.25 : 0.5)) + ' for 1/4–1/2 clear', c.z.clearFloor < 0.125 ? 'bad' : '') : ''}
+        ${c.lite ? row('Glass', (c.lite.q > 1 ? c.lite.q + ' @ ' : '') + inchPair(c.lite.w, c.lite.h), 'cutout ' + inchPair(c.lite.cut.w, c.lite.cut.h) + ' · ' + inchStr(c.lite.top) + ' from the top · bottom ' + inchStr(c.lite.bottomAFF) + ' AFF') : ''}
       </tbody></table>
     </div>
     <div class="card">
@@ -9336,7 +9919,7 @@ function blueprintPDF(kind) {
            isWood(o) ? '' : o.gaugeDoor, isWood(o) ? o.woodCore : o.core,
            isWood(o) ? o.woodFinish : o.doorFinish, veneerStr(o), o.hand, o.swing,
            o.hingePrep + ' ' + o.hingeQty, o.lockPrep,
-           [o.vlSize ? 'VL ' + o.vlSize : '', o.louverSize ? 'LVR ' + o.louverSize : ''].filter(Boolean).join(' '),
+           [liteLabel(o), o.louverSize ? 'LVR ' + o.louverSize : ''].filter(Boolean).join(' '),
            ratingStr(o), o.hwSet, doorOrderLine(o)];
     });
     let y = pdfTable(p, cols, rows, bodyX, bodyTop - 20, bodyW, 13);
@@ -10004,7 +10587,7 @@ function takeoffPDF() {
       if (d.leaves && !skipDoor(o)) det.push('Door  ' + [o.doorMat, isWood(o) ? '' : o.gaugeDoor,
         isWood(o) ? [o.species, o.cut, o.match, o.woodCore].join(' ') : o.core,
         isWood(o) ? o.woodFinish : o.doorFinish, o.thickness + '"',
-        o.vlSize ? 'VL ' + o.vlSize + ' ' + (o.glaz || '') : '',
+        liteLabel(o) ? liteLabel(o) + ' ' + (o.glaz || '') : '',
         o.louverSize ? 'louver ' + o.louverSize : ''].filter(Boolean).join('  \u00b7  '));
       det.push('Preps  ' + [o.hingePrep + ' ' + o.hingeQty, o.strikePrep, o.lockPrep,
         o.headPrep !== 'NONE' ? o.headPrep : '',
@@ -11940,6 +12523,11 @@ function countModeHtml() {
         <button type="button" class="btn sm ghost" id="impZoomFit">Fit</button>
         <button type="button" class="btn sm" id="impUndoPin">${ic('undo')}Remove last</button>
       </div>
+      <div class="tagbar">
+        <button type="button" class="btn sm primary" id="impFindTags" title="Look for every door mark on the job written on this sheet and pin it there">${ic('search')}Find door tags on this sheet</button>
+        ${(IMP.missingTags || []).length ? `<span class="hint">${plural(IMP.missingTags.length, 'tag')} drawn like door tags but not on the job: <b class="mono">${esc(IMP.missingTags.slice(0, 12).map(t => t.mark).join(', '))}${IMP.missingTags.length > 12 ? '…' : ''}</b></span>
+          <button type="button" class="btn sm" id="impAddTags">${ic('plus')}Add them with the settings below</button>` : `<span class="hint">Reads the tags off the sheet, so a door schedule read first lands every door on the plan in one click.</span>`}
+      </div>
       <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;margin-top:9px">
       ${t === 'open' ? `
         <label class="qf"><span class="hint">Next mark</span><span style="display:flex;gap:4px"><input type="text" id="impPrefix" value="${esc(IMP.prefix)}" placeholder="prefix" style="width:64px;height:28px"><input type="number" id="impNext" value="${IMP.next}" style="width:64px;height:28px"></span></label>
@@ -11985,6 +12573,10 @@ function drawPins() {
     g += `<g transform="translate(${x.x * W},${x.y * H})"><rect x="-4" y="-4" width="8" height="8" fill="#c07f00" stroke="#fff" stroke-width="1.5" transform="rotate(45)"/>
       <text x="8" y="4" font-size="10.5" font-weight="600" fill="#7a5100" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(lab)}</text></g>`;
   }));
+  (IMP.missingTags || []).forEach(t => {
+    g += `<g transform="translate(${t.x * W},${t.y * H})"><circle r="13" fill="none" stroke="#a83228" stroke-width="2" stroke-dasharray="4 3"/>
+      <text y="-17" font-size="10" font-weight="700" fill="#a83228" text-anchor="middle" stroke="#fff" stroke-width="3" paint-order="stroke">not on job</text></g>`;
+  });
   S.openings.filter(o => onPage(o.planRef) && o.planRef.x != null).forEach(o => {
     const t = o.mark || '?', w = Math.max(22, t.length * 7.4 + 10);
     g += `<g transform="translate(${o.planRef.x * W},${o.planRef.y * H})"><rect x="${-w / 2}" y="-11" width="${w}" height="22" rx="11" fill="${o.id === S.selId ? '#c07f00' : '#1c5975'}" stroke="#fff" stroke-width="1.5"/>

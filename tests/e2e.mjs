@@ -185,6 +185,62 @@ if (pdfjsDir) {
   await ev(() => showView('takeoff'));
 }
 
+if (pdfjsDir) {
+  console.log('14a. door schedule off a drawing set, tags on the plan');
+  const fixture = path.resolve(path.dirname(new URL(import.meta.url).pathname), 'fixtures/drawings.pdf');
+  const keep = await ev(() => JSON.stringify(S.openings));
+  await ev(() => { S.openings = []; persist(); showView('import'); });
+  await page.setInputFiles('#impFile', fixture);
+  await page.waitForTimeout(2000);
+  const rd = await ev(() => ({ page: IMP.page, sheet: IMP.pageLabel, map: IMP.map, rows: schedOpenings().map(o => [o.mark, o.config, num(o.w1) + num(o.w2), num(o.h), o.fire, o.hwSet, o.doorDesign]) }));
+  ok(rd.page === 2, 'opens on the schedule page');
+  ok(rd.sheet === 'A-601', 'sheet number from the title block, not a detail callout: ' + rd.sheet);
+  ok(['mark', 'width', 'height', 'fire', 'hwSet', 'notes', 'archFrameType'].every(k => rd.map.indexOf(k) >= 0), 'two row header matched: ' + rd.map.join(','));
+  ok(rd.rows.length === 5, 'five doors, the wrapped remark joined to its row: ' + rd.rows.length);
+  const r104 = rd.rows.find(r => r[0] === '104A') || [];
+  ok(r104[1] === 'PR' && r104[2] === 72 && r104[4] === '45', '(2) 3\'-0" reads as a 6\'-0" pair, 45 min: ' + r104.join(' '));
+  ok((rd.rows.find(r => r[0] === '103') || [])[4] === '90', '90 MIN reads as 90');
+  ok((rd.rows.find(r => r[0] === '102') || [])[6] === 'N', 'door type N becomes the narrow lite design');
+  await page.click('#impGo'); await page.waitForTimeout(300);
+  ok(await ev(() => S.openings.length === 5 && S.sets.some(x => x.id === '5')), 'openings created and missing hardware sets started');
+  await ev(() => showView('import')); await page.waitForTimeout(300);
+  await page.selectOption('#impPage', '1'); await page.waitForTimeout(800);
+  await page.click('[data-impmode="count"]'); await page.waitForTimeout(1200);
+  await page.click('#impFindTags'); await page.waitForTimeout(800);
+  const tags = await ev(() => S.openings.map(o => [o.mark, o.planRef && o.planRef.x != null ? +o.planRef.y.toFixed(2) : null]));
+  ok(tags.every(t => t[1] != null), 'every door found on the floor plan');
+  ok(tags.filter(t => /^10[123]$/.test(t[0])).every(t => t[1] > 0.5), 'the door tag chosen over the room number with the same text');
+  /* reading again updates instead of duplicating */
+  await page.selectOption('#impPage', '2'); await page.waitForTimeout(800);
+  await page.click('[data-impmode="table"]'); await page.waitForTimeout(800);
+  await page.click('#impGo'); await page.waitForTimeout(300);
+  ok(await ev(() => S.openings.length === 5), 'reading the schedule again updates the openings already there');
+  await ev(k => { S.openings = JSON.parse(k); persist(); showView('takeoff'); }, keep);
+}
+
+console.log('14c. lites, louvers and exact door sizes');
+const lz = await ev(() => {
+  const mk = x => Object.assign(blankOpening(), { w1: 36, h: 84, hand: 'LH' }, x);
+  const sig = o => { const z = doorSize(o); return JSON.stringify(doorLites(o, z.leafW[0], z.leafH, true).items.map(i => [i.kind, +(i.x || 0).toFixed(2), +i.y.toFixed(2), i.w, i.h])); };
+  const designs = ['V', 'N', 'HG', 'FG', 'L', 'E', 'D'].map(d => sig(mk({ doorDesign: d })));
+  const z = doorSize(mk({}));
+  const pr = doorSize(mk({ config: 'PR', w1: 36, w2: 36, hand: 'LHRA' }));
+  const drag = checks(mk({ floorFin: 1 })).some(c => c.t === 'Door drags');
+  const thr = doorSize(mk({ threshH: 0.5 })).clearFloor;
+  const ada = checks(mk({ w1: 32, ada: true })).some(c => c.t === 'Clear width');
+  const nar = doorLites(mk({ doorDesign: 'N' }), 35.75, 83.125, true).lite;
+  const svgs = ['V', 'N', 'HG', 'FG', 'L', 'FL', 'E', 'D', 'G'].map(d => svgElevation(mk({ doorDesign: d, glaz: 'WG', vlQty: '2' }), 'elev')).join('');
+  return { distinct: new Set(designs).size, n: designs.length, z, pr, drag, thr, ada, nar, nan: /NaN|undefined/.test(svgs), face: curFaceCode(mk({ doorDesign: 'N' })) };
+});
+ok(lz.distinct === lz.n, 'every door design draws its own lite, louver or panel');
+ok(Math.abs(lz.z.leafW[0] - 35.75) < 1e-6 && Math.abs(lz.z.leafH - 83.125) < 1e-6 && Math.abs(lz.z.clear - 33.5) < 1e-6, '3070 door 35-3/4 x 83-1/8, 33-1/2 clear');
+ok(Math.abs(lz.pr.leafW[0] - 35.8125) < 1e-6, 'pair leaves 35-13/16');
+ok(lz.drag && Math.abs(lz.thr - 0.25) < 1e-6, 'floor finish and threshold checked against the undercut');
+ok(lz.ada, 'accessible door under 32 in clear is flagged');
+ok(lz.nar && lz.nar.w === 6 && lz.nar.h === 27 && Math.abs(lz.nar.bottomAFF - 43) < 0.01, 'narrow lite 6 x 27, glass bottom at 43 in');
+ok(!lz.nan, 'every design draws without NaN');
+ok(lz.face === 'FNV-6"x27"', 'Curries face code from the standard narrow lite: ' + lz.face);
+
 console.log('14b. frame calculator');
 await ev(() => showView('tools'));
 await page.waitForTimeout(150);

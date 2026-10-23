@@ -60,3 +60,57 @@ Los trabajos guardados en el navegador con la 1.9 y los archivos de trabajo `.js
 - Cinco vistas: **Elevación** acotada (vano medido vs. el que pide el marco, solape de la cara en cada jamba), **Planta y giro** (muro, jambas en corte, arco de la hoja según mano y grados, ancho libre con aviso bajo 32"), **Corte de jamba**, **Ubicación de bisagras**, **Marco y anclajes**. Botón para verla en grande.
 - Franja de resultados con colores (vano, marco, hoja neta, ancho libre, solape de cara).
 - Líneas de pedido Curries con botón Copiar; **Copiar los números** para un correo o mensaje; **Plan de taller PDF**; **Nueva abertura** con estos números; cargar y aplicar a la abertura seleccionada pasan todos los campos.
+
+## 2.1 — lectura de planos, cristales por puerta, medidas exactas
+
+**Errores corregidos**
+
+| Qué pasaba | Arreglo |
+|---|---|
+| Todas las puertas con cristal se dibujaban igual: un rectángulo centrado a 60" del piso, aunque el diseño fuera mirilla angosta, media vista o vidrio completo. Con el diseño puesto y sin medida escrita no salía ningún cristal. | Un solo cálculo por diseño (V, N, HG, FG, G, L, FL, E, D) con la medida estándar de Curries y su ubicación, usado por la pantalla, las hojas 11×17, la hoja de taller y la calculadora. |
+| El tipo de vidrio no se veía en el dibujo. | Alambrado, templado, laminado, insulado, cortafuego y policarbonato se dibujan distinto. |
+| El código de vista Curries salía FLUSH en una puerta N o HG sin medida escrita. | Usa la medida estándar del diseño (FNV 6"x27", HG 24"x30", FG 24"x64", FV 12"x12"). |
+| La hoja de taller daba el mismo ancho a las dos hojas de un par desigual. | Cada hoja con su medida. |
+| El lector de PDF mezclaba todo el texto de la hoja (notas, rótulo, otras tablas) en columnas por posición. Los encabezados de dos filas, los comentarios en dos renglones y los pares "(2) 3'-0"" se leían mal. | Lector nuevo (ver abajo). |
+| El número de hoja tomaba el primer texto con forma de hoja, a menudo una llamada de detalle (5/A-501). | Lo toma del rótulo, abajo a la derecha. |
+| Al abrir un segundo PDF se podían usar los textos del archivo anterior. | Se limpian al abrir cada archivo. |
+
+**Nuevo**
+
+- **Leer el door schedule del PDF.** Encuentra la página y la tabla solo. Entiende encabezados de dos filas, uniendo DOOR / FRAME / DETAILS con WD, HT, THK. Junta los comentarios que siguen en otro renglón y lee los pares escritos "(2) 3'-0"".
+  - Se arrastra un recuadro sobre la hoja para leer solo esa parte.
+  - Las columnas se ven sobre el plano.
+  - Se corrige cualquier celda con un clic y se quitan filas.
+  - *Read every page like this* agrega las páginas que tienen el mismo schedule.
+  - Al leerlo otra vez actualiza las aberturas existentes en lugar de duplicarlas.
+  - Crea vacíos los juegos de herrajes que el schedule nombra y el trabajo no tiene.
+  - Si el tipo de puerta es una letra SDI (F, N, V, HG, FG…), pone el diseño.
+- **Ubicar las puertas en el plano.** *Find door tags on this sheet* pone cada puerta del schedule donde está su tag. Si un número de cuarto dice lo mismo, elige el tag de puerta. También lista los tags del plano que no están en el trabajo y permite agregarlos.
+- **Flujo en 3 pasos** en Plans: leer el schedule, ubicar en los planos, contar Div 10. Flechas para cambiar de página.
+- **Cristales por puerta.** Campos nuevos:
+  - Cantidad de cristales apilados.
+  - Distancia de la parte de arriba de la puerta al cristal.
+  - Lado (centro, cerradura, bisagra) y distancia al borde.
+  - Altura de la rejilla.
+  - En Job info, la holgura del marco del cristal (recorte = vidrio visible + 1-1/2" por defecto).
+- **Medidas exactas** (`doorSize`):
+  - Puerta cortada, también en pares desiguales.
+  - Ancho libre a 90°, con la puerta abierta y el tope.
+  - Holgura bajo la puerta con el piso terminado o el umbral (campos nuevos).
+  - Corte máximo.
+  - Recorte y vidrio del cristal.
+  - Se ven junto al dibujo de la abertura, en la hoja de taller y en la calculadora.
+- **Chequeos nuevos:**
+  - La puerta roza el piso o el umbral.
+  - Holgura de más de 3/4" en puertas cortafuego (NFPA 80).
+  - Ancho libre menor a 32" en puertas accesibles.
+  - Umbral de más de 1/2".
+  - Cristal accesible con el borde de abajo arriba de 43".
+  - El cristal choca con la cerradura o deja menos de 3-1/2" de larguero.
+- **Hoja de taller:**
+  - Acota el cristal: desde arriba y desde el borde.
+  - Da el vidrio visible, el recorte y el tipo de vidrio.
+  - Muestra el ancho libre.
+  - La orden de trabajo da el recorte exacto.
+- **Calculadora:** diseño de la puerta, medida y tipo de vidrio, piso terminado y umbral; recomienda el undercut.
+- **Pruebas:** `tests/fixtures/drawings.pdf` (un plano y un door schedule) prueba la lectura, los tags y la actualización. También hay pruebas de cristales y medidas.
