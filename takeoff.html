@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Takeoff">
-<title>Takeoff 2.4 — Doors, Frames, Hardware &amp; Specialties</title>
+<title>Takeoff 2.5 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -866,6 +866,60 @@ body.phone .psheet{padding-bottom:calc(18px + env(safe-area-inset-bottom));overs
 body.phone .psheet::before{content:"";display:block;width:38px;height:4px;border-radius:3px;background:var(--rule);margin:-6px auto 10px}
 body.phone .dtabs{position:sticky;top:0;z-index:3;background:var(--panel)}
 @media (prefers-reduced-motion:reduce){body.phone .detail,body.phone .psheet,.pcard,.htile{transition:none}}
+
+/* ---- the frame calculator on a phone ---- */
+.calcpin,.crecent,.ctabs,.qsizes,.cacts{display:none}
+.mpts{grid-column:1/-1;border:1px dashed var(--rule);border-radius:8px;padding:8px 10px}
+.mpts summary{cursor:pointer;font-size:12.5px;font-weight:600;color:var(--focus)}
+.mpts .g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:8px 0}
+.mpts .g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+body.phone .mpts .g3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+body.phone .mpts .g2{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+body.phone #view-tools .wrap{padding-top:0}
+body.phone .calcpin{display:block;position:sticky;top:0;z-index:6;margin:0 -12px 8px;padding:8px 12px;background:rgba(242,244,242,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule2)}
+body.phone .calcpin .calcstrip{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:0}
+body.phone .calcpin .cchip{padding:5px 9px;border-radius:9px}
+body.phone .calcpin .cchip b{font-size:13px;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.phone .crecent{display:flex;gap:6px;overflow-x:auto;margin:0 -12px 8px;padding:0 12px 2px;scrollbar-width:none}
+body.phone .crecent::-webkit-scrollbar{display:none}
+body.phone .crecent>span{align-self:center;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--steel);flex:none}
+body.phone .crecent button{flex:none;border:1px solid var(--rule);background:var(--panel);border-radius:20px;padding:5px 11px;font:inherit;font-size:12px;font-family:var(--mono);color:var(--ink);display:flex;gap:6px;align-items:baseline}
+body.phone .crecent button em{font-style:normal;font-family:var(--sans,inherit);font-size:10px;color:var(--steel)}
+body.phone .ctabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:#eceeec;border-radius:10px;padding:3px;margin-bottom:12px}
+body.phone .ctabs button{border:0;background:transparent;border-radius:8px;padding:7px 4px;font:inherit;text-align:center;color:var(--ink2);min-width:0}
+body.phone .ctabs button b{display:block;font-size:13.5px}
+body.phone .ctabs button span{display:block;font-size:10.5px;color:var(--steel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.phone .ctabs button[aria-selected="true"]{background:var(--panel);box-shadow:0 1px 3px rgba(20,30,40,.14);color:var(--ink)}
+body.phone .qsizes{display:flex;flex-wrap:wrap;gap:6px}
+body.phone .qs{border:1px solid var(--rule);background:#fff;border-radius:8px;padding:7px 10px;font:inherit;font-family:var(--mono);font-size:13px;color:var(--ink);min-height:36px}
+body.phone .qs.on{background:var(--focus);border-color:var(--focus);color:#fff}
+body.phone .qsep{flex-basis:100%;height:0}
+body.phone .cacts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:4px 0 8px}
+body.phone .cacts .btn{justify-content:center;text-align:center;min-height:44px}
+body.phone .cacts .btn.primary{grid-column:1/-1}
+body.phone #calcFlags .alert{font-size:12.5px}
+body.phone .calcdraw .chead .seg{flex-wrap:nowrap;overflow-x:auto;max-width:calc(100% - 44px);scrollbar-width:none}
+body.phone .calcdraw .chead .seg button{flex:none}
+body.phone .calcsvg{max-height:none}
+body.phone [data-kp]{caret-color:transparent;cursor:pointer}
+body.phone [data-kp].kpon{border-color:var(--focus);box-shadow:0 0 0 3px rgba(28,89,117,.18);background:#f3f8fa}
+.ckpad{position:fixed;left:0;right:0;bottom:0;z-index:95;background:#e3e7ea;border-top:1px solid var(--rule);padding:8px 8px calc(8px + env(safe-area-inset-bottom));
+  transform:translateY(105%);transition:transform .2s cubic-bezier(.2,.8,.2,1);box-shadow:0 -8px 30px rgba(10,14,18,.18);user-select:none;-webkit-user-select:none}
+.ckpad.on{transform:none}
+.kphead{display:flex;align-items:center;gap:10px;padding:2px 4px 8px}
+.kphead span{font-size:11.5px;color:var(--steel);max-width:34%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kphead b{flex:1;font-size:19px;color:var(--ink);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpdone{border:0;background:none;color:var(--focus);font:inherit;font-weight:700;font-size:15px;padding:6px 6px}
+.kpfr{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-bottom:6px}
+.kpfr button{border:0;border-radius:7px;background:#fff;font:inherit;font-family:var(--mono);font-size:12.5px;padding:9px 0;color:var(--focus);box-shadow:0 1px 0 rgba(0,0,0,.18)}
+.kpgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.kpgrid button{border:0;border-radius:9px;background:#fff;font:inherit;font-size:22px;padding:11px 0;color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.2);touch-action:manipulation}
+.kpgrid button.kpfn{background:#cfd6db;font-size:14px;font-weight:600}
+.kpgrid button.kpnext{grid-column:span 1;background:var(--focus);color:#fff;font-size:15px;font-weight:700}
+.kpgrid button:active,.kpfr button:active{background:#b9c3ca}
+body.kpopen main{padding-bottom:360px!important}
+body.kpopen .phonebar{transform:translateY(110%)}
+body.phone .phonebar{transition:transform .2s ease}
 /* calculator */
 .calcwrap{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.25fr);gap:14px;align-items:start}
 .calcin .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
@@ -1128,6 +1182,16 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <!-- ============ GUIDE ============ -->
 <section class="view" id="view-guide">
   <div class="guide">
+  <div class="card">
+    <h2>What 2.5 adds — the frame calculator in the field</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Its own keypad on a phone</b> — the phone keyboard for numbers has no dash, slash or foot mark, so 3-0 or 36 1/2 could not be typed. Tap a size and a keypad opens with digits, a foot key, every fraction from 1/16 to 7/8, ±1/16 nudges and Next to go to the next field; the numbers update as you type.</li>
+      <li><b>The answer always in sight</b> — the masonry or rough opening, the door, the clear width and the face lap stay pinned at the top while you type.</li>
+      <li><b>Door · Hole · Frame</b> — the inputs in three tabs, each showing what is set, instead of one long page; sizes one tap away (2'-4" to 4'-0", pairs to 6'-8", heights 6'-8", 7'-0", 8'-0").</li>
+      <li><b>Measure the hole at several points</b> — width at the top, middle and bottom, height at each jamb and both diagonals. The frame is sized to the smallest, and a hole out of plumb, out of level or out of square is called out with how much.</li>
+      <li><b>Keep and share</b> — <i>Share the numbers</i> sends them by text, email or any app on the phone; the last ten calculations are kept under <i>Recent</i> to load again.</li>
+    </ul>
+  </div>
   <div class="card">
     <h2>What 2.4 adds — the phone</h2>
     <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
@@ -10116,7 +10180,7 @@ function typeOf(o) {
    ============================================================ */
 let CALC = { roW:'', roH:'', nomW:36, nomH:84, face:2, headF:2, jd:5.75, uc:0.75, cfg:'SGL', slW:24, slSide:'HINGE', trH:24,
   wallThk:'', mfr:'CURRIES', wall:'CMU', constr:'WLD', profile:'', gauge:'16 GA', steel:'CRS', rating:'NR', hand:'LH', hinge:'4.5', degree:90, view:'elev',
-  design:'F', vl:'', glaz:'', floorFin:'', thresh:'' };
+  design:'F', vl:'', glaz:'', floorFin:'', thresh:'', roW1:'', roW2:'', roW3:'', roH1:'', roH2:'', dg1:'', dg2:'', ptab:'door' };
 const CALC_CFG = [['SGL', 'Single'], ['PR', 'Pair'], ['SGL+SL', 'Single with sidelite'], ['SGL+2SL', 'Single, two sidelites'],
   ['SGL+TR', 'Single with transom'], ['PR+TR', 'Pair with transom'], ['SGL+SL+TR', 'Single, sidelite and transom']];
 const calcPair = c => /^PR/.test(c.cfg);
@@ -10158,7 +10222,10 @@ function calcOpening(c) {
 /** what the frame, the hole and the door come to */
 function frameCalc(c) {
   const o = calcOpening(c), d = derive(o), g = jambGeo(o), L = hwLoc(o);
-  const pair = calcPair(c), roW = num(c.roW), roH = num(c.roH);
+  const pair = calcPair(c);
+  /* the hole measured at several points: the frame goes in the smallest of each */
+  const wPts = ['roW1', 'roW2', 'roW3'].map(k => num(c[k])).filter(v => v > 0), hPts = ['roH1', 'roH2'].map(k => num(c[k])).filter(v => v > 0);
+  const roW = wPts.length ? Math.min(...wPts) : num(c.roW), roH = hPts.length ? Math.min(...hPts) : num(c.roH);
   const uc = num(o.undercut);
   /* 1/8 at each jamb and, on a pair, 1/8 at the meeting edge; 1/8 under the head */
   const netW = pair ? (d.nomW - 0.375) / 2 : d.nomW - 0.25;
@@ -10176,6 +10243,13 @@ function frameCalc(c) {
 
   const flags = [];
   const face = d.face, headF = d.headF;
+  if (wPts.length > 1 && Math.max(...wPts) - Math.min(...wPts) > 0.124)
+    flags.push({ lvl: 'w', t: 'Hole out of plumb', m: 'The width runs from ' + ftin(Math.min(...wPts)) + ' to ' + ftin(Math.max(...wPts)) + ' (' + inchStr(Math.max(...wPts) - Math.min(...wPts)) + '). The frame is sized to the narrowest; shim the wide side.' });
+  if (hPts.length > 1 && Math.abs(hPts[0] - hPts[1]) > 0.124)
+    flags.push({ lvl: 'w', t: 'Floor or head out of level', m: 'The jambs measure ' + ftin(hPts[0]) + ' and ' + ftin(hPts[1]) + ' (' + inchStr(Math.abs(hPts[0] - hPts[1])) + '). The frame is sized to the lower side; the door undercut takes the rest.' });
+  const dg = [num(c.dg1), num(c.dg2)];
+  if (dg[0] && dg[1] && Math.abs(dg[0] - dg[1]) > 0.124)
+    flags.push({ lvl: Math.abs(dg[0] - dg[1]) > 0.5 ? 'e' : 'w', t: 'Hole out of square', m: 'The diagonals differ by ' + inchStr(Math.abs(dg[0] - dg[1])) + ' (' + ftin(dg[0]) + ' and ' + ftin(dg[1]) + '). Over 1/8 in shows in the reveal; set the frame square and shim.' });
   if (jambFace != null && jambFace < 0.25)
     flags.push({ lvl:'e', t:'No jamb face', m:'The hole is too narrow for this frame: only ' + dimStr(Math.max(0, jambFace)) + ' of face at each jamb.' });
   else if (jambFace != null && jambFace < face - 0.5)
@@ -10413,11 +10487,71 @@ function calcText(c) {
 function renderTools() {
   const v = k => CALC[k] === '' || CALC[k] == null ? '' : k === 'degree' ? String(CALC[k]) : typeof CALC[k] === 'number' ? dimStr(CALC[k]) : CALC[k];
   const f = (k, l, ph, hint) => `<div class="f"><label for="c_${k}">${esc(l)}</label>
-    <input type="text" id="c_${k}" data-ck2="${k}" autocomplete="off" inputmode="decimal" value="${esc(v(k))}" placeholder="${esc(ph || '')}">${hint ? `<div class="fhelp">${esc(hint)}</div>` : ''}</div>`;
+    <input type="text" id="c_${k}" data-ck2="${k}" autocomplete="off" ${isPhone() && k !== 'vl' ? 'readonly inputmode="none" data-kp="1"' : 'inputmode="text"'} value="${esc(v(k))}" placeholder="${esc(ph || '')}">${hint ? `<div class="fhelp">${esc(hint)}</div>` : ''}</div>`;
   const sel = (k, l, opts) => `<div class="f"><label for="c_${k}">${esc(l)}</label>
     <select id="c_${k}" data-ck2="${k}">${opts.map(o2 => { const val = Array.isArray(o2) ? o2[0] : o2, t = Array.isArray(o2) ? o2[1] : o2;
       return `<option value="${esc(val)}" ${String(CALC[k]) === String(val) ? 'selected' : ''}>${esc(t)}</option>`; }).join('')}</select></div>`;
   const hasSL = /SL/.test(CALC.cfg), hasTR = /TR/.test(CALC.cfg);
+  const phone = isPhone();
+  const gOpen = `
+        ${sel('cfg', 'Configuration', CALC_CFG)}${sel('hand', 'Hand', [['LH', 'LH — hinges left, swings away'], ['RH', 'RH — hinges right, swings away'], ['LHR', 'LHR — hinges left, swings toward'], ['RHR', 'RHR — hinges right, swings toward']])}
+        ${f('nomW', calcPair(CALC) ? 'Nominal width, both leaves' : 'Nominal width', '3-0')}${f('nomH', 'Nominal height', '7-0')}
+        ${phone ? `<div class="f full qsizes">${(calcPair(CALC) ? [48, 60, 64, 68, 72, 80] : [28, 30, 32, 34, 36, 40, 42, 48]).map(w => `<button type="button" class="qs ${Math.abs(num(CALC.nomW) - w) < .01 ? 'on' : ''}" data-qw="${w}">${ftin(w)}</button>`).join('')}
+          <span class="qsep"></span>${[80, 84, 96].map(h => `<button type="button" class="qs ${Math.abs(num(CALC.nomH) - h) < .01 ? 'on' : ''}" data-qh="${h}">${ftin(h)}</button>`).join('')}</div>` : ''}
+        ${hasSL ? f('slW', 'Sidelite width', '2-0') + sel('slSide', 'Sidelite on', [['HINGE', 'Hinge side'], ['STRIKE', 'Strike side']]) : ''}
+        ${hasTR ? f('trH', 'Transom height', '2-0') : ''}
+        ${f('uc', 'Undercut', '3/4')}${f('degree', 'Swing, degrees', '90')}
+        ${sel('design', 'Door design', [['F', 'Flush'], ['V', 'Vision lite'], ['N', 'Narrow lite'], ['HG', 'Half glass'], ['FG', 'Full glass'], ['G', 'Glass, sized'], ['L', 'Louver'], ['FL', 'Flush with louver'], ['E', 'Embossed panels'], ['D', 'Dutch']])}
+        ${/^(F|L|FL|E|D)$/.test(CALC.design) ? '' : f('vl', 'Glass size', 'standard', 'Visible glass, w x h')}
+        ${/^(F|L|FL|E|D)$/.test(CALC.design) ? '' : sel('glaz', 'Glazing', O.glaz.filter(x => x[0] !== 'OTHER'))}`;
+  const more = ['roW1', 'roW2', 'roW3', 'roH1', 'roH2', 'dg1', 'dg2'].some(k => num(CALC[k]));
+  const gHole = `
+        ${f('roW', 'Measured width', 'what you measured')}${f('roH', 'Measured height', 'to the floor')}
+        <details class="f full mpts" ${more ? 'open' : ''}><summary>Measured at more than one point</summary>
+          <p class="fhelp">Masonry and old openings are rarely square. Measure the width at the top, middle and bottom, the height at each jamb, and both diagonals: the frame is sized to the smallest, and anything out of plumb or square is called out.</p>
+          <div class="g3">${f('roW1', 'Width, top', '')}${f('roW2', 'Width, middle', '')}${f('roW3', 'Width, bottom', '')}</div>
+          <div class="g2">${f('roH1', 'Height, left jamb', '')}${f('roH2', 'Height, right jamb', '')}${f('dg1', 'Diagonal ↘', '')}${f('dg2', 'Diagonal ↙', '')}</div>
+        </details>
+        ${f('floorFin', 'Floor finish', 'e.g. 1/4', 'Laid after the frame')}${f('thresh', 'Threshold', 'e.g. 1/2')}
+        ${f('wallThk', 'Wall thickness', 'e.g. 4-7/8', 'Checks the throat')}${sel('wall', 'Wall', [['CMU', 'CMU block'], ['CONC', 'Concrete'], ['STL STUD', 'Steel stud'], ['WD STUD', 'Wood stud'], ['EXTG MAS', 'Existing masonry'], ['EXTG GYP', 'Existing drywall']])}`;
+  const gFrame = `
+        ${sel('constr', 'Construction', [['WLD', 'Welded'], ['KD', 'Knock down']])}${sel('profile', 'Profile', [['', 'Auto — from the wall'], ['DR', 'Double rabbet'], ['SR', 'Single rabbet'], ['DW', 'Drywall wrap'], ['DW-SLIP', 'Drywall slip-on'], ['CO', 'Cased opening']])}
+        ${f('jd', 'Jamb depth', '5-3/4')}${f('face', 'Jamb face', '2')}
+        ${f('headF', 'Head face', '2 or 4')}${sel('gauge', 'Gauge', ['16 GA', '14 GA', '18 GA', '12 GA'])}
+        ${sel('steel', 'Steel', [['CRS', 'CRS — cold rolled'], ['A60', 'A60 — galvannealed'], ['G90', 'G90 — galvanized'], ['SST', 'Stainless']])}
+        ${sel('rating', 'Label', [['NR', 'No label'], ['20', '20 min'], ['45', '45 min'], ['60', '60 min'], ['90', '90 min'], ['180', '180 min']])}
+        ${sel('mfr', 'Prep chart', Object.keys(MANU_LOC).concat(['SDI']))}${sel('hinge', 'Hinges', [['4.5', '4-1/2 x 4-1/2'], ['5', '5 x 4-1/2']])}`;
+  const drawCard = `
+    <div class="card calcdraw">
+      <div class="chead"><div class="seg" role="group" aria-label="Drawing">${CALC_VIEWS.map(([k, l]) => `<button type="button" data-cview="${k}" class="${CALC.view === k ? 'on' : ''}">${l}</button>`).join('')}</div>
+        <span class="spacer"></span><button type="button" class="iconbtn" id="calcBig" title="Open full size">${ic('expand')}</button></div>
+      <div id="calcDraw"></div>
+      ${phone ? '' : '<div id="calcStrip" class="calcstrip"></div>'}
+    </div>`;
+  if (phone) {
+    const tab = CALC.ptab || 'door';
+    const recent = calcRecent();
+    const sum = { door: ftin(num(CALC.nomW)) + ' x ' + ftin(num(CALC.nomH)) + ' · ' + CALC.hand, hole: num(CALC.roW) || num(CALC.roW1) ? ftin(Math.min(...['roW', 'roW1', 'roW2', 'roW3'].map(k => num(CALC[k])).filter(Boolean))) + ' wide' : 'not measured',
+      frame: (CALC.constr === 'WLD' ? 'WLD' : 'KD') + ' ' + dimStr(num(CALC.jd)) + ' · ' + CALC.gauge };
+    $('#toolsBody').innerHTML = `
+  <div class="calcpin"><div id="calcStrip" class="calcstrip"></div></div>
+  ${recent.length ? `<div class="crecent"><span>Recent</span>${recent.map((r, i) => `<button type="button" data-recent="${i}">${esc(r.label)}<em>${esc(r.when)}</em></button>`).join('')}</div>` : ''}
+  <div class="card calcin">
+    <div class="ctabs" role="tablist">${[['door', 'Door'], ['hole', 'Hole'], ['frame', 'Frame']].map(([k, l]) => `<button type="button" role="tab" data-ptab="${k}" aria-selected="${tab === k}"><b>${l}</b><span>${esc(sum[k])}</span></button>`).join('')}</div>
+    <div class="g2">${tab === 'door' ? gOpen : tab === 'hole' ? gHole : gFrame}</div>
+    <div id="calcFlags"></div>
+  </div>
+  ${drawCard}
+  <div id="calcOut"></div>
+  <div class="cacts">
+    <button type="button" class="btn primary" id="calcShare">${ic('copy')}Share the numbers</button>
+    <button type="button" class="btn" id="calcSave">${ic('save')}Keep this one</button>
+    <button type="button" class="btn" id="calcNew">${ic('plus')}New opening</button>
+    <button type="button" class="btn" id="calcPdf">${ic('blueprint')}Shop plan PDF</button>
+    <button type="button" class="btn" id="calcFrom">${ic('download')}Load selected</button>
+    <button type="button" class="btn" id="calcApply">Use on selected</button>
+  </div>`;
+  } else {
   $('#toolsBody').innerHTML = `
   <div class="phead">
     <div><div class="eyebrow">Help</div><h1>Frame calculator</h1>
@@ -10433,41 +10567,17 @@ function renderTools() {
   <div class="calcwrap">
     <div class="card calcin">
       <h2>The opening</h2>
-      <div class="g2">
-        ${sel('cfg', 'Configuration', CALC_CFG)}${sel('hand', 'Hand', [['LH', 'LH — hinges left, swings away'], ['RH', 'RH — hinges right, swings away'], ['LHR', 'LHR — hinges left, swings toward'], ['RHR', 'RHR — hinges right, swings toward']])}
-        ${f('nomW', calcPair(CALC) ? 'Nominal width, both leaves' : 'Nominal width', '3-0')}${f('nomH', 'Nominal height', '7-0')}
-        ${hasSL ? f('slW', 'Sidelite width', '2-0') + sel('slSide', 'Sidelite on', [['HINGE', 'Hinge side'], ['STRIKE', 'Strike side']]) : ''}
-        ${hasTR ? f('trH', 'Transom height', '2-0') : ''}
-        ${f('uc', 'Undercut', '3/4')}${f('degree', 'Swing, degrees', '90')}
-        ${sel('design', 'Door design', [['F', 'Flush'], ['V', 'Vision lite'], ['N', 'Narrow lite'], ['HG', 'Half glass'], ['FG', 'Full glass'], ['G', 'Glass, sized'], ['L', 'Louver'], ['FL', 'Flush with louver'], ['E', 'Embossed panels'], ['D', 'Dutch']])}
-        ${/^(F|L|FL|E|D)$/.test(CALC.design) ? '' : f('vl', 'Glass size', 'standard', 'Visible glass, w x h')}
-        ${/^(F|L|FL|E|D)$/.test(CALC.design) ? '' : sel('glaz', 'Glazing', O.glaz.filter(x => x[0] !== 'OTHER'))}
-      </div>
+      <div class="g2">${gOpen}</div>
       <h2 style="margin-top:14px">The hole</h2>
-      <div class="g2">
-        ${f('roW', 'Measured width', 'what you measured')}${f('roH', 'Measured height', 'to the floor')}
-        ${f('floorFin', 'Floor finish', 'e.g. 1/4', 'Laid after the frame')}${f('thresh', 'Threshold', 'e.g. 1/2')}
-        ${f('wallThk', 'Wall thickness', 'e.g. 4-7/8', 'Checks the throat')}${sel('wall', 'Wall', [['CMU', 'CMU block'], ['CONC', 'Concrete'], ['STL STUD', 'Steel stud'], ['WD STUD', 'Wood stud'], ['EXTG MAS', 'Existing masonry'], ['EXTG GYP', 'Existing drywall']])}
-      </div>
+      <div class="g2">${gHole}</div>
       <h2 style="margin-top:14px">The frame</h2>
-      <div class="g2">
-        ${sel('constr', 'Construction', [['WLD', 'Welded'], ['KD', 'Knock down']])}${sel('profile', 'Profile', [['', 'Auto — from the wall'], ['DR', 'Double rabbet'], ['SR', 'Single rabbet'], ['DW', 'Drywall wrap'], ['DW-SLIP', 'Drywall slip-on'], ['CO', 'Cased opening']])}
-        ${f('jd', 'Jamb depth', '5-3/4')}${f('face', 'Jamb face', '2')}
-        ${f('headF', 'Head face', '2 or 4')}${sel('gauge', 'Gauge', ['16 GA', '14 GA', '18 GA', '12 GA'])}
-        ${sel('steel', 'Steel', [['CRS', 'CRS — cold rolled'], ['A60', 'A60 — galvannealed'], ['G90', 'G90 — galvanized'], ['SST', 'Stainless']])}
-        ${sel('rating', 'Label', [['NR', 'No label'], ['20', '20 min'], ['45', '45 min'], ['60', '60 min'], ['90', '90 min'], ['180', '180 min']])}
-        ${sel('mfr', 'Prep chart', Object.keys(MANU_LOC).concat(['SDI']))}${sel('hinge', 'Hinges', [['4.5', '4-1/2 x 4-1/2'], ['5', '5 x 4-1/2']])}
-      </div>
+      <div class="g2">${gFrame}</div>
       <div id="calcFlags"></div>
     </div>
-    <div class="card calcdraw">
-      <div class="chead"><div class="seg" role="group" aria-label="Drawing">${CALC_VIEWS.map(([k, l]) => `<button type="button" data-cview="${k}" class="${CALC.view === k ? 'on' : ''}">${l}</button>`).join('')}</div>
-        <span class="spacer"></span><button type="button" class="iconbtn" id="calcBig" title="Open full size">${ic('expand')}</button></div>
-      <div id="calcDraw"></div>
-      <div id="calcStrip" class="calcstrip"></div>
-    </div>
+    ${drawCard}
   </div>
   <div id="calcOut"></div>`;
+  }
   renderCalcOut();
   const box = $('#toolsBody');
   box.oninput = e => {
@@ -10493,6 +10603,17 @@ function renderTools() {
     const val = CALC[k]; e.target.value = val === '' ? '' : k === 'degree' ? String(Math.max(0, Math.min(180, num(val)))) : dimStr(num(val));
   };
   box.onclick = e => {
+    const kpf = e.target.closest('[data-kp]'); if (kpf) { kpOpen(kpf.dataset.ck2); return; }
+    const pt = e.target.closest('[data-ptab]'); if (pt) { kpClose(); CALC.ptab = pt.dataset.ptab; buzz(); renderTools(); return; }
+    const qw = e.target.closest('[data-qw],[data-qh]'); if (qw) { buzz(); if (qw.dataset.qw) CALC.nomW = +qw.dataset.qw; else CALC.nomH = +qw.dataset.qh; renderTools(); return; }
+    const rc = e.target.closest('[data-recent]'); if (rc) { const r = calcRecent()[+rc.dataset.recent]; if (r) { CALC = Object.assign({}, CALC, r.calc, { view: CALC.view, ptab: CALC.ptab }); buzz(); renderTools(); toast('Loaded ' + r.label); } return; }
+    if (e.target.closest('#calcSave')) { calcKeep(); toast('Kept — it is under Recent at the top'); renderTools(); return; }
+    if (e.target.closest('#calcShare')) {
+      const t = calcText(frameCalc(CALC)); calcKeep();
+      if (navigator.share) navigator.share({ title: 'Frame — ' + t.split('\n')[0], text: t }).catch(() => {});
+      else if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Numbers copied — paste them into a text or an email'));
+      return;
+    }
     const vb = e.target.closest('[data-cview]'); if (vb) { CALC.view = vb.dataset.cview; $$('[data-cview]').forEach(b2 => b2.classList.toggle('on', b2 === vb)); renderCalcOut(); return; }
     if (e.target.closest('#calcBig')) {
       openModal('Frame calculator — ' + (CALC_VIEWS.find(x => x[0] === CALC.view) || [, ''])[1], calcText(frameCalc(CALC)).split('\n')[0],
@@ -10504,8 +10625,9 @@ function renderTools() {
       if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Numbers copied — paste them into an email or a text'), () => toast('Select the numbers and copy'));
       return;
     }
-    if (e.target.closest('#calcPdf')) { shopPlanPDF([calcOpening(CALC)]); return; }
+    if (e.target.closest('#calcPdf')) { calcKeep(); shopPlanPDF([calcOpening(CALC)]); return; }
     if (e.target.closest('#calcNew')) {
+      calcKeep();
       const o = calcOpening(CALC), last = S.openings[S.openings.length - 1];
       o.id = uid(); o.mark = uniqueMark(last ? last.mark : '100') || '101';
       if (num(CALC.roW)) o.fieldVerify = true;
@@ -10545,6 +10667,81 @@ function renderTools() {
   $$('#toolsBody select[data-ck2="cfg"]').forEach(s2 => { s2.dataset.was = CALC.cfg; });
 }
 
+/* ---------- the calculator's own keypad on a phone: feet, inches and fractions, nudged a sixteenth at a time ---------- */
+const KP = { k: null, buf: '', fresh: true };
+const KP_FR = ['1/16', '1/8', '1/4', '3/8', '1/2', '5/8', '3/4', '7/8'];
+function kpEl() {
+  let el = $('#ckpad');
+  if (!el) {
+    el = document.createElement('div'); el.id = 'ckpad'; el.className = 'ckpad'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', 'Dimension keypad');
+    document.body.appendChild(el);
+    el.addEventListener('pointerdown', e => e.preventDefault());       // keep the field, no native keyboard
+    el.addEventListener('click', e => { const b = e.target.closest('[data-key]'); if (b) { buzz(); kpKey(b.dataset.key); } });
+  }
+  return el;
+}
+function kpFields() { return $$('#toolsBody [data-kp]').map(x => x.dataset.ck2); }
+function kpOpen(k) {
+  const inp = $('#c_' + k); if (!inp) return;
+  KP.k = k; KP.buf = inp.value; KP.fresh = true;
+  $$('#toolsBody [data-kp]').forEach(x => x.classList.toggle('kpon', x === inp));
+  const label = (inp.closest('.f') && inp.closest('.f').querySelector('label') || {}).textContent || k;
+  const last = kpFields().indexOf(k) === kpFields().length - 1;
+  kpEl().innerHTML = `
+    <div class="kphead"><span>${esc(label)}</span><b id="kpVal" class="mono">${esc(KP.buf || ' ')}</b><button type="button" data-key="done" class="kpdone">Done</button></div>
+    ${k === 'degree' ? '' : `<div class="kpfr">${KP_FR.map(f => `<button type="button" data-key="${f}">${f}</button>`).join('')}</div>`}
+    <div class="kpgrid">
+      ${['7', '8', '9'].map(d => `<button type="button" data-key="${d}">${d}</button>`).join('')}<button type="button" data-key="bk" class="kpfn" aria-label="Delete">⌫</button>
+      ${['4', '5', '6'].map(d => `<button type="button" data-key="${d}">${d}</button>`).join('')}<button type="button" data-key="ft" class="kpfn">ft&nbsp;′</button>
+      ${['1', '2', '3'].map(d => `<button type="button" data-key="${d}">${d}</button>`).join('')}<button type="button" data-key="clr" class="kpfn">Clear</button>
+      <button type="button" data-key="dn" class="kpfn">−1/16</button><button type="button" data-key="0">0</button><button type="button" data-key="up" class="kpfn">+1/16</button>
+      <button type="button" data-key="next" class="kpnext">${last ? 'Done' : 'Next ›'}</button>
+    </div>`;
+  document.body.classList.add('kpopen'); kpEl().classList.add('on');
+  setTimeout(() => inp.scrollIntoView({ block: 'center', behavior: 'smooth' }), 60);
+}
+function kpClose() {
+  if (!KP.k) return;
+  const inp = $('#c_' + KP.k);
+  if (inp) { const v = CALC[KP.k]; inp.value = v === '' ? '' : KP.k === 'degree' ? String(num(v)) : dimStr(num(v)); inp.classList.remove('kpon'); }
+  KP.k = null; document.body.classList.remove('kpopen'); const el = $('#ckpad'); if (el) el.classList.remove('on');
+  renderTools();
+}
+function kpKey(key) {
+  const k = KP.k; if (!k) return;
+  if (key === 'done') return kpClose();
+  if (key === 'next') { const fl = kpFields(), i = fl.indexOf(k); kpCommitShow(); if (i >= 0 && i < fl.length - 1) { const nk = fl[i + 1]; const inp = $('#c_' + k); if (inp) inp.classList.remove('kpon'); return kpOpen(nk); } return kpClose(); }
+  if (key === 'up' || key === 'dn') {
+    const v = Math.max(0, Math.round((num(CALC[k]) + (key === 'up' ? 1 : -1) / 16) * 16) / 16);
+    CALC[k] = v; KP.buf = dimStr(v); KP.fresh = false;
+  } else if (key === 'clr') { KP.buf = ''; CALC[k] = ''; KP.fresh = false; }
+  else if (key === 'bk') { KP.buf = KP.fresh ? '' : KP.buf.slice(0, -1).replace(/[\s-]+$/, ''); KP.fresh = false; }
+  else if (key === 'ft') { if (KP.fresh) KP.buf = ''; KP.buf = KP.buf.replace(/[\s'-]+$/, '') + "'-"; KP.fresh = false; }
+  else if (/\//.test(key)) { if (KP.fresh) KP.buf = ''; KP.buf = KP.buf.replace(/\s*\d+\/\d+"?$/, '').replace(/"$/, ''); KP.buf += (KP.buf && !/[-\s]$/.test(KP.buf) ? ' ' : '') + key; KP.fresh = false; }
+  else { if (KP.fresh) KP.buf = ''; KP.buf = KP.buf.replace(/"$/, '') + key; KP.fresh = false; }
+  if (key !== 'up' && key !== 'dn' && key !== 'clr') {
+    const t = KP.buf.trim();
+    if (!t) CALC[k] = ''; else { const p = parseDim(t.replace(/'-?$/, "'")); if (isFinite(p)) CALC[k] = k === 'degree' ? Math.min(180, p) : p; }
+  }
+  const inp = $('#c_' + k); if (inp) inp.value = KP.buf;
+  const vEl = $('#kpVal'); if (vEl) vEl.textContent = (KP.buf || ' ') + (CALC[k] !== '' && k !== 'degree' && KP.buf && dimStr(num(CALC[k])).replace(/"/g, '') !== KP.buf.replace(/"/g, '').trim() ? '  =  ' + dimStr(num(CALC[k])) : '');
+  renderCalcOut();
+}
+function kpCommitShow() { const inp = $('#c_' + KP.k); if (inp && CALC[KP.k] !== '') inp.value = KP.k === 'degree' ? String(num(CALC[KP.k])) : dimStr(num(CALC[KP.k])); }
+
+/* ---------- the calculations kept on this phone ---------- */
+const CALC_KEEP = 'takeoff:calcs';
+function calcRecent() { try { return JSON.parse(localStorage.getItem(CALC_KEEP) || '[]'); } catch (e) { return []; } }
+function calcKeep() {
+  const c = Object.assign({}, CALC); delete c.view; delete c.ptab;
+  const hole = ['roW', 'roW1', 'roW2', 'roW3'].map(k => num(c[k])).filter(Boolean);
+  const label = sizeCode(num(c.nomW), num(c.nomH)) + (calcPair(c) ? ' PR' : '') + ' ' + (c.wall || '') + (hole.length ? ' · ' + ftin(Math.min(...hole)) + ' hole' : '');
+  const d = new Date(), when = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) + ' ' + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+  const list = calcRecent().filter(r => JSON.stringify(r.calc) !== JSON.stringify(c));
+  list.unshift({ label, when, calc: c });
+  try { localStorage.setItem(CALC_KEEP, JSON.stringify(list.slice(0, 10))); } catch (e) {}
+}
+
 /** everything below the inputs: the drawing, the flags and the three blocks of numbers */
 function renderCalcOut() {
   const c = frameCalc(CALC), o = c.o, d = c.d, L = c.L, g = c.g;
@@ -10556,6 +10753,13 @@ function renderCalcOut() {
   const chip = (l, v, cls) => `<div class="cchip ${cls || ''}"><span>${esc(l)}</span><b>${esc(v)}</b></div>`;
   const need = c.masonry ? c.needMO : c.needRO;
   const lapCls = x => x == null ? '' : x < 0.25 ? 'bad' : (x < c.face - 0.5 || x > c.face + 0.25) ? 'warn' : 'good';
+  if (isPhone()) {
+    const nd = c.masonry ? 'MO' : 'RO';
+    const pr2 = (a, b2) => ftin(a).replace(/"$/, '') + '\u2009×\u2009' + ftin(b2).replace(/"$/, '');
+    $('#calcStrip').innerHTML = chip(nd, pr2(need.w, need.h), 'hi') + chip('Door', (c.pair ? '2@' : '') + pr2(c.netW, c.netH)) +
+      chip('Clear', inchStr(c.clear), c.clear >= 32 ? 'good' : 'bad') +
+      (c.jambFace != null ? chip('Face lap', dimStr(Math.max(0, c.jambFace)) + (c.headFace != null ? ' · ' + dimStr(Math.max(0, c.headFace)) : ''), lapCls(c.jambFace)) : chip('Frame O/A', pr2(c.outW, c.outH)));
+  } else
   $('#calcStrip').innerHTML = chip(c.masonry ? 'Masonry opening' : 'Rough opening', ftin(need.w) + ' x ' + ftin(need.h), 'hi') +
     chip('Frame O/A', ftin(c.outW) + ' x ' + ftin(c.outH)) +
     chip('Net leaf', (c.pair ? '2 @ ' : '') + ftin(c.netW) + ' x ' + ftin(c.netH)) +
@@ -11741,6 +11945,7 @@ function showView(name) {
   if (name === 'ref') renderRef();
   if (name === 'takeoff') { renderTable(); renderDetail(); }
   if (name === 'home') renderHome();
+  if (name !== 'tools' && typeof KP !== 'undefined' && KP.k) { KP.k = null; document.body.classList.remove('kpopen'); const kp = $('#ckpad'); if (kp) kp.classList.remove('on'); }
   closeMenus();
   try { sessionStorage.setItem('takeoff:view', name); } catch (e) {}
 }

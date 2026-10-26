@@ -4,6 +4,25 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## 2.5 — The frame calculator on a phone
+
+### Fixed
+- **Sizes could not be typed on a phone.** The fields opened the phone's number keyboard, which has no dash, slash or foot mark, so `3-0`, `36 1/2` and `3'-0"` could not be entered.
+- **The results were out of sight.** They sat about 2.5 screens below the inputs, and the page was 4.7 screens long.
+
+### New
+- **Dimension keypad:** digits, a foot key, fractions from 1/16 to 7/8, ±1/16 nudges, Clear, Next and Done. Every key updates the numbers, and the bottom bar slides away while the keypad is open.
+- **Results pinned at the top:** MO or RO, net door, clear width (green or red against 32"), and the face lap or frame overall.
+- **Door · Hole · Frame tabs**, each showing its current values, instead of one long page.
+- **One-tap sizes:** widths 2'-4" to 4'-0", pairs to 6'-8", heights 6'-8", 7'-0" and 8'-0".
+- **Measure at several points** (desktop and phone):
+  - Width at the top, middle and bottom; height at each jamb; both diagonals.
+  - The frame is sized to the smallest width and height.
+  - Out of plumb, out of level and out of square are flagged with the amount.
+- **Share the numbers** through the phone's share sheet, with the clipboard as a fallback.
+- **Recent:** *Keep this one* stores a calculation. Sharing, making the shop plan PDF or making a new opening keeps it too. The last ten are listed under *Recent* to load again.
+- **Larger action buttons** for touch.
+
 ## 2.4 — The phone
 
 ### New
