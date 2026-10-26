@@ -117,7 +117,7 @@ Toilet compartments and accessories, fire extinguishers and cabinets, lockers, s
 - **Excel workbook** and CSV exports of everything.
 
 ### Frame calculator
-For the phone call or the site visit:
+For the phone call or the site visit. On a phone it has its own dimension keypad (feet, fractions, ±1/16), keeps the answer pinned at the top, splits the inputs into Door · Hole · Frame tabs, measures the hole at several points (plumb, level and square checks), shares the numbers and keeps the last ten.
 - Measure the hole and choose the frame to see how much face laps the wall at each jamb and at the head.
 - Get the masonry or rough opening the frame needs and the net door size.
 - See the clear width and the maximum cut-off, with the recommended undercut for the floor.
