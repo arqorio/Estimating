@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Takeoff 2.3 — Doors, Frames, Hardware &amp; Specialties</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1b232b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Takeoff">
+<title>Takeoff 2.4 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -777,6 +782,90 @@ body.phone .psteps{grid-template-columns:1fr}
 .cand.on{border-color:var(--focus);box-shadow:inset 0 -2px 0 var(--focus);background:#f3f8fa}.cand:hover{border-color:var(--focus)}
 .spin{display:inline-block;width:11px;height:11px;margin-right:6px;border:2px solid var(--rule);border-top-color:var(--focus);border-radius:50%;animation:spin .8s linear infinite;vertical-align:-1px}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---- phone: home, cards, bar, touch ---- */
+html{-webkit-tap-highlight-color:transparent}
+#phoneList{display:none}
+#view-home .wrap{max-width:640px}
+body.phone{touch-action:manipulation;overscroll-behavior-y:none}
+body.phone button,body.phone .btn,body.phone a{touch-action:manipulation}
+body.phone #phoneList{display:flex;padding:8px 10px 90px}
+body.phone #tableWrap .sched{display:none}
+body.phone #tableWrap{padding:0}
+body.phone .main{-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+body.phone main{padding-bottom:calc(84px + env(safe-area-inset-bottom))}
+body.phone .top{padding-top:env(safe-area-inset-top);height:calc(50px + env(safe-area-inset-top))}
+body.phone [data-menu]{font-size:0;gap:0;padding:0 10px;min-width:40px;justify-content:center}
+body.phone [data-menu] .ic{width:19px;height:19px;margin:0}
+body.phone [data-menu] .ic:last-child{display:none}
+body.phone .cmdk{width:40px;flex:0 0 40px;padding:0;justify-content:center}
+body.phone .cmdk kbd,body.phone .cmdk span{display:none}
+body.phone .jobname{font-size:15px;font-weight:600}
+body.phone .card{overflow-x:auto;-webkit-overflow-scrolling:touch}
+body.phone .cols2,body.phone .cols3{grid-template-columns:minmax(0,1fr)!important}
+body.phone .cols2>*,body.phone .cols3>*,body.phone .g2>*,body.phone .g3>*,body.phone .g4>*{min-width:0}
+body.phone .card .chead{flex-wrap:wrap}
+body.phone .card .chead .hint{white-space:normal}
+body.phone .scrollx{-webkit-overflow-scrolling:touch}
+.plist{flex-direction:column;gap:8px}
+#view-home .plist{display:flex}
+.pcard{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"m t" "m g";align-items:center;gap:2px 12px;width:100%;text-align:left;
+  background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:11px 13px;font:inherit;color:inherit;cursor:pointer;
+  box-shadow:0 1px 2px rgba(20,30,40,.05);transition:transform .12s ease,box-shadow .12s ease;content-visibility:auto;contain-intrinsic-size:66px}
+.pcard:active{transform:scale(.985);box-shadow:none;background:#f6f8f7}
+.pcard.sel{border-color:var(--focus);box-shadow:inset 3px 0 0 var(--focus)}
+.pmark{grid-area:m;font-family:var(--mono);font-size:19px;font-weight:700;color:var(--ink);min-width:58px;line-height:1.1}
+.pmark em{display:block;font-style:normal;font-size:11px;font-weight:600;color:var(--steel)}
+.pmain{grid-area:t;min-width:0}.pmain b{display:block;font-size:14px;color:var(--ink);font-family:var(--mono);font-weight:600}
+.pmain span{display:block;font-size:12px;color:var(--steel);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptags{grid-area:g;display:flex;gap:5px;flex-wrap:wrap}
+.pt{font-style:normal;font-size:10.5px;font-weight:600;padding:2px 7px;border-radius:20px;background:#eef1f3;color:var(--ink2)}
+.pt.fire{background:var(--fire-bg);color:var(--fire)}.pt.warn{background:var(--signal-bg);color:var(--signal)}.pt.bad{background:var(--fire);color:#fff}
+.plmore{text-align:center;color:var(--steel);font-size:12px;padding:14px}
+/* home */
+.hjob{background:linear-gradient(150deg,#1b232b,#24343f);color:#e8edf1;border-radius:16px;padding:16px 16px 14px;margin-bottom:12px;box-shadow:0 8px 24px rgba(20,30,40,.18)}
+.hj1{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hjno{font-family:var(--mono);font-size:11.5px;color:#9fb2bf;letter-spacing:.04em}
+.hbid{font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.1);color:#cfe2ea}.hbid.hot{background:#c07f00;color:#fff}
+.hjob h1{margin:6px 0 2px;font-size:21px;line-height:1.2;color:#fff}
+.hcust{font-size:12.5px;color:#9fb2bf}
+.htotal{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:8px;margin-top:14px}
+.htotal span{display:block;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:#9fb2bf}
+.htotal b{display:block;font-family:var(--mono);font-size:20px;color:#fff;margin-top:2px}
+.hbar{display:flex;height:7px;border-radius:5px;overflow:hidden;margin-top:12px;gap:2px}.hbar i{display:block}
+.hlegend{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:7px;font-size:11px;color:#b9c8d2}.hlegend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+.hissue{display:flex;gap:12px;align-items:center;width:100%;text-align:left;border-radius:12px;padding:12px 14px;margin-bottom:12px;border:1px solid;font:inherit;cursor:pointer}
+.hissue>div{flex:1}.hissue b{display:block;font-size:14px}.hissue span{font-size:12px;opacity:.85}.hissue .ic{width:20px;height:20px;flex:none}
+.hissue.bad{background:var(--fire-bg);border-color:var(--fire-line);color:var(--fire)}.hissue.warn{background:var(--signal-bg);border-color:var(--signal-line);color:#7a5100}
+.hissue.ok{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok)}
+.htiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.htile{display:flex;flex-direction:column;align-items:flex-start;gap:3px;background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:12px 11px;text-align:left;font:inherit;color:var(--ink);cursor:pointer;min-height:92px;transition:transform .12s ease}
+.htile:active{transform:scale(.96)}
+.htile .ic{width:22px;height:22px;color:var(--focus);margin-bottom:4px}.htile b{font-size:13px;line-height:1.2}.htile span{font-size:10.5px;color:var(--steel);line-height:1.25}
+.htile.prime{background:var(--focus);border-color:var(--focus);color:#fff}.htile.prime .ic,.htile.prime span{color:#d6e6ee}
+.hrings{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.hring{display:flex;flex-direction:column;align-items:center;text-align:center;background:var(--panel);border:1px solid var(--rule);border-radius:12px;padding:12px 6px}
+.hring i{--p:0;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--ok) calc(var(--p)*1%),#e6eaec 0)}
+.hring i b{width:44px;height:44px;border-radius:50%;background:var(--panel);display:grid;place-items:center;font-family:var(--mono);font-size:12.5px;color:var(--ink)}
+.hring span{font-size:12px;font-weight:600;margin-top:7px;color:var(--ink)}.hring em{font-style:normal;font-size:10.5px;color:var(--steel)}
+.hsec{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 8px}.hsec h2{margin:0;font-size:15px}
+/* bottom bar with the add button raised */
+body.phone .phonebar{padding-bottom:env(safe-area-inset-bottom);background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(12px);-webkit-backdrop-filter:saturate(1.4) blur(12px)}
+body.phone .phonebar button{position:relative;transition:color .15s ease}
+body.phone .phonebar button.on::before{content:"";position:absolute;top:0;left:30%;right:30%;height:3px;border-radius:0 0 3px 3px;background:var(--accent)}
+body.phone .phonebar button.fab{align-self:start;margin:-18px auto 0;width:56px;height:56px;border-radius:50%;background:var(--focus);color:#fff;
+  box-shadow:0 6px 18px rgba(28,89,117,.45);justify-content:center;padding:0;transition:transform .12s ease}
+body.phone .phonebar button.fab .ic{width:26px;height:26px}
+body.phone .phonebar button.fab:active{transform:scale(.92)}
+body.phone .phonebar button:active .ic{transform:scale(.9)}
+/* the opening slides in, the sheet slides up */
+body.phone .detail{display:flex;transform:translateX(104%);visibility:hidden;transition:transform .22s cubic-bezier(.2,.8,.2,1),visibility 0s linear .22s;overscroll-behavior:contain;padding-bottom:env(safe-area-inset-bottom)}
+body.phone .detail .dbody,body.phone .detail>div:last-child{padding-bottom:calc(86px + env(safe-area-inset-bottom))}
+body.phone.detailopen .detail{transform:none;visibility:visible;transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+body.phone .psheet{padding-bottom:calc(18px + env(safe-area-inset-bottom));overscroll-behavior:contain;transition:transform .24s cubic-bezier(.2,.8,.2,1)}
+body.phone .psheet::before{content:"";display:block;width:38px;height:4px;border-radius:3px;background:var(--rule);margin:-6px auto 10px}
+body.phone .dtabs{position:sticky;top:0;z-index:3;background:var(--panel)}
+@media (prefers-reduced-motion:reduce){body.phone .detail,body.phone .psheet,.pcard,.htile{transition:none}}
 /* calculator */
 .calcwrap{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.25fr);gap:14px;align-items:start}
 .calcin .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
@@ -874,6 +963,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M3.5 11 12 4l8.5 7"/><path d="M6 9.5V20h4.5v-5.5h3V20H18V9.5"/></symbol>
   <symbol id="i-door" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M6 21V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17"/><path d="M14.5 12.5v.01"/></symbol>
   <symbol id="i-brief" viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8.5 7V5.5A1.5 1.5 0 0 1 10 4h4a1.5 1.5 0 0 1 1.5 1.5V7M3 12.5h18"/></symbol>
   <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4"/><path d="M10.5 12.5L20 3M16 7l3 3M13.5 9.5l2 2"/></symbol>
@@ -1038,6 +1128,17 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <!-- ============ GUIDE ============ -->
 <section class="view" id="view-guide">
   <div class="guide">
+  <div class="card">
+    <h2>What 2.4 adds — the phone</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Home</b> — opens first on a phone: the job, its total and how it splits, what needs a look (tap to go to it), six big buttons for the things done on site — add an opening, size a frame, find a door, plans, the quote PDF, save the job — how far the job is (hardware, checks, on a plan) and the latest openings.</li>
+      <li><b>Openings as cards</b> — mark, size, type and hand, the rooms, the rating, the set and any issue, drawn a screenful at a time so long jobs scroll smoothly. Tap one to open it; it slides in.</li>
+      <li><b>Gestures</b> — swipe across an opening's header for the next or previous door, swipe in from the left edge to close it.</li>
+      <li><b>Bottom bar</b> — Home, Openings, a raised + to add a door, Calc, More. The top bar keeps the job name and puts search, file and export on icons.</li>
+      <li><b>Fits the screen</b> — every page, wide tables scroll inside their card, two column layouts stack; the iPhone notch and home bar are kept clear; a phone held sideways keeps the phone layout.</li>
+      <li><b>Smoother</b> — no tap delay, a press response on every button, and a change to an opening no longer redraws the whole list behind it: on a slow phone with 300 openings a change went from over a second to about a quarter of a second.</li>
+    </ul>
+  </div>
   <div class="card">
     <h2>What 2.3 adds — finding and reading the door schedule</h2>
     <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
@@ -1470,6 +1571,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 
   <div class="split" id="split">
     <div class="tablepane">
+      <div class="plist" id="phoneList"></div>
       <div class="tablewrap" id="tableWrap">
         <table class="sched" id="schedTable">
           <thead><tr id="schedHead"></tr></thead>
@@ -1576,6 +1678,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 </section>
 
 <!-- ============ REFERENCE ============ -->
+<section class="view" id="view-home"><div class="wrap" id="homeBody"></div></section>
 <section class="view" id="view-tools"><div class="wrap" id="toolsBody"></div></section>
 <section class="view" id="view-shop"><div class="wrap" id="shopBody"></div></section>
 <section class="view" id="view-clients"><div class="wrap" id="clientsBody"></div></section>
@@ -1626,11 +1729,11 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <div class="pscrim" id="pScrim"></div>
 <div class="psheet" id="pSheet" role="dialog" aria-label="Quick add"></div>
 <nav class="phonebar" id="phoneBar" aria-label="Quick access">
-  <button data-pv="tools"><svg class="ic"><use href="#i-table"/></svg><span>Calc</span></button>
+  <button data-pv="home"><svg class="ic"><use href="#i-home"/></svg><span>Home</span></button>
   <button data-pv="takeoff"><svg class="ic"><use href="#i-door"/></svg><span>Openings</span></button>
-  <button data-pv="add"><svg class="ic"><use href="#i-plus"/></svg><span>Add</span></button>
-  <button data-pv="find"><svg class="ic"><use href="#i-search"/></svg><span>Find</span></button>
-  <button data-pv="menu"><svg class="ic"><use href="#i-menu"/></svg><span>Menu</span></button>
+  <button data-pv="add" class="fab" aria-label="Add an opening"><svg class="ic"><use href="#i-plus"/></svg></button>
+  <button data-pv="tools"><svg class="ic"><use href="#i-table"/></svg><span>Calc</span></button>
+  <button data-pv="menu"><svg class="ic"><use href="#i-menu"/></svg><span>More</span></button>
 </nav>
 
 <script>
@@ -3564,6 +3667,9 @@ function renderFilterChips() {
 }
 
 function renderTable() {
+  /* on a phone the list sits under the open opening: draw it when the opening is closed, not on every edit */
+  if (isPhone() && document.body.classList.contains('detailopen')) { PHONE_DIRTY = true; updateChrome(); return; }
+  if (isPhone()) { const rows = visibleOpenings(); renderPhoneList(rows); $('#emptyState').style.display = rows.length ? 'none' : 'block'; renderFilterChips(); renderSelBar(); updateChrome(); return; }
   const rows = visibleOpenings(), cols = shownCols();
   const arrow = c => PREFS.sort.k === c.k ? `<span class="sa">${PREFS.sort.dir > 0 ? '▲' : '▼'}</span>` : '';
   $('#schedHead').innerHTML = '<th class="selcell"><input type="checkbox" id="selAll" title="Select all shown" ' +
@@ -3607,7 +3713,12 @@ function renderSelBar() {
 }
 
 /* the job numbers that sit in the top bar and beside each step in the sidebar */
+let CHROME_RAF = 0;
 function updateChrome() {
+  if (CHROME_RAF) return;
+  CHROME_RAF = requestAnimationFrame(() => { CHROME_RAF = 0; updateChromeNow(); if (S.view === 'home' && isPhone()) renderHome(); });
+}
+function updateChromeNow() {
   const ops = S.openings;
   const n = ops.reduce((a, o) => a + num(o.qty), 0);
   const leaves = ops.reduce((a, o) => a + derive(o).leaves * num(o.qty), 0);
@@ -9725,20 +9836,23 @@ function shopSheets(ops) {
    a quick add sheet, so a frame can be worked out or an opening
    looked up while standing in front of the job.
    ============================================================ */
-const PHONE_Q = window.matchMedia ? window.matchMedia('(max-width: 760px)') : null;
+const PHONE_Q = window.matchMedia ? window.matchMedia('(max-width: 760px), (pointer: coarse) and (max-height: 500px)') : null;
 function phoneOn() {
   const forced = /[?&]phone=1/.test(location.search);
   return forced || (PHONE_Q ? PHONE_Q.matches : false);
 }
 function applyPhone() {
   const on = phoneOn();
+  const was = document.body.classList.contains('phone');
   document.body.classList.toggle('phone', on);
+  if (on && !was && !applyPhone.done && (S.view === 'takeoff' || S.view === 'guide' || !S.view)) { applyPhone.done = true; showView('home'); }
+  if (on !== was && S.view === 'takeoff') renderTable();
   if (!on) { document.body.classList.remove('navopen'); closeSheet(); }
   syncPhoneBar();
 }
 function syncPhoneBar() {
   $$('#phoneBar [data-pv]').forEach(b => b.classList.toggle('on',
-    (b.dataset.pv === 'tools' && S.view === 'tools') || (b.dataset.pv === 'takeoff' && S.view === 'takeoff')));
+    b.dataset.pv === S.view));
 }
 function openSheet(html) {
   const sh = $('#pSheet'); sh.innerHTML = html;
@@ -9828,13 +9942,113 @@ function phoneMenuSheet() {
   };
 }
 
+/* ============================================================
+   PHONE HOME — the job at a glance and the six things done most on
+   site: add a door, size a frame, find a door, read the plans, send
+   the quote, keep a copy. Opens first on a phone.
+   ============================================================ */
+const isPhone = () => document.body.classList.contains('phone');
+const buzz = () => { try { navigator.vibrate && navigator.vibrate(8); } catch (e) {} };
+
+function renderHome() {
+  const box = $('#homeBody'); if (!box) return;
+  const ops = S.openings, pr = S.project, T = jobTotals();
+  const n = ops.reduce((a, o) => a + num(o.qty), 0), leaves = ops.reduce((a, o) => a + derive(o).leaves * num(o.qty), 0);
+  const ck = ops.map(o => checks(o)), errs = ck.filter(c => c.some(x => x.lvl === 'e')).length, warns = ck.filter(c => !c.some(x => x.lvl === 'e') && c.some(x => x.lvl === 'w')).length;
+  const doors = ops.filter(o => derive(o).leaves);
+  const withSet = doors.filter(o => o.hwSet && S.sets.some(s => s.id === o.hwSet)).length;
+  const onPlan = ops.filter(o => o.planRef && o.planRef.x != null).length;
+  const clean = ops.length - errs;
+  const pct = (a, b) => b ? Math.round(a / b * 100) : 0;
+  let bid = '';
+  if (pr.bidDate) { const d = Math.ceil((new Date(pr.bidDate + 'T12:00') - new Date()) / 864e5); bid = d > 1 ? 'Bid in ' + d + ' days' : d === 1 ? 'Bid tomorrow' : d === 0 ? 'Bid today' : 'Bid was ' + (-d) + ' days ago'; }
+  const cat = [['Frames', T.frame ? T.frame.sell : 0, '#1c5975'], ['Doors', T.door ? T.door.sell : 0, '#5a8fa8'], ['Hardware', T.hw ? T.hw.sell : 0, '#c07f00'], ['Div 10', T.div10 ? T.div10.sell : 0, '#7a5ea8']].filter(x => x[1] > 0);
+  const catTot = cat.reduce((a, x) => a + x[1], 0) || 1;
+  const ring = (p, label, sub) => `<div class="hring"><i style="--p:${p}"><b>${p}%</b></i><span>${esc(label)}</span><em>${esc(sub)}</em></div>`;
+  const tile = (act, icon, label, sub, cls) => `<button type="button" class="htile ${cls || ''}" data-home="${act}">${ic(icon)}<b>${esc(label)}</b><span>${esc(sub)}</span></button>`;
+  const recent = ops.slice(-5).reverse();
+  box.innerHTML = `
+    <div class="hjob">
+      <div class="hj1"><span class="hjno">${esc(pr.jobNo || 'No job number')}</span>${bid ? `<span class="hbid ${/today|tomorrow|ago/.test(bid) ? 'hot' : ''}">${esc(bid)}</span>` : ''}</div>
+      <h1>${esc(pr.job || 'Untitled job')}</h1>
+      <div class="hcust">${esc([pr.customer, pr.address].filter(Boolean).join(' · ') || 'Tap Job info to add the customer and address')}</div>
+      <div class="htotal"><div><span>Quoted total</span><b>${money(T.total)}</b></div><div><span>Openings</span><b>${n}</b></div><div><span>Leaves</span><b>${leaves}</b></div></div>
+      ${cat.length ? `<div class="hbar">${cat.map(x => `<i style="flex:${x[1] / catTot};background:${x[2]}"></i>`).join('')}</div>
+        <div class="hlegend">${cat.map(x => `<span><i style="background:${x[2]}"></i>${x[0]} ${money(x[1])}</span>`).join('')}</div>` : ''}
+    </div>
+    ${ops.length ? `<button type="button" class="hissue ${errs ? 'bad' : warns ? 'warn' : 'ok'}" data-home="issue">
+      ${ic(errs || warns ? 'alert' : 'check')}<div><b>${errs ? plural(errs, 'opening') + ' with an error' : warns ? plural(warns, 'opening') + ' to look at' : 'Every opening passes the checks'}</b>
+      <span>${errs || warns ? 'Tap to go to the next one' : 'Rated, sized, anchored and prepped'}</span></div>${errs || warns ? ic('chev-right') : ''}</button>` : ''}
+    <div class="htiles">
+      ${tile('add', 'plus', 'Add opening', 'Size, type, hand, set', 'prime')}
+      ${tile('calc', 'table', 'Size a frame', 'Hole, face, door, swing')}
+      ${tile('find', 'search', 'Find a door', 'Mark, room or set')}
+      ${tile('plans', 'pin', 'Plans', 'Schedule, tags, count')}
+      ${tile('quote', 'download', 'Quote PDF', money(T.total))}
+      ${tile('save', 'save', 'Save job file', 'Keep or share a copy')}
+    </div>
+    ${ops.length ? `<div class="hrings">${ring(pct(withSet, doors.length), 'Hardware', withSet + ' of ' + doors.length + ' doors')}${ring(pct(clean, ops.length), 'Checks clear', clean + ' of ' + ops.length)}${ring(pct(onPlan, ops.length), 'On a plan', onPlan + ' of ' + ops.length)}</div>` : ''}
+    ${recent.length ? `<div class="hsec"><h2>Latest openings</h2><button type="button" class="btn sm ghost" data-home="all">All ${ops.length}${ic('chev-right')}</button></div>
+      <div class="plist">${recent.map(pcardHtml).join('')}</div>`
+      : `<div class="card empty"><h3>No openings yet</h3><p>Add the first door, or open the drawings on <b>Plans</b> and read the door schedule.</p></div>`}`;
+}
+
+/** one opening as a card: what an estimator reads first on a small screen */
+function pcardHtml(o) {
+  const d = derive(o), ck = checks(o), e = ck.filter(c => c.lvl === 'e').length, w = ck.filter(c => c.lvl === 'w').length;
+  const rated = o.fire && o.fire !== 'NR';
+  return `<button type="button" class="pcard ${o.id === S.selId ? 'sel' : ''}" data-pid="${o.id}">
+    <span class="pmark">${esc(o.mark || '—')}${num(o.qty) > 1 ? `<em>×${num(o.qty)}</em>` : ''}</span>
+    <span class="pmain"><b>${esc(sizeCode(d.nomW, d.nomH))} ${esc(o.config)}${d.leaves ? ' · ' + esc(o.hand) : ''}</b>
+      <span>${esc([o.roomFrom, o.roomTo].filter(Boolean).join(' → ') || [o.doorMat, o.frameType, o.wall].filter(Boolean).join(' · '))}</span></span>
+    <span class="ptags">${rated ? `<i class="pt fire">${esc(ratingStr(o))}</i>` : ''}${o.hwSet ? `<i class="pt">${esc(o.hwSet)}</i>` : d.leaves ? '<i class="pt warn">no set</i>' : ''}${e ? `<i class="pt bad">${e} ⚠</i>` : w ? `<i class="pt warn">${w}</i>` : ''}</span>
+  </button>`;
+}
+
+/* the openings list on a phone: cards, drawn a screenful at a time */
+let PLIST_N = 0, PLIST_IO = null;
+function renderPhoneList(rows) {
+  const box = $('#phoneList'); if (!box) return;
+  PLIST_N = Math.min(rows.length, Math.max(PLIST_N, 40));
+  const more = () => {
+    const extra = rows.slice(PLIST_N, PLIST_N + 60); PLIST_N += extra.length;
+    const s = $('#plistMore'); if (s) s.insertAdjacentHTML('beforebegin', extra.map(pcardHtml).join(''));
+    if (PLIST_N >= rows.length && s) s.remove();
+  };
+  box.innerHTML = rows.slice(0, PLIST_N).map(pcardHtml).join('') + (PLIST_N < rows.length ? `<div id="plistMore" class="plmore">${rows.length - PLIST_N} more…</div>` : '');
+  if (PLIST_IO) PLIST_IO.disconnect();
+  const s = $('#plistMore');
+  if (s && 'IntersectionObserver' in window) { PLIST_IO = new IntersectionObserver(es => { if (es.some(x => x.isIntersecting)) more(); }, { rootMargin: '600px' }); PLIST_IO.observe(s); }
+}
+
+/* swipes: across the opening header steps to the next or previous door, from the left edge closes it */
+function bindPhoneGestures() {
+  const det = $('#detail'); if (!det) return;
+  let x0 = 0, y0 = 0, t0 = 0, edge = false, head = false;
+  det.addEventListener('touchstart', e => { const t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; t0 = Date.now(); edge = x0 < 28; head = !!e.target.closest('.dhead'); }, { passive: true });
+  det.addEventListener('touchend', e => {
+    if (!isPhone()) return;
+    const t = e.changedTouches[0], dx = t.clientX - x0, dy = t.clientY - y0;
+    if (Date.now() - t0 > 600 || Math.abs(dy) > 45) return;
+    if (edge && dx > 70) { closePhoneDetail(); return; }
+    if (head && Math.abs(dx) > 60) { buzz(); stepOpening(dx < 0 ? 1 : -1); }
+  }, { passive: true });
+}
+function closePhoneDetail() {
+  $('#detail').classList.remove('open'); document.body.classList.remove('detailopen');
+  if (PHONE_DIRTY) { PHONE_DIRTY = false; renderTable(); }
+}
+let PHONE_DIRTY = false;
+
+
 document.addEventListener('DOMContentLoaded', () => {
   if (PHONE_Q && PHONE_Q.addEventListener) PHONE_Q.addEventListener('change', applyPhone);
   const bar = $('#phoneBar');
   if (bar) bar.onclick = e => {
     const b = e.target.closest('[data-pv]'); if (!b) return;
     const v = b.dataset.pv;
-    document.body.classList.remove('detailopen');
+    if (document.body.classList.contains('detailopen')) closePhoneDetail();
+    buzz();
     if (v === 'add') return phoneAddSheet();
     if (v === 'find') return phoneFindSheet('');
     if (v === 'menu') return phoneMenuSheet();
@@ -11526,6 +11740,7 @@ function showView(name) {
   if (name === 'project') renderProject();
   if (name === 'ref') renderRef();
   if (name === 'takeoff') { renderTable(); renderDetail(); }
+  if (name === 'home') renderHome();
   closeMenus();
   try { sessionStorage.setItem('takeoff:view', name); } catch (e) {}
 }
@@ -11996,7 +12211,17 @@ function bindEvents() {
   $('#dNext').onclick = () => stepOpening(1);
   $('#dDup').onclick = () => S.selId && duplicateOpenings([S.selId]);
   $('#dDel').onclick = () => S.selId && deleteOpenings([S.selId]);
-  $('#closeDetail').onclick = () => { $('#detail').classList.remove('open'); document.body.classList.remove('detailopen'); };
+  $('#closeDetail').onclick = closePhoneDetail;
+  $('#phoneList').addEventListener('click', e => { const c = e.target.closest('[data-pid]'); if (c) { buzz(); selectOpening(c.dataset.pid); } });
+  $('#homeBody').addEventListener('click', e => {
+    const c = e.target.closest('[data-pid]'); if (c) { selectOpening(c.dataset.pid); return; }
+    const b = e.target.closest('[data-home]'); if (!b) return; buzz();
+    const a = b.dataset.home;
+    if (a === 'add') phoneAddSheet(); else if (a === 'calc') showView('tools'); else if (a === 'find') phoneFindSheet('');
+    else if (a === 'plans') showView('import'); else if (a === 'quote') runCmd('quotePdf'); else if (a === 'save') runCmd('save');
+    else if (a === 'all') showView('takeoff'); else if (a === 'issue') { showView('takeoff'); nextFlag(); }
+  });
+  bindPhoneGestures();
   $('#detail').addEventListener('change', onFieldChange);
   $('#formBox').addEventListener('toggle', e => {
     const dt = e.target; if (!dt.matches || !dt.matches('details.sec')) return;
@@ -13510,7 +13735,7 @@ let firstRun = false;
   let view = 'takeoff';
   try { view = sessionStorage.getItem('takeoff:view') || 'takeoff'; } catch (e) {}
   if (!NAV.some(n => n[0] === view)) view = 'takeoff';
-  showView(firstRun ? 'guide' : view);
+  { const v0 = firstRun ? 'guide' : view; showView(phoneOn() && (v0 === 'guide' || v0 === 'takeoff') ? 'home' : v0); }
   updateChrome();
   saveState(false);
 })();

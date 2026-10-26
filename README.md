@@ -163,7 +163,8 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
 
 ## Requirements and limits
 
-- **Browsers:** current Chrome, Edge or Safari (desktop). Firefox works but is less tested. The app also has a phone layout for looking up openings and using the calculator in the field.
+- **Browsers:** current Chrome, Edge or Safari. Firefox works but is less tested.
+- **On a phone:** the app opens on a Home screen with the job total, issues, six quick actions and the latest openings. Openings show as cards; swipe across one to step to the next door. The bottom bar has a raised **+** to add a door. On iPhone, *Share › Add to Home Screen* puts it on the home screen like an app.
 - **Internet:** only the first time a PDF is opened, to fetch pdf.js.
 - **Scanned drawings:** a PDF with no text layer cannot be read automatically, because there is no OCR yet. Count those doors by clicking on the plan.
 - **Single user:** there is no server and no shared database. Jobs are files.

@@ -4,6 +4,29 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## 2.4 — The phone
+
+### New
+- **Home screen**, the first screen on a phone:
+  - Job card with the bid-date countdown, quoted total, openings, leaves and the split by category.
+  - The issues, with a tap to the next one.
+  - Six quick actions: add opening, size a frame, find a door, plans, quote PDF and save the job.
+  - Progress rings for hardware assigned, checks clear and doors placed on a plan.
+  - The latest openings.
+- **Openings as cards:** mark, size, type, hand, rooms, rating, set and issues. Cards are drawn a screenful at a time as you scroll.
+- **Gestures:** swipe across an opening's header for the next or previous door; swipe in from the left edge to close it. The opening slides in, and sheets slide up with a grab handle.
+- **Bottom bar:** Home · Openings · a raised **+** · Calc · More, with an active indicator and a light vibration on tap where the phone supports it.
+- **Compact top bar:** the job name gets the room; search, file and export become icons.
+- **Install support:** theme color and add-to-home-screen tags; the notch and home indicator areas are kept clear (`viewport-fit=cover`, safe-area insets).
+
+### Fixed
+- **Tables overflowing:** on Keying, Purchasing and the Recap, the tables and two-column layouts ran off the screen with no way to scroll. Wide tables now scroll inside their card, and two-column layouts stack.
+- **Openings list:** the phone showed the desktop table cut off at the edge.
+- **The job name** was cut to a few letters by the File, Export and search buttons.
+- **Sideways phones:** a phone held sideways switched to the desktop layout.
+- **Slow changes:** every change to an opening redrew the full openings list hidden behind it. The list now redraws when the opening is closed, and the top bar updates once per frame. On a phone with the CPU slowed 4× and 300 openings, a change went from 1.0–1.4 s to about 0.25 s, and the list draw from 1.0 s to 0.19 s.
+- **Tap delay:** removed the double-tap delay and added a press response to buttons and cards.
+
 ## 2.3 — Finding and reading the door schedule
 
 ### Fixed
