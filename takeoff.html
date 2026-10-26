@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Takeoff">
-<title>Takeoff 2.5 — Doors, Frames, Hardware &amp; Specialties</title>
+<title>Takeoff 2.6 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -920,6 +920,17 @@ body.phone [data-kp].kpon{border-color:var(--focus);box-shadow:0 0 0 3px rgba(28
 body.kpopen main{padding-bottom:360px!important}
 body.kpopen .phonebar{transform:translateY(110%)}
 body.phone .phonebar{transition:transform .2s ease}
+.rvstats .stat{padding:12px 14px}.rvstats .stat b{display:block;font-family:var(--mono);font-size:24px;color:var(--ink)}.rvstats .stat b.bad{color:var(--fire)}.rvstats .stat span{font-size:12px;color:var(--steel)}
+.rvrow{border-left:3px solid var(--rule);padding:8px 0 8px 12px;margin:8px 0}
+.rvrow.e{border-left-color:var(--fire)}.rvrow.w{border-left-color:var(--signal)}.rvrow.i{border-left-color:#8aa3b3}
+.rvt{display:flex;gap:8px;align-items:flex-start;flex-wrap:wrap}.rvt>b{flex:1 1 300px}.rvt .ic{flex:none;margin-top:2px}
+.rvrow.e .rvt .ic{color:var(--fire)}.rvrow.w .rvt .ic{color:var(--signal)}
+.rvm{display:flex;gap:4px;flex-wrap:wrap;flex-basis:100%;padding-left:24px}.rvm .chip{cursor:pointer;font-family:var(--mono)}
+.rvq{display:flex;gap:8px;align-items:flex-start;margin:6px 0 0 24px;padding:8px 10px;background:#f5f7f6;border-radius:6px;font-size:12.5px;color:var(--ink2)}.rvq span{flex:1}
+.rvchg{margin:6px 0 0 24px;font-size:12px;line-height:1.6}.rvchg s{color:var(--mute)}
+.rvh{font-size:13px;margin:14px 0 4px}
+.rvreq{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;padding:6px 0;border-bottom:1px solid var(--rule2);font-size:12.5px}.rvreq em{font-style:normal;font-size:10.5px;color:var(--steel);white-space:nowrap}
+body.phone .rvreq{grid-template-columns:auto 1fr}body.phone .rvreq em{grid-column:2}
 /* calculator */
 .calcwrap{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.25fr);gap:14px;align-items:start}
 .calcin .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
@@ -1158,6 +1169,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
   </div>
   <div class="navgrp"><div class="navh">Review</div>
     <button class="nav" role="tab" data-view="sheet" title="Takeoff sheet"><svg class="ic"><use href="#i-table"/></svg><span>Takeoff sheet</span><em class="nb" id="nb-sheet"></em></button>
+    <button class="nav" role="tab" data-view="review" title="Coordination review: schedule, plans, hardware, spec"><svg class="ic"><use href="#i-listcheck"/></svg><span>Coordination</span><em class="nb" id="nb-review"></em></button>
     <button class="nav" role="tab" data-view="summary" title="Recap"><svg class="ic"><use href="#i-chart"/></svg><span>Recap</span><em class="nb" id="nb-summary"></em></button>
     <button class="nav" role="tab" data-view="purchasing" title="Purchase orders by vendor"><svg class="ic"><use href="#i-cart"/></svg><span>Purchasing</span><em class="nb" id="nb-purchasing"></em></button>
     <button class="nav" role="tab" data-view="shop" title="Shop production"><svg class="ic"><use href="#i-blueprint"/></svg><span>Shop</span><em class="nb" id="nb-shop"></em></button>
@@ -1182,6 +1194,16 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <!-- ============ GUIDE ============ -->
 <section class="view" id="view-guide">
   <div class="guide">
+  <div class="card">
+    <h2>What 2.6 adds — ideas from MeltPlan, for doors</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Coordination review</b> (Review › Coordination) — the schedule against the hardware sets and the plans, electrified hardware against the frame and door preps, rated doors against their closers and latches and against the wall they sit in, duplicate marks and what the last addendum changed. Every finding names the doors and copies out as a question for the architect; <i>Copy all as questions</i> and CSV.</li>
+      <li><b>Requirements in the specification</b> — reading the hardware sets on <i>Plans</i> also reads the Division 08 and 10 sentences that cost money: basis of design and substitutions, AHC/BHMA/UL, submittals, keying and cores, warranties, extra stock, inspection and testing, furnished only or by others, electrified work, delivery and finishes. Tick them to carry them into the quotation.</li>
+      <li><b>Door rating from the wall</b> — set the wall an opening sits in and its rating, and the door is checked against IBC Table 716.1(2).</li>
+      <li><b>Addendum compare</b> — reading the schedule again records what changed on each door.</li>
+      <li><b>Qualifications from the job</b> — one click writes inclusions, exclusions and notes into the quotation from what the job actually holds.</li>
+    </ul>
+  </div>
   <div class="card">
     <h2>What 2.5 adds — the frame calculator in the field</h2>
     <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
@@ -1742,6 +1764,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 </section>
 
 <!-- ============ REFERENCE ============ -->
+<section class="view" id="view-review"><div class="wrap" id="reviewBody"></div></section>
 <section class="view" id="view-home"><div class="wrap" id="homeBody"></div></section>
 <section class="view" id="view-tools"><div class="wrap" id="toolsBody"></div></section>
 <section class="view" id="view-shop"><div class="wrap" id="shopBody"></div></section>
@@ -2086,6 +2109,7 @@ function hwLoc(o) {
 }
 
 const OTHER = ['OTHER', 'OTHER \u2014 specify below'];
+const WALL_USE_OPTS = [['', '—'], ['FW', 'Fire wall'], ['FB', 'Fire barrier'], ['SH', 'Shaft or exit enclosure, exit passageway'], ['CORR', 'Corridor (fire partition)'], ['FP', 'Other fire partition'], ['SB', 'Smoke barrier'], ['EXT', 'Exterior wall']];
 const O = {
   category: [['INT','INT — interior'],['EXT','EXT — exterior']],
   config: [
@@ -2229,6 +2253,8 @@ const O = {
   stop: [['5/8','5/8 in — standard'],['1/2','1/2 in'],['3/4','3/4 in']],
   thickness: [['1-3/4','1-3/4 in — standard'],['1-3/8','1-3/8 in'],['2','2 in']],
   slQty: [['1','1 — one side'],['2','2 — both sides']],
+  wallUse: WALL_USE_OPTS,
+  wallRating: [['','—'],['0.5','1/2 hr'],['1','1 hr'],['1.5','1-1/2 hr'],['2','2 hr'],['3','3 hr'],['4','4 hr']],
   vlSide: [['','Standard for the design'],['CENTER','Centred on the leaf'],['LOCK','Lock side'],['HINGE','Hinge side']],
   vlQty: [['1','1 lite'],['2','2 lites, stacked'],['3','3 lites, stacked'],['4','4 lites, stacked']],
   degree: [['90','90\u00b0'],['95','95\u00b0'],['105','105\u00b0'],['110','110\u00b0'],['120','120\u00b0'],['135','135\u00b0'],['180','180\u00b0']],
@@ -2446,6 +2472,8 @@ const SECTIONS = [
     { k:'label', l:'Label class', t:'sel', o:'label', d:'' },
     { k:'tempRise', l:'Temperature rise', t:'sel', o:'tempRise', d:'' },
     { k:'smoke', l:'Smoke & draft (S label)', t:'chk' },
+    { k:'wallUse', l:'Wall it sits in', t:'sel', o:'wallUse', d:'', help:'With the wall rating, checks the door rating against IBC Table 716.1(2)' },
+    { k:'wallRating', l:'Wall rating', t:'sel', o:'wallRating', d:'', showIf:o => !!o.wallUse },
     { k:'posPressure', l:'Positive pressure Cat. A', t:'chk' },
     { k:'stc', l:'STC rating', t:'num', d:0 },
     { k:'ada', l:'Accessible opening (ADA)', t:'chk' },
@@ -2770,6 +2798,11 @@ function checks(o) {
     a.push({ lvl:'e', t:'No strike', m:'Latching lockset with no strike prep in the frame.' });
   if (d.nomH > 90 && d.hinges === 3)
     a.push({ lvl:'w', t:'Hinge count', m:'Doors over 7 ft 6 in normally take 2 pair of hinges.' });
+  /* the door against the wall it sits in: IBC Table 716.1(2) */
+  { const need = requiredDoorRating(o.wallUse, o.wallRating);
+    if (need && num(o.fire) < need.min) a.push({ lvl:'e', t:'Rating for the wall', m:'A ' + need.why + '. This door is ' + (num(o.fire) ? o.fire + ' min' : 'not rated') + '.' });
+    else if (need && need.min && num(o.fire) > need.min * 2) a.push({ lvl:'i', t:'Rating for the wall', m:'A ' + need.why + '; the ' + o.fire + ' min door is more than the wall needs — confirm before pricing it.' });
+    if ((o.wallUse === 'SB' || o.wallUse === 'CORR') && !o.smoke) a.push({ lvl:'w', t:'Smoke and draft', m:'A door in a ' + (o.wallUse === 'SB' ? 'smoke barrier' : 'rated corridor') + ' needs smoke and draft control (S label, gasketing).' }); }
   /* the door against the floor, and the door against the people going through it */
   if (d.leaves) {
     const z = doorSize(o);
@@ -4099,7 +4132,7 @@ function onFieldChange(e) {
   if (k !== 'lead' && d.custom && o.lead !== 'CUSTOM') o.lead = 'CUSTOM';
 
   persist();
-  if (['mark','config','w1','w2','h','doorMat','fire','hand','wall','frameType','undercut','vlSize','louverSize','hingeQty','closerReinf','headPrep','lockPrep','jambDepth','faceSize','stopH','thickness','profile','anchor','hwSet','category','frameLib','doorLib','trH','slW','slQty','anchorQty','anchorBase','anchorHead','anchorSl','strikePrep','steelDoor','steelFrame','core','woodCore','glaz','louverType','label','frameScope','fieldVerify','astragal','coordinator','mullion','smoke','posPressure','thermal','ada','gaugeDoor','match','faceNote','headFace','hospStop','prepStd','degree','edge','caps','cutoutOpt','glassThk','backBend','wallThk','rabbets','faceCustom','headFaceCustom','blSill','blCols','blRows','blType','slLites','slBase','mullThru','trDiv','trRows','returnBend','profile','slType','trType','slSill','memberFace','memberFaceCustom','slGlaz','trGlaz','edgeSeam','locA','locB','locC','locD','locE','vlQty','vlTop','vlSide','vlEdge','louverBot','floorFin','threshH','doorDesign'].indexOf(k) >= 0) {
+  if (['mark','config','w1','w2','h','doorMat','fire','hand','wall','frameType','undercut','vlSize','louverSize','hingeQty','closerReinf','headPrep','lockPrep','jambDepth','faceSize','stopH','thickness','profile','anchor','hwSet','category','frameLib','doorLib','trH','slW','slQty','anchorQty','anchorBase','anchorHead','anchorSl','strikePrep','steelDoor','steelFrame','core','woodCore','glaz','louverType','label','frameScope','fieldVerify','astragal','coordinator','mullion','smoke','posPressure','thermal','ada','gaugeDoor','match','faceNote','headFace','hospStop','prepStd','degree','edge','caps','cutoutOpt','glassThk','backBend','wallThk','rabbets','faceCustom','headFaceCustom','blSill','blCols','blRows','blType','slLites','slBase','mullThru','trDiv','trRows','returnBend','profile','slType','trType','slSill','memberFace','memberFaceCustom','slGlaz','trGlaz','edgeSeam','locA','locB','locC','locD','locE','wallUse','wallRating','vlQty','vlTop','vlSide','vlEdge','louverBot','floorFin','threshH','doorDesign'].indexOf(k) >= 0) {
     /* keep the cursor where the estimator put it — tabbing out of a field lands on the next one, not back on this one */
     const act = document.activeElement, actId = act && act.id;
     renderAll();
@@ -8884,6 +8917,198 @@ function lowVoltageCSV() {
   toast(plural(rows.length, 'electrified item') + ' exported');
 }
 
+/* ============================================================
+   SPEC REQUIREMENTS — the sentences in Division 08 and 10 that change
+   the price or the paperwork: basis of design and substitutions, the
+   submittals and who must sign them, keying and cores, warranties,
+   extra stock, mockups and testing, what is furnished only or by
+   others, and electrified work. Read off the spec, kept with the job,
+   and carried into the quote's clarifications in a click.
+   ============================================================ */
+const SPEC_CATS = [
+  ['sub', 'Substitutions and basis of design', /\b(basis[- ]of[- ]design|acceptable manufacturers?|approved equal|or equal|no substitutions?|substitutions?\s+(are\s+|will\s+)?not\s+(be\s+)?(permitted|allowed|accepted)|sole[- ]source|proprietary|no exceptions)\b/i],
+  ['test', 'Mockups, testing and inspection', /\b(mock-?ups?|field (quality control|tests?|inspection)|testing agency|commissioning|NFPA 80 (inspection|testing)|annual inspection|acceptance test(ing)?|inspect(ion|ed) by|inspected and tested|tested per)\b/i],
+  ['qual', 'Qualifications and standards', /\b(DHI|AHC|CDC|architectural hardware consultant|certified door consultant|ANSI\/BHMA|BHMA A156|grade 1|UL 10C|positive pressure|NFPA 80|NFPA 105|ANSI\/SDI|SDI[- ]?1\d\d|HMMA|WDMA|ANSI\/NAAMM|UL listed|WHI|Intertek|labeled)\b/i],
+  ['submit', 'Submittals', /\b(shop drawings?|product data|samples?|hardware schedule|keying schedule|templates?|certificates?|closeout|o&m|operation and maintenance|record drawings?|wiring diagrams?|riser diagrams?)\b/i],
+  ['key', 'Keying and cores', /\b(keying conference|key(ing)? meeting|construction (cores?|keying)|permanent cores?|interchangeable cores?|\bIC cores?|SFIC|LFIC|master key(ed|ing)?|grand master|key system|patented|restricted keyway|key blanks|key cabinet|change keys?)\b/i],
+  ['warr', 'Warranty', /\bwarrant(y|ies|ed)\b/i],
+  ['extra', 'Extra materials', /\b(extra (stock )?materials?|attic stock|spare (parts|hardware)|maintenance (tools|stock|materials))\b/i],
+  ['by', 'Furnished only, by others, other sections', /\b(furnish(ed)? only|install(ed|ation)? (by|under)|by others|furnished (by|under)|under (section|division)|division 2[6-8]|section 28|section 26|owner[- ]furnished)\b/i],
+  ['elec', 'Electrified and low voltage', /\b(electrified|electric (strike|lock|hinge)|power transfer|\bEPT\b|power supply|card reader|access control|request[- ]to[- ]exit|\bREX\b|door position|\bDPS\b|mag(netic)? lock|automatic (door )?operator|low voltage|24 ?VDC|12 ?VDC|wiring harness|raceway)\b/i],
+  ['deliv', 'Delivery, storage and lead time', /\b(deliver(y|ed|s)?|storage|store[ds]? (on|at)|lead time|delivery schedule|protect(ion)? (of|during)|handling)\b/i],
+  ['fin', 'Finishes', /\b(BHMA 6\d\d|US ?\d{1,2}D?|factory (prime|finish)|primed|field paint(ed)?|powder coat|anodized|finish(es)? (shall|to be|as))\b/i]
+];
+
+/** the requirement sentences of the Division 08 and 10 sections in the open PDF */
+async function readSpecRequirements() {
+  const lines = await pdfAllLines();
+  let section = '', buf = [], out = [];
+  const flush = (page) => {
+    const text = buf.join(' ').replace(/\s+/g, ' ').trim(); buf = [];
+    if (!text || text.length < 18 || !/^(08|10|28)/.test(section)) return;
+    text.split(/(?<=[.;])\s+(?=[A-Z0-9])/).forEach(sent => {
+      const t = sent.trim().replace(/^([A-Z]|\d+)\.\s+/, ''); if (t.length < 18 || t.length > 420) return;
+      if (/^[\d.\s]*[A-Z0-9 ,&\/-]+$/.test(t) && t.length < 70) return;          // an article heading, not a requirement
+      const hit = SPEC_CATS.filter(([, , re]) => re.test(t));
+      if (!hit.length) return;
+      out.push({ id: 'r' + out.length, section, page, cat: hit[0][0], cats: hit.map(h => h[0]), text: t });
+    });
+  };
+  let inSets = false;
+  lines.forEach(({ text, page }) => {
+    const sm = text.match(/\bSECTION\s+(\d{2})\s?(\d{2})\s?(\d{2})(?:\.\d+)?\b/i);
+    if (sm) { flush(page); section = sm[1] + ' ' + sm[2] + ' ' + sm[3]; inSets = false; return; }
+    /* the hardware sets themselves are read by the set reader, not here */
+    if (/^\s*[\d.]*\s*(HARDWARE (SETS|SCHEDULE|GROUPS)|DOOR HARDWARE SCHEDULE)\b/i.test(text)) { flush(page); inSets = true; return; }
+    if (inSets || SET_HEAD_RE.test(text) || (SET_ITEM_RE.test(text) && /\b(EA|PR|SET)\b/.test(text)) || /^\s*DOORS?\s*:/i.test(text)) { flush(page); return; }
+    /* a new article or paragraph starts a new run of text */
+    if (/^\s*(\d+\.\d+|[A-Z]\.|\d+\.|PART \d)\s/.test(text) || /^END OF SECTION/i.test(text)) flush(page);
+    buf.push(text); buf.page = page;
+  });
+  flush(buf.page);
+  /* the same sentence printed in two sections counts once */
+  const seen = new Set();
+  return out.filter(r => { const k = r.text.toLowerCase().replace(/\W+/g, ''); if (seen.has(k)) return false; seen.add(k); return true; });
+}
+
+/* ============================================================
+   COORDINATION REVIEW — the cross-checks an estimator runs by eye
+   before bid day: schedule against hardware sets, schedule against the
+   plans, electrified hardware against the frame and door preps, the
+   door rating against the wall it sits in, the hand read off the plan
+   against the hand on the schedule. Each finding names the doors, and
+   copies out as a question for the architect.
+   ============================================================ */
+/* IBC Table 716.1(2): the door a rated wall needs, by the wall's job and rating (hours) */
+function requiredDoorRating(use, hrs) {
+  hrs = num(hrs); if (!use || (!hrs && use !== 'SB')) return null;
+  if (use === 'SB') return { min: 20, why: 'Smoke barrier — 20 min door (IBC 716.1(2)), smoke and draft gasketing' };
+  if (use === 'FW') return hrs >= 3 ? { min: 180, why: hrs + ' hr fire wall — 180 min door' } : { min: 90, why: hrs + ' hr fire wall — 90 min door' };
+  if (use === 'FB' || use === 'SH') {
+    if (hrs >= 3) return { min: 180, why: hrs + ' hr fire barrier — 180 min door' };
+    if (hrs >= 2) return { min: 90, why: hrs + ' hr ' + (use === 'SH' ? 'shaft or exit enclosure' : 'fire barrier') + ' — 90 min door' };
+    if (hrs >= 1) return use === 'SH' ? { min: 60, why: '1 hr shaft or exit enclosure — 60 min door' } : { min: 45, why: '1 hr fire barrier — 45 min door' };
+  }
+  if (use === 'CORR') return { min: 20, why: (hrs >= 1 ? '1' : '1/2') + ' hr corridor — 20 min door with smoke and draft control' };
+  if (use === 'FP') return hrs >= 1 ? { min: 45, why: '1 hr fire partition — 45 min door' } : { min: 20, why: '1/2 hr fire partition — 20 min door' };
+  if (use === 'EXT') return hrs >= 1 ? { min: hrs >= 2 ? 90 : 45, why: hrs + ' hr exterior wall — ' + (hrs >= 2 ? 90 : 45) + ' min door' } : null;
+  return null;
+}
+const doorsList = l => (l.length === 1 ? 'door ' : 'doors ') + l.map(o => o.mark || '?').join(', ');
+const onDoors = l => 'on ' + doorsList(l);
+const setItems = o => { const s = S.sets.find(x => x.id === o.hwSet); return s ? s.items : []; };
+const itemText = i => [i.cat, i.product, i.model, i.note].join(' ');
+
+function coordinationFindings() {
+  const F = [], ops = S.openings;
+  const add = (area, lvl, title, ids, q) => F.push({ area, lvl, title, ids: ids.map(o => o.id), marks: ids.map(o => o.mark || '?'), q });
+  const doors = ops.filter(o => derive(o).leaves);
+  /* schedule and hardware */
+  const missingSet = doors.filter(o => o.hwSet && !S.sets.some(s => s.id === o.hwSet));
+  if (missingSet.length) add('Schedule ↔ hardware', 'e', 'Hardware set named on the door is not in the job', missingSet, 'The door schedule calls for hardware set(s) ' + [...new Set(missingSet.map(o => o.hwSet))].join(', ') + ' which do not appear in the hardware specification. Please issue the set(s).');
+  const noSet = doors.filter(o => !o.hwSet);
+  if (noSet.length) add('Schedule ↔ hardware', 'w', 'Doors with no hardware set', noSet, 'No hardware set is scheduled ' + onDoors(noSet) + '. Please confirm the hardware required.');
+  const empty = S.sets.filter(s => !s.items.length && ops.some(o => o.hwSet === s.id));
+  if (empty.length) add('Schedule ↔ hardware', 'w', 'Hardware sets with no items: ' + empty.map(s => s.id).join(', '), ops.filter(o => empty.some(s => s.id === o.hwSet)), 'Hardware set(s) ' + empty.map(s => s.id).join(', ') + ' are listed on the schedule but have no items in the specification. Please issue the contents.');
+  const unused = S.sets.filter(s => s.items.length && !ops.some(o => o.hwSet === s.id));
+  if (unused.length) F.push({ area: 'Schedule ↔ hardware', lvl: 'i', title: 'Hardware sets not used on any door: ' + unused.map(s => s.id).join(', '), ids: [], marks: [], q: 'Hardware set(s) ' + unused.map(s => s.id).join(', ') + ' appear in the specification but on no door. Please confirm whether they apply.' });
+  /* schedule and plans */
+  const placedAny = ops.some(o => o.planRef && o.planRef.x != null);
+  if (placedAny) {
+    const notPlaced = ops.filter(o => !(o.planRef && o.planRef.x != null) && !o.unitGen);
+    if (notPlaced.length) add('Schedule ↔ plans', 'w', 'Scheduled doors not found on any plan', notPlaced, 'We could not locate ' + doorsList(notPlaced) + ' from the door schedule on the floor plans. Please confirm the locations.');
+  }
+  if ((IMP.missingTags || []).length) F.push({ area: 'Schedule ↔ plans', lvl: 'w', title: 'Tags on the plan that are not on the schedule: ' + IMP.missingTags.map(t => t.mark).join(', '), ids: [], marks: [], q: 'Door tags ' + IMP.missingTags.map(t => t.mark).join(', ') + ' appear on the plans but not on the door schedule. Please add them to the schedule or confirm they are not in scope.' });
+  const handOff = ops.filter(o => o.planSwing && o.planSwing.hand && o.hand !== o.planSwing.hand && derive(o).leaves === 1);
+  if (handOff.length) add('Schedule ↔ plans', 'w', 'Hand changed from what the plan shows', handOff, 'The floor plan and the schedule show different hands ' + onDoors(handOff) + ' (' + handOff.map(o => o.mark + ': plan ' + o.planSwing.hand + ', schedule ' + o.hand).join('; ') + '). Please confirm.');
+  const marks = {}; ops.forEach(o => { const m = String(o.mark || '').toUpperCase(); if (m) (marks[m] = marks[m] || []).push(o); });
+  const dup = Object.values(marks).filter(a => a.length > 1).flat();
+  if (dup.length) add('Schedule', 'e', 'Duplicate door marks', dup, 'Door number(s) ' + [...new Set(dup.map(o => o.mark))].join(', ') + ' are used more than once. Please confirm the numbering.');
+  /* electrified hardware and the preps */
+  const elec = doors.filter(o => setItems(o).some(i => ELEC_RE.test(itemText(i))));
+  const needEPT = elec.filter(o => setItems(o).some(i => /POWER TRANSFER|\bEPT\b|ELECTRIFIED|ELEC(TRIC)? (LOCK|EXIT|MORTISE)|\bEL\b|\bE\d{2}\b|QEL/i.test(itemText(i))) && !/EPT/.test(o.headPrep || '') && !/EPT|E9|RW/.test(o.hingePrep || ''));
+  if (needEPT.length) add('Hardware ↔ preps', 'w', 'Electrified lock or exit device with no power transfer or raceway prep', needEPT, 'Electrified locking hardware is scheduled ' + onDoors(needEPT) + '. Please confirm the power transfer location and the raceway in the frame and door.');
+  const strike = doors.filter(o => setItems(o).some(i => /ELEC(TRIC)?\.? STRIKE|\bES\b|1006|9600/i.test(itemText(i))) && o.strikePrep !== 'ELEC');
+  if (strike.length) add('Hardware ↔ preps', 'e', 'Electric strike in the set, frame not prepped for it', strike, 'An electric strike is scheduled ' + onDoors(strike) + '. We will prep the frames for it; please confirm the strike model and the voltage.');
+  if (elec.length) add('Hardware ↔ other trades', 'i', 'Electrified hardware — wiring, power and access control by others', elec, 'Electrified hardware is scheduled ' + onDoors(elec) + '. Please confirm that low voltage wiring, power and access control panels are by Division 26/28, and who furnishes the card readers.');
+  /* rating and the wall */
+  const rated = doors.filter(o => num(o.fire) > 0);
+  const noCloser = rated.filter(o => o.hwSet && S.sets.some(s => s.id === o.hwSet) && !setItems(o).some(i => /CLOSER|AUTO OPERATOR|HOLD|MAG/i.test(itemText(i))));
+  if (noCloser.length) add('Rating ↔ hardware', 'e', 'Fire-rated doors whose set has no closer', noCloser, 'The hardware sets ' + onDoors(noCloser) + ' have no closer, but the doors are fire rated and NFPA 80 requires them to be self-closing. Please add a closer.');
+  const noLatch = rated.filter(o => o.lockPrep === 'NONE');
+  if (noLatch.length) add('Rating ↔ hardware', 'e', 'Fire-rated doors with no latching hardware', noLatch, 'Push/pull hardware only is scheduled ' + onDoors(noLatch) + ', but the doors are fire rated and must positively latch. Please confirm the latching hardware.');
+  const wallBad = ops.filter(o => { const r = requiredDoorRating(o.wallUse, o.wallRating); return r && num(o.fire) < r.min; });
+  if (wallBad.length) add('Rating ↔ wall', 'e', 'Door rating lower than the wall needs (IBC Table 716.1(2))', wallBad, wallBad.map(o => 'Door ' + o.mark + ' is ' + (num(o.fire) ? o.fire + ' min' : 'not rated') + ' in a ' + requiredDoorRating(o.wallUse, o.wallRating).why).join('; ') + '. Please confirm the door rating.');
+  /* everything else the per-opening checks found */
+  const errs = ops.filter(o => checks(o).some(c => c.lvl === 'e'));
+  if (errs.length) add('Openings', 'e', 'Openings with an error in their own checks', errs, '');
+  /* what the schedule changed last time it was read */
+  const log = (S.project.schedLog || []).slice(-1)[0];
+  if (log && log.changes.length) F.push({ area: 'Addenda', lvl: 'i', title: 'Last schedule read (' + log.when + ', ' + log.file + ') changed ' + plural(log.changes.length, 'door'), ids: log.changes.map(c => c.id).filter(Boolean), marks: log.changes.map(c => c.mark), q: '', changes: log.changes });
+  return F;
+}
+
+function renderReview() {
+  const box = $('#reviewBody'); if (!box) return;
+  const F = coordinationFindings();
+  const reqs = S.project.specReqs || [];
+  const n = { e: F.filter(f => f.lvl === 'e').length, w: F.filter(f => f.lvl === 'w').length, i: F.filter(f => f.lvl === 'i').length };
+  const areas = [...new Set(F.map(f => f.area))];
+  box.innerHTML = `
+    <div class="phead"><div><div class="eyebrow">Review</div><h1>Coordination review</h1>
+      <p>The cross-checks done by eye before bid day: the schedule against the hardware sets and the plans, electrified hardware against the preps, the door rating against the wall, and what the last addendum changed. Copy any finding as a question for the architect.</p></div>
+      <div class="pact"><button class="btn" id="rvCsv">${ic('download')}CSV</button><button class="btn primary" id="rvRfi" ${F.some(f => f.q) ? '' : 'disabled'}>${ic('copy')}Copy all as questions</button></div></div>
+    <div class="g4 rvstats">
+      <div class="card stat"><b class="${n.e ? 'bad' : ''}">${n.e}</b><span>errors to resolve</span></div>
+      <div class="card stat"><b>${n.w}</b><span>to confirm</span></div>
+      <div class="card stat"><b>${n.i}</b><span>for information</span></div>
+      <div class="card stat"><b>${reqs.length}</b><span>spec requirements read</span></div>
+    </div>
+    ${F.length ? areas.map(a => `<div class="card"><h2>${esc(a)}</h2>${F.filter(f => f.area === a).map((f, i) => `
+      <div class="rvrow ${f.lvl}"><div class="rvt">${ic(f.lvl === 'i' ? 'info' : 'alert')}<b>${esc(f.title)}</b>${f.marks.length ? `<span class="rvm">${f.marks.slice(0, 18).map((m, j) => `<button type="button" class="chip" data-rvgo="${f.ids[j] || ''}">${esc(m)}</button>`).join('')}${f.marks.length > 18 ? '<span class="hint">+' + (f.marks.length - 18) + '</span>' : ''}</span>` : ''}</div>
+        ${f.changes ? `<div class="rvchg">${f.changes.slice(0, 40).map(c => `<div><b class="mono">${esc(c.mark)}</b> ${c.fields.map(x => `${esc(x.f)} <s>${esc(String(x.a || '—'))}</s> → <b>${esc(String(x.b || '—'))}</b>`).join(' · ')}</div>`).join('')}</div>` : ''}
+        ${f.q ? `<div class="rvq"><span>${esc(f.q)}</span><button type="button" class="btn sm ghost" data-rvq="${esc(f.q)}">${ic('copy')}Copy</button></div>` : ''}</div>`).join('')}</div>`).join('')
+      : `<div class="card empty"><h3>Nothing to coordinate</h3><p>Read the door schedule and the hardware sets on <b>Plans</b>, place the doors on the floor plans, and the cross-checks run here.</p></div>`}
+    <div class="card"><div class="chead"><h2>Requirements in the specification</h2><span class="hint">Read from the Division 08 and 10 sections on <i>Plans › Hardware sets</i>. Tick the ones to carry into the quotation.</span><span class="spacer"></span>
+      <button class="btn sm" id="rvQual">${ic('quote')}Write the qualifications from this job</button><button class="btn sm primary" id="rvReqQuote" ${reqs.some(r => r.pick) ? '' : 'disabled'}>Add ticked to the quote</button></div>
+      ${reqs.length ? SPEC_CATS.filter(([k]) => reqs.some(r => r.cat === k)).map(([k, l]) => `<h3 class="rvh">${esc(l)} <span class="hint">${reqs.filter(r => r.cat === k).length}</span></h3>
+        ${reqs.filter(r => r.cat === k).map(r => `<label class="rvreq"><input type="checkbox" data-req="${r.id}" ${r.pick ? 'checked' : ''}><span>${esc(r.text)}</span><em class="mono">${esc(r.section)} · p${r.page}</em></label>`).join('')}`).join('')
+        : '<p class="hint">No specification read yet. Open the spec PDF on <b>Plans</b>, go to <b>Hardware sets</b> and read it.</p>'}
+    </div>`;
+}
+
+/** inclusions, exclusions and clarifications written from what is actually in the job */
+function jobQualifications() {
+  const ops = S.openings, T = jobTotals(), inc = [], exc = [], notes = [];
+  const doors = ops.filter(o => derive(o).leaves), rated = ops.filter(o => num(o.fire) > 0);
+  const elec = doors.filter(o => setItems(o).some(i => ELEC_RE.test(itemText(i))));
+  if (ops.some(o => !skipFrame(o))) inc.push('Hollow metal frames as scheduled, with anchors and spreaders');
+  if (doors.some(o => !skipDoor(o))) inc.push('Doors as scheduled, prepped for the hardware listed');
+  if (S.sets.length) inc.push('Finish hardware per the hardware sets listed');
+  if (rated.length) inc.push('UL/WHI labels on ' + plural(rated.length, 'fire-rated opening'));
+  if (S.keying && S.keying.keysets.length) inc.push('Keying per the keying schedule' + (/IC|core/i.test(JSON.stringify(S.keying)) ? ', construction cores during construction' : ''));
+  if ((S.div10 || []).length) inc.push('Division 10 items as listed');
+  inc.push('Shop drawings, product data and hardware schedule for approval');
+  if (num(T.labor && T.labor.sell)) inc.push('Installation as priced'); else exc.push('Installation of doors, frames, hardware' + ((S.div10 || []).length ? ' and Division 10 items' : ''));
+  if (elec.length) exc.push('Low voltage wiring, line voltage power, access control panels, card readers and their programming — by Division 26/28 unless listed');
+  exc.push('Grouting of frames, field painting of primed doors and frames');
+  if (rated.length) exc.push('Annual fire door inspection (NFPA 80) and testing');
+  exc.push('Permits, bonds and taxes unless shown');
+  const fv = ops.filter(o => o.fieldVerify);
+  if (fv.length) notes.push(plural(fv.length, 'opening') + ' priced from field measurements, to be verified before release');
+  const custom = ops.filter(o => derive(o).custom);
+  if (custom.length) notes.push(plural(custom.length, 'opening') + ' are custom sizes or elevations, with custom lead times');
+  if (elec.length) notes.push('Electrified hardware on ' + plural(elec.length, 'door') + ': power transfers and raceways prepped where scheduled');
+  if (S.project.planDate) notes.push('Priced from the drawings dated ' + S.project.planDate + (S.project.addenda ? ', ' + S.project.addenda : ''));
+  return { inc, exc, notes };
+}
+function addLines(field, lines) {
+  const have = String(S.project[field] || '').split('\n').map(x => x.trim()).filter(Boolean);
+  lines.forEach(l => { if (!have.some(h => h.toLowerCase() === l.toLowerCase())) have.push(l); });
+  S.project[field] = have.join('\n');
+}
+
+
 
 function guessHeader(grid) {
   let best = 0, score = -1;
@@ -9205,13 +9430,16 @@ function bindImport() {
       if (!made.length) return;
       const have = new Map(S.openings.map(o => [String(o.mark || '').trim().toUpperCase(), o]));
       const keep = ['id', 'hwSet', 'keyset', 'shopDone', 'planRef', 'notes', 'level'];
-      let added = 0, updated = 0;
+      let added = 0, updated = 0; const changed = [];
       const fromSched = ['qty', 'config', 'w1', 'w2', 'h', 'doorMat', 'frameMat', 'fire', 'label', 'hand', 'roomFrom', 'roomTo', 'thickness', 'glaz',
         'archDoorType', 'archFrameType', 'headDetail', 'jambDetail', 'sillDetail', 'closerReinf', 'lead'];
       made.forEach(o => {
         const ex = o.mark && have.get(o.mark.toUpperCase());
         if (ex && IMP.update !== false) {
-          fromSched.forEach(k => { if (o[k] !== '' && o[k] != null && keep.indexOf(k) < 0) ex[k] = o[k]; });
+          const fields = [];
+          fromSched.forEach(k => { if (o[k] !== '' && o[k] != null && keep.indexOf(k) < 0) { if (String(ex[k] ?? '') !== String(o[k]) && !(k === 'w2' && !num(o[k]) && !num(ex[k]))) fields.push({ f: k, a: ex[k], b: o[k] }); ex[k] = o[k]; } });
+          if (o.hwSet && o.hwSet !== ex.hwSet) fields.push({ f: 'hwSet', a: ex.hwSet, b: o.hwSet });
+          if (fields.length) changed.push({ id: ex.id, mark: ex.mark, fields });
           if (o.hwSet) ex.hwSet = o.hwSet; if (o.notes) ex.notes = o.notes;
           updated++;
         } else { if (ex) o.mark = uniqueMark(o.mark); S.openings.push(o); added++; }
@@ -9219,8 +9447,9 @@ function bindImport() {
       /* hardware sets named on the schedule that the job does not have yet */
       const newSets = [...new Set(made.map(o => o.hwSet).filter(id => id && !S.sets.some(x => x.id === id)))];
       newSets.forEach(id => S.sets.push({ id, name: 'From the schedule', items: [] }));
+      if (updated) { S.project.schedLog = (S.project.schedLog || []).concat([{ when: new Date().toISOString().slice(0, 16).replace('T', ' '), file: IMP.file ? IMP.file.name : '', changes: changed }]).slice(-10); }
       S.selId = (S.openings[S.openings.length - 1] || {}).id; persist();
-      toast([added && plural(added, 'opening') + ' added', updated && updated + ' updated', newSets.length && plural(newSets.length, 'empty hardware set') + ' to fill in'].filter(Boolean).join(' · '), { label:'Undo', fn:undo });
+      toast([added && plural(added, 'opening') + ' added', updated && updated + ' updated' + (changed.length ? ' (' + changed.length + ' changed — see Coordination)' : ''), newSets.length && plural(newSets.length, 'empty hardware set') + ' to fill in'].filter(Boolean).join(' · '), { label:'Undo', fn:undo });
       showView('takeoff'); return;
     }
     const cb = e.target.closest('[data-cand]');
@@ -9251,7 +9480,9 @@ function bindImport() {
     if (e.target.closest('#unitApply')) { const u = cu(); if (u) { unitApply(u); refreshPlanTools(); } return; }
     if (e.target.closest('#specRead')) {
       const b = e.target.closest('#specRead'); b.disabled = true; b.textContent = 'Reading every page…';
-      IMP.spec = parseHardwareSpec(await pdfAllLines()); IMP.specSkip = new Set(); renderImport(); return;
+      IMP.spec = parseHardwareSpec(await pdfAllLines()); IMP.specSkip = new Set();
+      const reqs = await readSpecRequirements(); const old = new Set((S.project.specReqs || []).filter(r => r.pick).map(r => r.text));
+      S.project.specReqs = reqs.map(r => Object.assign(r, { pick: old.has(r.text) })); persist(); renderImport(); return;
     }
     if (e.target.closest('#specGo')) { specApply(); return; }
     if (e.target.closest('#lvCsv')) { lowVoltageCSV(); return; }
@@ -11913,7 +12144,7 @@ const NAV = [
   ['project', 'Job info', 'brief'], ['clients', 'Clients', 'brief'], ['pricebook', 'Price book', 'tag'],
   ['import', 'Plans — import, count and measure', 'pin'], ['takeoff', 'Openings', 'door'], ['hw', 'Hardware sets', 'key'], ['keying', 'Keying', 'lock'],
   ['div10', 'Division 10 specialties', 'box'],
-  ['sheet', 'Takeoff sheet', 'table'], ['summary', 'Recap', 'chart'], ['purchasing', 'Purchasing', 'cart'], ['shop', 'Shop production', 'blueprint'],
+  ['sheet', 'Takeoff sheet', 'table'], ['review', 'Coordination review', 'listcheck'], ['summary', 'Recap', 'chart'], ['purchasing', 'Purchasing', 'cart'], ['shop', 'Shop production', 'blueprint'],
   ['quote', 'Quotation', 'quote'], ['submittal', 'Submittal package', 'file'], ['changes', 'Change orders', 'delta'], ['catalog', 'Project catalog', 'listcheck'],
   ['tools', 'Calculator', 'table'], ['guide', 'Guide', 'book'], ['ref', 'Abbreviations', 'abc']
 ];
@@ -11945,6 +12176,7 @@ function showView(name) {
   if (name === 'ref') renderRef();
   if (name === 'takeoff') { renderTable(); renderDetail(); }
   if (name === 'home') renderHome();
+  if (name === 'review') renderReview();
   if (name !== 'tools' && typeof KP !== 'undefined' && KP.k) { KP.k = null; document.body.classList.remove('kpopen'); const kp = $('#ckpad'); if (kp) kp.classList.remove('on'); }
   closeMenus();
   try { sessionStorage.setItem('takeoff:view', name); } catch (e) {}
@@ -12418,6 +12650,15 @@ function bindEvents() {
   $('#dDel').onclick = () => S.selId && deleteOpenings([S.selId]);
   $('#closeDetail').onclick = closePhoneDetail;
   $('#phoneList').addEventListener('click', e => { const c = e.target.closest('[data-pid]'); if (c) { buzz(); selectOpening(c.dataset.pid); } });
+  $('#reviewBody').addEventListener('click', e => {
+    const go = e.target.closest('[data-rvgo]'); if (go && go.dataset.rvgo) { selectOpening(go.dataset.rvgo); return; }
+    const q = e.target.closest('[data-rvq]'); if (q) { navigator.clipboard && navigator.clipboard.writeText(q.dataset.rvq).then(() => toast('Question copied')); return; }
+    if (e.target.closest('#rvRfi')) { const t = coordinationFindings().filter(f => f.q).map((f, i) => (i + 1) + '. ' + f.q).join('\n\n'); navigator.clipboard && navigator.clipboard.writeText(t).then(() => toast('All questions copied — paste them into the RFI or the email')); return; }
+    if (e.target.closest('#rvCsv')) { const F = coordinationFindings(); downloadFile(fileBase() + '_coordination.csv', [['AREA', 'LEVEL', 'FINDING', 'DOORS', 'QUESTION']].concat(F.map(f => [f.area, { e: 'Error', w: 'Confirm', i: 'Info' }[f.lvl], f.title, f.marks.join(' '), f.q])).map(r => r.map(csvQ).join(',')).join('\r\n'), 'text/csv'); return; }
+    if (e.target.closest('#rvQual')) { const q = jobQualifications(); addLines('included', q.inc); addLines('excluded', q.exc); addLines('custNotes', q.notes); persist(); toast('Inclusions, exclusions and notes written into the quotation', { label: 'See it', fn: () => showView('quote') }); return; }
+    if (e.target.closest('#rvReqQuote')) { const pick = (S.project.specReqs || []).filter(r => r.pick); addLines('custNotes', pick.map(r => 'Per spec ' + r.section + ': ' + r.text)); persist(); toast(plural(pick.length, 'requirement') + ' added to the quotation notes', { label: 'See it', fn: () => showView('quote') }); return; }
+  });
+  $('#reviewBody').addEventListener('change', e => { const r = e.target.dataset.req && (S.project.specReqs || []).find(x => x.id === e.target.dataset.req); if (r) { r.pick = e.target.checked; persist(); const b = $('#rvReqQuote'); if (b) b.disabled = !S.project.specReqs.some(x => x.pick); } });
   $('#homeBody').addEventListener('click', e => {
     const c = e.target.closest('[data-pid]'); if (c) { selectOpening(c.dataset.pid); return; }
     const b = e.target.closest('[data-home]'); if (!b) return; buzz();
@@ -13604,6 +13845,7 @@ function specCardHtml() {
         <span class="hint">Reads every set in the PDF — usually Section 08 71 00, the "Hardware Sets" or "Hardware Groups" at the end. Quantities, items, catalog numbers, finishes and makers come in; the doors each set is for are put on it; electrified items are flagged.</span>
         <span class="spacer"></span>
         <button class="btn primary" id="specRead">${ic('search')}${sp ? 'Read again' : 'Read the hardware sets'}</button></div>
+      ${(S.project.specReqs || []).length ? `<div class="alert i" style="margin-bottom:10px">${ic('info')}<b>${plural(S.project.specReqs.length, 'requirement')} read from the Division 08 and 10 sections</b><span>Substitutions, submittals, keying, warranty, extra stock, testing, by others, electrified — on <a href="#" data-goto="review">Coordination review</a>, ready to carry into the quote.</span></div>` : ''}
       ${sp ? (sp.length ? `<div class="scrollx"><table class="wide"><thead><tr><th style="width:28px"></th><th>SET</th><th>NAME</th><th class="n">ITEMS</th><th class="n">ELECTRIFIED</th><th>DOORS IN THE SPEC</th><th>FIRST LINES</th><th></th></tr></thead><tbody>
         ${sp.map((x, i) => { const ex = have.get(setKey(x.id)), el = x.items.filter(it => it.elec).length;
           return `<tr><td><input type="checkbox" data-specrow="${i}" ${skip.has(i) ? '' : 'checked'}></td><td class="mono"><b>${esc(x.id)}</b></td><td>${esc(x.name)}</td><td class="n">${x.items.length}</td>

@@ -4,6 +4,25 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## 2.6 — Ideas from MeltPlan, for doors
+
+See [MELTPLAN-ANALYSIS.md](MELTPLAN-ANALYSIS.md) for the study.
+
+### New
+- **Coordination review** (Review › Coordination), with a question for the architect per finding, *Copy all as questions* and CSV. It checks:
+  - **Schedule ↔ hardware:** missing, empty and unused sets; doors with no set.
+  - **Schedule ↔ plans:** doors not on any plan, plan tags not on the schedule, and a hand that differs from the swing on the plan.
+  - **Hardware ↔ preps:** electric strikes without a strike prep, electrified locks without a power transfer or raceway.
+  - **Hardware ↔ other trades:** low-voltage work by Division 26/28.
+  - **Rating ↔ hardware:** rated doors with no closer or no latch.
+  - **Rating ↔ wall.**
+  - **Duplicate marks.**
+  - **The last addendum's changes.**
+- **Spec requirements** are read with the hardware sets from the Division 08, 10 and 28 sections and sorted into eleven categories. The ticked ones go into the quotation notes with their section number.
+- **Wall it sits in / wall rating** fields on each opening, checked against IBC Table 716.1(2). A door in a smoke barrier or rated corridor without smoke and draft control is flagged.
+- **Addendum compare:** reading the door schedule again logs each changed field on each door.
+- **Qualifications from the job:** inclusions, exclusions and clarifications written into the quotation from what the job holds.
+
 ## 2.5 — The frame calculator on a phone
 
 ### Fixed
