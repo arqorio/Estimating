@@ -4,6 +4,25 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## 2.3 — Finding and reading the door schedule
+
+### Fixed
+- **The search only looked at the first 40 pages.** In a large set the schedule sheet was never reached, so the file opened on a floor plan. The score also counted every 4-digit number, so busy plans outscored the schedule. On a 60-sheet test set the old search took 120 s and landed on the wrong sheet; it now opens the right sheet in about 0.6 s and finishes the whole set in about 1.5 s.
+- **Each page's text was read twice** (once to search, once to read) and again on every page change. Each page is now read once per file and shared by the search, the schedule reader, the tag finder and the spec reader.
+- **A sheet with the schedule in side-by-side blocks** was read as one wide table, mixing the blocks with each other and with any window or finish schedule on the same lines.
+- **Only the first tab of an Excel workbook was read.**
+
+### New
+- **Search order:** the bookmarks first, then every sheet from the back of the set. The schedule opens on its first sheet as soon as it is found, while the search continues.
+- **Sheet buttons:** every sheet with a door schedule is listed with its sheet number and door count. *Read all* reads the schedule across all its sheets.
+- **Tables on a sheet:**
+  - Each table is told apart by the title over it and by its mark column starting over.
+  - The door schedule blocks are read together. Window, room finish, equipment and other schedules, frame type legends and general notes are skipped.
+- **Row checks:** rows must carry a real door mark (101, 101A, A101, 1-101A, B2.14), so note numbers, totals and headings are dropped.
+- **Sideways sheets:** sheets plotted sideways are turned upright to read and to show.
+- **Excel workbooks:** every tab is scored and the door schedule tab opens. Tabs are a click away, and merged headings are carried into each column.
+- **More from the columns:** a TYPE column with SGL / PR sets the configuration, and a hand in the remarks is used when there is no hand column.
+
 ## 2.2 — Requested on r/Estimators
 
 ### New
