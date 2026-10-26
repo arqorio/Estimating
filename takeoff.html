@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Takeoff 2.1 — Doors, Frames, Hardware &amp; Specialties</title>
+<title>Takeoff 2.2 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -768,6 +768,9 @@ tr.warnrow td{background:var(--signal-bg)}
 .pstep.on{border-color:var(--focus);box-shadow:inset 3px 0 0 var(--focus)}.pstep.on>b{background:var(--focus);color:#fff}
 .pstep.done>b{background:var(--ok);color:#fff}.pstep.done>b .ic{width:13px;height:13px}
 body.phone .psteps{grid-template-columns:1fr}
+.unitbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;flex-basis:100%;padding:8px 10px;border:1px solid var(--rule2);border-radius:7px;background:#fbfcfb}
+.ustat{display:flex;flex-direction:column;line-height:1.1;min-width:64px}.ustat b{font-family:var(--mono);font-size:17px;color:var(--ink)}.ustat span{font-size:10.5px;color:var(--steel)}
+.ustat.flip b{color:#7a3fa0}
 /* calculator */
 .calcwrap{display:grid;grid-template-columns:minmax(300px,1fr) minmax(420px,1.25fr);gap:14px;align-items:start}
 .calcin .g2{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px}
@@ -982,6 +985,7 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
       <button class="mi" data-cmd="catalogCsv"><svg class="ic"><use href="#i-download"/></svg><span>Catalog CSV</span></button>
       <button class="mi" data-cmd="d10Csv"><svg class="ic"><use href="#i-download"/></svg><span>Division 10 CSV</span></button>
       <button class="mi" data-cmd="keyCsv"><svg class="ic"><use href="#i-download"/></svg><span>Keying schedule CSV</span></button>
+      <button class="mi" data-cmd="lvCsv"><svg class="ic"><use href="#i-download"/></svg><span>Electrified hardware, low voltage CSV</span></button>
       <button class="mi" data-cmd="poCsv"><svg class="ic"><use href="#i-download"/></svg><span>Purchase orders CSV</span></button>
     </div>
   </div>
@@ -1028,6 +1032,14 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <!-- ============ GUIDE ============ -->
 <section class="view" id="view-guide">
   <div class="guide">
+  <div class="card">
+    <h2>What 2.2 adds — from estimators on r/Estimators</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Handing off the plan</b> — on a floor plan, <i>Hand the doors from the swings</i> reads every door swing drawn on the sheet (the arc and the leaf) and sets the hand of each door pinned on it: LH or RH seen from the push side, LHR or RHR when the opening swings out. Pairs are recognised, and with the drawing scale set a leaf that measures differently from the schedule is pointed out. Clicking a door on its swing hands it as it is added.</li>
+      <li><b>Unit types and flips</b> — for apartments, hotels and dorms where the doors are tagged once on the enlarged unit plan. In <i>Count on plan › Units</i>: read the tags on the enlarged plan, hand them from the swings, then <i>This sheet is the enlarged plan</i>. On each floor plan, <i>Find "UNIT A"</i> counts the labels — a label with FLIP, MIRROR or REV on it or under it counts as flipped — or click each unit and click a pin again to flip it. <i>Put on the job</i> writes one line per door for the units as drawn and one for the flipped units with the hand mirrored, multiplied out.</li>
+      <li><b>Hardware sets from the specification</b> — <i>Plans › Hardware sets</i> reads every set in a spec PDF (Section 08 71 00): quantity, item, catalog number, finish and maker, and puts the doors the spec lists on their set. Electrified items — electric strikes, power transfers, power supplies, card readers, mag locks, operators, door position switches — are flagged, and <i>Export › Electrified hardware</i> lists them door by door for the low voltage and security trades.</li>
+    </ul>
+  </div>
   <div class="card">
     <h2>What 2.1 adds</h2>
     <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
@@ -2366,7 +2378,7 @@ const DEFAULT_PROJECT = {
   markupFrame:22, markupDoor:22, markupHw:25, markupMisc:20, markupDiv10:25, laborRate:78, taxLabor:false,
   ratePrep:65, rateField:85, rateDeliver:55, freight:0, taxRate:0, kitAllow:1.5
 };
-let S = { project:{...DEFAULT_PROJECT}, openings:[], sets:[], catalog:[], div10:[], keying:null, baselines:[], selId:null, elevView:'elev', sel:new Set() };
+let S = { project:{...DEFAULT_PROJECT}, openings:[], sets:[], catalog:[], div10:[], keying:null, baselines:[], units:[], selId:null, elevView:'elev', sel:new Set() };
 
 function blankOpening() {
   const o = { id: uid() };
@@ -2626,7 +2638,7 @@ const store = {
 };
 let saveTimer = null;
 const jobJSON = () => JSON.stringify({ project:S.project, openings:S.openings, sets:S.sets, catalog:S.catalog,
-  div10:S.div10, keying:S.keying, baselines:S.baselines });
+  div10:S.div10, keying:S.keying, baselines:S.baselines, units:S.units });
 /** one place that turns saved data back into a job: the browser copy, a job file, undo and redo */
 function loadJob(j) {
   j = j || {};
@@ -2637,6 +2649,7 @@ function loadJob(j) {
   S.div10 = (j.div10 || []).map(normDiv10);
   S.keying = normKeying(j.keying);
   S.baselines = Array.isArray(j.baselines) ? j.baselines : [];
+  S.units = (j.units || []).map(normUnit);
   JOB_REV++;
 }
 
@@ -8180,6 +8193,342 @@ function addMissingTags() {
   persist(); refreshPlanTools(); toast(plural(list.length, 'opening') + ' added from the plan tags', { label: 'Undo', fn: undo });
 }
 
+/* ============================================================
+   DOOR SWINGS ON THE PLAN — the hand read off the drawing.
+   A door on a floor plan is a quarter circle (the path of the strike
+   edge) and a line (the leaf, drawn open). The centre of the arc is
+   the hinge, the end with the leaf on it is the open position, the
+   other end is the strike jamb. Seen from the side the door swings
+   away from (the push side), hinges on the left is LH, on the right RH;
+   a door that swings out is read from the other side: LHR or RHR.
+   ============================================================ */
+async function pdfSwings(pageNo) {
+  const page = await IMP.pdf.getPage(pageNo);
+  const vp = page.getViewport({ scale: 1 });
+  const OPS = window.pdfjsLib.OPS, ol = await page.getOperatorList();
+  let ctm = [1, 0, 0, 1, 0, 0]; const stack = [];
+  const mul = (m, n) => [m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1], m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3],
+    m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5]];
+  const P = (x, y) => { const ux = ctm[0] * x + ctm[2] * y + ctm[4], uy = ctm[1] * x + ctm[3] * y + ctm[5]; const v = vp.convertToViewportPoint(ux, uy); return { x: v[0], y: v[1] }; };
+  const curves = [], segs = [], polys = [];
+  for (let i = 0; i < ol.fnArray.length; i++) {
+    const fn = ol.fnArray[i], a = ol.argsArray[i];
+    if (fn === OPS.save) stack.push(ctm.slice());
+    else if (fn === OPS.restore) ctm = stack.pop() || ctm;
+    else if (fn === OPS.transform) ctm = mul(ctm, a);
+    else if (fn === OPS.paintFormXObjectBegin) { stack.push(ctm.slice()); if (a && a[0] && a[0].length === 6) ctm = mul(ctm, a[0]); }
+    else if (fn === OPS.paintFormXObjectEnd) ctm = stack.pop() || ctm;
+    else if (fn === OPS.constructPath) {
+      const ops = a[0], c = a[1]; let k = 0, cur = null, start = null, sub = [];
+      const flush = () => { if (sub.length >= 4) polys.push(sub); sub = []; };
+      for (const op of ops) {
+        if (op === OPS.moveTo) { flush(); cur = P(c[k], c[k + 1]); start = cur; sub = [cur]; k += 2; }
+        else if (op === OPS.lineTo) { const q = P(c[k], c[k + 1]); if (cur) segs.push([cur, q]); cur = q; sub.push(q); k += 2; }
+        else if (op === OPS.curveTo) { const c1 = P(c[k], c[k + 1]), c2 = P(c[k + 2], c[k + 3]), q = P(c[k + 4], c[k + 5]); if (cur) curves.push([cur, c1, c2, q]); cur = q; flush(); k += 6; }
+        else if (op === OPS.curveTo2) { const c2 = P(c[k], c[k + 1]), q = P(c[k + 2], c[k + 3]); if (cur) curves.push([cur, cur, c2, q]); cur = q; flush(); k += 4; }
+        else if (op === OPS.curveTo3) { const c1 = P(c[k], c[k + 1]), q = P(c[k + 2], c[k + 3]); if (cur) curves.push([cur, c1, q, q]); cur = q; flush(); k += 4; }
+        else if (op === OPS.closePath) { if (cur && start) segs.push([cur, start]); cur = start; }
+        else if (op === OPS.rectangle) {
+          const x = c[k], y = c[k + 1], w = c[k + 2], h = c[k + 3], p1 = P(x, y), p2 = P(x + w, y), p3 = P(x + w, y + h), p4 = P(x, y + h);
+          segs.push([p1, p2], [p2, p3], [p3, p4], [p4, p1]); k += 4;
+        }
+      }
+      flush();
+    }
+  }
+  const d = (p, q) => Math.hypot(p.x - q.x, p.y - q.y);
+  const sub = (p, q) => ({ x: p.x - q.x, y: p.y - q.y });
+  /* arc centre from a bezier: where the normals at its two ends cross */
+  const centreOf = ([A, C1, C2, B]) => {
+    const t1 = sub(C1, A), t2 = sub(B, C2);
+    if (Math.hypot(t1.x, t1.y) < 1e-6 || Math.hypot(t2.x, t2.y) < 1e-6) return null;
+    const n1 = { x: -t1.y, y: t1.x }, n2 = { x: -t2.y, y: t2.x };
+    const den = n1.x * n2.y - n1.y * n2.x; if (Math.abs(den) < 1e-9) return null;
+    const s = ((B.x - A.x) * n2.y - (B.y - A.y) * n2.x) / den;
+    return { x: A.x + n1.x * s, y: A.y + n1.y * s };
+  };
+  const ang = (o, p) => Math.atan2(p.y - o.y, p.x - o.x);
+  const sweep = (o, A, B) => { let s = Math.abs(ang(o, B) - ang(o, A)); if (s > Math.PI) s = 2 * Math.PI - s; return s; };
+  /* quarter circles: single beziers, runs of beziers on one centre, or polylines */
+  const arcs = [];
+  let run = null;
+  const endRun = () => { if (run) { const s = sweep(run.O, run.A, run.B); if (s > 1.2 && s < 1.92 && run.r > 3 && run.r < 400) arcs.push({ O: run.O, A: run.A, B: run.B, r: run.r }); } run = null; };
+  curves.forEach(cv => {
+    const O = centreOf(cv); if (!O) { endRun(); return; }
+    const r = (d(O, cv[0]) + d(O, cv[3])) / 2;
+    const mid = { x: 0.125 * cv[0].x + 0.375 * cv[1].x + 0.375 * cv[2].x + 0.125 * cv[3].x, y: 0.125 * cv[0].y + 0.375 * cv[1].y + 0.375 * cv[2].y + 0.125 * cv[3].y };
+    if (Math.abs(d(O, cv[0]) - d(O, cv[3])) > r * 0.06 || Math.abs(d(O, mid) - r) > r * 0.06) { endRun(); return; }
+    if (run && d(run.O, O) < Math.max(1, r * 0.04) && Math.abs(run.r - r) < r * 0.04 && d(run.B, cv[0]) < Math.max(0.8, r * 0.03)) run.B = cv[3];
+    else { endRun(); run = { O, A: cv[0], B: cv[3], r }; }
+  });
+  endRun();
+  polys.forEach(pts => {
+    const A = pts[0], M = pts[Math.floor(pts.length / 2)], B = pts[pts.length - 1];
+    const ax = A.x, ay = A.y, bx = M.x, by = M.y, cx = B.x, cy = B.y;
+    const den = 2 * (ax * (by - cy) + bx * (cy - ay) + cx * (ay - by)); if (Math.abs(den) < 1e-6) return;
+    const ux = ((ax * ax + ay * ay) * (by - cy) + (bx * bx + by * by) * (cy - ay) + (cx * cx + cy * cy) * (ay - by)) / den;
+    const uy = ((ax * ax + ay * ay) * (cx - bx) + (bx * bx + by * by) * (ax - cx) + (cx * cx + cy * cy) * (bx - ax)) / den;
+    const O = { x: ux, y: uy }, r = d(O, A);
+    if (r < 3 || r > 400 || pts.some(p => Math.abs(d(O, p) - r) > r * 0.05)) return;
+    const s = sweep(O, A, B); if (s > 1.2 && s < 1.92) arcs.push({ O, A, B, r });
+  });
+  /* the leaf: a line from the hinge, about the radius long, along one end of the arc */
+  const swings = [];
+  arcs.forEach(a => {
+    const tol = Math.max(1.5, a.r * 0.18);
+    const along = (p, q, end) => { const v1 = sub(q, p), v2 = sub(end, a.O); const c = (v1.x * v2.x + v1.y * v2.y) / (Math.hypot(v1.x, v1.y) * Math.hypot(v2.x, v2.y) || 1); return Math.abs(c) > 0.97; };
+    const hit = end => segs.some(([p, q]) => {
+      const L = d(p, q); if (L < a.r * 0.6 || L > a.r * 1.25) return false;
+      return ((d(p, a.O) < tol && d(q, end) < tol * 1.6) || (d(q, a.O) < tol && d(p, end) < tol * 1.6) ||
+        (along(p, q, end) && Math.min(d(p, a.O), d(q, a.O)) < tol * 1.4));
+    });
+    const hA = hit(a.A), hB = hit(a.B);
+    let open = null, closed = null;
+    if (hA && !hB) { open = a.A; closed = a.B; } else if (hB && !hA) { open = a.B; closed = a.A; }
+    swings.push({ H: a.O, r: a.r, open, closed, ends: [a.A, a.B], sure: !!open });
+  });
+  /* pairs: two leaves whose strike edges meet */
+  swings.forEach(s => { if (!s.sure || s.pair) return;
+    const t = swings.find(u => u !== s && u.sure && !u.pair && d(u.closed, s.closed) < Math.max(2, s.r * 0.12) && Math.abs(u.r - s.r) < s.r * 0.35);
+    if (t) { s.pair = t; t.pair = s; } });
+  return { swings, w: vp.width, h: vp.height };
+}
+
+/** the hand of one swing, as seen from the push side; out-swinging doors read from the other side */
+function swingHand(s, out) {
+  if (!s || !s.sure) return '';
+  const H = { x: s.H.x, y: -s.H.y }, C = { x: s.closed.x, y: -s.closed.y }, Pn = { x: s.open.x, y: -s.open.y };
+  const u = { x: C.x - H.x, y: C.y - H.y }, n = { x: Pn.x - H.x, y: Pn.y - H.y };
+  const right = { x: n.y, y: -n.x };
+  const lh = u.x * right.x + u.y * right.y > 0;
+  if (!out) return lh ? 'LH' : 'RH';
+  return lh ? 'RHR' : 'LHR';
+}
+const MIRROR_HAND = { LH: 'RH', RH: 'LH', LHR: 'RHR', RHR: 'LHR', LHRA: 'RHRA', RHRA: 'LHRA' };
+
+/** the swing drawn nearest a point on the page (viewport points), within reach */
+function nearestSwing(SW, x, y, used) {
+  let best = null, bd = Infinity;
+  SW.swings.forEach(s => {
+    if (used && used.has(s)) return;
+    const mid = s.closed ? { x: (s.H.x + s.closed.x) / 2, y: (s.H.y + s.closed.y) / 2 } : s.H;
+    const dd = Math.min(Math.hypot(mid.x - x, mid.y - y), Math.hypot(s.H.x - x, s.H.y - y));
+    if (dd < Math.max(40, s.r * 2.2) && dd < bd) { bd = dd; best = s; }
+  });
+  return best;
+}
+
+/** apply what the drawing says about one door: hand, leaf width from the arc at the drawing scale, pair or single */
+function applySwing(o, s) {
+  if (!s || !s.sure) return [];
+  const notes = [];
+  const out = o.swing === 'OUT';
+  if (s.pair) {
+    if (!isPair(o)) notes.push('drawn as a pair');
+    const lead = s.H.x <= s.pair.H.x ? s : s.pair;
+    const h = swingHand(lead, out);
+    const want = /^L/.test(h) ? (out ? 'RHRA' : 'LHRA') : (out ? 'LHRA' : 'RHRA');
+    if (o.hand !== 'DBL EGR' && o.hand !== want) { o.hand = want; notes.push('hand ' + want); }
+  } else {
+    const h = swingHand(s, out);
+    if (h && h !== o.hand && !isPair(o)) { o.hand = h; notes.push('hand ' + h); }
+  }
+  const sc = planScale();
+  if (sc) {
+    const leaf = s.r * sc, nom = Math.round((leaf + 0.25) / 2) * 2;      // a leaf drawn at its nominal width, rounded to 2 in
+    const now = isPair(o) ? num(o.w1) : derive(o).nomW;
+    if (nom >= 18 && nom <= 60 && Math.abs(nom - now) >= 2) notes.push('plan measures ' + ftin(nom) + (isPair(o) ? ' a leaf' : '') + ', schedule ' + ftin(now));
+  }
+  o.planSwing = { hand: o.hand, r: +s.r.toFixed(2), at: Date.now() };
+  return notes;
+}
+
+/** read every door swing on the page and hand the openings pinned on it */
+async function handFromSwings() {
+  if (!window.pdfjsLib) return;
+  const SW = IMP.swingsPage === planKey() && IMP.swings ? IMP.swings : (IMP.swings = await pdfSwings(IMP.page));
+  IMP.swingsPage = planKey();
+  const here = S.openings.filter(o => onPage(o.planRef) && o.planRef.x != null);
+  if (!SW.swings.length) return toast('No door swings found on this page — a scanned sheet has no linework to read');
+  const used = new Set(); let handed = 0, flagged = [];
+  here.forEach(o => {
+    const s = nearestSwing(SW, o.planRef.x * SW.w, o.planRef.y * SW.h, used); if (!s || !s.sure) return;
+    used.add(s); if (s.pair) used.add(s.pair);
+    const n = applySwing(o, s);
+    handed++;
+    if (n.some(t => /plan measures|drawn as a pair/.test(t))) flagged.push(o.mark + ': ' + n.filter(t => /plan measures|pair/.test(t)).join(', '));
+  });
+  IMP.showSwings = true;
+  persist(); refreshPlanTools();
+  toast(handed ? plural(handed, 'door') + ' handed from the swings on the plan' + (flagged.length ? ' · check ' + flagged.slice(0, 3).join('; ') : '')
+    : here.length ? 'The swings could not be matched to the tags — click a door on its swing to hand it' : 'Place the doors on this sheet first (Find door tags), then read the swings');
+}
+
+/* ============================================================
+   UNIT TYPES — apartments, hotel rooms, dorm suites. The doors are
+   tagged once on the enlarged unit plan; the floor plans show only
+   "Unit A" and "Unit A flipped". Count the units, mirror the hands on
+   the flipped ones, and the openings come out right.
+   ============================================================ */
+const normUnit = u => Object.assign({ id: 'u' + Math.random().toString(36).slice(2, 8), name: 'A', label: '', flipWords: 'FLIP, MIRROR, REV, (R)',
+  tpl: [], pins: [], nExtra: 0, nfExtra: 0 }, u || {});
+const unitCounts = u => ({ n: u.pins.filter(p => !p.flip).length + num(u.nExtra), nf: u.pins.filter(p => p.flip).length + num(u.nfExtra) });
+
+/** the openings tagged on this sheet become the unit's own doors */
+function unitTakeSheet(u) {
+  const here = S.openings.filter(o => onPage(o.planRef) && !o.unitGen);
+  if (!here.length) return toast('No openings on this sheet yet — read the tags or click the doors on the enlarged plan first');
+  here.forEach(o => { const t = JSON.parse(JSON.stringify(o)); t.unitBaseQty = num(o.qty) || 1; u.tpl = u.tpl.filter(x => x.mark !== t.mark).concat([t]); });
+  const ids = new Set(here.map(o => o.id));
+  S.openings = S.openings.filter(o => !ids.has(o.id));
+  unitApply(u, true);
+  persist(); refreshPlanTools();
+  toast('Unit ' + u.name + ': ' + plural(u.tpl.length, 'door') + ' taken from this sheet');
+}
+
+/** write the unit's doors into the job: one line for the units as drawn, one for the flipped ones with the hands mirrored */
+function unitApply(u, quiet) {
+  const { n, nf } = unitCounts(u);
+  /* edits made on the job's lines go back into the unit first */
+  u.tpl.forEach(t => {
+    const gN = S.openings.find(o => o.unitGen === u.id && o.unitTpl === t.id && !o.unitFlip);
+    const gF = S.openings.find(o => o.unitGen === u.id && o.unitTpl === t.id && o.unitFlip);
+    const src = gN || gF;
+    if (src) Object.keys(src).forEach(k => { if (['id', 'qty', 'mark', 'unitGen', 'unitTpl', 'unitFlip', 'planRef', 'hand'].indexOf(k) < 0) t[k] = src[k]; });
+    if (gN) t.hand = gN.hand; else if (gF) t.hand = MIRROR_HAND[gF.hand] || gF.hand;
+  });
+  S.openings = S.openings.filter(o => o.unitGen !== u.id);
+  u.tpl.forEach(t => {
+    const base = num(t.unitBaseQty) || 1;
+    const mk = (flip, count) => {
+      const o = JSON.parse(JSON.stringify(t));
+      o.id = uid(); o.unitGen = u.id; o.unitTpl = t.id; o.unitFlip = flip;
+      o.mark = u.name + '-' + t.mark + (flip ? 'F' : '');
+      o.qty = base * count;
+      if (flip) o.hand = MIRROR_HAND[t.hand] || t.hand;
+      o.notes = [t.notes, 'Unit ' + u.name + (flip ? ' flipped' : '') + ': ' + count + ' units x ' + base].filter(Boolean).join(' · ');
+      delete o.unitBaseQty;
+      S.openings.push(o);
+    };
+    if (n) mk(false, n);
+    if (nf) mk(true, nf);
+  });
+  if (!quiet) { persist(); toast('Unit ' + u.name + ': ' + n + ' as drawn, ' + nf + ' flipped · ' + plural(u.tpl.length * ((n ? 1 : 0) + (nf ? 1 : 0)), 'line') + ' on the job', { label: 'Undo', fn: undo }); }
+}
+
+/** find the unit labels on this sheet: "UNIT A", with a flip word on the label or just under it */
+function unitFindLabels(u) {
+  const P = IMP.items; if (!P) return;
+  const lab = String(u.label || ('UNIT ' + u.name)).toUpperCase().replace(/\s+/g, ' ').trim();
+  const words = String(u.flipWords || '').split(',').map(w => w.trim().toUpperCase()).filter(Boolean);
+  const isFlip = t => words.some(w => t.indexOf(w) >= 0);
+  const esc2 = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const re = new RegExp('^' + esc2(lab) + '(?![A-Z0-9])');
+  let added = 0;
+  u.pins = u.pins.filter(p => !onPage(p));
+  P.items.forEach(it => {
+    const t = it.s.toUpperCase().replace(/\s+/g, ' ').trim();
+    if (!re.test(t)) return;
+    const near = P.items.filter(o2 => o2 !== it && o2.y0 >= it.y0 - 1 && o2.y0 < it.y1 + it.h * 2.5 && o2.x1 > it.x0 - it.h * 3 && o2.x0 < it.x1 + it.h * 3);
+    const flip = isFlip(t.slice(lab.length)) || near.some(o2 => isFlip(o2.s.toUpperCase()));
+    u.pins.push({ file: IMP.file.name, page: IMP.page, x: (it.x0 + it.x1) / 2 / P.w, y: (it.y0 + it.y1) / 2 / P.h, flip });
+    added++;
+  });
+  persist(); refreshPlanTools();
+  const c = u.pins.filter(onPage);
+  toast(added ? 'Unit ' + u.name + ' on this sheet: ' + c.filter(p => !p.flip).length + ' as drawn, ' + c.filter(p => p.flip).length + ' flipped' : 'No "' + lab + '" labels on this sheet — check the label text, or click each unit');
+}
+
+/* ============================================================
+   HARDWARE SETS OFF THE SPECIFICATION — Section 08 71 00 lists every
+   set as a heading and a column of lines: quantity, unit, item,
+   catalog number, finish, manufacturer. Read them all, put the doors
+   the spec names on their set, and flag every electrified item so the
+   low voltage and security trades are coordinated before bid day.
+   ============================================================ */
+const MFR_ABBR = { IVE: 'Ives', SCH: 'Schlage', VON: 'Von Duprin', LCN: 'LCN', ZER: 'Zero International', PEM: 'Pemko', NGP: 'NGP', HAG: 'Hager', MCK: 'McKinney',
+  SAR: 'Sargent', COR: 'Corbin Russwin', RUS: 'Corbin Russwin', YAL: 'Yale', NOR: 'Norton', RIX: 'Rixson', GLY: 'Glynn-Johnson', GJ: 'Glynn-Johnson', ROC: 'Rockwood', RO: 'Rockwood',
+  BES: 'Best', BEST: 'Best', MED: 'Medeco', HES: 'HES', FOL: 'Folger Adam', SEC: 'Securitron', ABH: 'ABH', TRI: 'Trimco', DOR: 'dormakaba', DKB: 'dormakaba', STA: 'Stanley',
+  BEA: 'BEA', LSDA: 'LCN', ALA: 'Alarm Lock', DET: 'Detex', SDC: 'SDC', SEL: 'Select', MAR: 'Markar', PRE: 'Precision', ADA: 'Adams Rite', AR: 'Adams Rite', SCE: 'Schlage Electronics',
+  HAGER: 'Hager', IVES: 'Ives', LCN2: 'LCN', SCHLAGE: 'Schlage', VONDUPRIN: 'Von Duprin', PEMKO: 'Pemko', ROCKWOOD: 'Rockwood', SARGENT: 'Sargent', ZERO: 'Zero International' };
+const ELEC_RE = /\b(EL|ELEC|ELECTRIC|ELECTRIFIED|ELECTRO|EPT|EPT\d+|POWER TRANSFER|(?:EL|EM)\d*|RX|REX|REQUEST TO EXIT|DPS|DOOR POSITION|CARD READER|READER|MAG(NETIC)? ?LOCK|POWER SUPPLY|PS\d{3}|WIRE HARNESS|WIRING HARNESS|CON-\d+|QEL|SECURITRON|AUTO(MATIC)? OPERATOR|ACTUATOR|PUSH ?BUTTON|INTERCOM|ACCESS CONTROL|KEYPAD|\d{2}\s?V(AC|DC)|FAIL SAFE|FAIL SECURE|MONITOR(ED|ING)?|ALARM)\b/i;
+const SET_HEAD_RE = /^\s*(?:HARDWARE\s+|HDWR?\.?\s+|HDW\.?\s+|HW\.?\s+)?(?:SET|GROUP|HEADING|HDG)\s*(?:NO\.?|NUMBER|#)?\s*[:.\-]?\s*([A-Z]{0,3}[-.]?\d{1,3}[A-Z]?(?:[.\-]\d{1,2}[A-Z]?)?)\b\s*[:.\-–—]*\s*(.*)$/i;
+const SET_ITEM_RE = /^\s*(\d{1,3})\s*(EA|EACH|PR|PAIR|PRS|SET|SETS|LF|LOT|EA\.)?\s+(.+)$/i;
+const setKey = id => String(id || '').toUpperCase().replace(/^(HW|HDW|HDWR|SET|GROUP|HDG)[\s.\-#:]*/, '').replace(/^0+(?=\d)/, '').trim();
+
+/** lines of text on every page of the open PDF, top to bottom */
+async function pdfAllLines() {
+  const out = [];
+  for (let pg = 1; pg <= IMP.pages; pg++) {
+    const P = await pdfItems(pg);
+    const lines = [];
+    P.items.filter(it => !it.vert).sort((a, b) => a.y - b.y || a.x0 - b.x0).forEach(it => {
+      const ln = lines.find(l => Math.abs(l.y - it.y) < Math.max(2, it.h * 0.45));
+      if (ln) ln.items.push(it); else lines.push({ y: it.y, items: [it] });
+    });
+    lines.forEach(l => { l.items.sort((a, b) => a.x0 - b.x0); out.push({ page: pg, text: l.items.map(i => i.s).join(' ').replace(/\s+/g, ' ').trim() }); });
+  }
+  return out;
+}
+
+/** the sets in the spec: heading, lines, the doors each one goes on, electrified items flagged */
+function parseHardwareSpec(lines) {
+  const sets = []; let cur = null;
+  lines.forEach(({ text, page }) => {
+    const h = text.match(SET_HEAD_RE);
+    if (h && !/^\s*\d+\s+(EA|PR)/i.test(text)) { cur = { id: h[1].replace(/\s+/g, ''), name: (h[2] || '').replace(/^[\s.:\-–—]+/, '').slice(0, 80), items: [], doors: [], notes: [], page }; sets.push(cur); return; }
+    if (!cur) return;
+    const dm = text.match(/^\s*(?:DOORS?|OPENINGS?|DOOR NOS?\.?|FOR(?: USE ON)?(?: DOORS?)?|USE(?:D)? ON)\s*[:#]?\s*(.+)$/i);
+    if (dm) { cur.doors.push(...dm[1].split(/[,;\s]+/).map(x => x.replace(/[^\w\-.]/g, '')).filter(x => /\d/.test(x) && x.length <= 8)); return; }
+    const m = text.match(SET_ITEM_RE);
+    if (m && /[A-Z]{3,}/i.test(m[3])) {
+      let rest = m[3].trim();
+      const toks = rest.split(' ');
+      let mfr = '';
+      const last = toks[toks.length - 1].toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (MFR_ABBR[last]) { mfr = MFR_ABBR[last]; toks.pop(); }
+      let fin = '';
+      for (let i = toks.length - 1; i >= Math.max(0, toks.length - 3); i--) {
+        if (/^(6\d\d|US\d{1,2}[A-Z]?|689|690|BLK|AL|ALUM|DKB|SP28|SP313|PRIME|ANCLR|628|313AN)$/i.test(toks[i])) { fin = toks.splice(i, 1)[0]; break; }
+      }
+      rest = toks.join(' ');
+      /* the item name is the words before the first catalog-looking token */
+      const ci = toks.findIndex((t, i) => i > 0 && /\d/.test(t));
+      const product = (ci > 0 ? toks.slice(0, ci) : toks.slice(0, 2)).join(' ');
+      const model = ci > 0 ? toks.slice(ci).join(' ') : toks.slice(2).join(' ');
+      const unit = (m[2] || 'EA').toUpperCase().replace(/^EACH$|^EA\.$/, 'EA').replace(/^PAIR$|^PRS$/, 'PR');
+      const it = normItem({ qty: num(m[1]) * (unit === 'PR' && /HINGE|BUTT/i.test(product) ? 2 : 1), cat: pbGuessCat(rest), product: product.toLowerCase().replace(/^\w/, c => c.toUpperCase()), model, mfr, fin });
+      if (ELEC_RE.test(rest)) { it.note = 'ELECTRIFIED'; it.elec = true; }
+      if (/\bBY (OTHERS|SECURITY|ELECTRICAL|OWNER|DIVISION \d+|DIV\.? \d+)/i.test(rest)) { it.note = [it.note, 'BY OTHERS'].filter(Boolean).join(' · '); it.byOthers = true; }
+      cur.items.push(it);
+      return;
+    }
+    if (text.length > 3 && text.length < 160 && !/^(SECTION|PAGE|\d+\s*$|END OF)/i.test(text)) cur.notes.push(text);
+  });
+  return sets.filter(s => s.items.length);
+}
+
+/** the electrified hardware on the job, set by set and door by door, for the low voltage coordination meeting */
+function lowVoltageRows() {
+  const rows = [];
+  S.sets.forEach(s => {
+    const el = s.items.filter(i => i.elec || /ELECTRIFIED/.test(i.note || '') || ELEC_RE.test([i.product, i.model, i.cat].join(' ')));
+    if (!el.length) return;
+    const doors = S.openings.filter(o => o.hwSet === s.id);
+    el.forEach(i => rows.push({ set: s.id, name: s.name, qty: i.qty, item: [i.product, i.model].filter(Boolean).join(' '), mfr: i.mfr, doors: doors.map(o => o.mark).join(', '), nDoors: doors.reduce((a, o) => a + (num(o.qty) || 1), 0) }));
+  });
+  return rows;
+}
+function lowVoltageCSV() {
+  const rows = lowVoltageRows();
+  if (!rows.length) return toast('No electrified hardware in the sets on this job');
+  const head = ['SET', 'SET NAME', 'QTY PER OPENING', 'ITEM', 'MANUFACTURER', 'OPENINGS', 'DOORS'];
+  const csv = [head].concat(rows.map(r => [r.set, r.name, r.qty, r.item, r.mfr, r.nDoors, r.doors])).map(r => r.map(csvQ).join(',')).join('\r\n');
+  downloadFile(fileBase() + '_low_voltage.csv', csv, 'text/csv');
+  toast(plural(rows.length, 'electrified item') + ' exported');
+}
+
+
 function guessHeader(grid) {
   let best = 0, score = -1;
   grid.slice(0, 25).forEach((r, i) => {
@@ -8328,7 +8677,7 @@ function renderImport() {
         <b>${esc(IMP.file.name)}</b>
         ${IMP.kind === 'pdf' ? `<span class="hint">page</span><button type="button" class="iconbtn" id="impPrev" title="Previous page" ${IMP.page <= 1 ? 'disabled' : ''}>‹</button><select id="impPage" style="width:auto">${Array.from({ length: IMP.pages }, (_, i) => `<option ${i + 1 === IMP.page ? 'selected' : ''}>${i + 1}</option>`).join('')}</select><button type="button" class="iconbtn" id="impNextPg" title="Next page" ${IMP.page >= IMP.pages ? 'disabled' : ''}>›</button>
           <span class="hint">sheet</span><input type="text" id="impSheetLbl" value="${esc(IMP.pageLabel)}" placeholder="A-601" style="width:90px">
-          <div class="seg"><button type="button" data-impmode="table" class="${IMP.mode === 'table' ? 'on' : ''}">Read schedule</button><button type="button" data-impmode="count" class="${IMP.mode === 'count' ? 'on' : ''}">Count on plan</button></div>` : ''}
+          <div class="seg"><button type="button" data-impmode="table" class="${IMP.mode === 'table' ? 'on' : ''}">Read schedule</button><button type="button" data-impmode="count" class="${IMP.mode === 'count' ? 'on' : ''}">Count on plan</button><button type="button" data-impmode="spec" class="${IMP.mode === 'spec' ? 'on' : ''}" title="Read the hardware sets out of the specification (Section 08 71 00)">Hardware sets</button></div>` : ''}
         <span class="spacer"></span>
         <button class="btn ghost sm" id="impClose">${ic('x')}Close file</button>
       </div>
@@ -8342,7 +8691,7 @@ function renderImport() {
           ${st(3, false, S.div10.some(r => r.pins && r.pins.length), 'Count Division 10', 'Accessories, cabinets and runs off the same sheets', '')}
         </div>`; })() : ''}
     </div>
-    ${IMP.mode === 'count' && IMP.kind === 'pdf' ? countModeHtml()
+    ${IMP.mode === 'spec' && IMP.kind === 'pdf' ? specCardHtml() : IMP.mode === 'count' && IMP.kind === 'pdf' ? countModeHtml()
     : (IMP.kind === 'pdf' ? `
     <div class="card schcard">
       <div class="chead"><h2>${ic('table')} The schedule on the sheet</h2>
@@ -8373,6 +8722,7 @@ async function drawImportPage() {
   await page.render({ canvasContext: cv.getContext('2d'), viewport: vp }).promise;
   IMP.scale = scale;
   drawPins();
+  if (IMP.swingsPage !== planKey()) pdfSwings(IMP.page).then(sw => { IMP.swings = sw; IMP.swingsPage = planKey(); if (IMP.showSwings) drawPins(); }).catch(() => {});
 }
 
 async function openImportFile(f) {
@@ -8396,6 +8746,7 @@ async function openImportFile(f) {
       IMP.page = best;
       await loadImportPage();
       IMP.mode = IMP.sched ? 'table' : 'count';             // a schedule to read, or a plan to count on
+      if (!IMP.sched && IMP.items && IMP.items.items.filter(it => SET_HEAD_RE.test(it.s)).length >= 2) IMP.mode = 'spec';   // a hardware specification
     } else if (name.endsWith('.xlsx')) {
       IMP.kind = 'xlsx'; IMP.mode = 'table'; IMP.grid = await readXlsx(await f.arrayBuffer());
       IMP.headerRow = guessHeader(IMP.grid); IMP.map = guessMap(IMP.grid[IMP.headerRow] || []);
@@ -8453,6 +8804,18 @@ function bindImport() {
     const sz = e.target.closest('#schZoomIn,#schZoomOut');
     if (sz) { IMP.sZoom = Math.max(0.5, Math.min(5, (IMP.sZoom || 1) * (sz.id === 'schZoomIn' ? 1.3 : 0.77))); drawSchedPage(); return; }
     if (e.target.closest('#impFindTags')) { findTagsOnPage(); return; }
+    if (e.target.closest('#impSwings')) { handFromSwings(); return; }
+    const cu = () => S.units.find(x => x.id === IMP.unitId);
+    if (e.target.closest('#unitNew')) { const n = String.fromCharCode(65 + (S.units.length % 26)); const u = normUnit({ name: n }); S.units.push(u); IMP.unitId = u.id; persist(); refreshPlanTools(); return; }
+    if (e.target.closest('#unitTake')) { const u = cu(); if (u) unitTakeSheet(u); return; }
+    if (e.target.closest('#unitFind')) { const u = cu(); if (u) unitFindLabels(u); return; }
+    if (e.target.closest('#unitApply')) { const u = cu(); if (u) { unitApply(u); refreshPlanTools(); } return; }
+    if (e.target.closest('#specRead')) {
+      const b = e.target.closest('#specRead'); b.disabled = true; b.textContent = 'Reading every page…';
+      IMP.spec = parseHardwareSpec(await pdfAllLines()); IMP.specSkip = new Set(); renderImport(); return;
+    }
+    if (e.target.closest('#specGo')) { specApply(); return; }
+    if (e.target.closest('#lvCsv')) { lowVoltageCSV(); return; }
     if (e.target.closest('#impAddTags')) { addMissingTags(); return; }
     if (e.target.closest('#impUndoPin')) { planUndo(); return; }
     const pt = e.target.closest('[data-ptool]'); if (pt) { IMP.tool = pt.dataset.ptool; IMP.mPt = null; refreshPlanTools(); return; }
@@ -8476,6 +8839,16 @@ function bindImport() {
       if (el.dataset.qc === 'preset' && PRESETS[el.value]) ['config', 'fire', 'hand'].forEach(f => { if (PRESETS[el.value][f]) QUICK[f] = PRESETS[el.value][f]; });
       renderQuickBar(); refreshPlanTools(); return; }
     if (el.id === 'impD10') { IMP.d10 = el.value; return; }
+    if (el.id === 'impShowSw') { IMP.showSwings = el.checked; if (el.checked && IMP.swingsPage !== planKey()) { IMP.swings = await pdfSwings(IMP.page); IMP.swingsPage = planKey(); } drawPins(); return; }
+    if (el.id === 'unitSel') { IMP.unitId = el.value; refreshPlanTools(); return; }
+    if (el.id === 'unitFlipNext') { IMP.unitFlip = el.checked; return; }
+    const uu = S.units.find(x => x.id === IMP.unitId);
+    if (uu && ['unitName', 'unitLabel', 'unitFlipW', 'unitNx', 'unitNfx'].indexOf(el.id) >= 0) {
+      const k = { unitName: 'name', unitLabel: 'label', unitFlipW: 'flipWords', unitNx: 'nExtra', unitNfx: 'nfExtra' }[el.id];
+      uu[k] = /Nx|Nfx/.test(el.id) ? Math.max(0, num(el.value)) : el.value.trim() || (k === 'name' ? uu.name : '');
+      persist(); refreshPlanTools(); return;
+    }
+    if (el.dataset.specrow != null) { const i = +el.dataset.specrow; el.checked ? IMP.specSkip.delete(i) : IMP.specSkip.add(i); return; }
     if (el.id === 'impD10Room') { IMP.d10room = el.value.trim(); return; }
     if (el.id === 'impScale') { if (el.value === 'Calibrated') return;
       S.project.planScales = Object.assign({}, S.project.planScales || {}, { [planKey()]: num(el.value) }); persist(); refreshPlanTools(); return; }
@@ -11129,7 +11502,7 @@ const CMDS = {
   sidebar: () => { PREFS.rail = !$('#app').classList.contains('rail'); savePrefs(); applyShellPrefs(); },
   undo: () => undo(), redo: () => redo(),
   nextFlag: () => nextFlag(),
-  keyPdf: () => keyingPDF(), keyCsv: () => keyingCSV(), d10Csv: () => div10CSV(), poPdf: () => poPDF(), poCsv: () => poCSV(),
+  keyPdf: () => keyingPDF(), keyCsv: () => keyingCSV(), lvCsv: () => lowVoltageCSV(), d10Csv: () => div10CSV(), poPdf: () => poPDF(), poCsv: () => poCSV(),
   coPdf: () => changeOrderPDF(), enlarge: () => enlargeDrawing()
 };
 function runCmd(k) { closeMenus(); if (CMDS[k]) CMDS[k](); }
@@ -11866,6 +12239,11 @@ function repriceJob() {
 }
 function pbGuessCat(t) {
   t = String(t || '').toUpperCase();
+  if (/ELEC(TRIC)?\.? STRIKE/.test(t)) return 'ELEC STRIKE';
+  if (/POWER TRANSFER|\bEPT\b/.test(t)) return 'POWER TRANSFER';
+  if (/CARD READER|\bREADER\b|KEYPAD/.test(t)) return 'CARD READER';
+  if (/MAG(NETIC)? ?LOCK/.test(t)) return 'MAG LOCK';
+  if (/AUTO(MATIC)? (DOOR )?OPERATOR/.test(t)) return 'AUTO OPERATOR';
   const hit = HW_CAT.find(c => c !== 'MISC' && t.indexOf(c) >= 0);
   if (hit) return hit;
   if (/BUTT|HINGE/.test(t)) return 'HINGE'; if (/CLOSER/.test(t)) return 'CLOSER'; if (/EXIT|PANIC|RIM DEVICE/.test(t)) return 'EXIT DEVICE';
@@ -12494,6 +12872,82 @@ const PLAN_SCALES = [['', 'Scale not set'], ['1.333333', '1/8" = 1\'-0"'], ['0.8
 const planKey = () => (IMP.file ? IMP.file.name : '') + '|' + IMP.page;
 const planScale = () => num(((S.project.planScales || {})[planKey()]) || 0);     // real inches per PDF point
 const onPage = r => r && r.file === (IMP.file ? IMP.file.name : '') && r.page === IMP.page;
+/** the Units tool: which unit, its doors, how many of it on the plans */
+function unitToolHtml() {
+  const u = S.units.find(x => x.id === IMP.unitId) || S.units[0];
+  if (u) IMP.unitId = u.id;
+  const c = u ? unitCounts(u) : { n: 0, nf: 0 };
+  const onSheet = u ? u.pins.filter(onPage) : [];
+  return `
+    <label class="qf"><span class="hint">Unit type</span><span style="display:flex;gap:4px"><select id="unitSel" style="width:auto;height:28px">${S.units.map(x => `<option value="${x.id}" ${u && x.id === u.id ? 'selected' : ''}>Unit ${esc(x.name)}</option>`).join('') || '<option value="">No units yet</option>'}</select>
+      <button type="button" class="btn sm" id="unitNew">${ic('plus')}New</button></span></label>
+    ${u ? `<label class="qf"><span class="hint">Name</span><input type="text" id="unitName" value="${esc(u.name)}" style="width:60px;height:28px"></label>
+    <label class="qf"><span class="hint">Label on the plans</span><input type="text" id="unitLabel" value="${esc(u.label)}" placeholder="UNIT ${esc(u.name)}" style="width:110px;height:28px"></label>
+    <label class="qf"><span class="hint">Flip words</span><input type="text" id="unitFlipW" value="${esc(u.flipWords)}" style="width:150px;height:28px"></label>
+    <label class="hint" style="align-self:center;display:flex;gap:4px;align-items:center"><input type="checkbox" id="unitFlipNext" ${IMP.unitFlip ? 'checked' : ''}> clicks count flipped</label>
+    <div class="unitbar">
+      <div class="ustat"><b>${u.tpl.length}</b><span>doors in the unit</span></div>
+      <div class="ustat"><b>${c.n}</b><span>as drawn${num(u.nExtra) ? ' (' + num(u.nExtra) + ' typed)' : ''}</span></div>
+      <div class="ustat flip"><b>${c.nf}</b><span>flipped${num(u.nfExtra) ? ' (' + num(u.nfExtra) + ' typed)' : ''}</span></div>
+      <div class="ustat"><b>${u.tpl.reduce((a, t) => a + (num(t.unitBaseQty) || 1), 0) * (c.n + c.nf)}</b><span>openings in all</span></div>
+      <span class="spacer"></span>
+      <button type="button" class="btn sm" id="unitTake" title="Use on the enlarged unit plan, after reading the tags or clicking the doors">${ic('door')}This sheet is the enlarged plan</button>
+      <button type="button" class="btn sm" id="unitFind">${ic('search')}Find "${esc(u.label || 'UNIT ' + u.name)}" on this sheet</button>
+      <label class="hint">+ as drawn <input type="number" id="unitNx" value="${num(u.nExtra)}" min="0" style="width:52px;height:26px"></label>
+      <label class="hint">+ flipped <input type="number" id="unitNfx" value="${num(u.nfExtra)}" min="0" style="width:52px;height:26px"></label>
+      <button type="button" class="btn sm primary" id="unitApply" ${u.tpl.length ? '' : 'disabled'}>Put on the job</button>
+    </div>
+    <span class="hint" style="flex-basis:100%">On the enlarged plan: read the tags (or click the doors), hand them from the swings, then <b>This sheet is the enlarged plan</b>. On each floor plan: <b>Find</b> the labels or click every unit — click a pin again to flip it. Flipped units get the hands mirrored.${onSheet.length ? ' This sheet: ' + onSheet.filter(p => !p.flip).length + ' as drawn, ' + onSheet.filter(p => p.flip).length + ' flipped.' : ''}</span>` : '<span class="hint" style="align-self:center">Make a unit type for each apartment, hotel room or suite layout.</span>'}`;
+}
+/** the hardware sets read out of a specification */
+function specCardHtml() {
+  const sp = IMP.spec, skip = IMP.specSkip || new Set();
+  const have = new Map(S.sets.map(x => [setKey(x.id), x]));
+  const lv = lowVoltageRows();
+  return `
+    <div class="card">
+      <div class="chead"><h2>${ic('table')} Hardware sets from the specification</h2>
+        <span class="hint">Reads every set in the PDF — usually Section 08 71 00, the "Hardware Sets" or "Hardware Groups" at the end. Quantities, items, catalog numbers, finishes and makers come in; the doors each set is for are put on it; electrified items are flagged.</span>
+        <span class="spacer"></span>
+        <button class="btn primary" id="specRead">${ic('search')}${sp ? 'Read again' : 'Read the hardware sets'}</button></div>
+      ${sp ? (sp.length ? `<div class="scrollx"><table class="wide"><thead><tr><th style="width:28px"></th><th>SET</th><th>NAME</th><th class="n">ITEMS</th><th class="n">ELECTRIFIED</th><th>DOORS IN THE SPEC</th><th>FIRST LINES</th><th></th></tr></thead><tbody>
+        ${sp.map((x, i) => { const ex = have.get(setKey(x.id)), el = x.items.filter(it => it.elec).length;
+          return `<tr><td><input type="checkbox" data-specrow="${i}" ${skip.has(i) ? '' : 'checked'}></td><td class="mono"><b>${esc(x.id)}</b></td><td>${esc(x.name)}</td><td class="n">${x.items.length}</td>
+          <td class="n">${el ? `<span class="chip warn">${el} ⚡</span>` : ''}</td><td class="mono">${esc(x.doors.slice(0, 10).join(', '))}${x.doors.length > 10 ? '…' : ''}</td>
+          <td class="hint" style="max-width:380px">${esc(x.items.slice(0, 3).map(it => it.qty + ' ' + [it.product, it.model].filter(Boolean).join(' ')).join(' · '))}</td>
+          <td>${ex ? `<span class="chip cust" title="Replaces the items in ${esc(ex.id)}">${ex.items.length ? 'replace' : 'fill'} ${esc(ex.id)}</span>` : '<span class="chip ok">new</span>'}</td></tr>`; }).join('')}
+        </tbody></table></div>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:10px"><span class="hint">${plural(sp.length, 'set')} found, ${sp.reduce((a, x) => a + x.items.length, 0)} lines, ${sp.reduce((a, x) => a + x.items.filter(it => it.elec).length, 0)} electrified.</span><span class="spacer"></span>
+          <button class="btn primary" id="specGo">${ic('plus')}Put these sets on the job</button></div>`
+        : '<p class="hint">No hardware sets found. Open the specification PDF (or the drawings with the hardware schedule) — sets need headings like "Hardware Set 01" or "HW Group 3" with lines such as "3 EA Hinge 5BB1 4.5 x 4.5 652 IVE". A scanned spec has no text to read.</p>') : ''}
+    </div>
+    <div class="card"><div class="chead"><h2>⚡ Electrified hardware — low voltage coordination</h2><span class="hint">Every electrified item on the job and the doors it goes on, for the security, access control and electrical trades.</span><span class="spacer"></span>
+      <button class="btn sm" id="lvCsv" ${lv.length ? '' : 'disabled'}>${ic('download')}CSV</button></div>
+      ${lv.length ? `<div class="scrollx"><table class="sum"><thead><tr><th>SET</th><th class="n">QTY</th><th>ITEM</th><th>MAKER</th><th class="n">OPENINGS</th><th>DOORS</th></tr></thead><tbody>
+        ${lv.map(r => `<tr><td class="mono">${esc(r.set)}</td><td class="n">${r.qty}</td><td>${esc(r.item)}</td><td>${esc(r.mfr)}</td><td class="n">${r.nDoors}</td><td class="mono">${esc(r.doors)}</td></tr>`).join('')}
+      </tbody></table></div>` : '<p class="hint">No electrified hardware in the job\'s sets yet.</p>'}</div>`;
+}
+/** the sets read from the spec go on the job: new sets added, the same set number replaced, the named doors put on their set */
+function specApply() {
+  const sp = (IMP.spec || []).filter((_, i) => !(IMP.specSkip || new Set()).has(i));
+  if (!sp.length) return;
+  let added = 0, replaced = 0, doors = 0;
+  sp.forEach(x => {
+    const k = setKey(x.id);
+    let set = S.sets.find(z => setKey(z.id) === k);
+    if (!set) {
+      const fromDoor = S.openings.find(o => setKey(o.hwSet) === k);
+      set = newSet(fromDoor ? fromDoor.hwSet : (/^\d/.test(x.id) ? 'HW-' + k : x.id)); S.sets.push(set); added++;
+    } else replaced++;
+    set.name = set.name && set.name !== 'From the schedule' ? set.name : x.name;
+    set.items = x.items.map(it => { const r = priceItem(Object.assign({}, it)); if (it.byOthers) { r.cost = 0; r.list = 0; } return r; });
+    if (x.notes.length) set.notes = x.notes.slice(0, 6).join(' ');
+    x.doors.forEach(m => { const o = S.openings.find(z => String(z.mark).toUpperCase() === m.toUpperCase()); if (o && o.hwSet !== set.id) { o.hwSet = set.id; doors++; } });
+    S.openings.forEach(o => { if (o.hwSet !== set.id && setKey(o.hwSet) === k) { o.hwSet = set.id; doors++; } });
+  });
+  persist(); renderImport();
+  toast([added && plural(added, 'set') + ' added', replaced && replaced + ' filled or replaced', doors && plural(doors, 'door') + ' put on its set'].filter(Boolean).join(' · '), { label: 'Undo', fn: undo });
+}
 function countModeHtml() {
   const t = IMP.tool || 'open';
   const sc = planScale();
@@ -12512,6 +12966,7 @@ function countModeHtml() {
           <button type="button" data-ptool="open" class="${t === 'open' ? 'on' : ''}">${ic('door')} Openings</button>
           <button type="button" data-ptool="d10" class="${t === 'd10' ? 'on' : ''}">${ic('box')} Division 10</button>
           <button type="button" data-ptool="measure" class="${t === 'measure' ? 'on' : ''}">${ic('ruler')} Measure</button>
+          <button type="button" data-ptool="unit" class="${t === 'unit' ? 'on' : ''}" title="Unit types for apartments, hotels and dorms: doors tagged on the enlarged plan, units counted on the floor plans, flips mirrored">${ic('copy')} Units</button>
         </div>
         <span class="tbsep"></span>
         <span class="hint">Scale</span><select id="impScale" style="width:auto;height:28px">${PLAN_SCALES.map(([v, l]) => `<option value="${v}" ${Math.abs(num(v) - sc) < 1e-4 && (v || !sc) ? 'selected' : ''}>${esc(l)}</option>`).join('')}${sc && !PLAN_SCALES.some(([v]) => Math.abs(num(v) - sc) < 1e-4) ? '<option selected>Calibrated</option>' : ''}</select>
@@ -12525,6 +12980,8 @@ function countModeHtml() {
       </div>
       <div class="tagbar">
         <button type="button" class="btn sm primary" id="impFindTags" title="Look for every door mark on the job written on this sheet and pin it there">${ic('search')}Find door tags on this sheet</button>
+        <button type="button" class="btn sm" id="impSwings" title="Read the door swings drawn on this sheet and set the hand of every door pinned on it">${ic('door')}Hand the doors from the swings</button>
+        <label class="hint" style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="impShowSw" ${IMP.showSwings ? 'checked' : ''}> show swings</label>
         ${(IMP.missingTags || []).length ? `<span class="hint">${plural(IMP.missingTags.length, 'tag')} drawn like door tags but not on the job: <b class="mono">${esc(IMP.missingTags.slice(0, 12).map(t => t.mark).join(', '))}${IMP.missingTags.length > 12 ? '…' : ''}</b></span>
           <button type="button" class="btn sm" id="impAddTags">${ic('plus')}Add them with the settings below</button>` : `<span class="hint">Reads the tags off the sheet, so a door schedule read first lands every door on the plan in one click.</span>`}
       </div>
@@ -12542,6 +12999,7 @@ function countModeHtml() {
         <label class="qf" style="flex:1 1 320px"><span class="hint">Count this item</span><select id="impD10" style="height:28px">${d10opts}</select></label>
         <label class="qf"><span class="hint">Room</span><input type="text" id="impD10Room" value="${esc(IMP.d10room || '')}" placeholder="optional" style="width:150px;height:28px"></label>
         <span class="hint" style="align-self:center">Each click adds one to its quantity.</span>`
+      : t === 'unit' ? unitToolHtml()
       : t === 'measure' ? `
         <label class="qf" style="flex:1 1 320px"><span class="hint">Add the length to (LF items)</span><select id="impD10" style="height:28px"><option value="">Measure only</option>${S.div10.filter(r => r.unit === 'LF').map(r => `<option value="${r.id}" ${IMP.d10 === r.id ? 'selected' : ''}>${esc(r.product || 'Unnamed line')} (${num(r.qty)} LF)</option>`).join('')}${DIV10_LIB.map((x, i) => [x, i]).filter(([x]) => x.unit === 'LF').map(([x, i]) => `<option value="L|${i}">New: ${esc(x.product)}</option>`).join('')}</select></label>
         <span class="hint" style="align-self:center">${sc ? 'Click the start, then the end of each run.' : '<b style="color:var(--fire)">Set the scale or calibrate first.</b>'}${IMP.lastLen ? ' Last run: <b>' + esc(ftin(IMP.lastLen)) + '</b>' : ''}</span>`
@@ -12573,6 +13031,21 @@ function drawPins() {
     g += `<g transform="translate(${x.x * W},${x.y * H})"><rect x="-4" y="-4" width="8" height="8" fill="#c07f00" stroke="#fff" stroke-width="1.5" transform="rotate(45)"/>
       <text x="8" y="4" font-size="10.5" font-weight="600" fill="#7a5100" stroke="#fff" stroke-width="3" paint-order="stroke">${esc(lab)}</text></g>`;
   }));
+  if (IMP.showSwings && IMP.swings && IMP.swingsPage === planKey()) {
+    const k = W / IMP.swings.w;
+    IMP.swings.swings.forEach(s => {
+      const col = s.sure ? '#26674f' : '#a83228';
+      g += `<circle cx="${s.H.x * k}" cy="${s.H.y * k}" r="${s.r * k}" fill="none" stroke="${col}" stroke-width="1" stroke-dasharray="3 3" opacity=".45"/>`;
+      if (s.sure) {
+        g += `<line x1="${s.H.x * k}" y1="${s.H.y * k}" x2="${s.open.x * k}" y2="${s.open.y * k}" stroke="${col}" stroke-width="3" opacity=".7"/>`;
+        g += `<text x="${s.H.x * k}" y="${s.H.y * k - 5}" font-size="11" font-weight="700" fill="${col}" text-anchor="middle" stroke="#fff" stroke-width="3" paint-order="stroke">${s.pair ? 'PR' : swingHand(s, false)}</text>`;
+      }
+    });
+  }
+  S.units.forEach(u => u.pins.filter(onPage).forEach(p => {
+    g += `<g transform="translate(${p.x * W},${p.y * H})"><rect x="-17" y="-11" width="34" height="22" rx="3" fill="${p.flip ? '#7a3fa0' : '#26674f'}" stroke="#fff" stroke-width="1.5" opacity=".92"/>
+      <text y="4" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-family="IBM Plex Mono, monospace">${esc(u.name)}${p.flip ? '⇄' : ''}</text></g>`;
+  }));
   (IMP.missingTags || []).forEach(t => {
     g += `<g transform="translate(${t.x * W},${t.y * H})"><circle r="13" fill="none" stroke="#a83228" stroke-width="2" stroke-dasharray="4 3"/>
       <text y="-17" font-size="10" font-weight="700" fill="#a83228" text-anchor="middle" stroke="#fff" stroke-width="3" paint-order="stroke">not on job</text></g>`;
@@ -12595,10 +13068,20 @@ function planClick(e) {
   const x = (e.clientX - rc.left) / rc.width, y = (e.clientY - rc.top) / rc.height;
   const file = IMP.file.name, page = IMP.page, t = IMP.tool || 'open';
   IMP.stack = IMP.stack || [];
+  if (t === 'unit') {
+    const u = S.units.find(x => x.id === IMP.unitId); if (!u) return toast('Make a unit type first');
+    const W = $('#impCanvas').width, H = $('#impCanvas').height;
+    const near = u.pins.find(p => onPage(p) && Math.hypot((p.x - x) * W, (p.y - y) * H) < 14);
+    if (near) { near.flip = !near.flip; persist(); refreshPlanTools(); return toast('Unit ' + u.name + (near.flip ? ' flipped' : ' as drawn')); }
+    u.pins.push({ file, page, x, y, flip: !!(IMP.unitFlip || e.shiftKey) }); IMP.stack.push({ k: 'unit', id: u.id });
+    persist(); refreshPlanTools(); const c = unitCounts(u); return toast('Unit ' + u.name + ': ' + c.n + ' as drawn, ' + c.nf + ' flipped');
+  }
   if (t === 'open') {
     const mark = (IMP.prefix || '') + IMP.next;
     const o = openingFromRow(Object.assign({}, QUICK, { mark }));
     o.sheet = IMP.pageLabel || ''; o.planRef = { file, page, x, y };
+    /* clicked on a door swing: the drawing says the hand */
+    if (IMP.swings && IMP.swingsPage === planKey()) { const sw = nearestSwing(IMP.swings, x * IMP.swings.w, y * IMP.swings.h); if (sw && sw.sure) { if (sw.pair && !isPair(o)) { o.config = 'PR'; o.w2 = o.w1; } applySwing(o, sw); } }
     const last = S.openings[S.openings.length - 1]; if (last && !o.level) o.level = last.level;
     S.openings.push(o); S.selId = o.id; IMP.stack.push({ k: 'open', id: o.id });
     IMP.next++; persist(); refreshPlanTools(); toast('Added ' + mark + ' · ' + sizeCode(derive(o).nomW, derive(o).nomH) + ' ' + o.config);
@@ -12655,6 +13138,7 @@ function planUndo() {
     S.openings = S.openings.filter(x => x !== o); IMP.next = Math.max(1, IMP.next - 1); persist(); refreshPlanTools(); return;
   }
   if (last.k === 'open') { S.openings = S.openings.filter(o => o.id !== last.id); IMP.next = Math.max(1, IMP.next - 1); }
+  else if (last.k === 'unit') { const u = S.units.find(x => x.id === last.id); if (u) u.pins.pop(); }
   else { const r = S.div10.find(x => x.id === last.id); if (r) {
     if (last.k === 'pin' && r.pins.length) { r.pins.pop(); r.qty = Math.max(0, num(r.qty) - 1); }
     if (last.k === 'run' && r.runs.length) { const x = r.runs.pop(); r.qty = Math.max(0, Math.round((num(r.qty) - num(x.lf)) * 10) / 10); } } }

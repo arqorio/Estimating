@@ -4,6 +4,34 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## 2.2 — Requested on r/Estimators
+
+### New
+- **Handing from the floor plan** (asked by u/masterbuilder28).
+  - The app reads the door swings drawn on the sheet: bezier and polyline quarter circles, plus the leaf line. The arc's center is the hinge and the leaf marks the open position.
+  - It sets the hand of every door pinned on the sheet: LH or RH from the push side, LHR or RHR when the door swings out.
+  - Pairs are recognized (LHRA / RHRA).
+  - With the drawing scale set, a leaf that measures differently from the schedule is reported.
+  - Clicking a door on its swing in *Count on plan* hands it as it is added.
+  - *Show swings* draws what was read over the sheet.
+- **Unit types and flips** (asked by u/masterbuilder28).
+  - The doors tagged on an enlarged unit plan become that unit's doors.
+  - Units are counted on the floor plans by their labels. A flip word (FLIP, MIRROR, REV, (R)) on or under the label counts as flipped. Units can also be clicked one by one; clicking a pin again flips it.
+  - Typed extra counts cover units that are not on the sheets.
+  - *Put on the job* writes one line per door for the units as drawn and one with the hand mirrored for the flipped units, multiplied out.
+  - Edits made to those lines are kept when the counts change.
+- **Hardware sets from the specification** (prompted by u/Significant-Sock-762).
+  - Reads every set in a spec PDF: the heading, quantity, unit, item, catalog number, finish and maker. Maker abbreviations such as IVE, SCH, VON and LCN are expanded.
+  - Puts the doors the spec lists on their set.
+  - Fills or replaces sets with the same number, so `SET 01` and `HW-1` are treated as the same set.
+  - Items furnished by others are priced at zero.
+- **Electrified hardware report:**
+  - Flags electric strikes, power transfers, power supplies, card readers, keypads, mag locks, auto operators, request-to-exit, door position switches and low-voltage ratings.
+  - Lists them set by set and door by door in *Plans › Hardware sets*.
+  - Exports them as *Electrified hardware, low voltage CSV*.
+- A PDF whose first useful page is a hardware specification opens straight in *Hardware sets*.
+- Electric strikes, power transfers, readers, mag locks and operators are now recognized by name when hardware is imported.
+
 ## 2.1 — Reading drawings, each door its own glass, exact sizes
 
 ### New

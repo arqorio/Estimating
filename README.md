@@ -35,7 +35,11 @@ It is built by a working Div 08 estimator for the way distributors actually esti
 2. **Open it** in Chrome, Edge or Safari with a double-click. Nothing installs.
 3. The first time, it loads a **sample job** and the **Guide** so you can click around.
 4. To start for real: **File › Start a new empty job**. Then fill in **Job info**, including your company details, which print on every PDF.
-5. **Try the plan reader:** go to **Plans › Open a file** and pick `samples/sample-drawings.pdf`. It opens on the door schedule. Click **Create 5 openings**, then switch to **Count on plan**, go to page 1 and click **Find door tags on this sheet**.
+5. **Try handing, units and spec sets:** open `samples/sample-units-and-spec.pdf`.
+   - **Hardware sets:** it opens on the hardware specification. Click *Read the hardware sets*, then *Put these sets on the job*.
+   - **Handing:** go to *Count on plan*, page 3, and click each door on its swing. Every door is added already handed (LH, RH, pair).
+   - **Unit types:** page 1 is the enlarged plan of Unit A. Click its two doors, then go to *Units › New › This sheet is the enlarged plan*. On page 2, click *Find "UNIT A" on this sheet* (3 as drawn, 2 flipped), then *Put on the job*.
+6. **Try the plan reader:** go to **Plans › Open a file** and pick `samples/sample-drawings.pdf`. It opens on the door schedule. Click **Create 5 openings**, then switch to **Count on plan**, go to page 1 and click **Find door tags on this sheet**.
 
 > Reading PDFs uses pdf.js, which the app downloads once from cdnjs the first time you open a PDF. Everything else works with no internet connection.
 
@@ -47,6 +51,9 @@ It is built by a working Div 08 estimator for the way distributors actually esti
 | | |
 |---|---|
 | **Door schedule from the PDF** | Finds the schedule page and the table by its header row. It handles two-row headers (DOOR / FRAME / DETAILS over WD, HT, THK), remarks that wrap onto a second line and pairs written as `(2) 3'-0"`. You can drag a box on the sheet to read only part of it, fix any cell with a click, untick rows, and read every page that carries the same schedule. Reading again after an addendum **updates** the openings instead of duplicating them. Excel (.xlsx) and CSV schedules work too. |
+| **Handing from the plan** | *Hand the doors from the swings* reads the door swings drawn on the sheet (arc and leaf) and sets each door's hand: LH / RH from the push side, LHR / RHR for out-swinging doors. It recognizes pairs and, with the scale set, flags a leaf that measures differently from the schedule. Click a door on its swing and it is handed as it is added. |
+| **Unit types and flips** | For apartments, hotels and dorms: doors tagged once on the enlarged unit plan become the unit's doors. Count the units on each floor plan by their labels ("UNIT A", with FLIP / MIRROR / REV for flipped units) or by clicking. *Put on the job* multiplies the doors out and mirrors the hands on flipped units. |
+| **Hardware sets from the spec** | Reads every set in Section 08 71 00: quantity, item, catalog number, finish and maker. It puts the listed doors on their set, flags electrified items (strikes, power transfers, power supplies, readers, mag locks, operators, DPS) and exports a low-voltage coordination list. |
 | **Doors on the floor plans** | *Find door tags on this sheet* pins every scheduled door where its tag is drawn. When a room number reads the same as a tag, it picks the tag. It also lists tags on the sheet that are not in the job, and adds them in one click. |
 | **Count and measure** | Click doors or Division 10 items on the plan. Set the drawing scale or calibrate on a known dimension, then measure corner guard, crash rail and other lineal-foot runs. |
 | **Quick entry** | Type a line (`101 · 3070 · SGL · HW-1`) and press Enter. *Batch add* creates runs of openings. Presets cover common opening types. |
@@ -170,6 +177,8 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
 ```
 takeoff.html                  The whole application. This is the only file you need.
 samples/sample-drawings.pdf   A floor plan and a door schedule to try the plan reader on.
+samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flipped units,
+                              a plan with door swings and a hardware spec section.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
 docs/img/                     Screenshots used in this README.
