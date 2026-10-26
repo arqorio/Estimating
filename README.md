@@ -58,6 +58,15 @@ It is built by a working Div 08 estimator for the way distributors actually esti
 | **Count and measure** | Click doors or Division 10 items on the plan. Set the drawing scale or calibrate on a known dimension, then measure corner guard, crash rail and other lineal-foot runs. |
 | **Quick entry** | Type a line (`101 · 3070 · SGL · HW-1`) and press Enter. *Batch add* creates runs of openings. Presets cover common opening types. |
 
+### Coordination review
+Cross-checks the job before bid day:
+- the schedule against the hardware sets and the floor plans
+- electrified hardware against the frame and door preps and the other trades
+- rated doors against their closers and latches, and against the wall they sit in (IBC Table 716.1(2))
+- duplicate marks, and what the last addendum changed
+
+Every finding names the doors and copies out as a question for the architect. The Division 08 and 10 spec requirements that change the price are read and can be carried into the quotation, and the quotation's inclusions, exclusions and notes can be written from the job in one click.
+
 ### Each opening
 - **Live checks while you type:**
   - Fire label vs. closer, glazing, louvers and undercut
@@ -182,6 +191,7 @@ samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flip
                               a plan with door swings and a hardware spec section.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
+docs/MELTPLAN-ANALYSIS.md     MeltPlan: what it does, how, and what we took from it.
 docs/img/                     Screenshots used in this README.
 ```
 
