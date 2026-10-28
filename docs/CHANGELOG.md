@@ -20,7 +20,7 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
   - four dimensions.
 
   Door-only openings show the frame dashed.
-- **Calculated on every row:** leaf size, frame overall, rough opening, clear width, hinges per leaf, lite size, elevation type, frame, door and hardware cost.
+- **Calculated on every row:** leaf size, frame overall, rough opening, clear width, hinges per leaf, lite size and elevation type.
 - **Checks in two levels:** FIX blocks the order; CHECK is worth a look. New rules:
   - door rating against the wall (IBC 716.1(2));
   - pair and hand checked both ways;
@@ -33,9 +33,7 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 - **Required cells turn amber** until they are filled.
 - **New columns:** wall type and wall rating, transom and sidelite.
 - **Defaults:** when blank, the door hand and door hinge prep take the frame's.
-- **Hardware sheet:** sets, items, cost per opening and job quantities.
-- **Prices sheet:** frame, door, rating, lite-kit, steel and size adders.
-- **Quote:** markups by category, freight and tax. Qualifications are written from the job.
+- **Hardware sheet:** sets, items, opening counts and job quantities. No pricing or quote: the workbook is for takeoff and ordering only.
 - **Summary:** counts by rating, scope, construction, frame type, floor, door material and lite kit, plus glass square footage.
 - **Layout:** foldable column groups, filters, print setup on every sheet and a Start sheet with links.
 
