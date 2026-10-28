@@ -4,9 +4,40 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## Excel takeoff form 3.1
+
+### New
+- **Hinge and strike locations on every row.** Pick the standard for each opening:
+  - ANSI/SDI A250.6;
+  - one of nine maker charts (Curries, Steelcraft, Amweld, Ceco, Fenestra, Kewanee, Mesker, Pioneer, Republic), the same charts the app uses;
+  - **CUSTOM LOC**, where you type A–D and E yourself.
+
+  Hinge size and hinge quantity can be overridden. Custom locations print on the frame and door order lines.
+- **Elevations show more:**
+  - each hinge at its real location and length, with its dimension;
+  - the lever and strike, with E and the height above the floor;
+  - the undercut, the 4" head and a mark tag.
+- **Elevation sheet:**
+  - a hinge location table: from the top of the frame, from the top of the door, and the centre line above the floor;
+  - anchors, rough opening and label class;
+  - a title block for the submittal.
+- **From the app:**
+  - anchors per jamb and base anchors;
+  - fire label class;
+  - a **Door Schedule** sheet;
+  - a **Reference** sheet with location charts, label classes, weld codes, the anchor rule and handing.
+- **Checks:** lock height 34–48" (ADA), custom hinge count, and fewer hinges than standard.
+- **Look:**
+  - title bands on every sheet, coloured group headers and section panels;
+  - KPI cards on the Summary;
+  - a cover-style Start sheet;
+  - print setup on every sheet, with the list sheets printing only the rows in use.
+
+---
+
 ## Excel takeoff form 3.0
 
-`excel/TAKEOFF FORM 3.0.xlsx` replaces TAKEOFF FORM 2.0. It uses the same lists, codes and order-line wording.
+TAKEOFF FORM 3.0 replaced TAKEOFF FORM 2.0. It uses the same lists, codes and order-line wording.
 
 ### New
 - **Live elevations.** *Elevation* draws any mark to scale. *Elevations* draws one of each type, six to a page. Each drawing shows:
