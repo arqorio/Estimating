@@ -164,21 +164,37 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
 
 ## Excel takeoff form (no app needed)
 
-[`excel/TAKEOFF FORM 3.0.xlsx`](excel/) is a standalone workbook for estimators who work in Excel. It replaces TAKEOFF FORM 2.0 and keeps its lists, codes and order lines.
+[`excel/TAKEOFF FORM 3.1.xlsx`](excel/) is a standalone workbook for estimators who work in Excel. It replaces TAKEOFF FORM 2.0 and keeps its lists, codes and order lines.
 
-- **Takeoff:** one row per opening, with dropdowns everywhere. Required cells turn amber until they are filled. Each row calculates leaf size, frame overall, rough opening, clear width, hinges, lite size, elevation type and both order lines.
+![Excel takeoff form start sheet](docs/img/excel-start.png)
+
+- **Takeoff:** one row per opening, with dropdowns everywhere. Required cells turn amber until they are filled. Each row calculates:
+  - leaf size, frame overall, rough opening and clear width;
+  - hinges, hinge and strike locations, and lock height;
+  - anchors and fire label class;
+  - lite size, elevation type and both order lines.
+- **Hinge and strike locations:** pick the standard for each opening:
+  - ANSI/SDI A250.6;
+  - one of nine maker charts (Curries, Steelcraft, Amweld, Ceco, Fenestra, Kewanee, Mesker, Pioneer, Republic);
+  - **CUSTOM LOC**, where you type A–D and E yourself, measured from the top of the frame. Custom locations print on both order lines.
 - **Checks:** every row reads OK, CHECK or FIX, with the reason. The rules cover:
   - the door rating against the wall (IBC 716.1(2));
   - FRP labels;
   - pair against hand;
   - the glass limits at 90 and 180 minutes;
   - 32" ADA clear width;
+  - lock height 34–48";
   - S labels on corridor doors;
   - closer reinforcement;
+  - custom hinge count;
   - oversize leaves.
-- **Elevation:** pick a mark and it is drawn to scale. The drawing shows frame, leaves, lites and louvers, transom, sidelites, hinges, lever and swing, with dimensions, sizes and order lines beside it.
-- **Elevations:** one drawing per elevation type, six to a page, ready for the submittal.
+- **Elevation:** pick a mark and it is drawn to scale.
+  - The drawing shows each hinge at its real location and length with its dimension, the lever and strike with E and the height above the floor, lites and louvers, transom, sidelites, swing, undercut and four dimensions.
+  - Beside it are a hinge location table (frame, door and centre line above the floor), sizes, anchors, checks, order lines and a title block.
+- **Elevations:** one drawing per elevation type, six to a page, with its locations, ready for the submittal.
+- **Door Schedule:** an architectural door schedule for the whole job.
 - **Hardware:** hardware sets with items, opening counts and job quantities.
+- **Reference:** the app's hinge location charts, fire label classes, weld codes, anchor rule and handing.
 - **Frame order, Door order, Summary:** these build themselves.
 
 | | |
@@ -215,7 +231,7 @@ takeoff.html                  The whole application. This is the only file you n
 samples/sample-drawings.pdf   A floor plan and a door schedule to try the plan reader on.
 samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flipped units,
                               a plan with door swings and a hardware spec section.
-excel/TAKEOFF FORM 3.0.xlsx   The Excel takeoff form: takeoff, checks, elevations, orders.
+excel/TAKEOFF FORM 3.1.xlsx   The Excel takeoff form: takeoff, locations, checks, elevations, schedule, orders.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
 docs/MELTPLAN-ANALYSIS.md     MeltPlan: what it does, how, and what we took from it.
