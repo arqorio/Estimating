@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Takeoff">
-<title>Takeoff 2.6 — Doors, Frames, Hardware &amp; Specialties</title>
+<title>Takeoff 2.7 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1195,6 +1195,14 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <section class="view" id="view-guide">
   <div class="guide">
   <div class="card">
+    <h2>What 2.7 adds — the order the way the counter writes it</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Supplier order, counter format</b> (Takeoff sheet › 7b, and the <i>Supplier order</i> tab of the Excel export) — identical openings roll into one item under its S.HM item number, the order line numbered by quantity, the marks with their hands under it, then every part: HD/HJ/SJ with the jamb hand, anchors and dyno bolts, closer and strike reinforcements, deadlock and H5 preps, labels, weld and grind, cut downs, and the door slab with its net size. <i>Copy as text</i> for the order screen or an email. Quantities only.</li>
+      <li><b>Order lines as written at the counter</b> — <i>DOOR |</i> with one space, a pair frame carries 6-HNG / 8-HNG, the header prep and the closer reinforcement code are on the frame line, and a drywall frame carries its rough opening (+2-1/4" wide, +1" high).</li>
+      <li><b>Cut-down hinge locations</b> — a short opening takes the next maker chart up, cut down from the bottom (6'-5" uses the 6'-8" locations), as long as 2-1/8" of rail stays under the bottom hinge.</li>
+    </ul>
+  </div>
+  <div class="card">
     <h2>What 2.6 adds — ideas from MeltPlan, for doors</h2>
     <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
       <li><b>Coordination review</b> (Review › Coordination) — the schedule against the hardware sets and the plans, electrified hardware against the frame and door preps, rated doors against their closers and latches and against the wall they sit in, duplicate marks and what the last addendum changed. Every finding names the doors and copies out as a question for the architect; <i>Copy all as questions</i> and CSV.</li>
@@ -2071,7 +2079,9 @@ function hwLoc(o) {
       hinges: tops.map(v => d.nomH - v - hl / 2), hingeBotAFF: tops.map(v => d.nomH - v - hl), strike: d.nomH - strikeTop };
   }
   if (MANU_LOC[mfr]) {
-    const L = manuLoc(mfr, d.nomH, false);
+    /* the shop cuts a stock door and frame down from the bottom: a 6'-5" opening takes the 6'-8" locations */
+    const up = manuHeights(mfr).find(x => x >= d.nomH - 0.01);
+    const L = manuLoc(mfr, up != null ? up : d.nomH, false);
     chart = L; key = L.key;
     const four = L.fourth != null;
     if (n === 3 && !four) tops = [L.top, L.mid, L.bot];
@@ -2082,14 +2092,16 @@ function hwLoc(o) {
       const first = L.top, last = four ? L.fourth : L.bot;
       tops = []; for (let i = 0; i < n; i++) tops.push(n === 1 ? first : first + (last - first) * i / (n - 1));
     }
+    /* cut down from a taller chart row: every location holds from the top, as long as 2-1/8" of rail stays under the bottom hinge */
+    const cutDown = key > d.nomH + 0.01 && d.nomH - tops[tops.length - 1] - hl - 0.75 >= 2.125;
     /* a chart row for a different height: keep the top hinge, hold the bottom hinge off the floor the same way */
-    if (Math.abs(key - d.nomH) > 0.01) {
+    if (Math.abs(key - d.nomH) > 0.01 && !cutDown) {
       const botOff = key - tops[tops.length - 1];
       const last = d.nomH - botOff, first = tops[0];
       tops = tops.map((v, i) => tops.length === 1 ? first : first + (last - first) * i / (tops.length - 1));
     }
-    strikeTop = L.strike + (d.nomH - key);          // the strike holds its height above the floor
-    source = mfr + ' chart' + (Math.abs(key - d.nomH) > 0.01 ? ', adjusted from ' + ftin(key) : ', ' + ftin(key));
+    strikeTop = cutDown ? L.strike : L.strike + (d.nomH - key);   // cut down: from the top; otherwise it holds its height above the floor
+    source = mfr + ' chart' + (cutDown ? ', ' + ftin(key) + ' cut down to ' + ftin(d.nomH) : Math.abs(key - d.nomH) > 0.01 ? ', adjusted from ' + ftin(key) : ', ' + ftin(key));
   } else {
     /* ANSI/SDI A250.6: top hinge 5 in below the head, bottom hinge 10 in above the floor to its bottom */
     const first = 5, last = d.nomH - 10 - hl;
@@ -5384,7 +5396,11 @@ function frameOrderLine(o) {
   const size = curSize(d.nomW, d.nomH);
   const mid = tj(' ', [leg(cur(o, 'hand')), leg(cur(o, 'constr')), leg(cur(o, 'desc')), leg(cur(o, 'faceHeader'))]);
   const anch = tj(' ', ['|', leg(cur(o, 'anchor')), '|']);
-  const prep = tj(' ', [leg(cur(o, 'hinge')), leg(cur(o, 'strike')), leg(cur(o, 'fire'))]);
+  /* a pair frame carries both leaves' hinges: 6-HNG, 8-HNG, the way the order is written */
+  const hl = leg(cur(o, 'hinge')), hn = /^(\d)-HNG/.exec(hl);
+  const hinge = d.leaves === 2 && hn ? (2 * hn[1]) + hl.slice(1) : hl;
+  const hdr = cur(o, 'header'), clo = cur(o, 'closer');
+  const prep = tj(' ', [hinge, leg(cur(o, 'strike')), hdr !== '-' && hdr !== 'H5' ? hdr : '', clo !== '-' ? clo : '', leg(cur(o, 'fire'))]);
   return tj(' ', [jamb, size, mid, anch, prep]);
 }
 function doorOrderLine(o) {
@@ -5392,7 +5408,7 @@ function doorOrderLine(o) {
   if (!d.leaves || skipDoor(o)) return '';
   const mat = leg(cur(o, 'material'));
   const size = curSize(num(o.w1), d.nomH);
-  const mid = tj(' ', [leg(cur(o, 'hand')), 'DOOR  |', cur(o, 'face'), '|']);
+  const mid = tj(' ', [leg(cur(o, 'hand')), 'DOOR |', cur(o, 'face'), '|']);
   const prep = tj(' ', [leg(cur(o, 'hinge')), leg(cur(o, 'lock')), cur(o, 'mfrDoor'), leg(cur(o, 'fire'))]);
   return tj(' ', [mat, size, mid, prep]);
 }
@@ -5400,6 +5416,130 @@ function doorOrderLine(o) {
 function orderSheet(o) {
   const f = !skipFrame(o), dr = derive(o).leaves && !skipDoor(o);
   return f && dr ? 'FRAME & DOOR' : f ? 'FRAME ONLY' : dr ? 'DOOR ONLY' : 'NO MATERIAL';
+}
+
+/* ============================================================
+   SUPPLIER ORDER — the order keyed the way the counter writes it
+   (order confirmation): one item per opening type, the order line
+   numbered by its quantity, the marks with their hands under it,
+   then the parts that make it up. Quantities only, no prices.
+   ============================================================ */
+const SO_STD_H = [80, 84, 96];
+const soCode = v => { v = Math.round(num(v)); return Math.floor(v / 12) + '' + (v % 12); };     // 36 -> 30, 42 -> 36, 80 -> 68
+const soStdH = h => SO_STD_H.find(x => x >= Math.round(num(h))) || Math.round(num(h));
+const soHand = o => ({ LH:'LH', RH:'RH', LHR:'LHR', RHR:'RHR', LHRA:'LHR-ACT', RHRA:'RHR-ACT' }[o.hand] || o.hand || '');
+/** the hand a hinge jamb is cut for: LH and RHR share a jamb, RH and LHR share the other */
+const soJambHand = o => /^(LH|RHR)/.test(o.hand || '') && !/^LHR/.test(o.hand || '') ? 'LH' : 'RH';
+const soMfr = o => (o.prepStd && o.prepStd !== 'CUSTOM' ? o.prepStd : 'STEELCRAFT').toUpperCase();
+const soFire = o => (o.fire && o.fire !== 'NR' && o.fire !== 'SMOKE') ? o.fire : '';
+const soDrywall = o => o.frameType !== 'WLD';
+function soItem(o) {
+  const thk = (doorSize(o).thk || 1.75).toFixed(2);
+  const wall = skipFrame(o) ? 'MASONRY' : soDrywall(o) ? 'DRYWALL' : 'MASONRY';
+  const jamb = skipFrame(o) ? '' : cur(o, 'jamb');
+  return 'S.HM' + wall + jamb + (isWood(o) ? 'WD' : 'HM') + thk;
+}
+function soFrameParts(o) {
+  const d = derive(o), out = [], add = (qty, item, note) => { if (qty > 0) out.push({ qty, item, note: note || '' }); };
+  const jc = cur(o, 'jamb'), jd = (JAMB_LIST.find(j => j.code === jc) || {}).desc || '';
+  const prof = soDrywall(o) ? 'C' : 'M', ga = cur(o, 'gauge'), mfr = soMfr(o), fire = soFire(o);
+  const pair = d.leaves === 2, stdH = soStdH(d.nomH), jambs = d.jambs || 2, per = d.anchors || 3;
+  const strike = cur(o, 'strike'), closer = cur(o, 'closer'), header = cur(o, 'header'), hinge = cur(o, 'hinge');
+  /* anchors */
+  if (/^(Z|WELD)$/.test(o.anchor)) add(per * jambs, jd + ' STEEL STUD ANCHOR 2"');
+  else if (/^(EXP|SLEEVE)$/.test(o.anchor)) { add((per + 1) * jambs, 'FR101F 690 ' + jd + ' MASONRY TUBE ANCHOR 16 GA'); add((per + 1) * jambs, '3/8X5 SF3850 DYNO BOLTS'); }
+  else if (/^(WIRE|ADJ)$/.test(o.anchor)) add(per * jambs, 'WIRE MASONRY ANCHOR');
+  else if (/^(T|STRAP|STIRRUP)$/.test(o.anchor)) add(per * jambs, 'T-STRAP MASONRY ANCHOR');
+  else if (o.anchor === 'WD') add(per * jambs, 'P/D + WOOD SCREWS');
+  if (o.frameType === 'WLD') add(1, 'WELD & GROUND SMOOTH');
+  if (closer !== '-') add(pair ? 4 : 2, 'RACL/PACL-CLOSER REINF. 14GAx1-3/4x16 HRPO', closer + (pair ? ' BOTH SIDES' : ''));
+  if (strike === 'E8') add(1, 'E8-STRIKE REINF. RIM EXIT');
+  if (/E4/.test(strike)) add(1, 'FRAME DEADLOCK PREP');
+  if (strike === 'E9') add(1, 'ELECTRIC STRIKE PREP');
+  if (/EPT/.test(hinge)) add(1, 'EPT / RACEWAY PREP');
+  if (header === 'H5') add(1, 'H5 STRIKE PREP IN HEADER');
+  else if (header !== '-') add(1, 'HEADER PREP ' + header);
+  if (fire) add(1, fire + ' MINUTE STEEL FRAME LABEL' + (d.trH || d.slW ? ' W/TRANSOM PANEL/SIDELIGHT' : ' CAT. C PP'));
+  if (!d.lite) {
+    add(1, 'HD ' + jc + ' ' + prof + ga + ' ' + soCode(d.nomW) + ' BSC');
+    const hj = h => 'HJ ' + jc + ' ' + prof + ga + ' ' + h + ' ' + soCode(stdH) + ' ' + (hinge === '-' ? 'BLK' : hinge) + ' BSC "' + mfr + '"';
+    if (pair) { add(1, hj('LH')); add(1, hj('RH')); }
+    else {
+      add(1, hj(soJambHand(o)));
+      const sk = strike === '-' || strike === 'E8' ? 'G18' : strike;           // a rim strike goes on the face: blank jamb
+      add(1, 'SJ ' + jc + ' ' + prof + ga + ' ' + soJambHand(o) + ' ' + soCode(stdH) + ' ' + sk + (sk === 'G18' ? ' BLANK' : ' Y') + ' BSC "' + mfr + '"');
+    }
+  }
+  if (stdH > Math.round(d.nomH)) add(1, 'FRAME CUT DOWN (BOTTOM)', 'Cut ' + inchStr(stdH - d.nomH) + ' OFF THE BOTTOM');
+  if (d.nomH > 96) add(1, 'CUSTOM HEIGHT FRAME — VERIFY', ftin(d.nomH));
+  return out;
+}
+function soDoorParts(o) {
+  const d = derive(o), z = doorSize(o), out = [], add = (qty, item, note) => { if (qty > 0) out.push({ qty, item, note: note || '' }); };
+  const fire = soFire(o), stdH = soStdH(d.nomH), lock = cur(o, 'lock'), face = cur(o, 'face'), hinge = cur(o, 'hinge');
+  const leaves = d.leaves, n = String(hinge === 'U454' ? 454 : 453);
+  const net = inchStr(z.leafW[0] || 0).replace('"', '') + '" x ' + inchStr(z.leafH).replace('"', '') + '"';
+  if (!isWood(o)) {
+    const ga = (o.gaugeDoor || '18').replace(/\D/g, '') || '18';
+    const stock = /RIM|SVR|CVR/.test(o.lockPrep) ? 'G2' : /86|MORT EXIT/.test(o.lockPrep) ? 'G3AEO' : (lock || 'G2');
+    add(leaves, curSize(num(o.w1), stdH) + stock + ' BSC ' + soMfr(o) + ' DOOR ' + ga + 'Ga. Non-Handed ' + cur(o, 'series') + 'S Flush HM', '(Net size: ' + net + ')');
+    if (fire) add(leaves, fire + ' MINUTE FOAM CORE STEEL DOOR LABEL (MODELS 607 & 707)');
+    if (/RIM|SVR|CVR|MORT EXIT/.test(o.lockPrep)) add(1, 'EXIT DEVICE PREP FOR HM DOOR');
+    if (o.lockPrep === '86') add(1, 'MORTISE LOCK PREP');
+    if (o.lockPrep === 'MORT EXIT') add(1, 'DR 350 MORTISE LOCK FILLER PLATE');
+    if (/DB/.test(o.lockPrep)) add(1, 'DOOR DEADLOCK PREP');
+  } else {
+    const sp = { RO:'RED OAK', WO:'WHITE OAK', BCH:'BIRCH', MPL:'MAPLE' }[o.species] || 'WOOD';
+    add(leaves, curSize(num(o.w1), stdH) + ' ' + sp + ' SLAB ' + (fire ? fire + ' MINUTE' : (o.woodCore === 'FD' || o.woodCore === 'SLC' ? 'MC' : 'SC') + ' WOOD DOOR'), '(Net size: ' + net + ')');
+    if (fire) add(leaves, fire + ' MINUTE WARNOCK HERSHEY FIRE RATED WOOD LABEL');
+    if (o.lockPrep === 'NONE') add(leaves, n + '-4 1/2"X4 1/2" HINGES ONLY PREP', soMfr(o) + ' LOC');
+    else add(leaves, 'HINGE PREP ' + n + ' WITH LOCK PREP', soMfr(o) + ' LOC');
+    if (/DB/.test(o.lockPrep)) add(1, 'DDLP CYLINDRICAL DEADLOCK PREP');
+  }
+  if (/^(FG|FV|FNV|FL-|HG)/.test(face)) add(leaves, face + (/^FL-/.test(face) ? ' LOUVER' : ' LITE KIT'));
+  if (/VIEWER/.test(face)) add(leaves, 'DVP DOOR VIEWER PREP');
+  if (stdH > Math.round(d.nomH)) add(leaves, 'DCO DOOR CUT DOWN ONLY (HEIGHT)', 'Cut ' + inchStr(stdH - d.nomH) + ' OFF THE BOTTOM');
+  return out;
+}
+/** the whole job as order items: identical openings roll into one item, hands listed with the marks */
+function supplierOrder(ops) {
+  const groups = new Map();
+  const put = (kind, o, line, lineNoHand, parts, mult) => {
+    const item = soItem(o);
+    const key = kind + '|' + item + '|' + lineNoHand + '|' + parts.map(p => p.qty + ' ' + p.item + ' ' + p.note).join(';');
+    let g = groups.get(key);
+    if (!g) groups.set(key, g = { kind, item, lines: new Set(), lineNoHand, parts, qty: 0, open: 0, marks: [] });
+    const n = num(o.qty) || 1;
+    g.open += n; g.qty += n * mult; g.lines.add(line);
+    g.marks.push('#' + (o.mark || '?') + (soHand(o) ? '(' + soHand(o) + ')' : '') + (n > 1 ? ' ×' + n : ''));
+  };
+  ops.forEach(o => {
+    const d = derive(o);
+    const f = frameOrderLine(o);
+    if (f) {
+      /* drywall rough opening, the counter's rule: opening + 2-1/4" wide, + 1" high */
+      const ro = soDrywall(o) && !d.lite ? ' ( R.O. ' + inchStr(d.nomW + 2.25) + ' x ' + inchStr(d.nomH + 1) + ' )' : '';
+      put('FRAME', o, f + ro, frameOrderLine(Object.assign({}, o, { cur_hand: '-' })) + ro, soFrameParts(o), 1);
+    }
+    const dl = doorOrderLine(o);
+    if (dl) put('DOOR', o, dl, doorOrderLine(Object.assign({}, o, { cur_hand: '-' })), soDoorParts(o), d.leaves);
+  });
+  return [...groups.values()].map(g => ({
+    kind: g.kind, item: g.item, qty: g.qty, open: g.open,
+    desc: g.qty + ') ' + (g.lines.size === 1 ? [...g.lines][0] : g.lineNoHand),
+    marks: g.marks.join(', '),
+    parts: g.parts.map(p => ({ qty: p.qty * g.open, item: p.item, note: p.note }))
+  }));
+}
+document.addEventListener('click', e => {
+  if (!e.target.closest('[data-copyso]')) return;
+  const t = supplierOrderText(S.openings);
+  if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('Supplier order copied'), () => toast('Select the lines and copy'));
+});
+/** plain text, ready to paste into the order entry screen or an email */
+function supplierOrderText(ops) {
+  return supplierOrder(ops).map(g => [g.item + '   ' + g.desc, '      ' + g.marks]
+    .concat(g.parts.map(p => '   ' + String(p.qty).padStart(4) + '   ' + p.item + (p.note ? '   ' + p.note : ''))).join('\n')).join('\n\n');
 }
 
 /* ---------- reading the existing workbook ---------- */
@@ -5801,7 +5941,7 @@ function renderSheet() {
       `<td class="${col.cls || ''}">${esc(col.v(o, d, c))}</td>`).join('') + '</tr>';
   }).join('');
 
-  const navs = [['1', 'Openings'], ['2', 'Doors'], ['3', 'Frames'], ['4', 'Hardware'], ['5', 'Anchors'], ['6', 'Glass'], ['7', 'Order lines'], ['9', 'Division 10'], ['8', 'Quote recap']];
+  const navs = [['1', 'Openings'], ['2', 'Doors'], ['3', 'Frames'], ['4', 'Hardware'], ['5', 'Anchors'], ['6', 'Glass'], ['7', 'Order lines'], ['7b', 'Supplier order'], ['9', 'Division 10'], ['8', 'Quote recap']];
   $('#sheetBody').innerHTML = `
   <div class="phead">
     <div><div class="eyebrow">Review · ${esc(S.project.job || 'untitled job')}${S.project.jobNo ? ' · ' + esc(S.project.jobNo) : ''}</div><h1>Complete takeoff</h1>
@@ -5951,6 +6091,17 @@ function renderSheet() {
           return `<tr><td class="n">${q}</td><td>${esc(k.slice(0, i))}</td><td class="grp">${esc(k.slice(i + 1))}</td></tr>`;
         }).join('')}</tbody></table></div>`;
     })()}
+  </div>
+
+  <div class="card" id="sh-7b"><h2>7b · Supplier order — counter format</h2>
+    <p class="sub">The order the way it is keyed at the counter: one item per opening type, the line numbered by quantity,
+      the marks and hands under it, then every part that makes it up. Quantities only.
+      <button type="button" class="btn sm ghost" data-copyso="1">Copy as text</button></p>
+    ${(() => { const so = supplierOrder(ops); if (!so.length) return '<p class="hint">No frames or doors to order.</p>';
+      return `<div class="scrollx"><table class="wide"><thead><tr><th>QTY</th><th>ITEM #</th><th>DESCRIPTION</th><th>NOTE</th></tr></thead><tbody>
+      ${so.map(g => `<tr class="sohead"><td class="n"><b>${g.qty}</b></td><td><b>${esc(g.item)}</b></td><td class="grp"><b>${esc(g.desc)}</b><div class="hint">${esc(g.marks)}</div></td><td>${esc(g.kind)}</td></tr>`
+        + g.parts.map(p => `<tr><td class="n">${p.qty}</td><td></td><td>${esc(p.item)}</td><td>${esc(p.note)}</td></tr>`).join('')).join('')}
+      </tbody></table></div>`; })()}
   </div>
 
   <div class="card" id="sh-9"><h2>9 · Division 10 specialties</h2>
@@ -6294,6 +6445,13 @@ function exportXlsx() {
   });
   [...cm.entries()].forEach(([k, q]) => { const i = k.indexOf('|'); cRows.push([q, k.slice(0, i), k.slice(i + 1)]); });
   sheets.push({ name:'Curries order', rows:cRows, opt:{ freeze:1, w:[15,10,6,13,10,20,58,6,58,6,9,11,13,13,36] } });
+  /* Supplier order — counter format */
+  const soRows = [H(['QTY','ITEM #','DESCRIPTION','NOTE'])];
+  supplierOrder(ops).forEach(g => {
+    soRows.push([g.qty, B(g.item), B(g.desc), g.kind]); soRows.push(['', '', g.marks, '']);
+    g.parts.forEach(p => soRows.push([p.qty, '', p.item, p.note])); soRows.push([]);
+  });
+  sheets.push({ name:'Supplier order', rows:soRows, opt:{ freeze:1, w:[7,26,90,34] } });
 
   /* Recap */
   const T = jobTotals();
