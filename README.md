@@ -166,7 +166,7 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
 
 [`excel/TAKEOFF FORM 3.0.xlsx`](excel/) is a standalone workbook for estimators who work in Excel. It replaces TAKEOFF FORM 2.0 and keeps its lists, codes and order lines.
 
-- **Takeoff:** one row per opening, with dropdowns everywhere. Required cells turn amber until they are filled. Each row calculates leaf size, frame overall, rough opening, clear width, hinges, lite size, elevation type, prices and both order lines.
+- **Takeoff:** one row per opening, with dropdowns everywhere. Required cells turn amber until they are filled. Each row calculates leaf size, frame overall, rough opening, clear width, hinges, lite size, elevation type and both order lines.
 - **Checks:** every row reads OK, CHECK or FIX, with the reason. The rules cover:
   - the door rating against the wall (IBC 716.1(2));
   - FRP labels;
@@ -178,14 +178,12 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
   - oversize leaves.
 - **Elevation:** pick a mark and it is drawn to scale. The drawing shows frame, leaves, lites and louvers, transom, sidelites, hinges, lever and swing, with dimensions, sizes and order lines beside it.
 - **Elevations:** one drawing per elevation type, six to a page, ready for the submittal.
-- **Hardware, Prices, Quote:** hardware sets with item counts, price tables with adders, and a quote with markups, freight, tax and qualifications written from the job.
+- **Hardware:** hardware sets with items, opening counts and job quantities.
 - **Frame order, Door order, Summary:** these build themselves.
 
 | | |
 |---|---|
 | ![Excel elevation for one mark](docs/img/excel-elevation.png) | ![Excel elevations by type](docs/img/excel-elevations.png) |
-
-The prices in the workbook are examples. Replace them with your own costs.
 
 ---
 
@@ -217,7 +215,7 @@ takeoff.html                  The whole application. This is the only file you n
 samples/sample-drawings.pdf   A floor plan and a door schedule to try the plan reader on.
 samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flipped units,
                               a plan with door swings and a hardware spec section.
-excel/TAKEOFF FORM 3.0.xlsx   The Excel takeoff form: takeoff, checks, elevations, quote, orders.
+excel/TAKEOFF FORM 3.0.xlsx   The Excel takeoff form: takeoff, checks, elevations, orders.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
 docs/MELTPLAN-ANALYSIS.md     MeltPlan: what it does, how, and what we took from it.
