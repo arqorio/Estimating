@@ -4,6 +4,47 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## 2.7 — Supplier order in the counter format
+
+### New
+- **Supplier order** (Takeoff sheet › 7b, and the *Supplier order* tab of the Excel export). It is written the way the order confirmations are:
+  - one item per opening type under its S.HM item number;
+  - the order line numbered by quantity;
+  - the marks with their hands;
+  - then every part, with quantities only:
+    - HD/HJ/SJ with the jamb hand;
+    - anchors and dyno bolts;
+    - closer and strike reinforcements;
+    - deadlock and H5 preps;
+    - labels, weld and grind, and cut downs;
+    - the door slab with its net size.
+
+  *Copy as text* copies it for the order screen or an email.
+- **Order lines as written at the counter:**
+  - `DOOR |` with one space;
+  - 6-HNG or 8-HNG on a pair frame;
+  - the header prep and closer code on the frame line;
+  - the drywall rough opening (+2-1/4" wide, +1" high).
+- **Cut-down hinge locations:** a short opening takes the next maker chart up, cut down from the bottom, as long as 2-1/8" of rail stays under the bottom hinge. For example, 6'-5" uses the 6'-8" locations, as on the frame calculator tag.
+
+## Excel takeoff form 3.2 and frame calculator 2.0
+
+### New
+- **TAKEOFF FORM 3.2:**
+  - adds everything from the October 2.1: HW Sets that carry down, HW Schedule with marks and job totals by item, and door groups;
+  - adds the Supplier Order sheet in the counter format;
+  - applies the cut-down location rule;
+  - keeps every 3.1 feature.
+- **FRAME CALCULATOR 2.0** is a rebuild of the frame calculator tag sheets. It has:
+  - one maker table for every location;
+  - live frame and door elevations, the swing in plan and the jamb profile;
+  - masonry faces worked out from the R.O.;
+  - pairs, deadbolts, mortise locks and custom locations;
+  - order lines on every tag;
+  - Tag List, Rough Opening and Bi-Pass sheets.
+
+---
+
 ## Excel takeoff form 3.1
 
 ### New

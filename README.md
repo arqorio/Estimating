@@ -22,7 +22,7 @@ It is built by a working Div 08 estimator for the way distributors actually esti
 - [What it does](#what-it-does)
 - [How a job flows](#how-a-job-flows)
 - [Screenshots](#screenshots)
-- [Excel takeoff form](#excel-takeoff-form-no-app-needed)
+- [Excel takeoff form and frame calculator](#excel-takeoff-form-and-frame-calculator-no-app-needed)
 - [Saving, sharing and backups](#saving-sharing-and-backups)
 - [Requirements and limits](#requirements-and-limits)
 - [Repository layout](#repository-layout)
@@ -162,40 +162,71 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
 
 ---
 
-## Excel takeoff form (no app needed)
+## Excel takeoff form and frame calculator (no app needed)
 
-[`excel/TAKEOFF FORM 3.1.xlsx`](excel/) is a standalone workbook for estimators who work in Excel. It replaces TAKEOFF FORM 2.0 and keeps its lists, codes and order lines.
+The [`excel/`](excel/) folder has two standalone workbooks for estimators who work in Excel.
+
+### TAKEOFF FORM 3.2
+
+`TAKEOFF FORM 3.2.xlsx` replaces TAKEOFF FORM 2.0 and 2.1 and keeps their lists, codes and order lines.
 
 ![Excel takeoff form start sheet](docs/img/excel-start.png)
 
 - **Takeoff:** one row per opening, with dropdowns everywhere. Required cells turn amber until they are filled. Each row calculates:
   - leaf size, frame overall, rough opening and clear width;
   - hinges, hinge and strike locations, and lock height;
-  - anchors and fire label class;
+  - anchors and label class;
   - lite size, elevation type and both order lines.
-- **Hinge and strike locations:** pick the standard for each opening:
-  - ANSI/SDI A250.6;
-  - one of nine maker charts (Curries, Steelcraft, Amweld, Ceco, Fenestra, Kewanee, Mesker, Pioneer, Republic);
-  - **CUSTOM LOC**, where you type A–D and E yourself, measured from the top of the frame. Custom locations print on both order lines.
+- **Hinge and strike locations:**
+  - **Standards:** ANSI/SDI, nine maker charts, or CUSTOM LOC with A–D and E typed yourself.
+  - **Cut-down rule:** a short opening takes the next chart up, cut down from the bottom.
+  - **Order lines:** custom locations print on both order lines.
 - **Checks:** every row reads OK, CHECK or FIX, with the reason. The rules cover:
   - the door rating against the wall (IBC 716.1(2));
-  - FRP labels;
   - pair against hand;
   - the glass limits at 90 and 180 minutes;
-  - 32" ADA clear width;
-  - lock height 34–48";
-  - S labels on corridor doors;
+  - ADA clear width and lock height;
+  - S labels;
   - closer reinforcement;
-  - custom hinge count;
-  - oversize leaves.
-- **Elevation:** pick a mark and it is drawn to scale.
-  - The drawing shows each hinge at its real location and length with its dimension, the lever and strike with E and the height above the floor, lites and louvers, transom, sidelites, swing, undercut and four dimensions.
-  - Beside it are a hinge location table (frame, door and centre line above the floor), sizes, anchors, checks, order lines and a title block.
-- **Elevations:** one drawing per elevation type, six to a page, with its locations, ready for the submittal.
-- **Door Schedule:** an architectural door schedule for the whole job.
-- **Hardware:** hardware sets with items, opening counts and job quantities.
-- **Reference:** the app's hinge location charts, fire label classes, weld codes, anchor rule and handing.
-- **Frame order, Door order, Summary:** these build themselves.
+  - custom hinge count.
+- **HW Sets and HW Schedule:** this works as in 2.1. You type the set number once and the items carry down under it. The schedule lists each set with its marks and gives job totals by item.
+- **Supplier Order (counter format):** identical openings roll into one item.
+  - Each item shows its S.HM item number, the order line numbered by quantity, and the marks with their hands.
+  - Under it come every part: HD/HJ/SJ, anchors, reinforcements, labels, preps, cut downs and the door slab with its net size.
+  - The doors part doubles as the door groups.
+- **Elevation and Elevations:** drawn to scale with each hinge, the strike and lever, lites and louvers, transom, sidelites and dimensions. The Elevation sheet also has the location table and a title block.
+- **Also included:**
+  - Door Schedule
+  - Frame order and Door order
+  - Summary
+  - Reference: location charts, label classes, weld codes, anchors and handing
+
+### FRAME CALCULATOR 2.0
+
+`FRAME CALCULATOR 2.0.xlsx` replaces the old frame calculator tag sheets. It has six tag sheets that each print on one page.
+
+![Excel frame calculator tag](docs/img/excel-frame-calculator.png)
+
+- **Inputs:** type the opening in the yellow cells:
+  - jamb, rating and size;
+  - style, swing, anchor, hinge, strikes, locks, location chart and elevation;
+  - wall, gauge, faces, reveals, undercut, masonry R.O. and lite;
+  - custom A–E.
+- **Frame:** inside and outside size, faces, the wall the jamb fits, drywall and masonry R.O., and the face check.
+- **Door:** actual size, reveals, undercut, and the lite size and location.
+- **Hardware locations:** for the frame and for the door, including:
+  - hinges;
+  - strike 1 and 2;
+  - cylinder and mortise lock centre lines;
+  - ASA top-to-top and floor-to-centre.
+- **Drawings:** a frame elevation and a door elevation with every location, the swing in plan, and the jamb profile to scale.
+- **Order lines:** the frame and door lines in the counter format.
+- **Other sheets:**
+  - **Tag List:** every tag on one page.
+  - **Rough Opening:** field R.O. to faces and frame.
+  - **Bi-Pass:** bi-pass door sizes.
+  - **Locations:** the maker charts, which you can edit.
+  - **Setup:** company lines and shop rules.
 
 | | |
 |---|---|
@@ -231,7 +262,8 @@ takeoff.html                  The whole application. This is the only file you n
 samples/sample-drawings.pdf   A floor plan and a door schedule to try the plan reader on.
 samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flipped units,
                               a plan with door swings and a hardware spec section.
-excel/TAKEOFF FORM 3.1.xlsx   The Excel takeoff form: takeoff, locations, checks, elevations, schedule, orders.
+excel/TAKEOFF FORM 3.2.xlsx   The Excel takeoff form: takeoff, locations, checks, elevations, hardware, supplier order.
+excel/FRAME CALCULATOR 2.0.xlsx   Shop tags: frame & door sizes, R.O., locations, drawings, order lines.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
 docs/MELTPLAN-ANALYSIS.md     MeltPlan: what it does, how, and what we took from it.
