@@ -4,6 +4,43 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## Excel takeoff form 3.0
+
+`excel/TAKEOFF FORM 3.0.xlsx` replaces TAKEOFF FORM 2.0. It uses the same lists, codes and order-line wording.
+
+### New
+- **Live elevations.** *Elevation* draws any mark to scale. *Elevations* draws one of each type, six to a page. Each drawing shows:
+  - frame;
+  - leaves;
+  - lites and louvers at their real size and place;
+  - transom and sidelites;
+  - hinges or continuous hinge;
+  - lever at lock height;
+  - swing;
+  - four dimensions.
+
+  Door-only openings show the frame dashed.
+- **Calculated on every row:** leaf size, frame overall, rough opening, clear width, hinges per leaf, lite size, elevation type, frame, door and hardware cost.
+- **Checks in two levels:** FIX blocks the order; CHECK is worth a look. New rules:
+  - door rating against the wall (IBC 716.1(2));
+  - pair and hand checked both ways;
+  - glass limits at 90 and 180 minutes;
+  - 32" ADA clear width;
+  - S label on corridor and smoke-barrier doors;
+  - closer reinforcement on rated frames;
+  - leaves over 4'-0" or 8'-0";
+  - missing or unknown hardware set.
+- **Required cells turn amber** until they are filled.
+- **New columns:** wall type and wall rating, transom and sidelite.
+- **Defaults:** when blank, the door hand and door hinge prep take the frame's.
+- **Hardware sheet:** sets, items, cost per opening and job quantities.
+- **Prices sheet:** frame, door, rating, lite-kit, steel and size adders.
+- **Quote:** markups by category, freight and tax. Qualifications are written from the job.
+- **Summary:** counts by rating, scope, construction, frame type, floor, door material and lite kit, plus glass square footage.
+- **Layout:** foldable column groups, filters, print setup on every sheet and a Start sheet with links.
+
+---
+
 ## 2.6 — Ideas from MeltPlan, for doors
 
 See [MELTPLAN-ANALYSIS.md](MELTPLAN-ANALYSIS.md) for the study.
