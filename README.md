@@ -22,6 +22,7 @@ It is built by a working Div 08 estimator for the way distributors actually esti
 - [What it does](#what-it-does)
 - [How a job flows](#how-a-job-flows)
 - [Screenshots](#screenshots)
+- [Excel takeoff form](#excel-takeoff-form-no-app-needed)
 - [Saving, sharing and backups](#saving-sharing-and-backups)
 - [Requirements and limits](#requirements-and-limits)
 - [Repository layout](#repository-layout)
@@ -161,6 +162,33 @@ Everything you export is under **Export** (top right). **Ctrl K** finds any open
 
 ---
 
+## Excel takeoff form (no app needed)
+
+[`excel/TAKEOFF FORM 3.0.xlsx`](excel/) is a standalone workbook for estimators who work in Excel. It replaces TAKEOFF FORM 2.0 and keeps its lists, codes and order lines.
+
+- **Takeoff:** one row per opening, with dropdowns everywhere. Required cells turn amber until they are filled. Each row calculates leaf size, frame overall, rough opening, clear width, hinges, lite size, elevation type, prices and both order lines.
+- **Checks:** every row reads OK, CHECK or FIX, with the reason. The rules cover:
+  - the door rating against the wall (IBC 716.1(2));
+  - FRP labels;
+  - pair against hand;
+  - the glass limits at 90 and 180 minutes;
+  - 32" ADA clear width;
+  - S labels on corridor doors;
+  - closer reinforcement;
+  - oversize leaves.
+- **Elevation:** pick a mark and it is drawn to scale. The drawing shows frame, leaves, lites and louvers, transom, sidelites, hinges, lever and swing, with dimensions, sizes and order lines beside it.
+- **Elevations:** one drawing per elevation type, six to a page, ready for the submittal.
+- **Hardware, Prices, Quote:** hardware sets with item counts, price tables with adders, and a quote with markups, freight, tax and qualifications written from the job.
+- **Frame order, Door order, Summary:** these build themselves.
+
+| | |
+|---|---|
+| ![Excel elevation for one mark](docs/img/excel-elevation.png) | ![Excel elevations by type](docs/img/excel-elevations.png) |
+
+The prices in the workbook are examples. Replace them with your own costs.
+
+---
+
 ## Saving, sharing and backups
 
 - **Autosave:** the job saves itself in the browser on every change. Undo and redo cover every edit.
@@ -189,6 +217,7 @@ takeoff.html                  The whole application. This is the only file you n
 samples/sample-drawings.pdf   A floor plan and a door schedule to try the plan reader on.
 samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flipped units,
                               a plan with door swings and a hardware spec section.
+excel/TAKEOFF FORM 3.0.xlsx   The Excel takeoff form: takeoff, checks, elevations, quote, orders.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
 docs/MELTPLAN-ANALYSIS.md     MeltPlan: what it does, how, and what we took from it.
