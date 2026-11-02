@@ -4,6 +4,54 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## Excel frame calculator 2.1
+
+### Fixed
+- The drawings overlapped: the calculation rows ran into the drawing rows, so lines crossed the frame.
+- A drawing value had the same name as the door hinge dimensions, so the door showed "35.75" and "0" instead of the hinge locations.
+- On a pair, the hinges on the left jamb, and the second leaf's hinges and lite, were missing.
+- A G2G2 lock (lock and deadbolt) showed no deadbolt unless strike 2 was typed. The deadbolt now goes at 48" whenever the lock has one.
+- The charts drifted off their panels in Excel and were stretched. Each drawing is now pinned to its cells and drawn to its true proportions.
+- Labels were cut off or overlapped:
+  - shorter input headers;
+  - titles moved into the panel headers;
+  - dimensions moved clear of the hinge and strike notes.
+
+### New
+- **Door elevations drawn from the real type.** The lite or louver is drawn at its standard size and place from a table you can edit on the Locations sheet. The defaults are:
+
+  | Type | Location |
+  |---|---|
+  | FG, HG | 7" down |
+  | FNV | glass bottom 43" above the floor, 5-1/2" off the lock edge |
+  | FV | centred at 60" |
+  | Louver | 10" up |
+  | Viewer | 58" |
+
+  Each lite shows its kit outline, glass marks or louver slats. The lock is drawn by type:
+  - cylindrical with its lever;
+  - deadbolt;
+  - mortise pocket;
+  - exit-device bar, plus vertical rods where the device has them.
+
+  A pair shows flush bolts.
+- **Frame elevations drawn from the real type:**
+  - strike preps at their real height (ASA 4-7/8", electric 9", deadbolt 2-1/4");
+  - the continuous hinge;
+  - the H5 strike on a pair;
+  - anchors per jamb;
+  - the frame type in the header.
+- **Checks on every tag:**
+  - face out of range;
+  - not-stock height;
+  - 3 hinges on a leaf over 7'-6";
+  - a lite that does not fit;
+  - a lock with no strike;
+  - pair strike;
+  - exit device with an E1 strike.
+
+---
+
 ## 2.7 — Supplier order in the counter format
 
 ### New

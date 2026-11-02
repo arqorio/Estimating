@@ -201,9 +201,9 @@ The [`excel/`](excel/) folder has two standalone workbooks for estimators who wo
   - Summary
   - Reference: location charts, label classes, weld codes, anchors and handing
 
-### FRAME CALCULATOR 2.0
+### FRAME CALCULATOR 2.1
 
-`FRAME CALCULATOR 2.0.xlsx` replaces the old frame calculator tag sheets. It has six tag sheets that each print on one page.
+`FRAME CALCULATOR 2.1.xlsx` replaces the old frame calculator tag sheets. It has six tag sheets that each print on one page.
 
 ![Excel frame calculator tag](docs/img/excel-frame-calculator.png)
 
@@ -219,7 +219,8 @@ The [`excel/`](excel/) folder has two standalone workbooks for estimators who wo
   - strike 1 and 2;
   - cylinder and mortise lock centre lines;
   - ASA top-to-top and floor-to-centre.
-- **Drawings:** a frame elevation and a door elevation with every location, the swing in plan, and the jamb profile to scale.
+- **Drawings:** a frame elevation and a door elevation, viewed from the outside, drawn from the real type: each hinge and the continuous hinge, strike preps at their real height, anchors per jamb, the lite or louver at its standard size and place (Locations sheet), the lock by type (cylindrical, deadbolt, mortise pocket, exit device bar, vertical rods), flush bolts on a pair, the swing in plan and the jamb profile to scale.
+- **Checks:** face range, not-stock heights, hinge count, a lite that does not fit, a lock without a strike, pair strikes, exit device strikes.
 - **Order lines:** the frame and door lines in the counter format.
 - **Other sheets:**
   - **Tag List:** every tag on one page.
@@ -263,7 +264,7 @@ samples/sample-drawings.pdf   A floor plan and a door schedule to try the plan r
 samples/sample-units-and-spec.pdf  An enlarged unit plan, a floor plan with flipped units,
                               a plan with door swings and a hardware spec section.
 excel/TAKEOFF FORM 3.2.xlsx   The Excel takeoff form: takeoff, locations, checks, elevations, hardware, supplier order.
-excel/FRAME CALCULATOR 2.0.xlsx   Shop tags: frame & door sizes, R.O., locations, drawings, order lines.
+excel/FRAME CALCULATOR 2.1.xlsx   Shop tags: frame & door sizes, R.O., locations, drawings, order lines.
 docs/CHANGELOG.md             What changed in each version, and the bugs fixed.
 docs/COMPETITIVE-ANALYSIS.md  Comsense, PRO-TECH and Software for Hardware compared.
 docs/MELTPLAN-ANALYSIS.md     MeltPlan: what it does, how, and what we took from it.
