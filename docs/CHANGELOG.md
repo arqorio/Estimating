@@ -23,6 +23,8 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 - **Checks:** manual or surface bolts on a rated pair (NFPA 80), an overlapping astragal without a coordinator, a plate over 16" on a rated door, a wood door without a species.
 - A seventh tag sheet with a wood pair example.
 
+- **Plain look:** white page headers, light grey section bars, dark text, thin grey lines; pale yellow marks only the cells you type in, and red is kept for warnings and strike / lock values.
+
 ### Fixed
 - The Start sheet still said 2.0.
 
