@@ -8,7 +8,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Takeoff">
-<title>Takeoff 2.7 — Doors, Frames, Hardware &amp; Specialties</title>
+<title>Takeoff 2.8 — Doors, Frames, Hardware &amp; Specialties</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -1195,6 +1195,14 @@ body.phone .phonebar{display:grid;grid-template-columns:repeat(5,1fr)}
 <section class="view" id="view-guide">
   <div class="guide">
   <div class="card">
+    <h2>What 2.8 adds — wood doors and pairs, drawn like a shop drawing</h2>
+    <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
+      <li><b>Wood faces in the elevation</b> — a wood leaf is drawn in its species colour with its cut: plain sliced cathedrals, quarter sliced straight grain with oak flake, rift, rotary figure; veneer leaves and book matching show at the joints, unfinished veneer reads paler, paint grade and opaque finishes draw flat. Edge bands are drawn either side.</li>
+      <li><b>Wood preps, drawn and ordered</b> — closer, exit, overhead stop and protection-plate blocking (kick, mop, armor; push or pull side) drawn dashed where the shop puts it; bore and backset, mortise pocket, deadbolt at 48" and the door viewer at its height. Stain and finish ride on the door caption and the supplier order.</li>
+      <li><b>Pairs</b> — ACTIVE / INACTIVE on each leaf, flush bolt type (manual, automatic, constant latching, self-latching, surface) with the rods to head and floor, astragal type (overlapping, split, flat, wood, with smoke seal) and the coordinator on the head. Each one is a part on the supplier order.</li>
+    </ul>
+  </div>
+  <div class="card">
     <h2>What 2.7 adds — the order the way the counter writes it</h2>
     <ul style="margin:0 0 6px;padding-left:18px;line-height:1.7">
       <li><b>Supplier order, counter format</b> (Takeoff sheet › 7b, and the <i>Supplier order</i> tab of the Excel export) — identical openings roll into one item under its S.HM item number, the order line numbered by quantity, the marks with their hands under it, then every part: HD/HJ/SJ with the jamb hand, anchors and dyno bolts, closer and strike reinforcements, deadlock and H5 preps, labels, weld and grind, cut downs, and the door slab with its net size. <i>Copy as text</i> for the order screen or an email. Quantities only.</li>
@@ -2273,6 +2281,10 @@ const O = {
   edge: [['BEV','Bevel lock edge, 1/8 in in 2 in'],['SQ','Square edges'],['BEV2','Bevel both edges'],['RAD','Radius lock edge'],OTHER],
   caps: [['FT-IB','Flush top, inverted bottom (standard)'],['FT-FB','Flush top and bottom'],['IT-IB','Inverted top and bottom'],['CLOSED','Closed top and bottom, exterior'],OTHER],
   blocking: [['STD','Standard lock and hinge blocks'],['CLOSER','Closer blocking at the top rail'],['EXIT','Exit device blocking'],['FULL','Full blocking, all hardware'],OTHER],
+  fbType: [['MANUAL','Manual flush bolts, top and bottom'],['AUTO','Automatic flush bolts'],['CLB','Constant latching flush bolts'],['SELF','Self-latching flush bolts'],['SURF','Surface bolts']],
+  astType: [['OVERLAP','Overlapping astragal (steel)'],['SPLIT','Split astragal, both leaves'],['FLAT','Flat astragal'],['WOOD','Wood astragal, matching species'],['SMOKE','Astragal with smoke seal']],
+  protPlate: [['NONE','None'],['KICK','Kick plate'],['MOP','Mop plate'],['ARMOR','Armor plate'],['KICK+MOP','Kick and mop plates']],
+  plateSide: [['PUSH','Push side'],['PULL','Pull side'],['BOTH','Both sides']],
   cutout: [['KIT','Cut out and furnish the kit'],['CUT','Cut out only, kit by others'],['GLASS','Cut out, kit and glass'],['NONE','None'],OTHER],
   prepBy: [['FACTORY','Factory'],['SHOP','Our shop'],['FIELD','Field'],['OTHERS','By others']],
   glassThk: [['','\u2014'],['0.25','1/4 in'],['0.3125','5/16 in, fire rated ceramic'],['0.5','1/2 in'],['0.75','3/4 in'],['1','1 in insulated'],OTHER],
@@ -2369,6 +2381,7 @@ const SECTIONS = [
     { k:'match', l:'Veneer match', t:'sel', o:'match', d:'BM', showIf:isWood },
     { k:'grade', l:'Face grade', t:'sel', o:'grade', d:'A', showIf:isWood },
     { k:'woodCore', l:'Wood core', t:'sel', o:'woodCore', d:'PC', showIf:isWood },
+    { k:'stain', l:'Stain / colour', t:'text', ph:'e.g. natural clear, Savannah, Cherry #12', showIf:o => isWood(o) && /^FF/.test(o.woodFinish || '') },
     { k:'edgeBand', l:'Edge band', t:'text', ph:'Matching hardwood, 5-ply', showIf:isWood },
     { k:'faceNote', l:'Face / sequence note', t:'text', ph:'Faces A & B same species; sequence 1 of 6', showIf:isWood, full:true },
     /* lites & louvers */
@@ -2473,6 +2486,14 @@ const SECTIONS = [
     { k:'flushBolt', l:'Flush bolt prep (FB)', t:'chk', showIf:o=>/^PR/.test(o.config) },
     { k:'coordinator', l:'Coordinator (COORD)', t:'chk', showIf:o=>/^PR/.test(o.config) },
     { k:'astragal', l:'Astragal (AST)', t:'chk', showIf:o=>/^PR/.test(o.config) },
+    { k:'fbType', l:'Flush bolt type', t:'sel', o:'fbType', d:'MANUAL', showIf:o => /^PR/.test(o.config) && o.flushBolt },
+    { k:'astType', l:'Astragal type', t:'sel', o:'astType', d:'OVERLAP', showIf:o => /^PR/.test(o.config) && o.astragal },
+    { k:'ohStop', l:'Overhead stop / holder blocking', t:'chk', showIf:isWood },
+    { k:'protPlate', l:'Protection plate (blocking on wood)', t:'sel', o:'protPlate', d:'NONE' },
+    { k:'plateH', l:'Plate height', t:'dim', d:'', ph:'kick 10, mop 6, armor 36', showIf:o => o.protPlate && o.protPlate !== 'NONE' },
+    { k:'plateSide', l:'Plate side', t:'sel', o:'plateSide', d:'PUSH', showIf:o => o.protPlate && o.protPlate !== 'NONE' },
+    { k:'viewer', l:'Door viewer bore', t:'chk' },
+    { k:'viewerAFF', l:'Viewer height AFF', t:'dim', d:'', ph:'58"', showIf:o => !!o.viewer },
     { k:'otherPrep', l:'Other \u2014 specify the prep', t:'area', full:true,
       ph:'The template, the backset and the dimensions the shop has to work to',
       help:'Fill this in whenever a prep field is set to OTHER.',
@@ -3129,7 +3150,7 @@ const SVG_DEFS = `<defs>
     <path d="M0 0H5M0 0V5" stroke="#7d93a1" stroke-width=".45" fill="none"/></pattern>
 </defs>`;
 
-const T = (x, y, s, o) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${(o&&o.fs)||8.5}" fill="${(o&&o.fill)||'var(--ink2)'}" text-anchor="${(o&&o.a)||'middle'}" font-family="var(--mono)" ${o&&o.rot?`transform="rotate(-90 ${x.toFixed(1)} ${y.toFixed(1)})"`:''}>${esc(s)}</text>`;
+const T = (x, y, s, o) => `<text x="${x.toFixed(1)}" y="${y.toFixed(1)}" font-size="${(o&&o.fs)||8.5}" fill="${(o&&o.fill)||'var(--ink2)'}" text-anchor="${(o&&o.a)||'middle'}" font-family="var(--mono)" ${o&&o.halo?'paint-order="stroke" stroke="#fff" stroke-opacity=".85" stroke-width="2.2"':''} ${o&&o.rot?`transform="rotate(-90 ${x.toFixed(1)} ${y.toFixed(1)})"`:''}>${esc(s)}</text>`;
 
 function dimH(x1, x2, y, label, tickTop) {
   const t = tickTop == null ? 6 : tickTop;
@@ -3143,6 +3164,100 @@ function dimV(y1, y2, x, label) {
   <line x1="${x - 4}" y1="${y1}" x2="${x + 6}" y2="${y1}" stroke="var(--ink2)" stroke-width=".5"/>
   <line x1="${x - 4}" y1="${y2}" x2="${x + 6}" y2="${y2}" stroke="var(--ink2)" stroke-width=".5"/>
   ${T(x - 3.5, (y1 + y2) / 2, label, { rot: 1 })}`;
+}
+
+/* ============================================================
+   WOOD FACES — a leaf filled with its species, cut and finish:
+   plain sliced cathedrals, quarter sliced flake, rift straight
+   grain, rotary waves; paint grade and laminate flat. Book
+   matched faces mirror at each veneer leaf.
+   ============================================================ */
+const WOOD_TONE = { RO:['#d9a877','#a8723f'], WO:['#cdb084','#94743f'], MPL:['#efd9b0','#c9a46d'], BCH:['#e9cd9b','#c19659'],
+  CHY:['#c27a4e','#8a4a29'], WAL:['#7d5338','#4a2f1c'], MHG:['#a65a3c','#6b321d'], ASH:['#e6d2a9','#b4955f'] };
+let WOOD_UID = 0;
+function woodFace(o, x, y, w, h) {
+  const fin = o.woodFinish || 'UNF', sp = o.species || 'RO';
+  if (fin === 'FF-OP' || fin === 'PG' || /HDB|MDO/.test(sp)) return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#ebe7df"/>`;
+  if (sp === 'HPDL') return `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="#d9dcde"/>`;
+  const tone = WOOD_TONE[sp] || WOOD_TONE.RO;
+  const raw = fin === 'UNF';                                  // unfinished veneer reads paler
+  const id = 'wg' + (++WOOD_UID);
+  let g = `<clipPath id="${id}"><rect x="${x}" y="${y}" width="${w}" height="${h}"/></clipPath>`;
+  g += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${tone[0]}" opacity="${raw ? 0.55 : 0.95}"/>`;
+  let p = '';
+  const cut = o.cut || 'PS', rnd = (i, k) => ((Math.sin(i * 12.9898 + k * 78.233) * 43758.5453) % 1 + 1) % 1;
+  /* veneer leaves across the face, about 6 in each */
+  const nLeaf = Math.max(2, Math.round(w / Math.max(18, w / 6)));
+  const lw = w / nLeaf;
+  for (let i = 0; i < nLeaf; i++) {
+    const lx = x + i * lw, mirror = (o.match || 'BM') === 'BM' && i % 2 === 1;
+    if (cut === 'PS') {                                        // cathedrals rising from the bottom
+      for (let k = 0; k < 4; k++) {
+        const r = lw * (0.12 + k * 0.11), cx = lx + lw / 2 + (mirror ? -1 : 1) * lw * 0.06 * (rnd(i, k) - 0.5);
+        const apex = y + h * (0.18 + 0.12 * k + 0.08 * rnd(i, k + 3));
+        p += `M${cx - r} ${y + h} L${cx - r} ${apex + r * 3} Q${cx} ${apex - r * 1.2} ${cx + r} ${apex + r * 3} L${cx + r} ${y + h} `;
+      }
+      p += `M${lx + lw * 0.06} ${y} L${lx + lw * 0.08} ${y + h} M${lx + lw * 0.94} ${y} L${lx + lw * 0.92} ${y + h} `;
+    } else if (cut === 'RTY') {                                // rotary: broad wandering figure
+      for (let k = 0; k < 3; k++) {
+        const bx = lx + lw * (0.2 + 0.3 * k);
+        let d2 = `M${bx} ${y}`;
+        for (let t = 1; t <= 12; t++) d2 += ` L${bx + Math.sin(t * 0.9 + i + k) * lw * 0.18} ${y + h * t / 12}`;
+        p += d2 + ' ';
+      }
+    } else {                                                   // quarter sliced, rift, reconstituted: straight grain
+      const n = cut === 'RC' ? 7 : 5;
+      for (let k = 0; k < n; k++) {
+        const gx = lx + lw * (k + 0.5) / n + (rnd(i, k) - 0.5) * lw * 0.05;
+        p += `M${gx} ${y} L${gx + (rnd(k, i) - 0.5) * 1.5} ${y + h} `;
+      }
+      if (cut === 'QS' && /RO|WO/.test(sp))                     // oak ray flake
+        for (let k = 0; k < 6; k++) { const fy = y + h * rnd(i, k + 9), fx = lx + lw * rnd(k + 2, i); p += `M${fx} ${fy} l${lw * 0.12} ${h * 0.012} `; }
+    }
+    if (i) p += `M${lx} ${y} V${y + h} `;                       // the joint between veneer leaves
+  }
+  g += `<path d="${p}" clip-path="url(#${id})" fill="none" stroke="${tone[1]}" stroke-width=".55" opacity="${raw ? 0.45 : 0.7}"/>`;
+  return g;
+}
+/** the preps a wood leaf carries, drawn on the leaf: blocking, plates, viewer */
+function leafPreps(o, L, top, bot, IN, AFF, strikeAFF) {
+  let g = '';
+  const w = L.b - L.a, dash = 'stroke-dasharray="3 2"';
+  const tag = (x, y, t, c) => T(x, y, t, { fs: 5.6, fill: c || 'var(--focus)', halo: 1 });
+  if (isWood(o) && /CLOSER|FULL/.test(o.blocking || '')) {
+    const bw = Math.min(w, IN(20)), bx = L.hingeLeft ? L.a : L.b - bw;
+    g += `<rect x="${bx}" y="${top + IN(0.5)}" width="${bw}" height="${IN(5)}" fill="none" stroke="var(--focus)" stroke-width=".7" ${dash}/>`;
+    g += tag(bx + bw / 2, top + IN(3.4), 'CLOSER BLKG');
+  }
+  if (isWood(o) && o.ohStop) {
+    /* below the closer blocking, toward the lock edge where the stop arm lands */
+    const bw = Math.min(w * 0.6, IN(14)), bx = L.hingeLeft ? L.b - bw - IN(1) : L.a + IN(1), by = top + IN(/CLOSER|FULL/.test(o.blocking || '') ? 6 : 0.5);
+    g += `<rect x="${bx}" y="${by}" width="${bw}" height="${IN(4)}" fill="none" stroke="var(--focus)" stroke-width=".7" ${dash}/>`;
+    g += tag(bx + bw / 2, by + IN(2.5), 'OH STOP BLKG');
+  }
+  if (isWood(o) && /EXIT|FULL/.test(o.blocking || '')) {
+    const ey = AFF((strikeAFF || 40) + 4);
+    g += `<rect x="${L.a + IN(1)}" y="${ey}" width="${w - IN(2)}" height="${IN(8)}" fill="none" stroke="var(--focus)" stroke-width=".7" ${dash}/>`;
+    g += T(L.hingeLeft ? L.a + IN(2) : L.b - IN(2), ey + IN(2.2), 'EXIT BLKG', { fs: 5.6, fill: 'var(--focus)', halo: 1, a: L.hingeLeft ? 'start' : 'end' });
+  }
+  const pl = o.protPlate || 'NONE';
+  if (pl !== 'NONE') {
+    const hs = pl === 'KICK+MOP' ? [10, 6] : [num(o.plateH) || (pl === 'MOP' ? 6 : pl === 'ARMOR' ? 36 : 10)];
+    /* a kick plate shows on the push face; the mop plate is on the pull face, drawn hidden */
+    hs.forEach((ph, i) => {
+      const yy = bot - IN(ph), hid = pl === 'KICK+MOP' && i === 1;
+      g += hid ? `<rect x="${L.a + IN(1)}" y="${yy}" width="${w - IN(2)}" height="${IN(ph) - 1}" fill="none" stroke="var(--ink2)" stroke-width=".6" ${dash}/>`
+        : `<rect x="${L.a + IN(1)}" y="${yy}" width="${w - IN(2)}" height="${IN(ph) - 1}" fill="url(#hatch)" opacity=".55" stroke="var(--ink2)" stroke-width=".6"/>`;
+    });
+    const lab = pl === 'KICK+MOP' ? 'KICK ' + hs[0] + '" + MOP ' + hs[1] + '" (PULL)' : pl + ' ' + hs[0] + '"' + ' · ' + (o.plateSide || 'PUSH');
+    g += tag(L.a + w / 2, bot - IN(hs[0]) - 3, lab + (isWood(o) ? ' · BLKG' : ''), 'var(--ink2)');
+  }
+  if (o.viewer && L.active) {
+    const vy = AFF(num(o.viewerAFF) || 58), vx = L.a + w / 2;
+    g += `<circle cx="${vx}" cy="${vy}" r="${Math.max(1.4, IN(0.5))}" fill="var(--ink)"/>`;
+    g += T(vx + 4, vy + 2, 'VIEWER ' + (num(o.viewerAFF) || 58) + '"', { a: 'start', fs: 5.6, fill: 'var(--ink)', halo: 1 });
+  }
+  return g;
 }
 
 function svgElevation(o, mode) {
@@ -3214,8 +3329,15 @@ function svgElevation(o, mode) {
   if (showLeaf) {
     const nH = d.hinges || 0, HL = hwLoc(o);
     leaves.forEach(L => {
-      g += `<rect x="${L.a}" y="${headY + cl}" width="${L.b - L.a}" height="${yF - headY - cl - uc}"
-         fill="#fff" stroke="var(--ink)" stroke-width="1.1"/>`;
+      const lTop0 = headY + cl, lH0 = yF - headY - cl - uc;
+      if (isWood(o)) {
+        g += woodFace(o, L.a, lTop0, L.b - L.a, lH0);
+        g += `<rect x="${L.a}" y="${lTop0}" width="${L.b - L.a}" height="${lH0}" fill="none" stroke="var(--ink)" stroke-width="1.1"/>`;
+        /* edge bands either side */
+        g += `<path d="M${L.a + IN(0.5)} ${lTop0} V${lTop0 + lH0} M${L.b - IN(0.5)} ${lTop0} V${lTop0 + lH0}" stroke="var(--ink2)" stroke-width=".35" opacity=".6"/>`;
+      } else g += `<rect x="${L.a}" y="${lTop0}" width="${L.b - L.a}" height="${lH0}" fill="#fff" stroke="var(--ink)" stroke-width="1.1"/>`;
+      if (d.leaves === 2 && mode !== 'frame')
+        g += `<text x="${((L.a + L.b) / 2).toFixed(1)}" y="${(lTop0 + lH0 * 0.3).toFixed(1)}" font-size="7.5" font-weight="700" letter-spacing="1" fill="${L.active ? 'var(--signal)' : 'var(--steel)'}" text-anchor="middle" font-family="var(--mono)" paint-order="stroke" stroke="#fff" stroke-width="2.5">${L.active ? 'ACTIVE' : 'INACTIVE'}</text>`;
       /* hinges on this leaf */
       const hx = L.hingeLeft ? L.a : L.b;
       if (o.hingeQty === 'CONT')
@@ -3240,21 +3362,52 @@ function svgElevation(o, mode) {
           fill="none" stroke="var(--ink)" stroke-width="1"/>`;
         g += `<line x1="${sx + (L.hingeLeft ? -IN(7) : IN(7))}" y1="${ly}" x2="${sx}" y2="${ly}"
           stroke="var(--ink2)" stroke-width=".6" stroke-dasharray="5 2 1 2"/>`;
+        /* the bore and backset the shop drills to, a deadbolt above, a mortise pocket in the edge */
+        const bs = sx + (L.hingeLeft ? -IN(2.75) : IN(2.75)), la = { a: L.hingeLeft ? 'end' : 'start', fs: 5.4, fill: 'var(--ink)', halo: 1 };
+        const lx = bs + (L.hingeLeft ? r : -r);
+        if (/^161|^160/.test(o.lockPrep)) g += T(lx, ly + r + 8, '2-1/8 BORE · ' + (/^160/.test(o.lockPrep) ? '2-3/8' : '2-3/4') + ' BS', la);
+        if (/DB/.test(o.lockPrep)) {
+          const dy2 = AFF(48);
+          g += `<circle cx="${bs}" cy="${dy2}" r="${r}" fill="none" stroke="var(--ink)" stroke-width="1"/>`;
+          g += T(lx, dy2 - r - 3, 'DEADBOLT 48" AFF', la);
+        }
+        if (/^86|MORT/.test(o.lockPrep)) {
+          const pw = IN(1), ph = IN(8);
+          g += `<rect x="${L.hingeLeft ? sx - pw : sx}" y="${ly - IN(4.5)}" width="${pw}" height="${ph}" fill="none" stroke="var(--ink)" stroke-width=".8"/>`;
+          g += T(lx, ly + r + 8, 'MORTISE 1-1/4 x 8 POCKET', la);
+        }
+        if (/RIM|SVR|CVR|MORT EXIT/.test(o.lockPrep)) {
+          const bx1 = L.hingeLeft ? L.a + IN(3) : sx + IN(2), bx2 = L.hingeLeft ? sx - IN(2) : L.b - IN(3);
+          g += `<rect x="${bx1}" y="${ly - IN(1)}" width="${bx2 - bx1}" height="${IN(2)}" fill="var(--ink2)" opacity=".75"/>`;
+          if (/SVR|CVR/.test(o.lockPrep)) g += `<line x1="${sx + (L.hingeLeft ? -IN(1.5) : IN(1.5))}" y1="${headY + cl}" x2="${sx + (L.hingeLeft ? -IN(1.5) : IN(1.5))}" y2="${yF - uc}" stroke="var(--ink2)" stroke-width="1"/>`;
+        }
       } else if (!L.active && o.flushBolt) {
-        [headY + cl + IN(2), yF - uc - IN(6)].forEach(yy =>
-          g += `<rect x="${sx + (L.hingeLeft ? -IN(1.2) : 0)}" y="${yy}" width="${IN(1.2)}" height="${IN(4)}"
-            fill="none" stroke="var(--ink2)" stroke-width=".8"/>`);
+        const fb = o.fbType || 'MANUAL', fx = sx + (L.hingeLeft ? -IN(1.2) : 0);
+        [[headY + cl + IN(1), 'T'], [yF - uc - IN(fb === 'MANUAL' ? 7 : 5), 'B']].forEach(([yy, k2]) => {
+          g += `<rect x="${fx}" y="${yy}" width="${IN(1.2)}" height="${IN(fb === 'MANUAL' ? 6 : 4)}" fill="${fb === 'MANUAL' ? 'none' : 'var(--ink2)'}" stroke="var(--ink2)" stroke-width=".8"/>`;
+          /* the rod to the top and to the floor */
+          g += `<line x1="${fx + IN(0.6)}" y1="${k2 === 'T' ? headY : yy + IN(fb === 'MANUAL' ? 6 : 4)}" x2="${fx + IN(0.6)}" y2="${k2 === 'T' ? yy : yF}" stroke="var(--ink2)" stroke-width=".5" stroke-dasharray="2 1.5"/>`;
+        });
+        g += T((L.a + L.b) / 2, yF - uc - IN(o.protPlate && o.protPlate !== 'NONE' ? Math.max(num(o.plateH) || 10, 10) + 6 : 12), { MANUAL: 'MANUAL FB', AUTO: 'AUTO FB', CLB: 'CONST. LATCHING FB', SELF: 'SELF-LATCHING FB', SURF: 'SURFACE BOLTS' }[fb], { fs: 5.6, fill: 'var(--ink)', halo: 1 });
       }
+      g += leafPreps(o, L, headY + cl, yF - uc, IN, AFF, HL.strike);
       /* what is cut into this leaf: lites, louver, panels, from the door design */
       const k1 = IN(1), lTop = headY + cl, lBot = yF - uc;
       g += svgInserts(o, L.a, lBot, k1, (L.b - L.a) / k1, (lBot - lTop) / k1, L.hingeLeft);
     });
     /* astragal at the meeting edge */
     if (d.leaves === 2 && o.astragal) {
-      const mid = (leaves[0].b + leaves[1].a) / 2;
-      g += `<line x1="${mid}" y1="${headY + cl}" x2="${mid}" y2="${yF - uc}"
-        stroke="var(--signal)" stroke-width="2"/>`;
-      g += T(mid, headY - 3, 'AST', { fs: 6.5, fill: 'var(--signal)' });
+      const mid = (leaves[0].b + leaves[1].a) / 2, at = o.astType || 'OVERLAP';
+      const aw2 = IN(at === 'OVERLAP' ? 1.75 : at === 'FLAT' || at === 'WOOD' ? 2 : 0.9);
+      if (at === 'SPLIT') [-1, 1].forEach(sg => g += `<rect x="${mid + (sg < 0 ? -aw2 : 0)}" y="${headY + cl}" width="${aw2}" height="${yF - uc - headY - cl}" fill="var(--signal)" opacity=".35"/>`);
+      else g += `<rect x="${mid - aw2 / 2}" y="${headY + cl}" width="${aw2}" height="${yF - uc - headY - cl}" fill="${at === 'WOOD' ? (WOOD_TONE[o.species] || WOOD_TONE.RO)[1] : 'var(--signal)'}" opacity=".45"/>`;
+      g += T(mid, headY - 3, { OVERLAP: 'OVERLAPPING AST', SPLIT: 'SPLIT AST', FLAT: 'FLAT AST', WOOD: 'WOOD AST', SMOKE: 'AST + SMOKE SEAL' }[at], { fs: 6, fill: 'var(--signal)' });
+    }
+    if (d.leaves === 2 && o.coordinator && mode === 'elev') {
+      const ia = leaves.find(L => !L.active) || leaves[1];
+      const ca = Math.min(...leaves.map(L => L.a)), cb = Math.max(...leaves.map(L => L.b));
+      g += `<rect x="${ca + IN(1)}" y="${headY - IN(1.25)}" width="${cb - ca - IN(2)}" height="${IN(1.25)}" fill="var(--ink2)" opacity=".55"/>`;
+      g += T(ca + IN(1.5), headY - IN(1.25) - 2, 'COORDINATOR', { fs: 5.4, fill: 'var(--ink2)', a: 'start' });
     }
     if (uc > 1) {
       g += `<line x1="${doorX}" y1="${yF - uc}" x2="${doorX + doorW}" y2="${yF - uc}"
@@ -3295,7 +3448,7 @@ function svgElevation(o, mode) {
     g += dimV(yF, headY, ML - 16, ftin(d.nomH));
     if (uc > 1) g += T(doorX + 4, yF - 3, 'UC ' + dimStr(num(o.undercut)), { fs: 6.5, a: 'start', fill: 'var(--steel)' });
     g += T(W / 2, 13, 'DOOR ' + (o.mark || '') + '   ' + sizeCode(d.nomW, d.nomH), { fs: 10, fill: 'var(--ink)' });
-    caption.push([o.doorMat, o.doorDesign, isWood(o) ? o.species + ' ' + o.cut : o.gaugeDoor,
+    caption.push([o.doorMat, o.doorDesign, isWood(o) ? [o.species, o.cut, o.match, o.woodFinish, o.stain].filter(Boolean).join(' ') : o.gaugeDoor,
       isWood(o) ? o.woodCore : o.core, o.hand, o.swing === 'OUT' ? 'SWING OUT' : o.swing === 'IN' ? 'SWING IN' : '',
       o.fire !== 'NR' ? o.fire + ' MIN' : 'NOT RATED'].filter(Boolean).join(' · '));
   } else {
@@ -4144,7 +4297,7 @@ function onFieldChange(e) {
   if (k !== 'lead' && d.custom && o.lead !== 'CUSTOM') o.lead = 'CUSTOM';
 
   persist();
-  if (['mark','config','w1','w2','h','doorMat','fire','hand','wall','frameType','undercut','vlSize','louverSize','hingeQty','closerReinf','headPrep','lockPrep','jambDepth','faceSize','stopH','thickness','profile','anchor','hwSet','category','frameLib','doorLib','trH','slW','slQty','anchorQty','anchorBase','anchorHead','anchorSl','strikePrep','steelDoor','steelFrame','core','woodCore','glaz','louverType','label','frameScope','fieldVerify','astragal','coordinator','mullion','smoke','posPressure','thermal','ada','gaugeDoor','match','faceNote','headFace','hospStop','prepStd','degree','edge','caps','cutoutOpt','glassThk','backBend','wallThk','rabbets','faceCustom','headFaceCustom','blSill','blCols','blRows','blType','slLites','slBase','mullThru','trDiv','trRows','returnBend','profile','slType','trType','slSill','memberFace','memberFaceCustom','slGlaz','trGlaz','edgeSeam','locA','locB','locC','locD','locE','wallUse','wallRating','vlQty','vlTop','vlSide','vlEdge','louverBot','floorFin','threshH','doorDesign'].indexOf(k) >= 0) {
+  if (['mark','config','w1','w2','h','doorMat','fire','hand','wall','frameType','undercut','vlSize','louverSize','hingeQty','closerReinf','headPrep','lockPrep','jambDepth','faceSize','stopH','thickness','profile','anchor','hwSet','category','frameLib','doorLib','trH','slW','slQty','anchorQty','anchorBase','anchorHead','anchorSl','strikePrep','steelDoor','steelFrame','core','woodCore','glaz','louverType','label','frameScope','fieldVerify','astragal','coordinator','mullion','smoke','posPressure','thermal','ada','gaugeDoor','match','faceNote','headFace','hospStop','prepStd','degree','edge','caps','cutoutOpt','glassThk','backBend','wallThk','rabbets','faceCustom','headFaceCustom','blSill','blCols','blRows','blType','slLites','slBase','mullThru','trDiv','trRows','returnBend','profile','slType','trType','slSill','memberFace','memberFaceCustom','slGlaz','trGlaz','edgeSeam','locA','locB','locC','locD','locE','wallUse','wallRating','vlQty','vlTop','vlSide','vlEdge','louverBot','floorFin','threshH','doorDesign','species','cut','match','woodFinish','stain','blocking','fbType','astType','ohStop','protPlate','plateH','plateSide','viewer','viewerAFF','flushBolt','astragal','coordinator'].indexOf(k) >= 0) {
     /* keep the cursor where the estimator put it — tabbing out of a field lands on the next one, not back on this one */
     const act = document.activeElement, actId = act && act.id;
     renderAll();
@@ -5489,15 +5642,30 @@ function soDoorParts(o) {
     if (o.lockPrep === 'MORT EXIT') add(1, 'DR 350 MORTISE LOCK FILLER PLATE');
     if (/DB/.test(o.lockPrep)) add(1, 'DOOR DEADLOCK PREP');
   } else {
-    const sp = { RO:'RED OAK', WO:'WHITE OAK', BCH:'BIRCH', MPL:'MAPLE' }[o.species] || 'WOOD';
+    const sp = { RO:'RED OAK', WO:'WHITE OAK', BCH:'BIRCH', MPL:'MAPLE', CHY:'CHERRY', WAL:'WALNUT', MHG:'MAHOGANY', ASH:'ASH', HDB:'HARDBOARD', MDO:'MDO', HPDL:'HPDL' }[o.species] || 'WOOD';
     add(leaves, curSize(num(o.w1), stdH) + ' ' + sp + ' SLAB ' + (fire ? fire + ' MINUTE' : (o.woodCore === 'FD' || o.woodCore === 'SLC' ? 'MC' : 'SC') + ' WOOD DOOR'), '(Net size: ' + net + ')');
     if (fire) add(leaves, fire + ' MINUTE WARNOCK HERSHEY FIRE RATED WOOD LABEL');
     if (o.lockPrep === 'NONE') add(leaves, n + '-4 1/2"X4 1/2" HINGES ONLY PREP', soMfr(o) + ' LOC');
     else add(leaves, 'HINGE PREP ' + n + ' WITH LOCK PREP', soMfr(o) + ' LOC');
     if (/DB/.test(o.lockPrep)) add(1, 'DDLP CYLINDRICAL DEADLOCK PREP');
+    if (o.lockPrep === '86') add(1, 'MORTISE LOCK PREP');
+    if (/RIM|SVR|CVR|MORT EXIT/.test(o.lockPrep)) add(1, 'EXIT DEVICE PREP');
+    const fin = { UNF:'UNFINISHED', FF:'FACTORY FINISH', 'FF-TR':'FACTORY FINISH TRANSPARENT', 'FF-OP':'FACTORY FINISH OPAQUE', PG:'PAINT GRADE' }[o.woodFinish];
+    const face2 = [{ PS:'PLAIN SLICED', QS:'QUARTER SLICED', RC:'RIFT CUT', RTY:'ROTARY', CS:'CROWN SLICED' }[o.cut], { BM:'BOOK MATCH', SM:'SLIP MATCH', RM:'RANDOM MATCH' }[o.match], fin, o.stain ? 'STAIN ' + String(o.stain).toUpperCase() : ''].filter(Boolean).join(', ');
+    if (face2) add(leaves, 'VENEER / FINISH: ' + face2);
+    const blk = { CLOSER:'CLOSER BLOCKING', EXIT:'EXIT DEVICE BLOCKING', FULL:'FULL BLOCKING (CLOSER, EXIT, PLATES)' }[o.blocking];
+    if (blk) add(leaves, blk);
+    if (o.ohStop) add(leaves, 'OVERHEAD STOP / HOLDER BLOCKING');
+    if (o.protPlate && o.protPlate !== 'NONE') add(leaves, o.protPlate.replace('+', ' + ') + ' PLATE BLOCKING' + (o.plateH ? ' ' + inchStr(num(o.plateH)) : ''), o.plateSide || 'PUSH');
   }
+  if (leaves === 2) {
+    if (o.flushBolt) add(1, { MANUAL:'MANUAL FLUSH BOLT PREP (TOP & BOTTOM)', AUTO:'AUTOMATIC FLUSH BOLT PREP', CLB:'CONSTANT LATCHING FLUSH BOLT PREP', SELF:'SELF-LATCHING FLUSH BOLT PREP', SURF:'SURFACE BOLT REINFORCEMENT' }[o.fbType || 'MANUAL'], 'INACTIVE LEAF');
+    if (o.astragal) add(1, { OVERLAP:'OVERLAPPING STEEL ASTRAGAL', SPLIT:'SPLIT ASTRAGAL (PAIR)', FLAT:'FLAT ASTRAGAL', WOOD:'WOOD ASTRAGAL, MATCHING SPECIES', SMOKE:'ASTRAGAL WITH SMOKE SEAL' }[o.astType || 'OVERLAP'], 'MOUNT ON ' + (o.astType === 'SPLIT' ? 'BOTH LEAVES' : 'ACTIVE LEAF'));
+    if (o.coordinator) add(1, 'COORDINATOR REINFORCEMENT (FRAME HEAD)');
+  }
+  if (o.viewer) add(1, 'DVP DOOR VIEWER PREP', 'AT ' + inchStr(num(o.viewerAFF) || 58) + ' AFF');
   if (/^(FG|FV|FNV|FL-|HG)/.test(face)) add(leaves, face + (/^FL-/.test(face) ? ' LOUVER' : ' LITE KIT'));
-  if (/VIEWER/.test(face)) add(leaves, 'DVP DOOR VIEWER PREP');
+  if (/VIEWER/.test(face) && !o.viewer) add(leaves, 'DVP DOOR VIEWER PREP');
   if (stdH > Math.round(d.nomH)) add(leaves, 'DCO DOOR CUT DOWN ONLY (HEIGHT)', 'Cut ' + inchStr(stdH - d.nomH) + ' OFF THE BOTTOM');
   return out;
 }
