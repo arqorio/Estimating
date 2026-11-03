@@ -213,7 +213,7 @@ The [`excel/`](excel/) folder has two standalone workbooks for estimators who wo
   - wall, gauge, faces, reveals, undercut, masonry R.O. and lite;
   - custom A–E;
   - wood and pair (brown row): species, cut, match, finish, stain, blocking, overhead stop, plate and height, flush bolt type, astragal, coordinator, active leaf width for an unequal pair, viewer height.
-- **Wood doors:** the door elevation draws the grain in the species colour (light, medium or dark; unfinished veneer one step lighter): cathedrals for plain sliced, straight grain for quarter, rift and recon, waves for rotary. Paint grade, opaque and HPDL draw plain.
+- **Wood doors:** the door elevation fills the leaf and draws the grain in the species colour (light, medium or dark; unfinished veneer one step lighter): cathedrals for plain sliced, straight grain for quarter, rift and recon, waves for rotary. Paint grade, opaque and HPDL draw plain.
 - **Frame:** inside and outside size, faces, the wall the jamb fits, drywall and masonry R.O., and the face check.
 - **Door:** actual size, reveals, undercut, and the lite size and location.
 - **Hardware locations:** for the frame and for the door, including:

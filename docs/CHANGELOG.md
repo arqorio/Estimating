@@ -7,6 +7,7 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 ## Takeoff 2.8 — wood doors and pairs
 
 ### New
+- **Shop plan PDF:** wood leaves are drawn with their species colour and grain, and the preps are drawn on the door elevation: closer, exit and overhead-stop blocking, plates, viewer, deadbolt, mortise pocket, ACTIVE / INACTIVE, flush bolt type with rods, astragal and coordinator. A veneer line is printed under the door.
 - **Wood faces in the elevation.** A wood leaf is drawn in its species colour with its cut: plain sliced cathedrals, quarter sliced straight grain with oak flake, rift, rotary figure. Veneer joints and edge bands show; unfinished veneer is paler; paint grade and opaque finishes draw flat.
 - **Wood preps:** stain, overhead stop blocking, protection plates (kick, mop, armor, kick and mop; height and side) and a door viewer with its height. Closer, exit, overhead stop and plate blocking are drawn dashed where the shop puts them. The bore and backset, mortise pocket and a deadbolt at 48" are labelled.
 - **Pairs:** ACTIVE and INACTIVE on each leaf; flush bolt type (manual, automatic, constant latching, self-latching, surface) with the rods; astragal type (overlapping, split, flat, wood, with smoke seal); the coordinator on the head.
@@ -16,7 +17,7 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ### New
 - **Wood and pair row** on every tag: species, cut, match, finish, stain, blocking, overhead stop, plate and height, flush bolt type, astragal, coordinator, active leaf width and viewer height.
-- **Grain on the door elevation** in the species colour, by cut. Closer, exit and overhead stop blocking, plates, astragal, coordinator, flush bolt type and ACTIVE / INACTIVE are drawn.
+- **Grain on the door elevation:** the leaf is filled in the species colour, with the grain for the cut on top. Closer, exit and overhead stop blocking, plates, astragal, coordinator, flush bolt type and ACTIVE / INACTIVE are drawn.
 - **Unequal pairs:** type the active leaf width; each leaf, the plan swing, the H5 strike and the door order line (e.g. `3070 & 1070 PAIR`) follow.
 - **PREPS order line** and a Wood door · Pair preps panel; the Tag List carries the preps.
 - **Checks:** manual or surface bolts on a rated pair (NFPA 80), an overlapping astragal without a coordinator, a plate over 16" on a rated door, a wood door without a species.

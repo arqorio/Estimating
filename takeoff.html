@@ -7599,6 +7599,84 @@ function planFrame(p, o, d, L, x0, yF, ppi) {
   p.gray(0);
 }
 
+/* ---------- wood faces and preps on the PDF shop drawing (PDF y runs up) ---------- */
+const hexRgb = h => [1, 3, 5].map(i => (parseInt(h.slice(i, i + 2), 16) / 255).toFixed(3)).join(' ');
+function pdfWoodFace(p, o, x, y, w, h) {
+  const fin = o.woodFinish || 'UNF', sp = o.species || 'RO';
+  if (fin === 'FF-OP' || fin === 'PG' || /HDB|MDO|HPDL/.test(sp)) { p.raw('0.93 0.92 0.90 rg'); p.rect(x, y, w, h, true); p.gray(0); return; }
+  const tone = WOOD_TONE[sp] || WOOD_TONE.RO, raw = fin === 'UNF';
+  /* a paler fill for unfinished veneer: mix the tone toward white */
+  const mix = (hx, k) => [1, 3, 5].map(i => { const v = parseInt(hx.slice(i, i + 2), 16) / 255; return (v + (1 - v) * k).toFixed(3); }).join(' ');
+  p.raw('q'); p.raw(`${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re W n`);
+  p.raw(mix(tone[0], raw ? 0.45 : 0.05) + ' rg'); p.rect(x, y, w, h, true);
+  p.raw(mix(tone[1], raw ? 0.35 : 0) + ' RG'); p.lw(0.35);
+  const cut = o.cut || 'PS', rnd = (i, k) => ((Math.sin(i * 12.9898 + k * 78.233) * 43758.5453) % 1 + 1) % 1;
+  const nLeaf = Math.max(2, Math.round(w / Math.max(9, w / 6))), lw = w / nLeaf, f = v => v.toFixed(2);
+  let d = '';
+  for (let i = 0; i < nLeaf; i++) {
+    const lx = x + i * lw;
+    if (cut === 'PS' || cut === 'CS') {
+      for (let k = 0; k < 4; k++) {
+        const r = lw * (0.12 + k * 0.11), cx = lx + lw / 2 + lw * 0.06 * (rnd(i, k) - 0.5);
+        const apex = y + h * (0.82 - 0.12 * k - 0.08 * rnd(i, k + 3));
+        d += `${f(cx - r)} ${f(y)} m ${f(cx - r)} ${f(apex - r * 3)} l ${f(cx - r)} ${f(apex)} ${f(cx + r)} ${f(apex)} ${f(cx + r)} ${f(apex - r * 3)} c ${f(cx + r)} ${f(y)} l `;
+      }
+      d += `${f(lx + lw * 0.06)} ${f(y)} m ${f(lx + lw * 0.08)} ${f(y + h)} l ${f(lx + lw * 0.94)} ${f(y)} m ${f(lx + lw * 0.92)} ${f(y + h)} l `;
+    } else if (cut === 'RTY') {
+      for (let k = 0; k < 3; k++) {
+        const bx = lx + lw * (0.2 + 0.3 * k);
+        d += `${f(bx)} ${f(y)} m `;
+        for (let t = 1; t <= 12; t++) d += `${f(bx + Math.sin(t * 0.9 + i + k) * lw * 0.18)} ${f(y + h * t / 12)} l `;
+      }
+    } else {
+      const n = cut === 'RC' ? 7 : 5;
+      for (let k = 0; k < n; k++) {
+        const gx = lx + lw * (k + 0.5) / n + (rnd(i, k) - 0.5) * lw * 0.05;
+        d += `${f(gx)} ${f(y)} m ${f(gx + (rnd(k, i) - 0.5) * 1)} ${f(y + h)} l `;
+      }
+      if (cut === 'QS' && /RO|WO/.test(sp))
+        for (let k = 0; k < 6; k++) { const fy = y + h * rnd(i, k + 9), fx = lx + lw * rnd(k + 2, i); d += `${f(fx)} ${f(fy)} m ${f(fx + lw * 0.12)} ${f(fy - h * 0.01)} l `; }
+    }
+    if (i) d += `${f(lx)} ${f(y)} m ${f(lx)} ${f(y + h)} l `;
+  }
+  p.raw(d + 'S'); p.raw('Q'); p.gray(0); p.stroke(0);
+}
+/** blocking, plates, viewer and pair preps on one leaf of the shop drawing */
+function pdfLeafPreps(p, o, Lf, dTop, dBot, yF, ppi, strikeFromTop, first) {
+  const IN = v => v * ppi, w = Lf.b - Lf.a, blue = [0.12, 0.43, 0.92];
+  const box = (x, y, bw, bh, lab, col) => {
+    p.rgbS(col[0], col[1], col[2]); p.lw(0.5); p.dash(2, 1.5); p.rect(x, y, bw, bh); p.solid(); p.stroke(0);
+    if (lab) { const tw = textWidth(lab, 4.6, true) + 3; p.gray(1); p.rect(x + bw / 2 - tw / 2, y + bh / 2 - 3, tw, 6, true);
+      p.rgb(col[0], col[1], col[2]); p.txt(x + bw / 2, y + bh / 2 - 1.6, lab, 4.6, true, 'c'); p.gray(0); }
+  };
+  const wd = isWood(o);
+  if (wd && /CLOSER|FULL/.test(o.blocking || '')) { const bw = Math.min(w - 2, IN(20)); box(Lf.hingeLeft ? Lf.a + 1 : Lf.b - 1 - bw, dTop - IN(5.5), bw, IN(5), 'CLOSER BLKG', blue); }
+  if (wd && o.ohStop) { const bw = Math.min(w * 0.6, IN(14)), oy = /CLOSER|FULL/.test(o.blocking || '') ? 6.5 : 0.5;
+    box(Lf.hingeLeft ? Lf.b - 1 - bw : Lf.a + 1, dTop - IN(oy + 4), bw, IN(4), 'OH STOP BLKG', blue); }
+  if (wd && /EXIT|FULL/.test(o.blocking || '') && Lf.active) { const ly = dTop - IN(strikeFromTop); box(Lf.a + IN(1), ly - IN(4), w - IN(2), IN(8), 'EXIT BLKG', blue); }
+  const pl = o.protPlate || 'NONE';
+  if (pl !== 'NONE') {
+    const ph = num(o.plateH) || (pl === 'MOP' ? 6 : pl === 'ARMOR' ? 36 : 10);
+    p.gray(0.82); p.rect(Lf.a + IN(1), dBot + 0.3, w - IN(2), IN(pl === 'KICK+MOP' ? 10 : ph), true); p.gray(0);
+    p.lw(0.4); p.rect(Lf.a + IN(1), dBot + 0.3, w - IN(2), IN(pl === 'KICK+MOP' ? 10 : ph));
+    if (pl === 'KICK+MOP') { p.dash(2, 1.5); p.rect(Lf.a + IN(1.5), dBot + 0.6, w - IN(3), IN(6)); p.solid(); }
+    if (first) { p.gray(0.15);
+      p.txt((Lf.a + Lf.b) / 2, dBot + IN(pl === 'KICK+MOP' ? 10 : ph) + 1.5, (pl === 'KICK+MOP' ? 'KICK 10 / MOP 6 PULL' : pl + ' ' + ph + '" ' + (o.plateSide || 'PUSH')) + (wd ? ' BLKG' : ''), 4.4, true, 'c');
+      p.gray(0); }
+  }
+  if (o.viewer && Lf.active) { const vy = yF + IN(num(o.viewerAFF) || 58), vx = (Lf.a + Lf.b) / 2;
+    p.circle(vx, vy, Math.max(0.9, IN(0.3)), true); p.txt(vx + 3, vy - 1.6, 'VIEWER ' + (num(o.viewerAFF) || 58) + '" AFF', 4.6, false); }
+  if (/DB/.test(o.lockPrep) && Lf.active) {
+    const ex = Lf.hingeLeft ? Lf.b : Lf.a, by = yF + IN(48);
+    p.lw(0.7); p.circle(ex + (Lf.hingeLeft ? -IN(2.75) : IN(2.75)), by, Math.max(1.6, IN(1)));
+    p.txt(ex + (Lf.hingeLeft ? -IN(4.5) : IN(4.5)), by - 1.6, 'DB 48" AFF', 4.6, false, Lf.hingeLeft ? 'r' : null);
+  }
+  if (/^86|MORT/.test(o.lockPrep) && Lf.active) {
+    const ex = Lf.hingeLeft ? Lf.b : Lf.a, my = dTop - IN(strikeFromTop);
+    p.lw(0.5); p.rect(Lf.hingeLeft ? ex - IN(1.25) : ex, my - IN(4.5), IN(1.25), IN(8));
+  }
+}
+
 /** door elevation for a shop plan: floor at yF, left edge of the opening at x0 */
 function planDoor(p, o, d, L, x0, yF, ppi) {
   const IN = v => v * ppi;
@@ -7617,7 +7695,10 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
   const lx = ['A', 'B', 'C', 'D', 'F', 'G'];
   let liteTxt = '';
   leaves.forEach((Lf, li) => {
+    if (isWood(o)) pdfWoodFace(p, o, Lf.a, dBot, Lf.b - Lf.a, dTop - dBot);
     p.lw(1); p.rect(Lf.a, dBot, Lf.b - Lf.a, dTop - dBot);
+    pdfLeafPreps(p, o, Lf, dTop, dBot, yF, ppi, L.doorStrikeFromTop, li === 0);
+    if (d.leaves === 2) { p.gray(Lf.active ? 0 : 0.4); p.txt((Lf.a + Lf.b) / 2, dBot + (dTop - dBot) * 0.3, Lf.active ? 'ACTIVE' : 'INACTIVE', 6, true, 'c'); p.gray(0); }
     const hx = Lf.hingeLeft ? Lf.a : Lf.b, cw = Math.max(2, IN(0.9));
     if (o.hingeQty === 'CONT') { p.gray(0.35); p.rect(Lf.hingeLeft ? hx : hx - cw, dBot, cw, dTop - dBot, true); p.gray(0); }
     else L.doorTops.forEach(t => { p.gray(0.25); p.rect(Lf.hingeLeft ? hx : hx - cw, dTop - IN(t) - IN(L.hl), cw, IN(L.hl), true); p.gray(0); });
@@ -7630,7 +7711,10 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
       p.lw(0.35); p.dash(3, 1.5); p.line(ex + (Lf.hingeLeft ? -IN(8) : IN(8)), ly, ex, ly); p.solid();
       if (/RIM|SVR|CVR|EXIT/.test(o.lockPrep)) { p.lw(0.5); p.rect(Math.min(ex, Lf.hingeLeft ? Lf.a + 3 : Lf.b - 3), ly - 2, Math.abs(Lf.b - Lf.a) - 6, 4); }
     } else if (!Lf.active && o.flushBolt) {
-      p.lw(0.5); [dTop - IN(2) - IN(6), dBot + IN(2)].forEach(yy => p.rect(Lf.hingeLeft ? ex - IN(1) : ex, yy, IN(1), IN(6)));
+      const fb = o.fbType || 'MANUAL', fx = Lf.hingeLeft ? ex - IN(1) : ex;
+      p.lw(0.5); [dTop - IN(1) - IN(6), dBot + IN(1)].forEach(yy => p.rect(fx, yy, IN(1), IN(6), fb !== 'MANUAL'));
+      p.lw(0.3); p.dash(1.5, 1); p.line(fx + IN(0.5), dTop - IN(1), fx + IN(0.5), headY); p.line(fx + IN(0.5), dBot + IN(1), fx + IN(0.5), yF); p.solid();
+      p.txt((Lf.a + Lf.b) / 2, dBot + IN(Math.max(16, (num(o.plateH) || 10) + 5)), { MANUAL: 'MANUAL FB', AUTO: 'AUTO FB', CLB: 'CONST. LATCHING FB', SELF: 'SELF-LATCHING FB', SURF: 'SURFACE BOLTS' }[fb], 4.8, true, 'c');
     }
     /* lite and louver, located from the floor the way the shop lays them out */
     const LWi = (Lf.b - Lf.a) / ppi, LHi = (dTop - dBot) / ppi;
@@ -7656,6 +7740,22 @@ function planDoor(p, o, d, L, x0, yF, ppi) {
     }
     pDimH(p, yF - 14, Lf.a, Lf.b, ftin(doorSize(o).leafW[li] || 0));
   });
+  /* astragal at the meeting edge and the coordinator on the head */
+  if (d.leaves === 2 && o.astragal) {
+    const at = o.astType || 'OVERLAP', mid = (leaves[0].b + leaves[1].a) / 2, aw = IN(at === 'OVERLAP' ? 1.75 : at === 'FLAT' || at === 'WOOD' ? 2 : 0.9);
+    p.rgb(0.75, 0.22, 0.17); p.rect(mid - aw / 2, dBot, aw, dTop - dBot, true);
+    p.txt(mid, dBot - 6, { OVERLAP: 'OVERLAPPING AST', SPLIT: 'SPLIT AST', FLAT: 'FLAT AST', WOOD: 'WOOD AST', SMOKE: 'AST + SMOKE SEAL' }[at], 4.8, true, 'c'); p.gray(0);
+  }
+  if (d.leaves === 2 && o.coordinator) {
+    p.gray(0.35); p.rect(leaves[0].a + IN(1), headY, leaves[1].b - leaves[0].a - IN(2), IN(1.25), true);
+    p.txt(leaves[0].a + IN(1), headY + IN(1.25) + 1.5, 'COORDINATOR', 4.6, true); p.gray(0);
+  }
+  if (isWood(o)) {
+    p.gray(0.35);
+    p.txt(x0 + IN(d.nomW) / 2, yF - 52, 'VENEER ' + [o.species, o.cut, o.match, o.woodFinish].filter(Boolean).join(' ') + (o.stain ? '  ·  stain ' + o.stain : '') +
+      (o.blocking && o.blocking !== 'STD' ? '  ·  ' + o.blocking + ' BLKG' : ''), 5.6, false, 'c');
+    p.gray(0);
+  }
   /* undercut and actual height */
   const farLeft = d.leaves === 1 && !hingeLeftSingle;
   const rx = d.leaves === 2 ? x0 + IN(d.nomW) + 12 : (farLeft ? x0 - 26 : x0 + IN(d.nomW) + 26);
