@@ -4,6 +4,13 @@ Jobs saved in the browser and `.json` job files from version 1.9 onward open unc
 
 ---
 
+## Excel takeoff form 3.2 — plain look
+
+- Same plain style as the frame calculator: white page headers, light grey section and column bars, dark text and thin grey lines.
+- Every input column is one pale yellow, and calculated columns are white. Typed values stay blue.
+- OK / CHECK / FIX colours and red warnings are unchanged.
+- The Start sheet is plain links, and the colour key is down to three entries.
+
 ## Takeoff 2.8 — wood doors and pairs
 
 ### New
